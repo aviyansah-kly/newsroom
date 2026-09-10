@@ -16,7 +16,7 @@ jobs:
           set -e
           mkdir -p assets
           curl -fL --retry 3 --connect-timeout 15 \
-            'https://raw.githubusercontent.com/aviyansah-kly/cms-liputan6-alternatif3/feat/sidebar-navigation-v65/assets/liputan6-logo.svg' \
+            'https://raw.githubusercontent.com/aviyansah-kly/cms-liputan6-alternatif3/main/assets/liputan6-logo.svg' \
             -o assets/liputan6-logo.svg
           python - <<'PY'
           from pathlib import Path
