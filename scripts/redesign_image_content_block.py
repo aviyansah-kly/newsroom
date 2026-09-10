@@ -1,13 +1,14 @@
 from pathlib import Path
-import re
 
 p = Path('index.html')
 s = p.read_text()
 
-pattern = re.compile(
-    r"  function emptyCard\(c\)\{const body=c\.querySelector\('\.alt-content-card-body'\);if\(!body\)return;body\.innerHTML='<div class=\\\"v34-image-empty v56-image-empty\\\">.*?if\(window\.lucide\)window\.lucide\.createIcons\(\)\}",
-    re.S,
-)
+start_token = '  function emptyCard(c){'
+end_token = '  function imageCard(c,i){'
+start = s.find(start_token)
+end = s.find(end_token, start)
+if start < 0 or end < 0:
+    raise SystemExit(f'emptyCard boundaries not found: start={start}, end={end}')
 
 replacement = """  function emptyCard(c){
     const body=c.querySelector('.alt-content-card-body');if(!body)return;
@@ -20,21 +21,19 @@ replacement = """  function emptyCard(c){
     body.querySelector('[data-v34-image-upload]').onclick=e=>{e.preventDefault();open({type:'card',card:c});setTimeout(()=>document.querySelector('#imageLibraryPopup [data-v61-mode=\"upload\"]')?.click(),0)};
     const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='none';
     if(window.lucide)window.lucide.createIcons()
-  }"""
-
-s2, n = pattern.subn(replacement, s, count=1)
-if n != 1:
-    raise SystemExit(f'emptyCard replacement count={n}')
-s = s2
+  }
+"""
+s = s[:start] + replacement + s[end:]
 
 needle = "function imageCard(c,i){const body=c.querySelector('.alt-content-card-body');if(!body)return;"
 if needle not in s:
     raise SystemExit('imageCard insertion point not found')
-s = s.replace(
-    needle,
-    needle + "const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='';",
-    1,
-)
+if "const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='';" not in s[s.find(end_token):s.find(end_token)+300]:
+    s = s.replace(
+        needle,
+        needle + "const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='';",
+        1,
+    )
 
 if 'NEWSROOM_IMAGE_BLOCK_REDESIGN_START' not in s:
     css = r'''
