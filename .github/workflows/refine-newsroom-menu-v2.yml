@@ -1,0 +1,42 @@
+name: Refine Newsroom menu and restore logo
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/refine-newsroom-menu-v2.yml'
+permissions:
+  contents: write
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore previous Liputan6 logo and menu typography
+        run: |
+          set -e
+          mkdir -p assets
+          curl -fL --retry 3 --connect-timeout 15 \
+            'https://raw.githubusercontent.com/aviyansah-kly/cms-liputan6-alternatif3/feat/sidebar-navigation-v65/assets/liputan6-logo.svg' \
+            -o assets/liputan6-logo.svg
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old='''/* NEWSROOM_MENU_FONT_14_START */\nbody.alt-editor-layout .cms-nav-head strong,\nbody.alt-editor-layout .cms-nav-head span,\nbody.alt-editor-layout .cms-nav-search input,\nbody.alt-editor-layout .cms-nav-cluster-head,\nbody.alt-editor-layout .cms-nav-cluster-head strong,\nbody.alt-editor-layout .cms-nav-item,\nbody.alt-editor-layout .cms-nav-item span,\nbody.alt-editor-layout .cms-nav-bottom .cms-nav-item,\nbody.alt-editor-layout .cms-nav-bottom .cms-nav-item span {\n  font-size:14px!important;\n}\n/* NEWSROOM_MENU_FONT_14_END */'''
+          new='''/* NEWSROOM_MENU_FONT_13_START */\nbody.alt-editor-layout .cms-nav-head strong,\nbody.alt-editor-layout .cms-nav-head span,\nbody.alt-editor-layout .cms-nav-search input,\nbody.alt-editor-layout .cms-nav-cluster-head,\nbody.alt-editor-layout .cms-nav-cluster-head strong,\nbody.alt-editor-layout .cms-nav-item,\nbody.alt-editor-layout .cms-nav-item span,\nbody.alt-editor-layout .cms-nav-bottom .cms-nav-item,\nbody.alt-editor-layout .cms-nav-bottom .cms-nav-item span {\n  font-size:13px!important;\n}\n/* NEWSROOM_MENU_FONT_13_END */'''
+          if old in s:
+              s=s.replace(old,new,1)
+          elif '/* NEWSROOM_MENU_FONT_13_START */' not in s:
+              s=s.replace('</style></head>',new+'\n</style></head>',1)
+          p.write_text(s)
+          PY
+          grep -q 'NEWSROOM_MENU_FONT_13_START' index.html
+          grep -q 'font-size:13px!important' index.html
+          grep -q '1713.9589' assets/liputan6-logo.svg
+      - name: Commit refined Newsroom UI
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/liputan6-logo.svg
+          git diff --cached --quiet || git commit -m 'Set sidebar menu to 13px and restore Liputan6 logo'
+          git push
