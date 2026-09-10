@@ -1,5 +1,26 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Newsroom — Editorial Workspace</title>
+
+<script>
+/* NEWSROOM_SIDEBAR_PREPAINT_START */
+(function(){
+  var root=document.documentElement;
+  root.classList.add('newsroom-sidebar-prepaint');
+  try{
+    if(localStorage.getItem('sixdesk:sidebar-collapsed')==='1'){
+      root.classList.add('newsroom-sidebar-collapsed-prepaint');
+    }
+  }catch(e){}
+  window.addEventListener('DOMContentLoaded',function(){
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        root.classList.remove('newsroom-sidebar-prepaint');
+      });
+    });
+  },{once:true});
+})();
+/* NEWSROOM_SIDEBAR_PREPAINT_END */
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest">
 
@@ -7495,6 +7516,13 @@ body.alt-editor-layout .cms-nav-bottom .cms-nav-item span {
   font-size:13px!important;
 }
 /* NEWSROOM_MENU_FONT_13_END */
+
+/* NEWSROOM_SIDEBAR_PREPAINT_CSS_START */
+html.newsroom-sidebar-prepaint body.alt-editor-layout .cms-nav-drawer{visibility:hidden!important}
+html.newsroom-sidebar-prepaint body.alt-editor-layout .workspace{transition:none!important}
+html.newsroom-sidebar-collapsed-prepaint body.alt-editor-layout .workspace{padding-left:88px!important}
+html.newsroom-sidebar-collapsed-prepaint body.alt-editor-layout .cms-nav-drawer{width:64px!important}
+/* NEWSROOM_SIDEBAR_PREPAINT_CSS_END */
 </style></head><body>
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
 <nav class="utility-rail"><button class="rail-item" id="cmsMenuBtn" type="button" aria-expanded="false"><span class="rail-icon"><i data-lucide="panel-left-open"></i></span><span class="rail-label">Menu CMS</span></button><a class="rail-item" href="dashboard.html"><span class="rail-icon"><i data-lucide="layout-dashboard"></i></span><span class="rail-label">Dashboard</span></a><div class="rail-sep"></div><button class="rail-item" id="railImport"><span class="rail-icon"><i data-lucide="file-input"></i></span><span class="rail-label">Import Draft</span></button><button class="rail-item ai-floating-trigger" id="railAI"><span class="rail-icon"><i data-lucide="bot-message-square"></i></span><span class="rail-label">Newsroom AI</span></button></nav>
