@@ -1,0 +1,38 @@
+name: Refine Newsroom menu typography
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/refine-newsroom-menu-v1.yml'
+permissions:
+  contents: write
+jobs:
+  refine:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply menu typography override
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          marker='/* NEWSROOM_MENU_FONT_14_START */'
+          if marker not in s:
+              css='''\n/* NEWSROOM_MENU_FONT_14_START */\nbody.alt-editor-layout .cms-nav-head strong,\nbody.alt-editor-layout .cms-nav-head span,\nbody.alt-editor-layout .cms-nav-search input,\nbody.alt-editor-layout .cms-nav-cluster-head,\nbody.alt-editor-layout .cms-nav-cluster-head strong,\nbody.alt-editor-layout .cms-nav-item,\nbody.alt-editor-layout .cms-nav-item span,\nbody.alt-editor-layout .cms-nav-bottom .cms-nav-item,\nbody.alt-editor-layout .cms-nav-bottom .cms-nav-item span {\n  font-size:14px!important;\n}\n/* NEWSROOM_MENU_FONT_14_END */\n'''
+              needle='</style></head>'
+              if needle not in s:
+                  raise SystemExit('style closing marker not found')
+              s=s.replace(needle,css+needle,1)
+              p.write_text(s)
+          PY
+          grep -q 'NEWSROOM_MENU_FONT_14_START' index.html
+          grep -q 'font-size:14px!important' index.html
+          test -f assets/liputan6-logo.svg
+      - name: Commit refined Newsroom UI
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Set Newsroom sidebar menu typography to 14px'
+          git push
