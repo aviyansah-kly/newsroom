@@ -1,4 +1,4 @@
-name: Refine Newsroom menu and restore logo
+name: Refine Newsroom menu typography
 on:
   workflow_dispatch:
   push:
@@ -11,13 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Restore previous Liputan6 logo and menu typography
+      - name: Set sidebar menu typography to 13px
         run: |
           set -e
-          mkdir -p assets
-          curl -fL --retry 3 --connect-timeout 15 \
-            'https://raw.githubusercontent.com/aviyansah-kly/cms-liputan6-alternatif3/main/assets/liputan6-logo.svg' \
-            -o assets/liputan6-logo.svg
           python - <<'PY'
           from pathlib import Path
           p=Path('index.html')
@@ -32,11 +28,10 @@ jobs:
           PY
           grep -q 'NEWSROOM_MENU_FONT_13_START' index.html
           grep -q 'font-size:13px!important' index.html
-          grep -q '1713.9589' assets/liputan6-logo.svg
       - name: Commit refined Newsroom UI
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add index.html assets/liputan6-logo.svg
-          git diff --cached --quiet || git commit -m 'Set sidebar menu to 13px and restore Liputan6 logo'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Set Newsroom sidebar menu typography to 13px'
           git push
