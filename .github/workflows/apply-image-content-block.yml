@@ -1,0 +1,24 @@
+name: Apply Newsroom image content block redesign
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/apply-image-content-block.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/redesign_image_content_block.py
+      - run: |
+          grep -q 'NEWSROOM_IMAGE_BLOCK_REDESIGN_START' index.html
+          grep -q 'Tambahkan Image' index.html
+          grep -q 'data-v34-image-upload' index.html
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Redesign image content block empty state'
+          git push
