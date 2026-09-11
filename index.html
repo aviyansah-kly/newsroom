@@ -7532,6 +7532,81 @@ body.alt-editor-layout .newsroom-image-upload-btn:hover{background:#f1f5f9!impor
 body.alt-editor-layout .agent-dock{z-index:360!important;isolation:isolate!important}
 body.alt-editor-layout .agent-dock.open{z-index:360!important;visibility:visible!important;pointer-events:auto!important}
 /* NEWSROOM_AI_LAYER_FIX_END */
+
+/* NEWSROOM_EDITOR_CONSISTENCY_V67_START */
+/* Balance the editor canvas and Article Settings spacing. */
+body.alt-editor-layout .workspace{column-gap:18px!important}
+body.alt-editor-layout .paper{font-size:13px!important}
+body.alt-editor-layout .context,
+body.alt-editor-layout .context .panel,
+body.alt-editor-layout .context .field,
+body.alt-editor-layout .context .field label,
+body.alt-editor-layout .context .setting-help,
+body.alt-editor-layout .context .alt-inline-help,
+body.alt-editor-layout .context input,
+body.alt-editor-layout .context select,
+body.alt-editor-layout .context textarea,
+body.alt-editor-layout .context button{font-size:13px!important}
+body.alt-editor-layout .alt-content-card-body,
+body.alt-editor-layout .alt-content-card-foot,
+body.alt-editor-layout .alt-card-field label,
+body.alt-editor-layout .alt-card-field input,
+body.alt-editor-layout .alt-card-field textarea,
+body.alt-editor-layout .alt-card-field select{font-size:13px!important}
+
+/* Validation cards need the same rhythm as the rest of the settings panel. */
+body.alt-editor-layout #validationPane,
+body.alt-editor-layout #paneValidation,
+body.alt-editor-layout .validation-pane,
+body.alt-editor-layout [data-pane="validation"],
+body.alt-editor-layout [data-pane="validasi"]{display:flex;flex-direction:column;gap:10px}
+body.alt-editor-layout #validationPane>*,
+body.alt-editor-layout #paneValidation>*,
+body.alt-editor-layout .validation-pane>*,
+body.alt-editor-layout [data-pane="validation"]>*,
+body.alt-editor-layout [data-pane="validasi"]>*{margin-top:0!important;margin-bottom:0!important}
+body.alt-editor-layout .validation-card,
+body.alt-editor-layout .guardian-card,
+body.alt-editor-layout .validation-item,
+body.alt-editor-layout .guardian-item{margin:0 0 10px!important}
+body.alt-editor-layout .validation-card:last-child,
+body.alt-editor-layout .guardian-card:last-child,
+body.alt-editor-layout .validation-item:last-child,
+body.alt-editor-layout .guardian-item:last-child{margin-bottom:0!important}
+
+/* Image content empty state: one clear hierarchy and centered actions. */
+body.alt-editor-layout .alt-content-card[data-type="image"] .alt-content-card-body{padding:16px!important}
+body.alt-editor-layout .newsroom-image-empty{min-height:190px!important;padding:24px 28px!important;display:grid!important;grid-template-columns:48px minmax(0,1fr)!important;grid-template-areas:'icon copy' 'actions actions'!important;align-items:center!important;justify-items:start!important;column-gap:14px!important;row-gap:16px!important;text-align:left!important;background:#f8fafc!important;border:1px dashed #cbd5e1!important;border-radius:10px!important}
+body.alt-editor-layout .newsroom-image-empty-icon{grid-area:icon!important;width:42px!important;height:42px!important}
+body.alt-editor-layout .newsroom-image-empty-copy{grid-area:copy!important;max-width:none!important;align-items:flex-start!important;text-align:left!important;gap:4px!important}
+body.alt-editor-layout .newsroom-image-empty-copy strong{font-size:14px!important}
+body.alt-editor-layout .newsroom-image-empty-copy span{font-size:13px!important}
+body.alt-editor-layout .newsroom-image-empty-copy small{font-size:12px!important;max-width:520px!important}
+body.alt-editor-layout .newsroom-image-empty-actions{grid-area:actions!important;width:100%!important;justify-content:flex-start!important;margin:0!important;padding-left:56px!important}
+body.alt-editor-layout .newsroom-image-empty-actions button{font-size:13px!important}
+@media(max-width:720px){body.alt-editor-layout .newsroom-image-empty{grid-template-columns:1fr!important;grid-template-areas:'icon' 'copy' 'actions'!important;justify-items:center!important;text-align:center!important}body.alt-editor-layout .newsroom-image-empty-copy{align-items:center!important;text-align:center!important}body.alt-editor-layout .newsroom-image-empty-actions{padding-left:0!important;justify-content:center!important}}
+
+/* Media gallery: larger 3:2 thumbnails and a true upload-only state. */
+body.alt-editor-layout #imageLibraryPopup .v34-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important}
+body.alt-editor-layout #imageLibraryPopup .v34-card img,
+body.alt-editor-layout #imageLibraryPopup .v34-thumb img,
+body.alt-editor-layout #imageLibraryPopup .v34-media-thumb img,
+body.alt-editor-layout #imageLibraryPopup .v59-media-thumb img{width:100%!important;height:100%!important;object-fit:cover!important}
+body.alt-editor-layout #imageLibraryPopup .v34-card .v34-thumb,
+body.alt-editor-layout #imageLibraryPopup .v34-thumb,
+body.alt-editor-layout #imageLibraryPopup .v34-media-thumb,
+body.alt-editor-layout #imageLibraryPopup .v59-media-thumb{aspect-ratio:3/2!important;height:auto!important;min-height:0!important;overflow:hidden!important}
+body.alt-editor-layout #imageLibraryPopup #v34Grid[hidden],
+body.alt-editor-layout #imageLibraryPopup #v61GalleryTools[hidden],
+body.alt-editor-layout #imageLibraryPopup #v61ResultsHead[hidden]{display:none!important}
+body.alt-editor-layout #imageLibraryPopup #v61UploadPanel[hidden]{display:none!important}
+body.alt-editor-layout #imageLibraryPopup #v61UploadPanel:not([hidden]){display:flex!important;flex:1!important;align-items:center!important;justify-content:center!important;min-height:360px!important;padding:28px!important}
+body.alt-editor-layout #imageLibraryPopup .v61-upload-drop{width:min(560px,100%)!important;min-height:240px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:9px!important;border:1px dashed #94a3b8!important;border-radius:12px!important;background:#f8fafc!important;text-align:center!important}
+body.alt-editor-layout #imageLibraryPopup .v61-upload-drop strong{font-size:14px!important}
+body.alt-editor-layout #imageLibraryPopup .v61-upload-drop span,
+body.alt-editor-layout #imageLibraryPopup .v61-upload-drop em{font-size:13px!important}
+@media(max-width:1100px){body.alt-editor-layout #imageLibraryPopup .v34-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+/* NEWSROOM_EDITOR_CONSISTENCY_V67_END */
 </style></head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
 <nav class="utility-rail"><button class="rail-item" id="cmsMenuBtn" type="button" aria-expanded="false"><span class="rail-icon"><i data-lucide="panel-left-open"></i></span><span class="rail-label">Menu CMS</span></button><a class="rail-item" href="dashboard.html"><span class="rail-icon"><i data-lucide="layout-dashboard"></i></span><span class="rail-label">Dashboard</span></a><div class="rail-sep"></div><button class="rail-item" id="railImport"><span class="rail-icon"><i data-lucide="file-input"></i></span><span class="rail-label">Import Draft</span></button><button class="rail-item ai-floating-trigger" id="railAI"><span class="rail-icon"><i data-lucide="bot-message-square"></i></span><span class="rail-label">Newsroom AI</span></button></nav>
