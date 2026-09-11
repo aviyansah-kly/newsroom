@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
 
+# Semantic action hierarchy: orange=commit, blue=work, neutral=utility.
 path = Path('index.html')
 text = path.read_text(encoding='utf-8')
 
