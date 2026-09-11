@@ -28,3 +28,4 @@ jobs:
           git add index.html
           git diff --cached --quiet || git commit -m 'Fix editorial team defaults and remove legacy fields at source'
           git push
+# source-level ownership cleanup v2
