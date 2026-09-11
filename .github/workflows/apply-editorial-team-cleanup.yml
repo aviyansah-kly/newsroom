@@ -1,0 +1,28 @@
+name: Apply editorial team cleanup
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-editorial-team-cleanup.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply cleanup
+        run: python3 scripts/patch_editorial_team_cleanup.py
+      - name: Verify
+        run: |
+          grep -q 'Tim Editorial' index.html
+          ! grep -q 'Dari artikel' index.html
+          ! grep -q '>Anda<' index.html
+          grep -q 'team-change-primary' index.html
+          grep -q 'Ganti' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Simplify editorial team assignment UI'
+          git push
