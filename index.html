@@ -8339,6 +8339,238 @@ body.alt-editor-layout .tabs{
 }
 /* NEWSROOM_ADAPTIVE_EDITOR_HEADER_END */
 
+/* NEWSROOM_VALIDATION_INFO_HIERARCHY_START */
+body.alt-editor-layout #guardianPane>.spell-status{
+  min-height:42px!important;
+  padding:11px 20px!important;
+  gap:8px!important;
+  color:#64748b!important;
+  font-size:13px!important;
+  background:#fff!important;
+}
+body.alt-editor-layout #guardianPane>.spell-status svg{
+  width:14px!important;
+  height:14px!important;
+  color:#64748b!important;
+}
+
+body.alt-editor-layout #guardianPane>.guardian-summary{
+  display:block!important;
+  padding:14px 20px!important;
+  background:#f8fafc!important;
+  border:0!important;
+  border-radius:0!important;
+}
+body.alt-editor-layout .guardian-summary-main{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+}
+body.alt-editor-layout .guardian-summary-icon{
+  width:34px!important;
+  height:34px!important;
+  border-radius:9px!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:none!important;
+  background:#fff7ed!important;
+  color:#c2410c!important;
+}
+body.alt-editor-layout .guardian-summary.has-danger .guardian-summary-icon{
+  background:#fef2f2!important;
+  color:#dc2626!important;
+}
+body.alt-editor-layout .guardian-summary.is-clear .guardian-summary-icon{
+  background:#ecfdf3!important;
+  color:#15803d!important;
+}
+body.alt-editor-layout .guardian-summary-icon svg{
+  width:17px!important;
+  height:17px!important;
+}
+body.alt-editor-layout .guardian-summary-copy{
+  min-width:0!important;
+}
+body.alt-editor-layout .guardian-summary-copy strong{
+  display:block!important;
+  font-size:14px!important;
+  line-height:19px!important;
+  color:#0f172a!important;
+}
+body.alt-editor-layout .guardian-summary-copy span{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  color:#64748b!important;
+}
+body.alt-editor-layout .guardian-summary-stats{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:6px!important;
+  margin-top:10px!important;
+  padding-left:44px!important;
+}
+body.alt-editor-layout .guardian-stat{
+  min-height:24px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  padding:2px 8px!important;
+  border-radius:999px!important;
+  font-size:11px!important;
+  line-height:16px!important;
+  font-weight:650!important;
+}
+body.alt-editor-layout .guardian-stat.danger{
+  background:#fef2f2!important;
+  color:#b91c1c!important;
+}
+body.alt-editor-layout .guardian-stat.warn{
+  background:#fff7ed!important;
+  color:#c2410c!important;
+}
+
+body.alt-editor-layout #guardianPane>.guardian-list{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  padding:14px 20px 18px!important;
+  background:#fff!important;
+}
+body.alt-editor-layout #guardianPane>.guardian-list>*+*{
+  border-top:0!important;
+}
+body.alt-editor-layout #guardianPane .guardian-item{
+  display:grid!important;
+  grid-template-columns:32px minmax(0,1fr)!important;
+  gap:10px!important;
+  margin:0!important;
+  padding:12px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:0 1px 2px rgba(15,23,42,.03)!important;
+}
+body.alt-editor-layout #guardianPane .guardian-item.danger{
+  border-color:#fecaca!important;
+  background:#fffdfd!important;
+}
+body.alt-editor-layout #guardianPane .guardian-icon{
+  width:32px!important;
+  height:32px!important;
+  border-radius:8px!important;
+}
+body.alt-editor-layout #guardianPane .guardian-item-content{
+  min-width:0!important;
+}
+body.alt-editor-layout #guardianPane .guardian-item-meta{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:8px!important;
+  margin-bottom:5px!important;
+}
+body.alt-editor-layout #guardianPane .guardian-category{
+  min-width:0!important;
+  font-size:11px!important;
+  line-height:15px!important;
+  font-weight:700!important;
+  letter-spacing:.04em!important;
+  text-transform:uppercase!important;
+  color:#64748b!important;
+}
+body.alt-editor-layout #guardianPane .guardian-severity{
+  flex:none!important;
+  padding:2px 6px!important;
+  border-radius:999px!important;
+  font-size:10px!important;
+  line-height:14px!important;
+  font-weight:700!important;
+}
+body.alt-editor-layout #guardianPane .guardian-severity.danger{
+  background:#fef2f2!important;
+  color:#b91c1c!important;
+}
+body.alt-editor-layout #guardianPane .guardian-severity.warn{
+  background:#fff7ed!important;
+  color:#c2410c!important;
+}
+body.alt-editor-layout #guardianPane .guardian-item strong{
+  display:block!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  color:#172033!important;
+}
+body.alt-editor-layout #guardianPane .guardian-item p{
+  margin:3px 0 0!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  color:#64748b!important;
+}
+body.alt-editor-layout #guardianPane .guardian-action{
+  min-height:28px!important;
+  margin-top:8px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:#2563eb!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  font-size:12px!important;
+  line-height:16px!important;
+  font-weight:600!important;
+}
+body.alt-editor-layout #guardianPane .guardian-action:hover{
+  color:#1d4ed8!important;
+  text-decoration:underline!important;
+  text-underline-offset:2px!important;
+}
+body.alt-editor-layout #guardianPane .guardian-action svg{
+  width:13px!important;
+  height:13px!important;
+}
+body.alt-editor-layout #guardianPane .guardian-empty{
+  display:flex!important;
+  align-items:flex-start!important;
+  gap:10px!important;
+  padding:14px!important;
+  border:1px solid #bbf7d0!important;
+  border-radius:10px!important;
+  background:#f0fdf4!important;
+}
+body.alt-editor-layout #guardianPane .guardian-empty svg{
+  width:18px!important;
+  height:18px!important;
+  color:#15803d!important;
+  flex:none!important;
+  margin-top:1px!important;
+}
+body.alt-editor-layout #guardianPane .guardian-empty strong{
+  display:block!important;
+  font-size:13px!important;
+  color:#166534!important;
+}
+body.alt-editor-layout #guardianPane .guardian-empty span{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  color:#4d7c5a!important;
+}
+
+@media(max-width:420px){
+  body.alt-editor-layout .guardian-summary-stats{
+    padding-left:0!important;
+  }
+  body.alt-editor-layout #guardianPane .guardian-item-meta{
+    align-items:flex-start!important;
+    flex-direction:column!important;
+    gap:4px!important;
+  }
+}
+/* NEWSROOM_VALIDATION_INFO_HIERARCHY_END */
+
 </style></head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
 <nav class="utility-rail"><button class="rail-item" id="cmsMenuBtn" type="button" aria-expanded="false"><span class="rail-icon"><i data-lucide="panel-left-open"></i></span><span class="rail-label">Menu CMS</span></button><a class="rail-item" href="dashboard.html"><span class="rail-icon"><i data-lucide="layout-dashboard"></i></span><span class="rail-label">Dashboard</span></a><div class="rail-sep"></div><button class="rail-item" id="railImport"><span class="rail-icon"><i data-lucide="file-input"></i></span><span class="rail-label">Import Draft</span></button><button class="rail-item ai-floating-trigger" id="railAI"><span class="rail-icon"><i data-lucide="bot-message-square"></i></span><span class="rail-label">Newsroom AI</span></button></nav>
@@ -8435,7 +8667,7 @@ body.alt-editor-layout .tabs{
 <main class="workspace"><section><article class="paper"><div class="story-row"><div class="story-meta-left"><span class="kicker" id="storyKicker">Bisnis · Draft</span><div class="article-type-control"><span>Type</span><select id="contentType" aria-label="Article type"><option value="Text" selected>Text</option><option value="Photo">Photo</option><option value="Video">Video</option></select></div></div><div class="story-meta-right"><span class="word-count-chip" title="Jumlah kata artikel"><i data-lucide="whole-word"></i><span id="wordCountTop">0 kata</span></span><span class="presence-chip" id="presenceChip" title="Status editor yang sedang menangani artikel"><span class="presence-dot"></span><span>Editing</span><strong class="presence-name" id="presenceName">Bima Pratama</strong></span><span class="story-id">ID 6D-2026-0811-003</span></div></div><label class="editor-field-name" for="title">Judul Artikel</label><textarea id="title" class="title" aria-label="Judul artikel" placeholder="Tulis judul artikel…">Minyak Dunia Tembus US$ 100, Purbaya Pastikan Harga BBM Subsidi Tak Naik</textarea><label class="editor-field-name editor-field-name-dek" for="dek">Ringkasan / Dek</label><textarea id="dek" class="dek" aria-label="Ringkasan artikel" placeholder="Tulis ringkasan singkat artikel (dek)…">Pemerintah memastikan harga BBM subsidi tetap dijaga meski harga minyak dunia melonjak, sementara tambahan beban subsidi diarahkan ditutup dari peningkatan penerimaan migas.</textarea><div class="byline"><span class="avatar">AR</span><strong>Arief Rahman H</strong><span>Reporter</span><span>·</span><span id="wordCount">0 kata</span><span>·</span><span id="updatedAt">Draft lokal</span><span id="sourceChip" class="source-chip" hidden></span></div>
 <section class="headline"><div class="section-head"><div><strong id="headlineMediaTitle">Headline Image</strong><br><span id="headlineMediaHint">Gambar utama untuk artikel dan social preview.</span></div><span id="headlineMediaSpec">1280 × 720</span></div><div class="headline-video" id="headlineVideoPanel" hidden><div class="headline-video-input"><div><strong>Vidio URL</strong><span>Gunakan URL video Vidio sebagai media utama artikel.</span></div><div class="headline-video-row"><input id="headlineVideoUrl" type="url" placeholder="https://www.vidio.com/watch/..."><button class="btn" id="applyHeadlineVideo" type="button"><i data-lucide="play"></i><span>Gunakan Video</span></button></div></div><div class="headline-video-preview" id="headlineVideoPreview" hidden><div class="video-preview-icon"><i data-lucide="circle-play"></i></div><div><strong>Headline Video siap</strong><span id="headlineVideoPreviewUrl"></span></div><button class="btn ghost sm" id="removeHeadlineVideo" type="button">Hapus</button></div></div><div class="headline-cover-label" id="headlineCoverLabel" hidden>Thumbnail / Cover (opsional)</div><div class="headline-drop"><div class="headline-empty" id="headlineEmpty"><strong>Tambahkan Headline Image</strong><p>Pilih image dari gallery atau upload file dari perangkat.</p><div class="headline-empty-actions"><button class="btn primary" id="chooseHeadline" type="button"><i data-lucide="images"></i><span>Pilih dari Gallery</span></button><button class="btn" id="uploadHeadline" type="button" onclick="document.getElementById('headlineFile').value='';document.getElementById('headlineFile').click()"><i data-lucide="upload"></i><span>Upload Image</span></button></div></div><img id="headlineImg" hidden><div class="image-actions" id="headlineActions" hidden><button class="btn sm" id="editCrop"><i data-lucide="crop"></i><span>Crop / Edit</span></button><button class="btn sm" id="changeHeadline"><i data-lucide="refresh-cw"></i><span>Ganti</span></button><button class="btn sm" id="removeHeadline"><i data-lucide="trash-2"></i><span>Hapus</span></button></div></div><input id="headlineFile" type="file" accept="image/*" hidden><div class="headline-fields"><input id="featuredCaption" placeholder="Tulis caption gambar…"><input id="featuredCopyright" placeholder="Tulis kredit foto / sumber gambar…"></div></section>
 <div class="editor-mode-bar" id="editorModeBar"><div class="editor-mode-copy"><strong>Editor Mode</strong><span>Classic direkomendasikan untuk transisi; Block tetap tersedia.</span></div><div class="editor-mode-switch" role="group" aria-label="Editor mode"><button type="button" data-editor-mode="classic" aria-pressed="true"><i data-lucide="align-left"></i>Classic</button><button type="button" data-editor-mode="block" aria-pressed="false"><i data-lucide="blocks"></i>Block</button></div></div><div class="classic-toolbar" id="classicToolbar" aria-label="Classic editor toolbar"><button type="button" data-classic-command="undo" title="Undo"><i data-lucide="undo-2"></i></button><button type="button" data-classic-command="redo" title="Redo"><i data-lucide="redo-2"></i></button><span class="toolbar-sep"></span><button type="button" data-classic-command="bold" title="Bold"><strong>B</strong></button><button type="button" data-classic-command="italic" title="Italic"><em>I</em></button><button type="button" data-classic-command="h2" title="Heading 2">H2</button><button type="button" data-classic-command="h3" title="Heading 3">H3</button><span class="toolbar-sep"></span><button type="button" data-classic-command="bullet" title="Bullet list"><i data-lucide="list"></i></button><button type="button" data-classic-command="ordered" title="Numbered list"><i data-lucide="list-ordered"></i></button><button type="button" data-classic-command="quote" title="Quote"><i data-lucide="quote"></i></button><button type="button" data-classic-command="link" title="Link"><i data-lucide="link"></i></button><span class="toolbar-sep"></span><button type="button" data-classic-command="image" title="Image Library"><i data-lucide="images"></i><span>Image</span></button><button type="button" data-classic-command="embed" title="Embed Media"><i data-lucide="video"></i><span>Embed</span></button></div><div class="writer-start" id="writerStart"><div class="blank-start" id="blankStart"><div class="writer-start-main"><strong>Mulai Artikel Baru</strong><p>Pilih cara paling nyaman untuk memulai. Anda tetap bisa beralih metode kapan saja.</p><div class="writer-start-actions"><button class="btn primary sm" id="blankWrite"><i data-lucide="pen-line"></i><span>Mulai menulis</span></button><button class="btn sm" id="blankAgent"><i data-lucide="bot"></i><span>Buat dengan Agent</span></button><button class="btn ghost sm" id="blankImport"><i data-lucide="file-input"></i><span>Import Draft</span></button><button class="btn ghost sm" id="addBlockBtn"><i data-lucide="plus"></i><span>Tambah</span></button></div></div></div></div><div class="block-menu" id="blockMenu"><button data-insert="paragraph"><i data-lucide="pilcrow"></i><span>Paragraph</span></button><button data-insert="h2"><i data-lucide="heading-2"></i><span>Heading 2</span></button><button data-insert="h3"><i data-lucide="heading-3"></i><span>Heading 3</span></button><button data-insert="quote"><i data-lucide="quote"></i><span>Quote</span></button><button data-insert="bullet"><i data-lucide="list"></i><span>Bullet List</span></button><button data-insert="number"><i data-lucide="list-ordered"></i><span>Numbered List</span></button><button data-insert="divider"><i data-lucide="minus"></i><span>Divider</span></button><button data-insert="image"><i data-lucide="images"></i><span>Image Library</span></button><button data-insert="video"><i data-lucide="video"></i><span>Embed Media</span></button></div><div id="tiptap-editor"></div><button class="block-plus-handle" id="blockPlusHandle" type="button" aria-label="Tambah block" title="Tambah block di bawah"><i data-lucide="plus"></i></button><button class="block-drag-handle" id="blockDragHandle" draggable="false" aria-label="Pindahkan block" title="Drag untuk memindahkan block"><i data-lucide="grip-vertical"></i></button><div class="block-drop-indicator" id="blockDropIndicator" aria-hidden="true"><span>Lepaskan di sini</span></div></article></section>
-<div class="settings-drawer-backdrop" id="settingsDrawerBackdrop" aria-hidden="true"></div><aside class="context"><section class="panel"><div class="panel-head"><h3>Article Settings</h3><p>Enrichment, SEO, dan publishing tetap tersedia selama artikel discroll.</p></div><div class="tabs article-tabs-promoted"><button class="tab active" data-tab="info">Info</button><button class="tab" data-tab="seo">SEO</button><button class="tab" data-tab="guardian">Checks <span class="guardian-count" id="guardianTabCount">0</span></button><button class="tab" data-tab="publish">Publishing</button></div><div class="panel-body"><div class="pane active" id="infoPane"><div class="settings-section"><div class="settings-section-head"><div><strong>Editorial Classification</strong><span>Klasifikasi utama untuk membantu workflow, distribusi, dan reporting.</span></div></div><div class="field"><label>Kategori</label><select id="category"><option selected>Bisnis</option><option>News</option><option>Sports</option><option>Nasional</option></select></div><div class="field"><label>Editorial Format</label><select id="articleType"><option value="Standard" selected>Standard</option><option value="Trending">Trending</option><option value="Timeless">Timeless</option><option value="Feature">Feature</option><option value="Advertorial">Advertorial</option></select><div class="setting-help">Berbeda dari Article Type Text / Photo / Video di area editor.</div></div><div class="field"><label>Inisiatif Konten</label><select id="contentInitiative"><option value="">— Tidak ada —</option><option>Predictive Calendar</option><option>Google Trend</option><option>Content Gap</option><option>Socmed Trend</option><option>Leveling System</option><option>Hygiene Content</option><option>Temuan Seru</option><option>Advertorial</option></select><div class="setting-help">Pilih hanya jika artikel merupakan bagian dari inisiatif editorial tertentu.</div></div></div><div class="settings-divider"></div><div class="settings-section"><div class="settings-section-head"><div><strong>Editorial Ownership</strong><span>Orang yang bertanggung jawab atas sumber dan finalisasi artikel.</span></div></div><div class="field"><label>Reporter</label><div class="profile"><span class="avatar">AR</span><input id="reporter" value="Arief Rahman H" placeholder="Nama reporter…"></div></div><div class="field"><label>Editor</label><div class="profile"><span class="avatar editor">BP</span><input id="editorName" value="Bima Pratama" placeholder="Nama editor…"></div></div></div></div><div class="pane" id="seoPane"><div class="seo-readiness" id="seoReadiness"><div class="seo-readiness-main"><span class="seo-readiness-icon seo-icon-slot"><i data-lucide="circle-check"></i></span><div><strong id="seoReadinessTitle">SEO Readiness</strong><span id="seoReadinessText">Metadata tersedia dan dapat direview editor.</span></div></div><span class="seo-readiness-count" id="seoReadinessCount">Good</span></div><div class="seo-assistant"><div class="seo-assistant-head"><div class="seo-assistant-title"><span class="seo-assistant-icon seo-icon-slot"><i data-lucide="sparkles"></i></span><div><strong>Generate SEO with AI</strong><span>Buat keyword, SEO title, meta description, dan tags dari artikel saat ini.</span></div></div></div><button class="btn primary seo-generate-btn" id="seoGenerateAll" type="button"><i data-lucide="wand-sparkles"></i><span>Generate All</span></button><div class="seo-review-note"><i data-lucide="shield-check"></i><span>Hasil selalu direview sebelum diterapkan ke field.</span></div></div><div class="seo-review" id="seoReview"><div class="seo-review-head"><div><strong>Review AI Suggestions</strong><span id="seoReviewMeta">4 field siap direview</span></div><button class="btn ghost sm seo-icon-button" id="seoReviewClose" type="button" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="seo-review-list" id="seoReviewList"></div><div class="seo-review-actions"><button class="btn sm" id="seoDiscard" type="button">Discard</button><button class="btn primary sm" id="seoApplyAll" type="button"><i data-lucide="check"></i><span>Apply All</span></button></div></div><div class="seo-section"><div class="seo-section-label"><div><strong>SEO Metadata</strong><span>Editor dapat menyesuaikan hasil AI sebelum publish.</span></div><span class="seo-section-badge">Editable</span></div><div class="field seo-field"><label>Primary Keyword</label><input id="seoKeyword" value="harga BBM subsidi" placeholder="Kata kunci utama artikel…"></div><div class="field seo-field"><label>SEO Title</label><input id="seoTitle" value="Purbaya Pastikan Harga BBM Subsidi Tak Naik Saat Minyak US$ 100" placeholder="Tulis SEO title…"></div><div class="field seo-field"><label>Meta Description</label><textarea id="metaDesc" placeholder="Tulis meta description untuk hasil pencarian…">Purbaya memastikan harga BBM subsidi tetap dijaga meski minyak dunia menembus US$ 100 per barel.</textarea></div><div class="field seo-field"><label>Tags</label><div class="tag-wrap"><div id="tagList" class="tag-list"></div><input id="tagInput" placeholder="Tambahkan tag, lalu tekan Enter…"></div><div id="tagSuggestions" class="suggestions"></div></div></div><div class="seo-auto"><div class="seo-auto-head"><div><strong>Automated SEO</strong><span>Diproses sistem di belakang layar. Editor cukup memastikan statusnya.</span></div><span class="seo-auto-caption">System</span></div><div class="seo-auto-list"><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot" id="seoSummaryIcon"><i data-lucide="align-left"></i></span><div class="seo-auto-copy"><strong>Article Summary</strong><span id="seoSummaryText">Ringkasan artikel tersedia.</span></div><span class="seo-auto-badge" id="seoSummaryBadge">Ready</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot" id="seoSchemaIcon"><i data-lucide="braces"></i></span><div class="seo-auto-copy"><strong>Article Schema</strong><span>Structured data dibuat otomatis saat publish.</span></div><span class="seo-auto-badge">Ready</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot neutral" id="seoFaqIcon"><i data-lucide="messages-square"></i></span><div class="seo-auto-copy"><strong>FAQ Schema</strong><span id="seoFaqText">Tidak ada pola FAQ yang kuat pada artikel ini.</span></div><span class="seo-auto-badge neutral" id="seoFaqBadge">Not applicable</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot" id="seoEntityIcon"><i data-lucide="scan-search"></i></span><div class="seo-auto-copy"><strong>Entities</strong><span id="seoEntityText">Entity utama dideteksi otomatis.</span></div><span class="seo-auto-badge" id="seoEntityBadge">Detected</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot warn" id="seoImageIcon"><i data-lucide="image"></i></span><div class="seo-auto-copy"><strong>Image Metadata</strong><span id="seoImageText">Headline image perlu dilengkapi untuk metadata media.</span></div><span class="seo-auto-badge warn" id="seoImageBadge">Needs attention</span></div></div></div></div><div class="pane" id="publishPane"><div class="settings-section publish-timing"><div class="settings-section-head"><div><strong>Schedule publication</strong><span>Default: publish immediately after final confirmation.</span></div></div><div class="publish-schedule-toggle"><label class="flag-row"><span class="flag-copy"><strong>Schedule publication</strong><span id="publishScheduleHelp">Publish immediately after final confirmation.</span></span><span class="switch"><input id="publishScheduleToggle" type="checkbox" aria-label="Schedule publication"><span class="switch-track"></span></span></label></div><div class="schedule-fields" id="scheduleFields"><div class="schedule-grid"><div class="schedule-control"><label for="publishDate">Date</label><input id="publishDate" type="date"></div><div class="schedule-control"><label for="publishTime">Time</label><input id="publishTime" type="time"></div></div><div class="schedule-summary"><i data-lucide="clock-3"></i><span id="scheduleSummary">Select date and time · WIB</span></div></div></div><div class="settings-section publish-hidden-section" id="distributionPlacementSection" aria-hidden="true"><div class="flag-list"><label class="flag-row"><span class="flag-copy"><strong>Curated / Feed</strong></span><span class="switch"><input id="flagCurated" type="checkbox" checked><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Headline Beranda</strong></span><span class="switch"><input id="flagHomeHeadline" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Headline Kategori</strong></span><span class="switch"><input id="flagCategoryHeadline" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Artikel Unggulan</strong></span><span class="switch"><input id="flagFeatured" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Search Indexing</strong></span><span class="switch"><input id="flagSearchIndex" type="checkbox" checked><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Kecualikan Artikel</strong></span><span class="switch"><input id="flagExclude" type="checkbox"><span class="switch-track"></span></span></label></div></div><div class="settings-section publish-hidden-section" id="audienceComplianceSection" aria-hidden="true"><div class="flag-list"><label class="flag-row"><span class="flag-copy"><strong>Konten Dewasa (18+)</strong></span><span class="switch"><input id="flagAdult" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Verifikasi Usia (18+)</strong></span><span class="switch"><input id="flagAgeVerify" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Nonaktifkan Interaksi</strong></span><span class="switch"><input id="flagDisableInteraction" type="checkbox"><span class="switch-track"></span></span></label></div></div><div class="publish-advanced"><details id="additionalPublishLabels"><summary><i data-lucide="tags"></i><span>Additional labels</span></summary><div class="publish-advanced-body"><div class="flag-list" style="margin-top:10px"><label class="flag-row"><span class="flag-copy"><strong>Konten Bermerek</strong><span>Tandai jika artikel merupakan branded content.</span></span><span class="switch"><input id="flagBranded" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Artikel AI</strong><span>Tandai jika artikel menggunakan AI dalam proses pembuatannya.</span></span><span class="switch"><input id="flagAI" type="checkbox"><span class="switch-track"></span></span></label></div><div class="auto-setting"><span class="auto-setting-icon"><i data-lucide="badge-info"></i></span><div><strong>Advertorial mengikuti Editorial Format</strong><span id="advertorialAutoText">Tidak aktif. Pilih Editorial Format = Advertorial untuk mengaktifkan label.</span></div></div></div></details></div></div><div class="pane" id="guardianPane"><div class="spell-status"><i data-lucide="spell-check-2"></i><span>Live spelling aktif saat Anda mengetik.</span></div><div class="guardian-summary"><div><strong>Checks</strong><span id="guardianSummaryText">Menganalisis artikel…</span></div><i data-lucide="shield-check"></i></div><div class="guardian-list" id="guardianList"></div></div></div></section><section class="panel" id="commentsPanel" hidden><div class="panel-head"><h3>Komentar</h3><p>Komentar pada teks artikel.</p></div><div class="panel-body" id="commentList"></div></section></aside></main>
+<div class="settings-drawer-backdrop" id="settingsDrawerBackdrop" aria-hidden="true"></div><aside class="context"><section class="panel"><div class="panel-head"><h3>Article Settings</h3><p>Enrichment, SEO, dan publishing tetap tersedia selama artikel discroll.</p></div><div class="tabs article-tabs-promoted"><button class="tab active" data-tab="info">Info</button><button class="tab" data-tab="seo">SEO</button><button class="tab" data-tab="guardian">Validasi <span class="guardian-count" id="guardianTabCount">0</span></button><button class="tab" data-tab="publish">Publishing</button></div><div class="panel-body"><div class="pane active" id="infoPane"><div class="settings-section"><div class="settings-section-head"><div><strong>Editorial Classification</strong><span>Klasifikasi utama untuk membantu workflow, distribusi, dan reporting.</span></div></div><div class="field"><label>Kategori</label><select id="category"><option selected>Bisnis</option><option>News</option><option>Sports</option><option>Nasional</option></select></div><div class="field"><label>Editorial Format</label><select id="articleType"><option value="Standard" selected>Standard</option><option value="Trending">Trending</option><option value="Timeless">Timeless</option><option value="Feature">Feature</option><option value="Advertorial">Advertorial</option></select><div class="setting-help">Berbeda dari Article Type Text / Photo / Video di area editor.</div></div><div class="field"><label>Inisiatif Konten</label><select id="contentInitiative"><option value="">— Tidak ada —</option><option>Predictive Calendar</option><option>Google Trend</option><option>Content Gap</option><option>Socmed Trend</option><option>Leveling System</option><option>Hygiene Content</option><option>Temuan Seru</option><option>Advertorial</option></select><div class="setting-help">Pilih hanya jika artikel merupakan bagian dari inisiatif editorial tertentu.</div></div></div><div class="settings-divider"></div><div class="settings-section"><div class="settings-section-head"><div><strong>Editorial Ownership</strong><span>Orang yang bertanggung jawab atas sumber dan finalisasi artikel.</span></div></div><div class="field"><label>Reporter</label><div class="profile"><span class="avatar">AR</span><input id="reporter" value="Arief Rahman H" placeholder="Nama reporter…"></div></div><div class="field"><label>Editor</label><div class="profile"><span class="avatar editor">BP</span><input id="editorName" value="Bima Pratama" placeholder="Nama editor…"></div></div></div></div><div class="pane" id="seoPane"><div class="seo-readiness" id="seoReadiness"><div class="seo-readiness-main"><span class="seo-readiness-icon seo-icon-slot"><i data-lucide="circle-check"></i></span><div><strong id="seoReadinessTitle">SEO Readiness</strong><span id="seoReadinessText">Metadata tersedia dan dapat direview editor.</span></div></div><span class="seo-readiness-count" id="seoReadinessCount">Good</span></div><div class="seo-assistant"><div class="seo-assistant-head"><div class="seo-assistant-title"><span class="seo-assistant-icon seo-icon-slot"><i data-lucide="sparkles"></i></span><div><strong>Generate SEO with AI</strong><span>Buat keyword, SEO title, meta description, dan tags dari artikel saat ini.</span></div></div></div><button class="btn primary seo-generate-btn" id="seoGenerateAll" type="button"><i data-lucide="wand-sparkles"></i><span>Generate All</span></button><div class="seo-review-note"><i data-lucide="shield-check"></i><span>Hasil selalu direview sebelum diterapkan ke field.</span></div></div><div class="seo-review" id="seoReview"><div class="seo-review-head"><div><strong>Review AI Suggestions</strong><span id="seoReviewMeta">4 field siap direview</span></div><button class="btn ghost sm seo-icon-button" id="seoReviewClose" type="button" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="seo-review-list" id="seoReviewList"></div><div class="seo-review-actions"><button class="btn sm" id="seoDiscard" type="button">Discard</button><button class="btn primary sm" id="seoApplyAll" type="button"><i data-lucide="check"></i><span>Apply All</span></button></div></div><div class="seo-section"><div class="seo-section-label"><div><strong>SEO Metadata</strong><span>Editor dapat menyesuaikan hasil AI sebelum publish.</span></div><span class="seo-section-badge">Editable</span></div><div class="field seo-field"><label>Primary Keyword</label><input id="seoKeyword" value="harga BBM subsidi" placeholder="Kata kunci utama artikel…"></div><div class="field seo-field"><label>SEO Title</label><input id="seoTitle" value="Purbaya Pastikan Harga BBM Subsidi Tak Naik Saat Minyak US$ 100" placeholder="Tulis SEO title…"></div><div class="field seo-field"><label>Meta Description</label><textarea id="metaDesc" placeholder="Tulis meta description untuk hasil pencarian…">Purbaya memastikan harga BBM subsidi tetap dijaga meski minyak dunia menembus US$ 100 per barel.</textarea></div><div class="field seo-field"><label>Tags</label><div class="tag-wrap"><div id="tagList" class="tag-list"></div><input id="tagInput" placeholder="Tambahkan tag, lalu tekan Enter…"></div><div id="tagSuggestions" class="suggestions"></div></div></div><div class="seo-auto"><div class="seo-auto-head"><div><strong>Automated SEO</strong><span>Diproses sistem di belakang layar. Editor cukup memastikan statusnya.</span></div><span class="seo-auto-caption">System</span></div><div class="seo-auto-list"><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot" id="seoSummaryIcon"><i data-lucide="align-left"></i></span><div class="seo-auto-copy"><strong>Article Summary</strong><span id="seoSummaryText">Ringkasan artikel tersedia.</span></div><span class="seo-auto-badge" id="seoSummaryBadge">Ready</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot" id="seoSchemaIcon"><i data-lucide="braces"></i></span><div class="seo-auto-copy"><strong>Article Schema</strong><span>Structured data dibuat otomatis saat publish.</span></div><span class="seo-auto-badge">Ready</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot neutral" id="seoFaqIcon"><i data-lucide="messages-square"></i></span><div class="seo-auto-copy"><strong>FAQ Schema</strong><span id="seoFaqText">Tidak ada pola FAQ yang kuat pada artikel ini.</span></div><span class="seo-auto-badge neutral" id="seoFaqBadge">Not applicable</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot" id="seoEntityIcon"><i data-lucide="scan-search"></i></span><div class="seo-auto-copy"><strong>Entities</strong><span id="seoEntityText">Entity utama dideteksi otomatis.</span></div><span class="seo-auto-badge" id="seoEntityBadge">Detected</span></div><div class="seo-auto-row"><span class="seo-auto-status seo-icon-slot warn" id="seoImageIcon"><i data-lucide="image"></i></span><div class="seo-auto-copy"><strong>Image Metadata</strong><span id="seoImageText">Headline image perlu dilengkapi untuk metadata media.</span></div><span class="seo-auto-badge warn" id="seoImageBadge">Needs attention</span></div></div></div></div><div class="pane" id="publishPane"><div class="settings-section publish-timing"><div class="settings-section-head"><div><strong>Schedule publication</strong><span>Default: publish immediately after final confirmation.</span></div></div><div class="publish-schedule-toggle"><label class="flag-row"><span class="flag-copy"><strong>Schedule publication</strong><span id="publishScheduleHelp">Publish immediately after final confirmation.</span></span><span class="switch"><input id="publishScheduleToggle" type="checkbox" aria-label="Schedule publication"><span class="switch-track"></span></span></label></div><div class="schedule-fields" id="scheduleFields"><div class="schedule-grid"><div class="schedule-control"><label for="publishDate">Date</label><input id="publishDate" type="date"></div><div class="schedule-control"><label for="publishTime">Time</label><input id="publishTime" type="time"></div></div><div class="schedule-summary"><i data-lucide="clock-3"></i><span id="scheduleSummary">Select date and time · WIB</span></div></div></div><div class="settings-section publish-hidden-section" id="distributionPlacementSection" aria-hidden="true"><div class="flag-list"><label class="flag-row"><span class="flag-copy"><strong>Curated / Feed</strong></span><span class="switch"><input id="flagCurated" type="checkbox" checked><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Headline Beranda</strong></span><span class="switch"><input id="flagHomeHeadline" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Headline Kategori</strong></span><span class="switch"><input id="flagCategoryHeadline" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Artikel Unggulan</strong></span><span class="switch"><input id="flagFeatured" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Search Indexing</strong></span><span class="switch"><input id="flagSearchIndex" type="checkbox" checked><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Kecualikan Artikel</strong></span><span class="switch"><input id="flagExclude" type="checkbox"><span class="switch-track"></span></span></label></div></div><div class="settings-section publish-hidden-section" id="audienceComplianceSection" aria-hidden="true"><div class="flag-list"><label class="flag-row"><span class="flag-copy"><strong>Konten Dewasa (18+)</strong></span><span class="switch"><input id="flagAdult" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Verifikasi Usia (18+)</strong></span><span class="switch"><input id="flagAgeVerify" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Nonaktifkan Interaksi</strong></span><span class="switch"><input id="flagDisableInteraction" type="checkbox"><span class="switch-track"></span></span></label></div></div><div class="publish-advanced"><details id="additionalPublishLabels"><summary><i data-lucide="tags"></i><span>Additional labels</span></summary><div class="publish-advanced-body"><div class="flag-list" style="margin-top:10px"><label class="flag-row"><span class="flag-copy"><strong>Konten Bermerek</strong><span>Tandai jika artikel merupakan branded content.</span></span><span class="switch"><input id="flagBranded" type="checkbox"><span class="switch-track"></span></span></label><label class="flag-row"><span class="flag-copy"><strong>Artikel AI</strong><span>Tandai jika artikel menggunakan AI dalam proses pembuatannya.</span></span><span class="switch"><input id="flagAI" type="checkbox"><span class="switch-track"></span></span></label></div><div class="auto-setting"><span class="auto-setting-icon"><i data-lucide="badge-info"></i></span><div><strong>Advertorial mengikuti Editorial Format</strong><span id="advertorialAutoText">Tidak aktif. Pilih Editorial Format = Advertorial untuk mengaktifkan label.</span></div></div></div></details></div></div><div class="pane" id="guardianPane"><div class="spell-status"><i data-lucide="spell-check-2"></i><span>Pemeriksaan ejaan aktif saat mengetik.</span></div><div class="guardian-summary"><div><strong>Checks</strong><span id="guardianSummaryText">Menganalisis artikel…</span></div><i data-lucide="shield-check"></i></div><div class="guardian-list" id="guardianList"></div></div></div></section><section class="panel" id="commentsPanel" hidden><div class="panel-head"><h3>Komentar</h3><p>Komentar pada teks artikel.</p></div><div class="panel-body" id="commentList"></div></section></aside></main>
 <div class="inline-toolbar" id="inlineToolbar"><button class="it-btn" data-cmd="bold" title="Bold"><i data-lucide="bold"></i></button><button class="it-btn" data-cmd="italic" title="Italic"><i data-lucide="italic"></i></button><button class="it-btn" data-cmd="strikeThrough" title="Strike"><i data-lucide="strikethrough"></i></button><div class="it-sep"></div><button class="it-btn" id="linkTool" title="Insert Link"><i data-lucide="link"></i></button><button class="it-btn" id="transformTool" title="Ubah Jadi"><i data-lucide="pilcrow"></i><span>Ubah Jadi</span><i data-lucide="chevron-down"></i></button><div class="it-sep"></div><button class="it-btn accent" id="aiTool" title="AI Rewrite"><i data-lucide="sparkles"></i><span>AI</span></button><button class="it-btn" id="commentTool" title="Komentar"><i data-lucide="message-square"></i></button><button class="it-btn" id="typoTool" title="Cek Typo"><i data-lucide="spell-check-2"></i><span>Typo</span></button></div>
 <div class="popup" id="linkPopup"><div class="popup-head"><strong>Insert Link</strong><button class="btn ghost sm" data-close-popup aria-label="Tutup"><i data-lucide="x"></i></button></div><div class="popup-body"><div class="selection-preview" data-selection-preview></div><input id="linkUrl" placeholder="https://..."></div><div class="popup-foot"><button class="btn sm" data-close-popup>Batal</button><button class="btn primary sm" id="applyLink">Terapkan Link</button></div></div><div class="popup" id="transformPopup"><div class="popup-head"><strong>Ubah Jadi</strong><button class="btn ghost sm" data-close-popup aria-label="Tutup"><i data-lucide="x"></i></button></div><div class="popup-body"><button class="menu-option" data-transform="header2"><span>H2</span><span>Judul / Heading</span></button><button class="menu-option" data-transform="header3"><span>H3</span><span>Sub Judul</span></button><button class="menu-option" data-transform="quote"><span>❝</span><span>Kutipan</span></button><button class="menu-option" data-transform="bullet"><span>•</span><span>Daftar Poin</span></button><button class="menu-option" data-transform="number"><span>1.</span><span>Daftar Bernomor</span></button><button class="menu-option" data-transform="paragraph"><span>¶</span><span>Teks Biasa</span></button></div></div><div class="popup" id="aiPopup"><div class="popup-head"><strong>AI Rewrite</strong><button class="btn ghost sm" data-close-popup aria-label="Tutup"><i data-lucide="x"></i></button></div><div class="popup-body"><div class="selection-preview" data-selection-preview></div><div class="rewrite-option"><strong>Lebih ringkas</strong><p id="aiShort"></p><button class="btn sm" data-ai-apply="short">Terapkan</button></div><div class="rewrite-option"><strong>Lebih jelas</strong><p id="aiClear"></p><button class="btn sm" data-ai-apply="clear">Terapkan</button></div><div class="rewrite-option"><strong>Gaya berita formal</strong><p id="aiFormal"></p><button class="btn sm" data-ai-apply="formal">Terapkan</button></div></div></div><div class="popup" id="commentPopup"><div class="popup-head"><strong>Tambah Komentar</strong><button class="btn ghost sm" data-close-popup aria-label="Tutup"><i data-lucide="x"></i></button></div><div class="popup-body"><div class="selection-preview" data-selection-preview></div><textarea id="commentText" placeholder="Tulis komentar untuk editor/reporter..."></textarea></div><div class="popup-foot"><button class="btn sm" data-close-popup>Batal</button><button class="btn primary sm" id="addComment">Tambah Komentar</button></div></div><div class="popup" id="typoPopup"><div class="popup-head"><strong>Checking Typo</strong><button class="btn ghost sm" data-close-popup aria-label="Tutup"><i data-lucide="x"></i></button></div><div class="popup-body"><div class="selection-preview" data-selection-preview></div><div id="typoResults"></div></div></div>
 <div class="popup vidio-popup" id="vidioPopup"><div class="popup-head"><strong>Embed Media</strong><button class="btn ghost sm" id="vidioClose" aria-label="Tutup"><i data-lucide="x"></i></button></div><div class="popup-body"><div class="embed-provider-list"><span class="embed-provider-chip">YouTube</span><span class="embed-provider-chip">Vidio</span><span class="embed-provider-chip">Instagram</span><span class="embed-provider-chip">TikTok</span><span class="embed-provider-chip">X / Twitter</span><span class="embed-provider-chip">Embed lainnya</span></div><label class="vidio-label" for="vidioEmbedInput">URL atau kode iframe/embed</label><textarea id="vidioEmbedInput" placeholder="Tempel URL YouTube, Vidio, social media, atau kode iframe…"></textarea><p class="vidio-help">Untuk prototype, Newsroom menerima URL HTTPS atau iframe. YouTube otomatis dikonversi ke player embed.</p><div class="vidio-error" id="vidioError" hidden>Embed tidak valid. Gunakan URL HTTPS atau iframe yang memiliki src valid.</div></div><div class="popup-foot"><button class="btn sm" id="vidioCancel">Batal</button><button class="btn primary sm" id="vidioApply"><i data-lucide="code-2"></i><span>Tambahkan Embed</span></button></div></div>
@@ -8891,7 +9123,59 @@ function checks(){const blocks=editor.getJSON().content||[],contentType=$('#cont
 function renderReady(){const cs=checks(),done=cs.filter(x=>x.pass).length,left=cs.length-done;$('#readyCount').textContent=done+'/'+cs.length+' siap';$('#readyCountMeta').textContent=left===0?'Siap terbit':left+' perlu cek';$('#readyBtn').className='header-status-pill readiness '+(done===cs.length?'ok':'warn');const list=$('#checklist');if(list)list.innerHTML=cs.map(x=>'<div class="check-row"><span>'+x.name+'</span><b style="color:'+(x.pass?'var(--green)':'var(--amber)')+'">'+(x.pass?'✓ Siap':'! Cek')+'</b></div>').join('')}
 function findTextPos(needle){let found=null;editor.state.doc.descendants((node,pos)=>{if(found||!node.isText)return;const i=(node.text||'').toLowerCase().indexOf(String(needle).toLowerCase());if(i>=0)found={from:pos+i,to:pos+i+String(needle).length}});return found}
 function focusChecksText(needle){const p=findTextPos(needle);if(!p)return;editor.chain().focus().setTextSelection(p).scrollIntoView().run();const dom=editor.view.domAtPos(p.from).node?.parentElement||editor.view.domAtPos(p.from).node;if(dom?.classList){dom.classList.add('guardian-flash');setTimeout(()=>dom.classList.remove('guardian-flash'),1500)}track('guardian_locate',{value:needle})}
-function renderGuardian(){const issues=[],plain=[title.value,dek.value,editor.getText()].join(' ');const typos=[];activeTypoRules().forEach(([bad,good])=>{const re=new RegExp('\\b'+bad+'\\b','gi'),m=plain.match(re);if(m)typos.push({bad,good,count:m.length})});if(typos.length)issues.push({level:'danger',icon:'spell-check-2',title:typos.reduce((n,x)=>n+x.count,0)+' kemungkinan typo',desc:typos.slice(0,3).map(x=>x.bad+' → '+x.good).join(' · '),needle:typos[0].bad});if(title.value.trim().length>90)issues.push({level:'warn',icon:'heading-1',title:'Headline cukup panjang',desc:title.value.trim().length+' karakter. Pertimbangkan headline yang lebih ringkas.'});if(dek.value.trim().length<70)issues.push({level:'warn',icon:'align-left',title:'Dek terlalu singkat',desc:'Tambahkan konteks utama agar pembaca memahami inti artikel.'});const html=editor.getHTML(),doc=new DOMParser().parseFromString(html,'text/html');const quotes=[...doc.querySelectorAll('blockquote')];if(quotes.length&&!quotes.some(q=>q.nextElementSibling?.querySelector('em')))issues.push({level:'warn',icon:'quote',title:'Kutipan perlu atribusi',desc:'Pastikan kutipan mempunyai nama narasumber atau sumber yang jelas.',needle:quotes[0]?.textContent?.slice(0,28)});const imgs=[...doc.querySelectorAll('img')],missing=imgs.filter(i=>!i.alt&&!i.title).length;if(missing)issues.push({level:'warn',icon:'image',title:missing+' gambar belum punya caption/alt',desc:'Lengkapi caption dan atribusi media sebelum publish.'});if(/(?:Rp|US\\$|%|\\b\\d{2,}[.,]?\\d*\\b)/.test(plain))issues.push({level:'warn',icon:'binary',title:'Angka/data perlu verifikasi',desc:'Cocokkan angka, nominal, persen, skor, atau statistik dengan sumber primer.',needle:/62%/.test(plain)?'62%':null});if(currentScenario==='sports'){const scores=[...plain.matchAll(/\b\d{1,2}-\d{1,2}\b/g)].map(m=>m[0]),uniq=[...new Set(scores)];if(uniq.length>1)issues.push({level:'danger',icon:'badge-alert',title:'Skor pertandingan tidak konsisten',desc:'Ditemukan lebih dari satu skor: '+uniq.join(' dan ')+'. Pastikan skor final dan konteks setiap penyebutan benar.',needle:uniq.find(x=>x!=='2-1')||uniq[0]});if(/Marselino Ferdinan\b/i.test(plain)&&/Marselino Ferdinand\b/i.test(plain))issues.push({level:'warn',icon:'user-round-search',title:'Nama pemain perlu dicek',desc:'Ditemukan variasi “Marselino Ferdinan” dan “Marselino Ferdinand”.',needle:'Marselino Ferdinand'});if(/Data statistik ini masih perlu/i.test(plain))issues.push({level:'warn',icon:'chart-no-axes-column',title:'Statistik belum terverifikasi',desc:'Statistik pertandingan perlu dihubungkan ke sumber data resmi sebelum publish.',needle:'Data statistik ini masih perlu'})}if(sourceInfo&&/Agent|Claude|Chat|AI/i.test(sourceInfo.source||''))issues.push({level:'warn',icon:'bot',title:'Konten dibantu AI',desc:'Periksa fakta, atribusi, kutipan, dan konteks sebelum diterbitkan.'});if((editor.getJSON().content||[]).length<10)issues.push({level:'warn',icon:'files',title:'Struktur artikel masih pendek',desc:'Checks mendeteksi kurang dari 10 top-level content node.'});$('#guardianTabCount').textContent=issues.length;$('#guardianSummaryText').textContent=issues.length?issues.length+' item perlu perhatian':'Tidak ada issue utama';$('#guardianList').innerHTML=issues.length?issues.map((x,i)=>'<div class="guardian-item '+x.level+'"><div class="guardian-icon"><i data-lucide="'+x.icon+'"></i></div><div><strong>'+esc(x.title)+'</strong><p>'+esc(x.desc)+'</p>'+(x.needle?'<button class="guardian-action" data-guardian-locate="'+i+'">Lihat di artikel →</button>':'')+'</div></div>').join(''):'<div class="guardian-empty">Tidak ada issue utama yang terdeteksi. Tetap lakukan review editorial sebelum publish.</div>';$$('[data-guardian-locate]').forEach(b=>b.onclick=()=>focusChecksText(issues[+b.dataset.guardianLocate].needle));lucide.createIcons()}
+function renderGuardian(){
+  const issues=[],plain=[title.value,dek.value,editor.getText()].join(' ');
+  const typos=[];
+  activeTypoRules().forEach(([bad,good])=>{
+    const re=new RegExp('\b'+bad+'\b','gi'),m=plain.match(re);
+    if(m)typos.push({bad,good,count:m.length});
+  });
+  if(typos.length)issues.push({level:'danger',category:'Ejaan',icon:'spell-check-2',title:typos.reduce((n,x)=>n+x.count,0)+' kemungkinan typo',desc:typos.slice(0,3).map(x=>x.bad+' → '+x.good).join(' · '),needle:typos[0].bad});
+  if(title.value.trim().length>90)issues.push({level:'warn',category:'Headline',icon:'heading-1',title:'Headline cukup panjang',desc:title.value.trim().length+' karakter. Pertimbangkan headline yang lebih ringkas.'});
+  if(dek.value.trim().length<70)issues.push({level:'warn',category:'Ringkasan',icon:'align-left',title:'Dek terlalu singkat',desc:'Tambahkan konteks utama agar pembaca memahami inti artikel.'});
+  const html=editor.getHTML(),doc=new DOMParser().parseFromString(html,'text/html');
+  const quotes=[...doc.querySelectorAll('blockquote')];
+  if(quotes.length&&!quotes.some(q=>q.nextElementSibling?.querySelector('em')))issues.push({level:'warn',category:'Atribusi',icon:'quote',title:'Kutipan perlu atribusi',desc:'Pastikan kutipan mempunyai nama narasumber atau sumber yang jelas.',needle:quotes[0]?.textContent?.slice(0,28)});
+  const imgs=[...doc.querySelectorAll('img')],missing=imgs.filter(i=>!i.alt&&!i.title).length;
+  if(missing)issues.push({level:'warn',category:'Media',icon:'image',title:missing+' gambar belum punya caption/alt',desc:'Lengkapi caption dan atribusi media sebelum publish.'});
+  if(/(?:Rp|US\$|%|\b\d{2,}[.,]?\d*\b)/.test(plain))issues.push({level:'warn',category:'Data',icon:'binary',title:'Angka/data perlu verifikasi',desc:'Cocokkan angka, nominal, persen, skor, atau statistik dengan sumber primer.',needle:/62%/.test(plain)?'62%':null});
+  if(currentScenario==='sports'){
+    const scores=[...plain.matchAll(/\b\d{1,2}-\d{1,2}\b/g)].map(m=>m[0]),uniq=[...new Set(scores)];
+    if(uniq.length>1)issues.push({level:'danger',category:'Konsistensi',icon:'badge-alert',title:'Skor pertandingan tidak konsisten',desc:'Ditemukan lebih dari satu skor: '+uniq.join(' dan ')+'. Pastikan skor final dan konteks setiap penyebutan benar.',needle:uniq.find(x=>x!=='2-1')||uniq[0]});
+    if(/Marselino Ferdinan\b/i.test(plain)&&/Marselino Ferdinand\b/i.test(plain))issues.push({level:'warn',category:'Nama / entitas',icon:'user-round-search',title:'Nama pemain perlu dicek',desc:'Ditemukan variasi “Marselino Ferdinan” dan “Marselino Ferdinand”.',needle:'Marselino Ferdinand'});
+    if(/Data statistik ini masih perlu/i.test(plain))issues.push({level:'warn',category:'Statistik',icon:'chart-no-axes-column',title:'Statistik belum terverifikasi',desc:'Statistik pertandingan perlu dihubungkan ke sumber data resmi sebelum publish.',needle:'Data statistik ini masih perlu'});
+  }
+  if(sourceInfo&&/Agent|Claude|Chat|AI/i.test(sourceInfo.source||''))issues.push({level:'warn',category:'AI',icon:'bot',title:'Konten dibantu AI',desc:'Periksa fakta, atribusi, kutipan, dan konteks sebelum diterbitkan.'});
+  if((editor.getJSON().content||[]).length<10)issues.push({level:'warn',category:'Struktur',icon:'files',title:'Struktur artikel masih pendek',desc:'Artikel memiliki kurang dari 10 bagian utama. Pastikan struktur sudah cukup untuk kebutuhan editorial.'});
+
+  const sorted=[...issues].sort((a,b)=>(a.level==='danger'?0:1)-(b.level==='danger'?0:1));
+  const high=sorted.filter(x=>x.level==='danger').length;
+  const review=sorted.length-high;
+  $('#guardianTabCount').textContent=sorted.length;
+
+  const summary=$('.guardian-summary');
+  if(summary){
+    summary.className='guardian-summary '+(high?'has-danger':sorted.length?'has-warning':'is-clear');
+    summary.innerHTML=sorted.length
+      ? '<div class="guardian-summary-main"><span class="guardian-summary-icon"><i data-lucide="shield-alert"></i></span><div class="guardian-summary-copy"><strong>'+sorted.length+' temuan perlu ditinjau</strong><span>Periksa prioritas sebelum artikel diterbitkan.</span></div></div><div class="guardian-summary-stats">'+(high?'<span class="guardian-stat danger">'+high+' prioritas tinggi</span>':'')+(review?'<span class="guardian-stat warn">'+review+' perlu dicek</span>':'')+'</div>'
+      : '<div class="guardian-summary-main"><span class="guardian-summary-icon"><i data-lucide="shield-check"></i></span><div class="guardian-summary-copy"><strong>Tidak ada temuan utama</strong><span>Tetap lakukan review editorial sebelum publish.</span></div></div>';
+  }
+
+  $('#guardianList').innerHTML=sorted.length?sorted.map((x,i)=>{
+    const severity=x.level==='danger'?'Prioritas tinggi':'Perlu dicek';
+    return '<article class="guardian-item '+x.level+'">'
+      +'<div class="guardian-icon"><i data-lucide="'+x.icon+'"></i></div>'
+      +'<div class="guardian-item-content">'
+      +'<div class="guardian-item-meta"><span class="guardian-category">'+esc(x.category||'Editorial')+'</span><span class="guardian-severity '+x.level+'">'+severity+'</span></div>'
+      +'<strong>'+esc(x.title)+'</strong>'
+      +'<p>'+esc(x.desc)+'</p>'
+      +(x.needle?'<button class="guardian-action" data-guardian-locate="'+i+'"><span>Tinjau di artikel</span><i data-lucide="arrow-right"></i></button>':'')
+      +'</div></article>';
+  }).join(''):'<div class="guardian-empty"><i data-lucide="circle-check-big"></i><div><strong>Artikel lolos pemeriksaan utama</strong><span>Tetap lakukan review editorial sebelum diterbitkan.</span></div></div>';
+
+  $$('[data-guardian-locate]').forEach(b=>b.onclick=()=>focusChecksText(sorted[+b.dataset.guardianLocate].needle));
+  lucide.createIcons();
+}
 let heavyRenderTimer=null;function renderHeaderContext(){const meta=$('#headerArticleMeta');if(meta){const category=$('#category')?.value||'Article',type=$('#articleType')?.value||'Regular',contentType=$('#contentType')?.value||'Text';meta.textContent=contentType+' / '+category+' / '+type;meta.title=meta.textContent}}function renderFast(){renderHeaderContext();const all=(title.value+' '+dek.value+' '+editor.getText()).trim(),words=(all?all.split(/\s+/).length:0)+' kata';$('#wordCount').textContent=words;const wc=$('#wordCountTop');if(wc)wc.textContent=words;const pn=$('#presenceName');if(pn)pn.textContent=$('#editorName')?.value.trim()||'Editor'}function renderHeavy(){heavyRenderTimer=null;showHeadline();renderContentType();showSource();renderReady();renderGuardian();renderSeoAutomation()}function scheduleHeavyRender(delay=220){clearTimeout(heavyRenderTimer);heavyRenderTimer=setTimeout(renderHeavy,delay)}function renderAll(){renderFast();scheduleHeavyRender()}
 $$('.tab').forEach(b=>b.onclick=()=>{track('tab_open',{tab:b.dataset.tab});if(b.dataset.tab==='seo')track('seo_tab_open');$$('.tab').forEach(x=>x.classList.toggle('active',x===b));$$('.pane').forEach(x=>x.classList.remove('active'));$('#'+b.dataset.tab+'Pane').classList.add('active')});
 $('#focusBtn').onclick=()=>{document.body.classList.toggle('focus');$('#focusBtn').innerHTML=document.body.classList.contains('focus')?'<i data-lucide="minimize-2"></i><span>Keluar Fokus</span>':'<i data-lucide="maximize-2"></i><span>Mode Fokus</span>';lucide.createIcons()};
