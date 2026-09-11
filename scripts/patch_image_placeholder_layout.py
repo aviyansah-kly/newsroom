@@ -30,7 +30,7 @@ body.alt-editor-layout .newsroom-image-empty{
 body.alt-editor-layout .newsroom-image-empty-icon{
   width:44px!important;
   height:44px!important;
-  margin:0 0 2px!important;
+  margin:0!important;
   border-radius:10px!important;
   display:grid!important;
   place-items:center!important;
@@ -44,32 +44,38 @@ body.alt-editor-layout .newsroom-image-empty-icon svg{
   height:20px!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy{
-  max-width:500px!important;
+  width:100%!important;
+  max-width:420px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
+  justify-content:center!important;
   text-align:center!important;
   gap:3px!important;
   min-width:0!important;
+  margin:0 auto!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy strong{
+  display:block!important;
+  width:100%!important;
   font-size:14px!important;
   line-height:20px!important;
   color:#0f172a!important;
+  text-align:center!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy span{
+  display:block!important;
+  width:100%!important;
   font-size:13px!important;
   line-height:19px!important;
   color:#475569!important;
+  text-align:center!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy small{
-  font-size:12px!important;
-  line-height:18px!important;
-  color:#64748b!important;
-  max-width:480px!important;
+  display:none!important;
 }
 body.alt-editor-layout .newsroom-image-empty-actions{
-  width:auto!important;
+  width:100%!important;
   margin:4px 0 0!important;
   padding:0!important;
   display:flex!important;
@@ -77,12 +83,14 @@ body.alt-editor-layout .newsroom-image-empty-actions{
   justify-content:center!important;
   gap:8px!important;
   flex-wrap:wrap!important;
+  text-align:center!important;
 }
 body.alt-editor-layout .newsroom-image-empty-actions button{
   min-height:36px!important;
   padding:0 12px!important;
   font-size:13px!important;
   border-radius:8px!important;
+  flex:none!important;
 }
 body.alt-editor-layout .newsroom-image-empty-actions button svg{
   width:15px!important;
@@ -94,14 +102,11 @@ body.alt-editor-layout .newsroom-image-empty-actions button svg{
     padding:20px 16px!important;
   }
   body.alt-editor-layout .newsroom-image-empty-copy{
-    max-width:420px!important;
+    max-width:360px!important;
   }
   body.alt-editor-layout .newsroom-image-empty-actions{
     width:100%!important;
-  }
-  body.alt-editor-layout .newsroom-image-empty-actions button{
-    flex:1 1 150px!important;
-    max-width:190px!important;
+    justify-content:center!important;
   }
 }
 /* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_END */
