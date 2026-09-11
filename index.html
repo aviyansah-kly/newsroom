@@ -8636,7 +8636,7 @@ body.alt-editor-layout .team-remove:hover{background:#f1f5f9!important;color:#47
 body.alt-editor-layout .team-remove svg{width:13px!important;height:13px!important}
 body.alt-editor-layout .team-add-trigger{min-height:32px!important;margin-left:0!important;padding:0 4px!important;font-size:12px!important}
 body.alt-editor-layout .team-role-divider{margin:12px 0!important}
-body.alt-editor-layout .team-change-primary{display:none!important}
+body.alt-editor-layout .newsroom-team-section .alt-entity-picker{display:none!important}
 /* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_END */
 </style></head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
@@ -11818,8 +11818,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   }
 
   function setupOwnership(){
-    enhanceEntity($('#reporter'),'reporter','Reporter');
-    enhanceEntity($('#editorName'),'editorial','Editorial');
     enhanceEntity($('#altFigureInput'),'figure','Tokoh / Figure');
 
     const ownership=$('#reporter')?.closest('.settings-section');
@@ -12849,8 +12847,10 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
     {name:'Dewi Larassati',role:'Editor'},
     {name:'Hasmi Anwar',role:'Editor'}
   ];
+  const defaults={Reporter:'Arief Rahman H',Editor:'Bima Pratama'};
   const initials=name=>String(name).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
   const escHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
   document.querySelectorAll('[data-team-role]').forEach(group=>{
     const hidden=document.getElementById(group.dataset.target);
     const list=group.querySelector('[data-team-members]');
@@ -12860,23 +12860,62 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
     const cancel=group.querySelector('[data-team-cancel]');
     const suggestions=group.querySelector('[data-team-suggestions]');
     const role=group.dataset.teamRole==='editor'?'Editor':'Reporter';
-    let selected=String(hidden?.value||'').split(',').map(x=>x.trim()).filter(Boolean);
-    const sync=()=>{if(hidden){hidden.value=selected.join(', ');hidden.dispatchEvent(new Event('change',{bubbles:true}))}};
+    if(!hidden||!list||!addBtn||!panel||!input||!cancel||!suggestions)return;
+
+    let selected=String(hidden.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+    if(!selected.length){selected=[defaults[role]];hidden.value=selected[0];}
+
+    const sync=()=>{hidden.value=selected.join(', ');hidden.dispatchEvent(new Event('change',{bubbles:true}))};
+
     const render=()=>{
-      list.innerHTML=selected.map((name,i)=>'<span class="team-member '+(i===0?'primary':'')+'"><span class="team-member-avatar">'+escHtml(initials(name))+'</span><span class="team-member-name">'+escHtml(name)+'</span>'+'<button class="team-remove" type="button" data-remove-team="'+i+'" aria-label="Hapus '+escHtml(name)+'"><i data-lucide="x"></i></button>'+'</span>').join('');
-      list.querySelectorAll('[data-remove-team]').forEach(btn=>btn.onclick=()=>{selected.splice(+btn.dataset.removeTeam,1);sync();render()});setTimeout(()=>input.focus(),0)});
+      list.innerHTML=selected.map((name,i)=>
+        '<span class="team-member '+(i===0?'primary':'')+'">'+
+          '<span class="team-member-avatar">'+escHtml(initials(name))+'</span>'+
+          '<span class="team-member-name">'+escHtml(name)+'</span>'+
+          '<button class="team-remove" type="button" data-remove-team="'+i+'" aria-label="Hapus '+escHtml(name)+'"><i data-lucide="x"></i></button>'+
+        '</span>'
+      ).join('');
+      list.querySelectorAll('[data-remove-team]').forEach(btn=>{
+        btn.onclick=()=>{
+          const index=Number(btn.dataset.removeTeam);
+          if(Number.isNaN(index))return;
+          selected.splice(index,1);
+          sync();
+          render();
+        };
+      });
       if(window.lucide)lucide.createIcons();
     };
+
     const showSuggestions=()=>{
       const q=input.value.trim().toLowerCase();
-      const items=directory.filter(p=>p.role===role&&!selected.some(x=>x.toLowerCase()===p.name.toLowerCase())&&(!q||p.name.toLowerCase().includes(q))).slice(0,4);
-      suggestions.innerHTML=items.map(p=>'<button type="button" class="team-suggestion" data-team-person="'+escHtml(p.name)+'"><span class="team-suggestion-avatar">'+escHtml(initials(p.name))+'</span><span><strong>'+escHtml(p.name)+'</strong><br><span>'+escHtml(p.role)+'</span></span></button>').join('');
-      suggestions.querySelectorAll('[data-team-person]').forEach(btn=>btn.onclick=()=>{const name=btn.dataset.teamPerson;selected.push(name);sync();render();panel.hidden=true;input.value=''});
+      const items=directory.filter(p=>p.role===role)
+        .filter(p=>!selected.some(x=>x.toLowerCase()===p.name.toLowerCase()))
+        .filter(p=>!q||p.name.toLowerCase().includes(q)).slice(0,4);
+      suggestions.innerHTML=items.map(p=>
+        '<button type="button" class="team-suggestion" data-team-person="'+escHtml(p.name)+'">'+
+          '<span class="team-suggestion-avatar">'+escHtml(initials(p.name))+'</span>'+
+          '<span><strong>'+escHtml(p.name)+'</strong><br><span>'+escHtml(p.role)+'</span></span>'+
+        '</button>'
+      ).join('');
+      suggestions.querySelectorAll('[data-team-person]').forEach(btn=>{
+        btn.onclick=()=>{selected.push(btn.dataset.teamPerson);sync();render();panel.hidden=true;input.value=''};
+      });
     };
+
     addBtn.onclick=()=>{panel.hidden=false;input.value='';showSuggestions();setTimeout(()=>input.focus(),0)};
     cancel.onclick=()=>{panel.hidden=true;input.value=''};
     input.addEventListener('input',showSuggestions);
-    input.addEventListener('keydown',e=>{if(e.key==='Escape'){panel.hidden=true;input.value=''};if(e.key==='Enter'&&input.value.trim()){e.preventDefault();const exact=directory.find(p=>p.role===role&&p.name.toLowerCase()===input.value.trim().toLowerCase());if(exact&&!selected.some(x=>x.toLowerCase()===exact.name.toLowerCase())){selected.push(exact.name);sync();render();panel.hidden=true;input.value=''}}});
+    input.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){panel.hidden=true;input.value='';return;}
+      if(e.key==='Enter'&&input.value.trim()){
+        e.preventDefault();
+        const exact=directory.find(p=>p.role===role&&p.name.toLowerCase()===input.value.trim().toLowerCase());
+        if(exact&&!selected.some(x=>x.toLowerCase()===exact.name.toLowerCase())){
+          selected.push(exact.name);sync();render();panel.hidden=true;input.value='';
+        }
+      }
+    });
     render();
   });
 })();
@@ -12897,52 +12936,24 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
 </script>
 
 <script>
+</script>
+
+<script>
 // NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_START
 (function(){
-  const roleNames=new Set(['Reporter','Editorial','Editor']);
-
-  function removeLegacyFields(){
+  function removeLegacyOwnershipUI(){
+    const team=document.querySelector('.newsroom-team-section');
+    if(team)team.querySelectorAll('.alt-entity-picker').forEach(el=>el.remove());
     document.querySelectorAll('.field').forEach(field=>{
-      if(field.closest('.newsroom-team-section')) return;
-      const label=field.querySelector(':scope > label, :scope > .field-label label, label');
-      const name=(label?.textContent||'').trim();
-      if(roleNames.has(name)){
-        const visibleControl=field.querySelector('input:not([type="hidden"]), textarea, select');
-        if(visibleControl) field.remove();
-      }
-    });
-
-    document.querySelectorAll('input:not([type="hidden"])').forEach(input=>{
-      if(input.closest('.newsroom-team-section')) return;
-      const key=((input.id||input.name||'')+'').toLowerCase();
-      if(['reporter','editor','editorial','editorname'].includes(key)){
-        const field=input.closest('.field')||input.parentElement;
-        if(field && !field.closest('.newsroom-team-section')) field.remove();
-      }
+      if(field.closest('.newsroom-team-section'))return;
+      const label=(field.querySelector('label')?.textContent||'').trim();
+      if(['Reporter','Editorial','Editor'].includes(label))field.remove();
     });
   }
-
-  function normalizeTeamChips(){
-    document.querySelectorAll('[data-team-role] .team-member').forEach(chip=>{
-      chip.style.height='36px';
-      chip.style.minHeight='36px';
-    });
-  }
-
-  removeLegacyFields();
-  normalizeTeamChips();
-
-  let scheduled=false;
-  const observer=new MutationObserver(()=>{
-    if(scheduled)return;
-    scheduled=true;
-    requestAnimationFrame(()=>{
-      scheduled=false;
-      removeLegacyFields();
-      normalizeTeamChips();
-    });
-  });
-  observer.observe(document.body,{childList:true,subtree:true});
+  removeLegacyOwnershipUI();
+  setTimeout(removeLegacyOwnershipUI,300);
+  setTimeout(removeLegacyOwnershipUI,700);
+  new MutationObserver(removeLegacyOwnershipUI).observe(document.body,{childList:true,subtree:true});
 })();
 // NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_END
 </script>
