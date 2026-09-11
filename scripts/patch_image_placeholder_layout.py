@@ -10,25 +10,25 @@ end = '/* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_END */'
 if start in text and end in text:
     text = re.sub(re.escape(start) + r'.*?' + re.escape(end) + r'\n?', '', text, flags=re.S)
 
-# Keep both image empty states consistent: centered copy, centered actions,
-# and no decorative icon in the content-block empty state.
+# Final image empty-state pattern:
+# centered title/subtitle, strong two-action hierarchy, and consistent button sizing.
 css = r'''/* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_START */
 body.alt-editor-layout .alt-content-card[data-type="image"] .alt-content-card-body{
   padding:16px!important;
 }
 body.alt-editor-layout .newsroom-image-empty{
   width:100%!important;
-  min-height:160px!important;
-  padding:24px!important;
+  min-height:184px!important;
+  padding:28px 24px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:10px!important;
+  gap:0!important;
   text-align:center!important;
   background:#f8fafc!important;
   border:1px dashed #cbd5e1!important;
-  border-radius:10px!important;
+  border-radius:12px!important;
 }
 body.alt-editor-layout .newsroom-image-empty-icon{
   display:none!important;
@@ -38,7 +38,7 @@ body.alt-editor-layout .newsroom-image-empty-copy{
   position:static!important;
   inset:auto!important;
   width:100%!important;
-  max-width:440px!important;
+  max-width:520px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
@@ -46,7 +46,7 @@ body.alt-editor-layout .newsroom-image-empty-copy{
   align-self:center!important;
   justify-self:center!important;
   text-align:center!important;
-  gap:4px!important;
+  gap:6px!important;
   min-width:0!important;
   margin:0 auto!important;
   padding:0!important;
@@ -60,13 +60,14 @@ body.alt-editor-layout .newsroom-image-empty-copy span{
   text-align:center!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy strong{
-  font-size:14px!important;
-  line-height:20px!important;
+  font-size:16px!important;
+  line-height:22px!important;
+  font-weight:700!important;
   color:#0f172a!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy span{
-  font-size:13px!important;
-  line-height:19px!important;
+  font-size:14px!important;
+  line-height:20px!important;
   color:#475569!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy small{
@@ -76,63 +77,99 @@ body.alt-editor-layout .newsroom-image-empty-actions{
   grid-area:auto!important;
   position:static!important;
   width:100%!important;
-  margin:6px auto 0!important;
+  margin:20px auto 0!important;
   padding:0!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   align-self:center!important;
   justify-self:center!important;
-  gap:8px!important;
+  gap:12px!important;
   flex-wrap:wrap!important;
   text-align:center!important;
 }
-body.alt-editor-layout .newsroom-image-empty-actions button{
-  min-height:36px!important;
-  padding:0 12px!important;
-  font-size:13px!important;
-  border-radius:8px!important;
+body.alt-editor-layout .newsroom-image-empty-actions button,
+body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn{
+  height:42px!important;
+  min-height:42px!important;
+  padding:0 16px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  border-radius:9px!important;
+  font-size:14px!important;
+  line-height:1!important;
+  font-weight:600!important;
+  white-space:nowrap!important;
   flex:none!important;
+  box-shadow:none!important;
 }
-body.alt-editor-layout .newsroom-image-empty-actions button svg{
-  width:15px!important;
-  height:15px!important;
+body.alt-editor-layout .newsroom-image-empty-actions button svg,
+body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn svg{
+  width:17px!important;
+  height:17px!important;
+  stroke-width:2!important;
+}
+body.alt-editor-layout .newsroom-image-gallery-btn,
+body.alt-editor-layout #headlineEmpty #chooseHeadline{
+  background:#2563eb!important;
+  border:1px solid #2563eb!important;
+  color:#fff!important;
+}
+body.alt-editor-layout .newsroom-image-gallery-btn:hover,
+body.alt-editor-layout #headlineEmpty #chooseHeadline:hover{
+  background:#1d4ed8!important;
+  border-color:#1d4ed8!important;
+}
+body.alt-editor-layout .newsroom-image-upload-btn,
+body.alt-editor-layout #headlineEmpty #uploadHeadline{
+  background:#fff!important;
+  border:1px solid #cbd5e1!important;
+  color:#334155!important;
+}
+body.alt-editor-layout .newsroom-image-upload-btn:hover,
+body.alt-editor-layout #headlineEmpty #uploadHeadline:hover{
+  background:#f1f5f9!important;
+  border-color:#b8c4d4!important;
 }
 
-/* Headline Image uses the same centered empty-state hierarchy. */
+/* Headline Image uses the same visual hierarchy and two-action pattern. */
 body.alt-editor-layout .headline-drop:not(.has-image) #headlineEmpty,
 body.alt-editor-layout .headline-drop.v59-empty #headlineEmpty,
 body.alt-editor-layout #headlineEmpty{
   width:100%!important;
   height:100%!important;
   max-width:none!important;
-  min-height:150px!important;
+  min-height:184px!important;
   margin:0!important;
-  padding:24px!important;
+  padding:28px 24px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:8px!important;
+  gap:0!important;
   text-align:center!important;
 }
 body.alt-editor-layout #headlineEmpty strong,
 body.alt-editor-layout #headlineEmpty p{
   width:100%!important;
-  max-width:440px!important;
+  max-width:520px!important;
   margin:0 auto!important;
   padding:0!important;
   text-align:center!important;
 }
 body.alt-editor-layout #headlineEmpty strong{
-  font-size:14px!important;
-  line-height:20px!important;
+  font-size:16px!important;
+  line-height:22px!important;
+  font-weight:700!important;
   color:#0f172a!important;
 }
 body.alt-editor-layout #headlineEmpty p{
   display:block!important;
-  font-size:13px!important;
-  line-height:19px!important;
+  margin-top:6px!important;
+  font-size:14px!important;
+  line-height:20px!important;
   color:#475569!important;
 }
 body.alt-editor-layout #headlineEmpty .headline-empty-actions{
@@ -140,26 +177,48 @@ body.alt-editor-layout #headlineEmpty .headline-empty-actions{
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:8px!important;
+  gap:12px!important;
   flex-wrap:wrap!important;
-  margin-top:4px!important;
+  margin-top:20px!important;
 }
-body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn{
-  height:36px!important;
-  min-height:36px!important;
-  padding:0 12px!important;
+
+/* Button system normalization for editor actions: same radius, weight and icon geometry. */
+body.alt-editor-layout .btn{
+  border-radius:9px!important;
+  font-weight:600!important;
+  gap:8px!important;
+}
+body.alt-editor-layout .btn:not(.sm){
+  min-height:40px!important;
+}
+body.alt-editor-layout .btn.sm{
+  min-height:34px!important;
+  border-radius:8px!important;
+}
+body.alt-editor-layout .btn svg{
+  flex:none!important;
 }
 
 @media(max-width:720px){
   body.alt-editor-layout .newsroom-image-empty,
   body.alt-editor-layout #headlineEmpty{
     min-height:0!important;
-    padding:20px 16px!important;
+    padding:24px 16px!important;
   }
   body.alt-editor-layout .newsroom-image-empty-copy,
   body.alt-editor-layout #headlineEmpty strong,
   body.alt-editor-layout #headlineEmpty p{
     max-width:360px!important;
+  }
+  body.alt-editor-layout .newsroom-image-empty-actions,
+  body.alt-editor-layout #headlineEmpty .headline-empty-actions{
+    width:100%!important;
+    gap:10px!important;
+    margin-top:18px!important;
+  }
+  body.alt-editor-layout .newsroom-image-empty-actions button,
+  body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn{
+    min-width:150px!important;
   }
 }
 /* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_END */
@@ -175,8 +234,8 @@ headline_markup = (
     '<strong>Tambahkan Headline Image</strong>'
     '<p>Pilih image dari gallery atau upload file dari perangkat.</p>'
     '<div class="headline-empty-actions">'
-    '<button class="btn primary sm" id="chooseHeadline" type="button"><i data-lucide="images"></i><span>Pilih dari Gallery</span></button>'
-    '<button class="btn sm" id="uploadHeadline" type="button" onclick="document.getElementById(\'headlineFile\').value=\'\';document.getElementById(\'headlineFile\').click()"><i data-lucide="upload"></i><span>Upload Image</span></button>'
+    '<button class="btn primary" id="chooseHeadline" type="button"><i data-lucide="images"></i><span>Pilih dari Gallery</span></button>'
+    '<button class="btn" id="uploadHeadline" type="button" onclick="document.getElementById(\'headlineFile\').value=\'\';document.getElementById(\'headlineFile\').click()"><i data-lucide="upload"></i><span>Upload Image</span></button>'
     '</div>'
     '</div><img id="headlineImg"'
 )
@@ -190,4 +249,4 @@ if idx == -1:
 
 text = text[:idx] + css + '\n' + text[idx:]
 path.write_text(text, encoding='utf-8')
-print('Centered image and headline image empty states applied.')
+print('Polished image and headline image empty states applied.')
