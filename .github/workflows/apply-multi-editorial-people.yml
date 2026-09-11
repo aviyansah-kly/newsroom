@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply people picker patch
+      - name: Apply editorial team assignment patch
         run: python3 scripts/patch_multi_editorial_people.py
       - name: Verify
         run: |
           grep -q 'NEWSROOM_MULTI_EDITORIAL_PEOPLE_START' index.html
-          grep -q 'data-people-picker="reporter"' index.html
-          grep -q 'data-people-picker="editor"' index.html
+          grep -q 'data-team-role="reporter"' index.html
+          grep -q 'data-team-role="editor"' index.html
+          grep -q 'Dari artikel' index.html
+          grep -q '>Anda<' index.html
           grep -q 'Tambah reporter' index.html
           grep -q 'Tambah editor' index.html
           grep -q 'NEWSROOM_MULTI_EDITORIAL_PEOPLE_JS_END' index.html
@@ -25,5 +27,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Apply multi-person editorial people picker'
+          git diff --cached --quiet || git commit -m 'Refine editorial team assignment UX'
           git push
