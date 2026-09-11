@@ -1,53 +1,85 @@
 from pathlib import Path
+import re
 
 path=Path('index.html')
 text=path.read_text(encoding='utf-8')
 
-# Remove duplicated legacy Reporter/Editorial fields that may still be present in Info pane.
-cleanup_js='''<script>
+start='/* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_START */'
+end='/* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_END */'
+js_start='// NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_START'
+js_end='// NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_END'
+text=re.sub(re.escape(start)+r'.*?'+re.escape(end)+r'\n?','',text,flags=re.S)
+text=re.sub(re.escape(js_start)+r'.*?'+re.escape(js_end)+r'\n?','',text,flags=re.S)
+
+css=r'''/* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_START */
+body.alt-editor-layout .newsroom-team-section{padding-bottom:12px!important}
+body.alt-editor-layout .newsroom-team-section>.settings-section-head{margin-bottom:12px!important}
+body.alt-editor-layout .team-role-head{margin-bottom:8px!important}
+body.alt-editor-layout .team-role-head strong{font-size:13px!important;line-height:18px!important}
+body.alt-editor-layout .team-member-list{display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:8px!important;min-height:36px!important;margin-bottom:8px!important}
+body.alt-editor-layout .team-member{height:36px!important;min-height:36px!important;display:inline-flex!important;align-items:center!important;gap:7px!important;padding:0 8px 0 5px!important;border:1px solid #dbe3ee!important;border-radius:999px!important;background:#fff!important;box-sizing:border-box!important}
+body.alt-editor-layout .team-member.primary{background:#fff!important;border-color:#cbd5e1!important}
+body.alt-editor-layout .team-member-avatar{width:26px!important;height:26px!important;min-width:26px!important;min-height:26px!important;font-size:10px!important}
+body.alt-editor-layout .team-member-name{font-size:12px!important;line-height:16px!important;font-weight:600!important;max-width:170px!important}
+body.alt-editor-layout .team-change-primary{width:24px!important;height:24px!important;min-width:24px!important;padding:0!important;display:grid!important;place-items:center!important;border:0!important;border-radius:50%!important;background:transparent!important;color:#94a3b8!important;font-size:0!important}
+body.alt-editor-layout .team-change-primary:after{content:'⌄';font-size:16px;line-height:1;transform:translateY(-1px)}
+body.alt-editor-layout .team-change-primary:hover{background:#f1f5f9!important;color:#475569!important}
+body.alt-editor-layout .team-remove{width:24px!important;height:24px!important;min-width:24px!important}
+body.alt-editor-layout .team-remove svg{width:13px!important;height:13px!important}
+body.alt-editor-layout .team-add-trigger{min-height:32px!important;margin-left:0!important;padding:0 4px!important;font-size:12px!important}
+body.alt-editor-layout .team-role-divider{margin:12px 0!important}
+/* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_END */'''
+idx=text.rfind('</style>')
+if idx==-1: raise SystemExit('No </style>')
+text=text[:idx]+css+'\n'+text[idx:]
+
+js=r'''// NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_START
 (function(){
+  const roleNames=new Set(['Reporter','Editorial','Editor']);
+  function removeLegacyFields(){
+    const info=document.getElementById('infoPane');
+    if(!info)return;
+    info.querySelectorAll('label').forEach(label=>{
+      const name=(label.textContent||'').trim();
+      if(!roleNames.has(name))return;
+      if(label.closest('.newsroom-team-section'))return;
+      const field=label.closest('.field')||label.parentElement;
+      if(field && !field.closest('.newsroom-team-section')) field.remove();
+    });
+    info.querySelectorAll('input').forEach(input=>{
+      if(input.type==='hidden')return;
+      const id=(input.id||'').toLowerCase();
+      const name=(input.name||'').toLowerCase();
+      if(['reporter','editor','editorial','editorname'].includes(id)||['reporter','editor','editorial','editorname'].includes(name)){
+        const field=input.closest('.field');
+        if(field && !field.closest('.newsroom-team-section')) field.remove();
+      }
+    });
+  }
+  removeLegacyFields();
   const info=document.getElementById('infoPane');
-  if(!info)return;
-  info.querySelectorAll('.field').forEach(field=>{
-    const label=field.querySelector(':scope > label');
-    const t=(label?.textContent||'').trim();
-    if((t==='Reporter'||t==='Editorial'||t==='Editor')&&!field.closest('.newsroom-team-section')) field.remove();
+  if(info){
+    const observer=new MutationObserver(()=>removeLegacyFields());
+    observer.observe(info,{childList:true,subtree:true});
+  }
+
+  document.querySelectorAll('[data-team-role]').forEach(group=>{
+    const list=group.querySelector('[data-team-members]');
+    if(!list)return;
+    const normalize=()=>{
+      list.querySelectorAll('.team-member').forEach(chip=>{
+        chip.style.height='36px';
+        chip.style.minHeight='36px';
+      });
+    };
+    normalize();
+    new MutationObserver(normalize).observe(list,{childList:true,subtree:true});
   });
 })();
-</script>'''
+// NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_END'''
+body=text.rfind('</body>')
+if body==-1: raise SystemExit('No </body>')
+text=text[:body]+'\n<script>\n'+js+'\n</script>\n'+text[body:]
 
-# Reduce non-essential copy and source badges.
-text=text.replace('<div class="settings-section-head"><div><strong>Tim Editorial</strong><span>Penugasan utama terisi otomatis dari artikel dan pengguna yang sedang login.</span></div></div>','<div class="settings-section-head"><div><strong>Tim Editorial</strong></div></div>')
-text=text.replace('<div class="team-role-head"><div><strong>Reporter</strong><span>Reporter utama mengikuti artikel yang dipilih.</span></div><span class="team-source-badge"><i data-lucide="file-check-2"></i>Dari artikel</span></div>','<div class="team-role-head"><div><strong>Reporter</strong></div></div>')
-text=text.replace('<div class="team-role-head"><div><strong>Editor</strong><span>Editor utama mengikuti akun yang sedang login.</span></div><span class="team-source-badge login"><i data-lucide="circle-user-round"></i>Anda</span></div>','<div class="team-role-head"><div><strong>Editor</strong></div></div>')
-text=text.replace('<div class="team-assignment-note"><i data-lucide="info"></i><span>Orang pertama adalah penugasan utama. Tambahkan kolaborator hanya jika artikel dikerjakan bersama.</span></div>','')
-
-# Primary people should be replaceable. Convert the primary badge into a lightweight change action.
-old="+(i===0?'<span class=\"team-primary-badge\">Utama</span>':'<button class=\"team-remove\" type=\"button\" data-remove-team=\"'+i+'\" aria-label=\"Hapus '+escHtml(name)+'\"><i data-lucide=\"x\"></i></button>')+"
-new="+(i===0?'<button class=\"team-change-primary\" type=\"button\" data-change-primary aria-label=\"Ganti '+escHtml(name)+'\">Ganti</button>':'<button class=\"team-remove\" type=\"button\" data-remove-team=\"'+i+'\" aria-label=\"Hapus '+escHtml(name)+'\"><i data-lucide=\"x\"></i></button>')+"
-text=text.replace(old,new)
-
-# Wire primary replacement through the existing picker panel.
-needle="list.querySelectorAll('[data-remove-team]').forEach(btn=>btn.onclick=()=>{selected.splice(+btn.dataset.removeTeam,1);sync();render()});"
-replace=needle+"\n      list.querySelectorAll('[data-change-primary]').forEach(btn=>btn.onclick=()=>{group.dataset.replacePrimary='1';panel.hidden=false;input.value='';showSuggestions();setTimeout(()=>input.focus(),0)});"
-text=text.replace(needle,replace)
-
-needle2="suggestions.querySelectorAll('[data-team-person]').forEach(btn=>btn.onclick=()=>{selected.push(btn.dataset.teamPerson);sync();render();panel.hidden=true;input.value=''});"
-replace2="suggestions.querySelectorAll('[data-team-person]').forEach(btn=>btn.onclick=()=>{const name=btn.dataset.teamPerson;if(group.dataset.replacePrimary==='1'){selected[0]=name;delete group.dataset.replacePrimary}else selected.push(name);sync();render();panel.hidden=true;input.value=''});"
-text=text.replace(needle2,replace2)
-
-# Add compact styling for change action and tighten section rhythm.
-css='''<style>
-body.alt-editor-layout .newsroom-team-section>.settings-section-head{margin-bottom:12px!important}
-body.alt-editor-layout .team-role-head{margin-bottom:7px!important}
-body.alt-editor-layout .team-role-head>div{display:block!important}
-body.alt-editor-layout .team-role-head span,.team-source-badge,.team-assignment-note{display:none!important}
-body.alt-editor-layout .team-change-primary{height:22px;border:0;border-radius:6px;background:transparent;color:#64748b;padding:0 5px;font-size:10px;font-weight:600}
-body.alt-editor-layout .team-change-primary:hover{background:#f1f5f9;color:#2563eb}
-body.alt-editor-layout .team-role-divider{margin:12px 0!important}
-</style>'''
-
-text=text.replace('</head>',css+'</head>',1)
-text=text.replace('</body>',cleanup_js+'</body>',1)
 path.write_text(text,encoding='utf-8')
-print('Editorial team cleanup applied')
+print('Final editorial team cleanup applied')
