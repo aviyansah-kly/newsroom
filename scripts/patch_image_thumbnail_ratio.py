@@ -11,20 +11,20 @@ if start in text and end in text:
     text = re.sub(re.escape(start) + r'.*?' + re.escape(end) + r'\n?', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_IMAGE_THUMBNAIL_RATIO_FIX_START */
-/* Gallery cards should stay image-only. Metadata belongs in the right preview pane. */
+/* Gallery cards are visual-only. Keep a real row/column gap and prevent grid rows
+   from collapsing into one another. */
 body.alt-editor-layout #imageLibraryPopup .v34-grid{
-  gap:14px!important;
-  row-gap:14px!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-auto-rows:max-content!important;
   align-items:start!important;
   align-content:start!important;
-  grid-auto-rows:auto!important;
+  column-gap:14px!important;
+  row-gap:14px!important;
 }
 body.alt-editor-layout #imageLibraryPopup .v34-card{
-  position:relative!important;
   display:block!important;
   width:100%!important;
   height:auto!important;
-  aspect-ratio:3/2!important;
   min-height:0!important;
   margin:0!important;
   padding:0!important;
@@ -32,17 +32,20 @@ body.alt-editor-layout #imageLibraryPopup .v34-card{
   overflow:hidden!important;
   border:1px solid #dbe4ee!important;
   border-radius:10px!important;
-  background:#e2e8f0!important;
+  background:#fff!important;
+  box-shadow:none!important;
 }
 body.alt-editor-layout #imageLibraryPopup .v34-card.selected{
-  border:3px solid #2563eb!important;
-  box-shadow:0 0 0 2px rgba(37,99,235,.12)!important;
+  border-color:#2563eb!important;
+  outline:2px solid #2563eb!important;
+  outline-offset:-2px!important;
+  box-shadow:0 0 0 3px rgba(37,99,235,.12)!important;
 }
 body.alt-editor-layout #imageLibraryPopup .v34-card > img{
   display:block!important;
   width:100%!important;
-  height:100%!important;
-  aspect-ratio:auto!important;
+  height:auto!important;
+  aspect-ratio:3/2!important;
   object-fit:cover!important;
   background:#e2e8f0!important;
 }
@@ -51,59 +54,125 @@ body.alt-editor-layout #imageLibraryPopup .v34-card .v59-media-copy{
   display:none!important;
 }
 body.alt-editor-layout #imageLibraryPopup .v34-check{
-  right:8px!important;
   top:8px!important;
+  right:8px!important;
 }
 
-/* Selected image details live only in the right-hand preview. */
-body.alt-editor-layout #imageLibraryPopup .v34-preview-image{
-  overflow:hidden!important;
-  aspect-ratio:3/2!important;
-  border-radius:10px!important;
-}
+/* Selected image detail panel */
 body.alt-editor-layout #imageLibraryPopup .v34-preview-image img{
   display:block!important;
   width:100%!important;
-  height:100%!important;
-  aspect-ratio:auto!important;
+  height:auto!important;
+  aspect-ratio:3/2!important;
   object-fit:cover!important;
 }
 body.alt-editor-layout #imageLibraryPopup .v34-preview-copy{
-  padding-top:12px!important;
+  padding-top:14px!important;
 }
-body.alt-editor-layout #imageLibraryPopup .v34-preview-copy strong{
+body.alt-editor-layout #imageLibraryPopup .v34-preview-copy > strong{
   display:block!important;
-  font-size:14px!important;
-  line-height:20px!important;
+  margin:0 0 4px!important;
+  font-size:15px!important;
+  line-height:21px!important;
+  color:#0f172a!important;
 }
-body.alt-editor-layout #imageLibraryPopup .v34-preview-copy span{
+body.alt-editor-layout #imageLibraryPopup .v34-preview-copy > span{
+  display:none!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-summary{
+  margin-top:10px!important;
+  padding:10px 11px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:9px!important;
+  background:#f8fafc!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-grid{
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:10px 12px!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item{
+  min-width:0!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item.full{
+  grid-column:1/-1!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item small{
   display:block!important;
-  margin-top:4px!important;
-  font-size:12px!important;
+  margin:0 0 2px!important;
+  font-size:11px!important;
+  line-height:16px!important;
+  font-weight:600!important;
+  color:#94a3b8!important;
+  text-transform:uppercase!important;
+  letter-spacing:.03em!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item span{
+  display:block!important;
+  font-size:13px!important;
   line-height:18px!important;
-  white-space:normal!important;
-  overflow:visible!important;
-  text-overflow:clip!important;
-  color:#64748b!important;
+  color:#334155!important;
+  overflow-wrap:anywhere!important;
+}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-badge{
+  display:inline-flex!important;
+  align-items:center!important;
+  width:auto!important;
+  min-height:24px!important;
+  padding:2px 7px!important;
+  border-radius:999px!important;
+  background:#eff6ff!important;
+  color:#1d4ed8!important;
+  font-size:12px!important;
+  font-weight:600!important;
 }
 
 @media(max-width:1100px){
   body.alt-editor-layout #imageLibraryPopup .v34-grid{
     grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    gap:12px!important;
+    column-gap:12px!important;
+    row-gap:12px!important;
   }
 }
 /* NEWSROOM_IMAGE_THUMBNAIL_RATIO_FIX_END */
 '''
 
-# Enrich the existing right-side preview with the metadata that used to live in cards.
 preview_re = re.compile(
-    r"function preview\(i\)\{const p=\$\('#v34Preview'\),u=\$\('#v34Use'\);p\.classList\.toggle\('has-selection',!!i\);u\.disabled=!i;if\(!i\)return;const im=\$\('#v34PreviewImg'\);im\.src=src\(i\);safeImg\(im,i\);\$\('#v34PreviewTitle'\)\.textContent=i\.title;\$\('#v34PreviewMeta'\)\.textContent=i\.meta\|\|''\}"
+    r"function preview\(i\)\{const p=\$\('#v34Preview'\),u=\$\('#v34Use'\);.*?\}\n",
+    flags=re.S,
 )
-preview_js = "function preview(i){const p=$('#v34Preview'),u=$('#v34Use');p.classList.toggle('has-selection',!!i);u.disabled=!i;if(!i)return;const im=$('#v34PreviewImg');im.src=src(i);safeImg(im,i);const all=data(),idx=Math.max(0,all.findIndex(x=>x.id===i.id));const usage=(idx*7+(i.source==='bank'?3:1))%28;const orientation=idx%5===1?'square':'landscape';const channel=i.source==='bank'?'Image Bank':'Liputan6.com';const author=['Achmad Dwi Afriyadi','Adhitya Warman','Dewi Divianta','Faizal Fanani'][idx%4];const age=idx%3===0?'1 Minggu yang lalu':idx%3===1?'3 Hari yang lalu':'2 Minggu yang lalu';$('#v34PreviewTitle').textContent=i.title;$('#v34PreviewMeta').textContent=[i.meta||'',channel+' used ('+usage+')',orientation,age,author].filter(Boolean).join(' · ')}"
-text, preview_count = preview_re.subn(preview_js, text, count=1)
-if preview_count == 0:
-    print('Warning: preview function pattern not replaced; CSS cleanup still applied.')
+preview_fn = r'''function preview(i){
+    const p=$('#v34Preview'),u=$('#v34Use');
+    p.classList.toggle('has-selection',!!i);u.disabled=!i;if(!i)return;
+    const im=$('#v34PreviewImg');im.src=src(i);safeImg(im,i);
+    const all=data();const idx=Math.max(0,all.findIndex(x=>x.id===i.id));
+    const usage=(idx*7+(i.source==='bank'?3:1))%28;
+    const orientation=idx%5===1?'Square':'Landscape';
+    const channel=i.source==='bank'?'Image Bank':'Liputan6.com';
+    const author=['Achmad Dwi Afriyadi','Adhitya Warman','Dewi Divianta','Faizal Fanani'][idx%4];
+    const age=idx%3===0?'1 Minggu yang lalu':idx%3===1?'3 Hari yang lalu':'2 Minggu yang lalu';
+    const metaParts=(i.meta||'').split('·').map(x=>x.trim()).filter(Boolean);
+    const sourceName=metaParts[0]||channel;
+    const category=metaParts.slice(1).join(' · ')||'—';
+    $('#v34PreviewTitle').textContent=i.title;
+    $('#v34PreviewMeta').textContent='';
+    const copy=p.querySelector('.v34-preview-copy');
+    let detail=copy.querySelector('.v34-detail-summary');
+    if(!detail){detail=document.createElement('div');detail.className='v34-detail-summary';copy.appendChild(detail)}
+    detail.innerHTML='<div class="v34-detail-grid">'+
+      '<div class="v34-detail-item full"><small>Sumber</small><span>'+esc(sourceName)+'</span></div>'+
+      '<div class="v34-detail-item"><small>Channel</small><span>'+esc(channel)+'</span></div>'+
+      '<div class="v34-detail-item"><small>Kategori</small><span>'+esc(category)+'</span></div>'+
+      '<div class="v34-detail-item"><small>Dipakai</small><span class="v34-detail-badge">'+usage+' kali</span></div>'+
+      '<div class="v34-detail-item"><small>Orientasi</small><span>'+esc(orientation)+'</span></div>'+
+      '<div class="v34-detail-item"><small>Terakhir</small><span>'+esc(age)+'</span></div>'+
+      '<div class="v34-detail-item full"><small>Kontributor</small><span>'+esc(author)+'</span></div>'+
+    '</div>';
+  }
+'''
+text, count = preview_re.subn(preview_fn, text, count=1)
+if count == 0:
+    raise SystemExit('Could not locate v34 preview function')
 
 idx = text.rfind('</style>')
 if idx == -1:
@@ -111,4 +180,4 @@ if idx == -1:
 
 text = text[:idx] + css + '\n' + text[idx:]
 path.write_text(text, encoding='utf-8')
-print('Image gallery cards simplified to spaced 3:2 thumbnails; details moved to right preview.')
+print('Image gallery spacing and selected-image detail panel refined.')
