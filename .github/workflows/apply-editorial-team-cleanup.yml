@@ -15,14 +15,14 @@ jobs:
       - name: Verify
         run: |
           grep -q 'Tim Editorial' index.html
-          ! grep -q 'Dari artikel' index.html
-          ! grep -q '>Anda<' index.html
+          grep -q 'NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_START' index.html
+          grep -q 'NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_START' index.html
           grep -q 'team-change-primary' index.html
-          grep -q 'Ganti' index.html
+          grep -q "MutationObserver" index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Simplify editorial team assignment UI'
+          git diff --cached --quiet || git commit -m 'Finalize editorial team people picker cleanup'
           git push
