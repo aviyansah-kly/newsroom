@@ -11,16 +11,36 @@ if start in text and end in text:
     text = re.sub(re.escape(start) + r'.*?' + re.escape(end) + r'\n?', '', text, flags=re.S)
 
 # Final image empty-state pattern:
-# centered title/subtitle with compact, side-by-side actions.
+# - hard override old v56 two-column composition
+# - centered title/subtitle
+# - actions on a dedicated row below, side by side
+# - equal 24px gutters between the center canvas and fixed left/right panels
 css = r'''/* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_START */
+
+/* Balance the center canvas against the fixed CMS menu (236px) and Article Settings (390px). */
+body.alt-editor-layout .workspace{
+  padding-left:260px!important;  /* 236 + 24 */
+  padding-right:414px!important; /* 390 + 24 */
+  column-gap:0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .workspace{
+  padding-left:88px!important;   /* 64 + 24 */
+  padding-right:414px!important;
+}
+
 body.alt-editor-layout .alt-content-card[data-type="image"] .alt-content-card-body{
   padding:16px!important;
 }
-body.alt-editor-layout .newsroom-image-empty{
+
+/* IMPORTANT: selector intentionally matches v56 to beat the older 2-column !important rule. */
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty{
   width:100%!important;
   min-height:168px!important;
   padding:24px 18px!important;
   display:flex!important;
+  grid-template-columns:none!important;
+  grid-template-rows:none!important;
+  grid-template-areas:none!important;
   flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
@@ -30,10 +50,12 @@ body.alt-editor-layout .newsroom-image-empty{
   border:1px dashed #cbd5e1!important;
   border-radius:12px!important;
 }
-body.alt-editor-layout .newsroom-image-empty-icon{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-icon{
   display:none!important;
 }
-body.alt-editor-layout .newsroom-image-empty-copy{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy{
+  grid-column:auto!important;
+  grid-row:auto!important;
   grid-area:auto!important;
   position:static!important;
   inset:auto!important;
@@ -43,37 +65,38 @@ body.alt-editor-layout .newsroom-image-empty-copy{
   flex-direction:column!important;
   align-items:center!important;
   justify-content:center!important;
-  align-self:center!important;
-  justify-self:center!important;
   text-align:center!important;
   gap:4px!important;
   min-width:0!important;
   margin:0 auto!important;
   padding:0!important;
+  flex:none!important;
 }
-body.alt-editor-layout .newsroom-image-empty-copy strong,
-body.alt-editor-layout .newsroom-image-empty-copy span{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy strong,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy span{
   display:block!important;
   width:100%!important;
   margin:0!important;
   padding:0!important;
   text-align:center!important;
 }
-body.alt-editor-layout .newsroom-image-empty-copy strong{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy strong{
   font-size:15px!important;
   line-height:21px!important;
   font-weight:700!important;
   color:#0f172a!important;
 }
-body.alt-editor-layout .newsroom-image-empty-copy span{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy span{
   font-size:13px!important;
   line-height:19px!important;
   color:#475569!important;
 }
-body.alt-editor-layout .newsroom-image-empty-copy small{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy small{
   display:none!important;
 }
-body.alt-editor-layout .newsroom-image-empty-actions{
+body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions{
+  grid-column:auto!important;
+  grid-row:auto!important;
   grid-area:auto!important;
   position:static!important;
   width:auto!important;
@@ -81,13 +104,13 @@ body.alt-editor-layout .newsroom-image-empty-actions{
   margin:16px auto 0!important;
   padding:0!important;
   display:flex!important;
+  flex-direction:row!important;
   align-items:center!important;
   justify-content:center!important;
-  align-self:center!important;
-  justify-self:center!important;
   gap:8px!important;
   flex-wrap:nowrap!important;
   text-align:center!important;
+  flex:none!important;
 }
 body.alt-editor-layout .newsroom-image-empty-actions button,
 body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn{
@@ -137,7 +160,7 @@ body.alt-editor-layout #headlineEmpty #uploadHeadline:hover{
   border-color:#b8c4d4!important;
 }
 
-/* Headline Image uses the same centered hierarchy and compact inline actions. */
+/* Headline Image: same centered hierarchy and button row. */
 body.alt-editor-layout .headline-drop:not(.has-image) #headlineEmpty,
 body.alt-editor-layout .headline-drop.v59-empty #headlineEmpty,
 body.alt-editor-layout #headlineEmpty{
@@ -179,6 +202,7 @@ body.alt-editor-layout #headlineEmpty .headline-empty-actions{
   width:auto!important;
   max-width:100%!important;
   display:flex!important;
+  flex-direction:row!important;
   align-items:center!important;
   justify-content:center!important;
   gap:8px!important;
@@ -187,7 +211,7 @@ body.alt-editor-layout #headlineEmpty .headline-empty-actions{
   padding:0!important;
 }
 
-/* Keep the general editor button system consistent without making contextual CTAs oversized. */
+/* General editor buttons: consistent radius/weight without forcing large widths. */
 body.alt-editor-layout .btn{
   border-radius:8px!important;
   font-weight:600!important;
@@ -204,6 +228,20 @@ body.alt-editor-layout .btn svg{
   flex:none!important;
 }
 
+@media(max-width:1320px){
+  /* Article Settings becomes a drawer at compact widths; keep canvas padding symmetric. */
+  body.alt-editor-layout .workspace,
+  body.alt-editor-layout.cms-sidebar-collapsed .workspace{
+    padding-right:24px!important;
+  }
+}
+@media(max-width:1024px){
+  body.alt-editor-layout .workspace,
+  body.alt-editor-layout.cms-sidebar-collapsed .workspace{
+    padding-left:24px!important;
+    padding-right:24px!important;
+  }
+}
 @media(max-width:720px){
   body.alt-editor-layout .newsroom-image-empty,
   body.alt-editor-layout #headlineEmpty{
@@ -258,4 +296,4 @@ if idx == -1:
 
 text = text[:idx] + css + '\n' + text[idx:]
 path.write_text(text, encoding='utf-8')
-print('Centered image actions kept side by side.')
+print('Image empty-state stacking and editor gutters fixed.')
