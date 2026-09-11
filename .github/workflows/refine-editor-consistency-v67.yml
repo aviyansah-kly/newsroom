@@ -1,0 +1,24 @@
+name: Refine Newsroom editor consistency V67
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/refine-editor-consistency-v67.yml'
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python scripts/refine_editor_consistency_v67.py
+      - run: |
+          grep -q 'NEWSROOM_EDITOR_CONSISTENCY_V67_START' index.html
+          grep -q 'aspect-ratio:3/2' index.html
+          grep -q 'v61UploadPanel:not' index.html
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refine editor spacing validation and media picker'
+          git push
