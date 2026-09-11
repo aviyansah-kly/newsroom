@@ -11,15 +11,15 @@ if start in text and end in text:
     text = re.sub(re.escape(start) + r'.*?' + re.escape(end) + r'\n?', '', text, flags=re.S)
 
 # Final image empty-state pattern:
-# centered title/subtitle, strong two-action hierarchy, and consistent button sizing.
+# centered title/subtitle with compact, side-by-side actions.
 css = r'''/* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_START */
 body.alt-editor-layout .alt-content-card[data-type="image"] .alt-content-card-body{
   padding:16px!important;
 }
 body.alt-editor-layout .newsroom-image-empty{
   width:100%!important;
-  min-height:184px!important;
-  padding:28px 24px!important;
+  min-height:168px!important;
+  padding:24px 18px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
@@ -38,7 +38,7 @@ body.alt-editor-layout .newsroom-image-empty-copy{
   position:static!important;
   inset:auto!important;
   width:100%!important;
-  max-width:520px!important;
+  max-width:440px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
@@ -46,7 +46,7 @@ body.alt-editor-layout .newsroom-image-empty-copy{
   align-self:center!important;
   justify-self:center!important;
   text-align:center!important;
-  gap:6px!important;
+  gap:4px!important;
   min-width:0!important;
   margin:0 auto!important;
   padding:0!important;
@@ -60,14 +60,14 @@ body.alt-editor-layout .newsroom-image-empty-copy span{
   text-align:center!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy strong{
-  font-size:16px!important;
-  line-height:22px!important;
+  font-size:15px!important;
+  line-height:21px!important;
   font-weight:700!important;
   color:#0f172a!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy span{
-  font-size:14px!important;
-  line-height:20px!important;
+  font-size:13px!important;
+  line-height:19px!important;
   color:#475569!important;
 }
 body.alt-editor-layout .newsroom-image-empty-copy small{
@@ -76,39 +76,42 @@ body.alt-editor-layout .newsroom-image-empty-copy small{
 body.alt-editor-layout .newsroom-image-empty-actions{
   grid-area:auto!important;
   position:static!important;
-  width:100%!important;
-  margin:20px auto 0!important;
+  width:auto!important;
+  max-width:100%!important;
+  margin:16px auto 0!important;
   padding:0!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
   align-self:center!important;
   justify-self:center!important;
-  gap:12px!important;
-  flex-wrap:wrap!important;
+  gap:8px!important;
+  flex-wrap:nowrap!important;
   text-align:center!important;
 }
 body.alt-editor-layout .newsroom-image-empty-actions button,
 body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn{
-  height:42px!important;
-  min-height:42px!important;
-  padding:0 16px!important;
+  width:auto!important;
+  min-width:0!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 12px!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:8px!important;
-  border-radius:9px!important;
-  font-size:14px!important;
+  gap:7px!important;
+  border-radius:8px!important;
+  font-size:13px!important;
   line-height:1!important;
   font-weight:600!important;
   white-space:nowrap!important;
-  flex:none!important;
+  flex:0 0 auto!important;
   box-shadow:none!important;
 }
 body.alt-editor-layout .newsroom-image-empty-actions button svg,
 body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn svg{
-  width:17px!important;
-  height:17px!important;
+  width:15px!important;
+  height:15px!important;
   stroke-width:2!important;
 }
 body.alt-editor-layout .newsroom-image-gallery-btn,
@@ -134,16 +137,16 @@ body.alt-editor-layout #headlineEmpty #uploadHeadline:hover{
   border-color:#b8c4d4!important;
 }
 
-/* Headline Image uses the same visual hierarchy and two-action pattern. */
+/* Headline Image uses the same centered hierarchy and compact inline actions. */
 body.alt-editor-layout .headline-drop:not(.has-image) #headlineEmpty,
 body.alt-editor-layout .headline-drop.v59-empty #headlineEmpty,
 body.alt-editor-layout #headlineEmpty{
   width:100%!important;
   height:100%!important;
   max-width:none!important;
-  min-height:184px!important;
+  min-height:168px!important;
   margin:0!important;
-  padding:28px 24px!important;
+  padding:24px 14px!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
@@ -154,42 +157,44 @@ body.alt-editor-layout #headlineEmpty{
 body.alt-editor-layout #headlineEmpty strong,
 body.alt-editor-layout #headlineEmpty p{
   width:100%!important;
-  max-width:520px!important;
+  max-width:360px!important;
   margin:0 auto!important;
   padding:0!important;
   text-align:center!important;
 }
 body.alt-editor-layout #headlineEmpty strong{
-  font-size:16px!important;
-  line-height:22px!important;
+  font-size:15px!important;
+  line-height:21px!important;
   font-weight:700!important;
   color:#0f172a!important;
 }
 body.alt-editor-layout #headlineEmpty p{
   display:block!important;
-  margin-top:6px!important;
-  font-size:14px!important;
-  line-height:20px!important;
+  margin-top:4px!important;
+  font-size:13px!important;
+  line-height:19px!important;
   color:#475569!important;
 }
 body.alt-editor-layout #headlineEmpty .headline-empty-actions{
-  width:100%!important;
+  width:auto!important;
+  max-width:100%!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  gap:12px!important;
-  flex-wrap:wrap!important;
-  margin-top:20px!important;
+  gap:8px!important;
+  flex-wrap:nowrap!important;
+  margin:16px auto 0!important;
+  padding:0!important;
 }
 
-/* Button system normalization for editor actions: same radius, weight and icon geometry. */
+/* Keep the general editor button system consistent without making contextual CTAs oversized. */
 body.alt-editor-layout .btn{
-  border-radius:9px!important;
+  border-radius:8px!important;
   font-weight:600!important;
-  gap:8px!important;
+  gap:7px!important;
 }
 body.alt-editor-layout .btn:not(.sm){
-  min-height:40px!important;
+  min-height:38px!important;
 }
 body.alt-editor-layout .btn.sm{
   min-height:34px!important;
@@ -203,22 +208,26 @@ body.alt-editor-layout .btn svg{
   body.alt-editor-layout .newsroom-image-empty,
   body.alt-editor-layout #headlineEmpty{
     min-height:0!important;
-    padding:24px 16px!important;
+    padding:22px 12px!important;
   }
   body.alt-editor-layout .newsroom-image-empty-copy,
   body.alt-editor-layout #headlineEmpty strong,
   body.alt-editor-layout #headlineEmpty p{
-    max-width:360px!important;
+    max-width:330px!important;
   }
   body.alt-editor-layout .newsroom-image-empty-actions,
   body.alt-editor-layout #headlineEmpty .headline-empty-actions{
-    width:100%!important;
-    gap:10px!important;
-    margin-top:18px!important;
+    gap:6px!important;
+    margin-top:14px!important;
+    flex-wrap:nowrap!important;
   }
   body.alt-editor-layout .newsroom-image-empty-actions button,
   body.alt-editor-layout #headlineEmpty .headline-empty-actions .btn{
-    min-width:150px!important;
+    height:36px!important;
+    min-height:36px!important;
+    padding:0 10px!important;
+    font-size:12px!important;
+    gap:6px!important;
   }
 }
 /* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_END */
@@ -249,4 +258,4 @@ if idx == -1:
 
 text = text[:idx] + css + '\n' + text[idx:]
 path.write_text(text, encoding='utf-8')
-print('Polished image and headline image empty states applied.')
+print('Centered image actions kept side by side.')
