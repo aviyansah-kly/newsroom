@@ -14,9 +14,30 @@
   --ds-color-border-strong: #cbd5e1;
   --ds-color-surface: #ffffff;
   --ds-color-surface-subtle: #f8fafc;
-  --ds-color-primary: #2563eb;
-  --ds-color-primary-soft: #eff6ff;
-  --ds-color-accent: #f4511e;
+
+  /* Base palette */
+  --ds-color-blue: #2563eb;
+  --ds-color-blue-hover: #1d4ed8;
+  --ds-color-blue-soft: #eff6ff;
+  --ds-color-orange: #f4511e;
+  --ds-color-orange-hover: #df4315;
+  --ds-color-orange-soft: #fff3ed;
+
+  /* Semantic action tokens. Use these in product UI instead of raw color names. */
+  --ds-action-commit: var(--ds-color-orange);
+  --ds-action-commit-hover: var(--ds-color-orange-hover);
+  --ds-action-work: var(--ds-color-blue);
+  --ds-action-work-hover: var(--ds-color-blue-hover);
+  --ds-action-work-soft: var(--ds-color-blue-soft);
+  --ds-action-neutral-bg: #ffffff;
+  --ds-action-neutral-text: #334155;
+  --ds-action-neutral-border: #cbd5e1;
+
+  /* Backward-compatible aliases. New UI should prefer semantic action tokens. */
+  --ds-color-primary: var(--ds-color-blue);
+  --ds-color-primary-soft: var(--ds-color-blue-soft);
+  --ds-color-accent: var(--ds-color-orange);
+
   --ds-color-success: #047857;
   --ds-color-success-soft: #ecfdf5;
   --ds-color-warning: #c2410c;
