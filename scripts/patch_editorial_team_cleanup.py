@@ -11,14 +11,122 @@ js_end='// NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_END'
 text=re.sub(re.escape(start)+r'.*?'+re.escape(end)+r'\n?','',text,flags=re.S)
 text=re.sub(re.escape(js_start)+r'.*?'+re.escape(js_end)+r'\n?','',text,flags=re.S)
 
-# Use the same remove affordance for every chip, including the first person.
-old_primary='''+(i===0?'<button class="team-change-primary" type="button" data-change-primary aria-label="Ganti '+escHtml(name)+'">Ganti</button>':'<button class="team-remove" type="button" data-remove-team="'+i+'" aria-label="Hapus '+escHtml(name)+'"><i data-lucide="x"></i></button>')+'''
-new_primary='''+'<button class="team-remove" type="button" data-remove-team="'+i+'" aria-label="Hapus '+escHtml(name)+'"><i data-lucide="x"></i></button>'+'''
-text=text.replace(old_primary,new_primary)
+# Stop the legacy V50 ownership enhancer from turning reporter/editor hidden values
+# into a second pair of visible inputs. Figure picker can keep using it.
+text=text.replace("    enhanceEntity($('#reporter'),'reporter','Reporter');\n    enhanceEntity($('#editorName'),'editorial','Editorial');\n    enhanceEntity($('#altFigureInput'),'figure','Tokoh / Figure');",
+                  "    enhanceEntity($('#altFigureInput'),'figure','Tokoh / Figure');")
 
-# Remove the now-unused primary replacement wiring if it exists.
-text=re.sub(r"\s*list\.querySelectorAll\('\[data-change-primary\]'\)\.forEach\(btn=>btn\.onclick=.*?\);",'',text)
-text=text.replace("if(group.dataset.replacePrimary==='1'){selected[0]=name;delete group.dataset.replacePrimary}else selected.push(name);","selected.push(name);")
+# Replace the people picker logic with one deterministic implementation.
+people_start='// NEWSROOM_MULTI_EDITORIAL_PEOPLE_JS_START'
+people_end='// NEWSROOM_MULTI_EDITORIAL_PEOPLE_JS_END'
+people_js=r'''// NEWSROOM_MULTI_EDITORIAL_PEOPLE_JS_START
+(function(){
+  const directory=[
+    {name:'Arief Rahman H',role:'Reporter'},
+    {name:'Nadia Putri',role:'Reporter'},
+    {name:'Rizky Maulana',role:'Reporter'},
+    {name:'Bima Pratama',role:'Editor'},
+    {name:'Dewi Larassati',role:'Editor'},
+    {name:'Hasmi Anwar',role:'Editor'}
+  ];
+  const defaults={Reporter:'Arief Rahman H',Editor:'Bima Pratama'};
+  const initials=name=>String(name).trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+  const escHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  document.querySelectorAll('[data-team-role]').forEach(group=>{
+    const hidden=document.getElementById(group.dataset.target);
+    const list=group.querySelector('[data-team-members]');
+    const addBtn=group.querySelector('[data-team-add]');
+    const panel=group.querySelector('[data-team-add-panel]');
+    const input=group.querySelector('[data-team-search]');
+    const cancel=group.querySelector('[data-team-cancel]');
+    const suggestions=group.querySelector('[data-team-suggestions]');
+    const role=group.dataset.teamRole==='editor'?'Editor':'Reporter';
+    if(!hidden||!list||!addBtn||!panel||!input||!cancel||!suggestions)return;
+
+    let selected=String(hidden.value||'').split(',').map(x=>x.trim()).filter(Boolean);
+    if(!selected.length){
+      selected=[defaults[role]];
+      hidden.value=selected[0];
+    }
+
+    const sync=()=>{
+      hidden.value=selected.join(', ');
+      hidden.dispatchEvent(new Event('change',{bubbles:true}));
+    };
+
+    const render=()=>{
+      list.innerHTML=selected.map((name,i)=>
+        '<span class="team-member '+(i===0?'primary':'')+'">'+
+          '<span class="team-member-avatar">'+escHtml(initials(name))+'</span>'+
+          '<span class="team-member-name">'+escHtml(name)+'</span>'+
+          '<button class="team-remove" type="button" data-remove-team="'+i+'" aria-label="Hapus '+escHtml(name)+'"><i data-lucide="x"></i></button>'+
+        '</span>'
+      ).join('');
+
+      list.querySelectorAll('[data-remove-team]').forEach(btn=>{
+        btn.onclick=()=>{
+          const index=Number(btn.dataset.removeTeam);
+          if(Number.isNaN(index))return;
+          selected.splice(index,1);
+          sync();
+          render();
+        };
+      });
+      if(window.lucide)lucide.createIcons();
+    };
+
+    const showSuggestions=()=>{
+      const q=input.value.trim().toLowerCase();
+      const items=directory
+        .filter(p=>p.role===role)
+        .filter(p=>!selected.some(x=>x.toLowerCase()===p.name.toLowerCase()))
+        .filter(p=>!q||p.name.toLowerCase().includes(q))
+        .slice(0,4);
+      suggestions.innerHTML=items.map(p=>
+        '<button type="button" class="team-suggestion" data-team-person="'+escHtml(p.name)+'">'+
+          '<span class="team-suggestion-avatar">'+escHtml(initials(p.name))+'</span>'+
+          '<span><strong>'+escHtml(p.name)+'</strong><br><span>'+escHtml(p.role)+'</span></span>'+
+        '</button>'
+      ).join('');
+      suggestions.querySelectorAll('[data-team-person]').forEach(btn=>{
+        btn.onclick=()=>{
+          selected.push(btn.dataset.teamPerson);
+          sync();
+          render();
+          panel.hidden=true;
+          input.value='';
+        };
+      });
+    };
+
+    addBtn.onclick=()=>{
+      panel.hidden=false;
+      input.value='';
+      showSuggestions();
+      setTimeout(()=>input.focus(),0);
+    };
+    cancel.onclick=()=>{panel.hidden=true;input.value=''};
+    input.addEventListener('input',showSuggestions);
+    input.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){panel.hidden=true;input.value='';return;}
+      if(e.key==='Enter'&&input.value.trim()){
+        e.preventDefault();
+        const exact=directory.find(p=>p.role===role&&p.name.toLowerCase()===input.value.trim().toLowerCase());
+        if(exact&&!selected.some(x=>x.toLowerCase()===exact.name.toLowerCase())){
+          selected.push(exact.name);
+          sync();
+          render();
+          panel.hidden=true;
+          input.value='';
+        }
+      }
+    });
+    render();
+  });
+})();
+// NEWSROOM_MULTI_EDITORIAL_PEOPLE_JS_END'''
+text=re.sub(re.escape(people_start)+r'.*?'+re.escape(people_end),people_js,text,flags=re.S)
 
 css=r'''/* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_START */
 body.alt-editor-layout .newsroom-team-section{padding-bottom:12px!important}
@@ -35,7 +143,9 @@ body.alt-editor-layout .team-remove:hover{background:#f1f5f9!important;color:#47
 body.alt-editor-layout .team-remove svg{width:13px!important;height:13px!important}
 body.alt-editor-layout .team-add-trigger{min-height:32px!important;margin-left:0!important;padding:0 4px!important;font-size:12px!important}
 body.alt-editor-layout .team-role-divider{margin:12px 0!important}
-body.alt-editor-layout .team-change-primary{display:none!important}
+/* Hide any stale legacy V50 entity picker if an older script still injects it. */
+body.alt-editor-layout .newsroom-team-section>.alt-entity-picker,
+body.alt-editor-layout .newsroom-team-section .alt-entity-picker{display:none!important}
 /* NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_END */'''
 idx=text.rfind('</style>')
 if idx==-1: raise SystemExit('No </style>')
@@ -43,49 +153,26 @@ text=text[:idx]+css+'\n'+text[idx:]
 
 js=r'''// NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_START
 (function(){
-  const roleNames=new Set(['Reporter','Editorial','Editor']);
+  function removeLegacyOwnershipUI(){
+    const team=document.querySelector('.newsroom-team-section');
+    if(!team)return;
 
-  function removeLegacyFields(){
+    /* V50 used to inject these from the hidden reporter/editorName values. */
+    team.querySelectorAll('.alt-entity-picker').forEach(el=>el.remove());
+
+    /* Remove any non-team role field that might be restored by older layout code. */
     document.querySelectorAll('.field').forEach(field=>{
-      if(field.closest('.newsroom-team-section')) return;
-      const label=field.querySelector(':scope > label, :scope > .field-label label, label');
-      const name=(label?.textContent||'').trim();
-      if(roleNames.has(name)){
-        const visibleControl=field.querySelector('input:not([type="hidden"]), textarea, select');
-        if(visibleControl) field.remove();
-      }
-    });
-
-    document.querySelectorAll('input:not([type="hidden"])').forEach(input=>{
-      if(input.closest('.newsroom-team-section')) return;
-      const key=((input.id||input.name||'')+'').toLowerCase();
-      if(['reporter','editor','editorial','editorname'].includes(key)){
-        const field=input.closest('.field')||input.parentElement;
-        if(field && !field.closest('.newsroom-team-section')) field.remove();
-      }
+      if(field.closest('.newsroom-team-section'))return;
+      const label=(field.querySelector('label')?.textContent||'').trim();
+      if(['Reporter','Editorial','Editor'].includes(label))field.remove();
     });
   }
 
-  function normalizeTeamChips(){
-    document.querySelectorAll('[data-team-role] .team-member').forEach(chip=>{
-      chip.style.height='36px';
-      chip.style.minHeight='36px';
-    });
-  }
+  removeLegacyOwnershipUI();
+  setTimeout(removeLegacyOwnershipUI,300);
+  setTimeout(removeLegacyOwnershipUI,700);
 
-  removeLegacyFields();
-  normalizeTeamChips();
-
-  let scheduled=false;
-  const observer=new MutationObserver(()=>{
-    if(scheduled)return;
-    scheduled=true;
-    requestAnimationFrame(()=>{
-      scheduled=false;
-      removeLegacyFields();
-      normalizeTeamChips();
-    });
-  });
+  const observer=new MutationObserver(removeLegacyOwnershipUI);
   observer.observe(document.body,{childList:true,subtree:true});
 })();
 // NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_END'''
@@ -94,4 +181,4 @@ if body==-1: raise SystemExit('No </body>')
 text=text[:body]+'\n<script>\n'+js+'\n</script>\n'+text[body:]
 
 path.write_text(text,encoding='utf-8')
-print('Final editorial team cleanup applied')
+print('Editorial team source-level cleanup applied')
