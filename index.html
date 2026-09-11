@@ -7619,6 +7619,8 @@ body.alt-editor-layout #imageLibraryPopup .v61-upload-drop em{font-size:13px!imp
 
 
 
+
+
 /* NEWSROOM_IMAGE_PLACEHOLDER_LAYOUT_FIX_START */
 
 /* Balance the center canvas against the fixed CMS menu (236px) and Article Settings (390px). */
@@ -7914,91 +7916,202 @@ body.alt-editor-layout #imageLibraryPopup .v34-card > img{
   background:#e2e8f0!important;
 }
 body.alt-editor-layout #imageLibraryPopup .v34-card .v34-copy,
-body.alt-editor-layout #imageLibraryPopup .v34-card .v59-media-copy{
-  display:none!important;
+body.alt-editor-layout #imageLibraryPopup .v34-card .v59-media-copy{display:none!important}
+body.alt-editor-layout #imageLibraryPopup .v34-check{top:8px!important;right:8px!important}
+body.alt-editor-layout #imageLibraryPopup .v34-preview-image img{
+  display:block!important;width:100%!important;height:auto!important;aspect-ratio:3/2!important;object-fit:cover!important
 }
-body.alt-editor-layout #imageLibraryPopup .v34-check{
-  top:8px!important;
-  right:8px!important;
+body.alt-editor-layout #imageLibraryPopup .v34-preview-copy{padding-top:14px!important}
+body.alt-editor-layout #imageLibraryPopup .v34-preview-copy > strong{display:block!important;margin:0 0 4px!important;font-size:15px!important;line-height:21px!important;color:#0f172a!important}
+body.alt-editor-layout #imageLibraryPopup .v34-preview-copy > span{display:none!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-summary{margin-top:10px!important;padding:10px 11px!important;border:1px solid #e2e8f0!important;border-radius:9px!important;background:#f8fafc!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px 12px!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item{min-width:0!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item.full{grid-column:1/-1!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item small{display:block!important;margin:0 0 2px!important;font-size:11px!important;line-height:16px!important;font-weight:600!important;color:#94a3b8!important;text-transform:uppercase!important;letter-spacing:.03em!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-item span{display:block!important;font-size:13px!important;line-height:18px!important;color:#334155!important;overflow-wrap:anywhere!important}
+body.alt-editor-layout #imageLibraryPopup .v34-detail-badge{display:inline-flex!important;align-items:center!important;width:auto!important;min-height:24px!important;padding:2px 7px!important;border-radius:999px!important;background:#eff6ff!important;color:#1d4ed8!important;font-size:12px!important;font-weight:600!important}
+@media(max-width:1100px){body.alt-editor-layout #imageLibraryPopup .v34-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;column-gap:12px!important;row-gap:12px!important}}
+/* NEWSROOM_IMAGE_THUMBNAIL_RATIO_FIX_END */
+
+/* NEWSROOM_EDITOR_RESPONSIVE_WIDTH_FIX_START */
+/* Prevent center-column content cards from escaping their available width. */
+body.alt-editor-layout .workspace,
+body.alt-editor-layout .workspace > section,
+body.alt-editor-layout .alt-editor-main,
+body.alt-editor-layout .paper,
+body.alt-editor-layout .alt-meta-section,
+body.alt-editor-layout .alt-editor-section,
+body.alt-editor-layout .alt-block-list,
+body.alt-editor-layout .alt-content-card,
+body.alt-editor-layout .alt-content-card-head,
+body.alt-editor-layout .alt-content-card-body,
+body.alt-editor-layout .alt-content-card-foot{
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
 }
 
-/* Selected image detail panel */
-body.alt-editor-layout #imageLibraryPopup .v34-preview-image img{
-  display:block!important;
+body.alt-editor-layout .workspace > section,
+body.alt-editor-layout .alt-editor-main,
+body.alt-editor-layout .paper,
+body.alt-editor-layout .alt-editor-section,
+body.alt-editor-layout .alt-block-list,
+body.alt-editor-layout .alt-content-card{
   width:100%!important;
-  height:auto!important;
-  aspect-ratio:3/2!important;
-  object-fit:cover!important;
 }
-body.alt-editor-layout #imageLibraryPopup .v34-preview-copy{
-  padding-top:14px!important;
+
+/* A card itself must never create horizontal page overflow. */
+body.alt-editor-layout .alt-content-card{
+  overflow:hidden!important;
 }
-body.alt-editor-layout #imageLibraryPopup .v34-preview-copy > strong{
-  display:block!important;
-  margin:0 0 4px!important;
-  font-size:15px!important;
-  line-height:21px!important;
-  color:#0f172a!important;
+
+/* Header actions may compress/wrap inside the card instead of widening it. */
+body.alt-editor-layout .alt-content-card-head{
+  flex-wrap:wrap!important;
 }
-body.alt-editor-layout #imageLibraryPopup .v34-preview-copy > span{
-  display:none!important;
-}
-body.alt-editor-layout #imageLibraryPopup .v34-detail-summary{
-  margin-top:10px!important;
-  padding:10px 11px!important;
-  border:1px solid #e2e8f0!important;
-  border-radius:9px!important;
-  background:#f8fafc!important;
-}
-body.alt-editor-layout #imageLibraryPopup .v34-detail-grid{
-  display:grid!important;
-  grid-template-columns:1fr 1fr!important;
-  gap:10px 12px!important;
-}
-body.alt-editor-layout #imageLibraryPopup .v34-detail-item{
+body.alt-editor-layout .alt-content-card-title{
+  flex:1 1 180px!important;
   min-width:0!important;
 }
-body.alt-editor-layout #imageLibraryPopup .v34-detail-item.full{
-  grid-column:1/-1!important;
-}
-body.alt-editor-layout #imageLibraryPopup .v34-detail-item small{
-  display:block!important;
-  margin:0 0 2px!important;
-  font-size:11px!important;
-  line-height:16px!important;
-  font-weight:600!important;
-  color:#94a3b8!important;
-  text-transform:uppercase!important;
-  letter-spacing:.03em!important;
-}
-body.alt-editor-layout #imageLibraryPopup .v34-detail-item span{
-  display:block!important;
-  font-size:13px!important;
-  line-height:18px!important;
-  color:#334155!important;
-  overflow-wrap:anywhere!important;
-}
-body.alt-editor-layout #imageLibraryPopup .v34-detail-badge{
-  display:inline-flex!important;
-  align-items:center!important;
-  width:auto!important;
-  min-height:24px!important;
-  padding:2px 7px!important;
-  border-radius:999px!important;
-  background:#eff6ff!important;
-  color:#1d4ed8!important;
-  font-size:12px!important;
-  font-weight:600!important;
+body.alt-editor-layout .alt-content-actions{
+  flex:0 1 auto!important;
+  max-width:100%!important;
 }
 
-@media(max-width:1100px){
-  body.alt-editor-layout #imageLibraryPopup .v34-grid{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    column-gap:12px!important;
-    row-gap:12px!important;
+/* Form/media layouts must shrink with the center column. */
+body.alt-editor-layout .alt-content-card-body > *,
+body.alt-editor-layout .alt-content-card-body input,
+body.alt-editor-layout .alt-content-card-body textarea,
+body.alt-editor-layout .alt-content-card-body select,
+body.alt-editor-layout .alt-content-card-body img,
+body.alt-editor-layout .alt-content-card-body video,
+body.alt-editor-layout .alt-content-card-body iframe{
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+
+body.alt-editor-layout .alt-content-card-body [style*="grid-template-columns"],
+body.alt-editor-layout .alt-content-card-body .alt-video-grid,
+body.alt-editor-layout .alt-content-card-body .alt-embed-grid{
+  min-width:0!important;
+}
+
+/* Long editor toolbars stay inside the card and scroll locally. */
+body.alt-editor-layout .alt-content-card .classic-toolbar,
+body.alt-editor-layout .alt-content-card .alt-mini-toolbar{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+}
+
+/* Tables/widgets can scroll inside the card instead of pushing the full card wider. */
+body.alt-editor-layout .alt-content-card table,
+body.alt-editor-layout .alt-content-card .standings-table,
+body.alt-editor-layout .alt-content-card .widget-preview{
+  max-width:100%!important;
+}
+body.alt-editor-layout .alt-content-card-body{
+  overflow-x:auto!important;
+  overflow-y:visible!important;
+}
+
+@media(max-width:1180px){
+  body.alt-editor-layout .alt-content-card-head{
+    gap:8px!important;
+  }
+  body.alt-editor-layout .alt-content-card-body{
+    padding-left:12px!important;
+    padding-right:12px!important;
   }
 }
-/* NEWSROOM_IMAGE_THUMBNAIL_RATIO_FIX_END */
+
+@media(max-width:900px){
+  body.alt-editor-layout .alt-content-card-head{
+    align-items:flex-start!important;
+  }
+  body.alt-editor-layout .alt-content-actions{
+    margin-left:auto!important;
+  }
+}
+/* NEWSROOM_EDITOR_RESPONSIVE_WIDTH_FIX_END */
+
+/* NEWSROOM_SEMANTIC_ACTION_COLORS_START */
+:root{
+  --action-commit:#f4511e;
+  --action-commit-hover:#df4315;
+  --action-work:#2563eb;
+  --action-work-hover:#1d4ed8;
+  --action-work-soft:#eff6ff;
+  --action-neutral-bg:#fff;
+  --action-neutral-text:#334155;
+  --action-neutral-border:#cbd5e1;
+}
+
+/* Commit: final/confirm/publish action only. */
+body.alt-editor-layout #publishBtn,
+body.alt-editor-layout #v34Use,
+body.alt-editor-layout .action-commit{
+  background:var(--action-commit)!important;
+  border-color:var(--action-commit)!important;
+  color:#fff!important;
+}
+body.alt-editor-layout #publishBtn:hover,
+body.alt-editor-layout #v34Use:hover,
+body.alt-editor-layout .action-commit:hover{
+  background:var(--action-commit-hover)!important;
+  border-color:var(--action-commit-hover)!important;
+}
+
+/* Work: editorial actions and in-flow generation/selection. */
+body.alt-editor-layout #chooseHeadline,
+body.alt-editor-layout .newsroom-image-gallery-btn,
+body.alt-editor-layout #seoGenerateAll,
+body.alt-editor-layout #seoApplyAll,
+body.alt-editor-layout .ai-btn,
+body.alt-editor-layout .action-work{
+  background:var(--action-work)!important;
+  border-color:var(--action-work)!important;
+  color:#fff!important;
+}
+body.alt-editor-layout #chooseHeadline:hover,
+body.alt-editor-layout .newsroom-image-gallery-btn:hover,
+body.alt-editor-layout #seoGenerateAll:hover,
+body.alt-editor-layout #seoApplyAll:hover,
+body.alt-editor-layout .ai-btn:hover,
+body.alt-editor-layout .action-work:hover{
+  background:var(--action-work-hover)!important;
+  border-color:var(--action-work-hover)!important;
+  color:#fff!important;
+}
+
+/* Neutral: utility actions stay visually quiet. */
+body.alt-editor-layout #previewBtn,
+body.alt-editor-layout #focusBtn,
+body.alt-editor-layout #uploadHeadline,
+body.alt-editor-layout .newsroom-image-upload-btn,
+body.alt-editor-layout .action-neutral{
+  background:var(--action-neutral-bg)!important;
+  border-color:var(--action-neutral-border)!important;
+  color:var(--action-neutral-text)!important;
+}
+
+/* Product interaction state is always blue, never orange. */
+body.alt-editor-layout button:focus-visible,
+body.alt-editor-layout input:focus-visible,
+body.alt-editor-layout textarea:focus-visible,
+body.alt-editor-layout select:focus-visible{
+  outline:2px solid var(--action-work)!important;
+  outline-offset:2px!important;
+}
+body.alt-editor-layout .v34-card.selected,
+body.alt-editor-layout .tab.active,
+body.alt-editor-layout [aria-selected="true"]{
+  --selection-color:var(--action-work);
+}
+/* NEWSROOM_SEMANTIC_ACTION_COLORS_END */
 
 </style></head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
