@@ -7,6 +7,7 @@ on:
       - 'scripts/patch_image_placeholder_layout.py'
       - 'scripts/patch_image_thumbnail_ratio.py'
       - 'scripts/patch_editor_responsive_width.py'
+      - 'scripts/patch_semantic_action_colors.py'
   workflow_dispatch:
 
 permissions:
@@ -26,6 +27,8 @@ jobs:
         run: python scripts/patch_image_thumbnail_ratio.py
       - name: Apply editor responsive width patch
         run: python scripts/patch_editor_responsive_width.py
+      - name: Apply semantic action color patch
+        run: python scripts/patch_semantic_action_colors.py
       - name: Commit patched index
         run: |
           if git diff --quiet -- index.html; then
@@ -35,5 +38,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
-          git commit -m "Fix responsive editor card width"
+          git commit -m "Apply semantic action color system"
           git push
