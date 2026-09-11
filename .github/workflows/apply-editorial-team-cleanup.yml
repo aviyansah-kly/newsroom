@@ -17,13 +17,14 @@ jobs:
           grep -q 'Tim Editorial' index.html
           grep -q 'NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_START' index.html
           grep -q 'NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_START' index.html
+          grep -q "defaults={Reporter:'Arief Rahman H',Editor:'Bima Pratama'}" index.html
           grep -q 'data-remove-team' index.html
-          grep -q "roleNames=new Set" index.html
-          grep -q "MutationObserver" index.html
+          ! grep -q "enhanceEntity(\$('#reporter'),'reporter','Reporter')" index.html
+          ! grep -q "enhanceEntity(\$('#editorName'),'editorial','Editorial')" index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Remove duplicate editorial fields and unify chip remove actions'
+          git diff --cached --quiet || git commit -m 'Fix editorial team defaults and remove legacy fields at source'
           git push
