@@ -10,8 +10,8 @@ if css_start in text and css_end in text:
     text = re.sub(re.escape(css_start) + r'.*?' + re.escape(css_end) + r'\n?', '', text, flags=re.S)
 
 for js_start, js_end in [
-    ('// NEWSROOM_LEGACY_SIDEBAR_ALIGN_START', '// NEWSROOM_LEGACY_SIDEBAR_ALIGN_END'),
     ('// NEWSROOM_EDITOR_STICKY_BOOTSTRAP_START', '// NEWSROOM_EDITOR_STICKY_BOOTSTRAP_END'),
+    ('// NEWSROOM_EDITOR_FLOATING_TOOLBAR_START', '// NEWSROOM_EDITOR_FLOATING_TOOLBAR_END'),
     ('// NEWSROOM_EDITOR_SPACING_SYNC_START', '// NEWSROOM_EDITOR_SPACING_SYNC_END'),
     ('// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_START', '// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_END'),
 ]:
@@ -26,42 +26,41 @@ if old_start in text and old_end in text:
 css = r'''/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
 :root{--newsroom-editor-header-height:64px}
 
-/* Top-level shells only: match the refined 64px app header without changing
-   anything inside Article Settings tabs/panes. */
-body.alt-editor-layout .cms-nav-drawer{
-  top:var(--newsroom-editor-header-height)!important;
-}
-body.alt-editor-layout .cms-nav-backdrop{
-  inset:var(--newsroom-editor-header-height) 0 0 0!important;
-}
-body.alt-editor-layout .context{
-  top:var(--newsroom-editor-header-height)!important;
-  height:calc(100vh - var(--newsroom-editor-header-height))!important;
-}
-
-/* Text WYSIWYG only. The card header and toolbar must be physically adjacent in
-   normal state, then the toolbar sticks directly below the app header. */
-body.alt-editor-layout .alt-editor-section,
-body.alt-editor-layout .alt-block-list,
-body.alt-editor-layout .alt-content-card[data-type="text"],
-body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
-  overflow:visible!important;
-}
-body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-head{
-  margin:0!important;
-}
+/* Text card geometry only. Do not alter Article Settings or CMS navigation. */
 body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
   padding:0!important;
   margin:0!important;
 }
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-content-card-head{
+  margin-bottom:0!important;
+}
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
-  position:sticky!important;
-  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
+  position:relative!important;
+  top:auto!important;
+  left:auto!important;
   z-index:160!important;
   margin:0!important;
   transform:none!important;
   border-radius:0!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.newsroom-toolbar-fixed{
+  position:fixed!important;
+  top:var(--newsroom-editor-header-height)!important;
+  z-index:320!important;
+  margin:0!important;
+  background:rgba(255,255,255,.99)!important;
+  box-shadow:0 5px 14px rgba(15,23,42,.08)!important;
+}
+body.alt-editor-layout .newsroom-toolbar-placeholder{
+  display:block;
+  width:100%;
+  height:0;
+  margin:0;
+  padding:0;
+}
+body.alt-editor-layout .newsroom-toolbar-placeholder.active{
+  height:var(--newsroom-toolbar-height,48px);
 }
 
 /* Tags spacing remains independent. */
@@ -73,6 +72,52 @@ body.alt-editor-layout #altEditorialTagsSection .tag-wrap #tagInput{
 body.alt-editor-layout #altEditorialTagsSection .tag-list:empty + #tagInput{
   margin-top:0!important;
 }
+
+/* Compact Editorial Team: assigned person and add action share one row. */
+body.alt-editor-layout .newsroom-team-section>.settings-section-head{
+  margin-bottom:10px!important;
+}
+body.alt-editor-layout .newsroom-team-section .team-assignment{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  column-gap:8px!important;
+  row-gap:6px!important;
+  align-items:center!important;
+}
+body.alt-editor-layout .newsroom-team-section .team-role-head{
+  grid-column:1 / -1!important;
+  margin-bottom:0!important;
+}
+body.alt-editor-layout .newsroom-team-section .team-member-list{
+  grid-column:1!important;
+  min-width:0!important;
+  margin:0!important;
+}
+body.alt-editor-layout .newsroom-team-section .team-add-trigger{
+  grid-column:2!important;
+  align-self:center!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+body.alt-editor-layout .newsroom-team-section .team-add-panel{
+  grid-column:1 / -1!important;
+  width:100%!important;
+}
+body.alt-editor-layout .newsroom-team-section .team-role-divider{
+  margin:10px 0!important;
+}
+@media(max-width:520px){
+  body.alt-editor-layout .newsroom-team-section .team-assignment{
+    grid-template-columns:1fr!important;
+  }
+  body.alt-editor-layout .newsroom-team-section .team-role-head,
+  body.alt-editor-layout .newsroom-team-section .team-member-list,
+  body.alt-editor-layout .newsroom-team-section .team-add-trigger,
+  body.alt-editor-layout .newsroom-team-section .team-add-panel{
+    grid-column:1!important;
+  }
+  body.alt-editor-layout .newsroom-team-section .team-add-trigger{justify-self:start!important}
+}
 /* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */
 '''
 
@@ -82,45 +127,86 @@ if style_idx == -1:
 text = text[:style_idx] + css + '\n' + text[style_idx:]
 
 js = r'''<script>
-// NEWSROOM_EDITOR_STICKY_BOOTSTRAP_START
+// NEWSROOM_EDITOR_FLOATING_TOOLBAR_START
 (function(){
+  let observer=null;
   let mountObserver=null;
+  let placeholder=null;
+  let toolbar=null;
+  let card=null;
 
-  function syncEditorHeaderHeight(){
+  function headerHeight(){
     const header=document.querySelector('body.alt-editor-layout .topbar');
-    if(!header)return;
-    const h=Math.round(header.getBoundingClientRect().height);
-    if(h>0)document.documentElement.style.setProperty('--newsroom-editor-header-height',h+'px');
+    const h=header ? Math.round(header.getBoundingClientRect().height) : 64;
+    document.documentElement.style.setProperty('--newsroom-editor-header-height',Math.max(1,h)+'px');
+    return Math.max(1,h);
   }
 
-  function finalizeToolbar(){
-    const toolbar=document.getElementById('classicToolbar');
-    const card=toolbar?.closest('.alt-content-card[data-type="text"]');
+  function syncFixedGeometry(){
+    if(!toolbar||!card||!toolbar.classList.contains('newsroom-toolbar-fixed'))return;
+    const rect=card.getBoundingClientRect();
+    toolbar.style.setProperty('left',rect.left+'px','important');
+    toolbar.style.setProperty('width',rect.width+'px','important');
+  }
+
+  function setFixed(fixed){
+    if(!toolbar||!placeholder)return;
+    if(fixed){
+      const h=Math.ceil(toolbar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--newsroom-toolbar-height',h+'px');
+      placeholder.classList.add('active');
+      toolbar.classList.add('newsroom-toolbar-fixed');
+      syncFixedGeometry();
+    }else{
+      toolbar.classList.remove('newsroom-toolbar-fixed');
+      toolbar.style.removeProperty('left');
+      toolbar.style.removeProperty('width');
+      placeholder.classList.remove('active');
+    }
+  }
+
+  function buildObserver(){
+    if(observer)observer.disconnect();
+    const hh=headerHeight();
+    observer=new IntersectionObserver(entries=>{
+      const entry=entries[0];
+      const shouldFix=!entry.isIntersecting && entry.boundingClientRect.top < hh;
+      setFixed(shouldFix);
+    },{root:null,threshold:0,rootMargin:'-'+hh+'px 0px 0px 0px'});
+    observer.observe(placeholder);
+  }
+
+  function initToolbar(){
+    toolbar=document.getElementById('classicToolbar');
+    card=toolbar?.closest('.alt-content-card[data-type="text"]');
     if(!toolbar||!card)return false;
 
-    syncEditorHeaderHeight();
-    toolbar.dataset.stickyReady='1';
-    void toolbar.offsetHeight;
+    if(!placeholder){
+      placeholder=document.createElement('div');
+      placeholder.className='newsroom-toolbar-placeholder';
+      placeholder.setAttribute('aria-hidden','true');
+      toolbar.parentNode.insertBefore(placeholder,toolbar);
+    }
 
+    buildObserver();
     if(mountObserver){mountObserver.disconnect();mountObserver=null;}
     return true;
   }
 
   function boot(){
-    syncEditorHeaderHeight();
-    if(finalizeToolbar())return;
+    if(initToolbar())return;
     if('MutationObserver' in window){
-      mountObserver=new MutationObserver(()=>finalizeToolbar());
+      mountObserver=new MutationObserver(()=>initToolbar());
       mountObserver.observe(document.body,{childList:true,subtree:true});
     }
   }
 
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
   else boot();
-  window.addEventListener('load',()=>{syncEditorHeaderHeight();finalizeToolbar();},{once:true});
-  window.addEventListener('resize',syncEditorHeaderHeight,{passive:true});
+  window.addEventListener('load',()=>{initToolbar();buildObserver();},{once:true});
+  window.addEventListener('resize',()=>{headerHeight();syncFixedGeometry();buildObserver();},{passive:true});
 })();
-// NEWSROOM_EDITOR_STICKY_BOOTSTRAP_END
+// NEWSROOM_EDITOR_FLOATING_TOOLBAR_END
 </script>
 '''
 
@@ -130,4 +216,4 @@ if body_idx == -1:
 text = text[:body_idx] + js + '\n' + text[body_idx:]
 
 path.write_text(text, encoding='utf-8')
-print('Header shell offsets aligned and Text card toolbar gap removed.')
+print('WYSIWYG floating toolbar stabilized and Editorial Team compacted.')
