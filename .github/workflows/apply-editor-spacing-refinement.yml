@@ -18,12 +18,14 @@ jobs:
           grep -q 'NEWSROOM_EDITOR_SPACING_REFINEMENT_START' index.html
           grep -q 'NEWSROOM_EDITOR_SPACING_SYNC_START' index.html
           grep -q 'margin-top:10px!important' index.html
-          grep -q "toolbar.style.setProperty('top',Math.max(0,headerBottom-1)+'px','important')" index.html
+          grep -q -- '--newsroom-live-header-bottom' index.html
+          grep -q 'headerBottom-OVERLAP' index.html
+          grep -q 'ResizeObserver' index.html
           grep -q 'spacingMeasured' index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Refine sticky editor and Tags spacing'
+          git diff --cached --quiet || git commit -m 'Align editor sticky offset to live header'
           git push
