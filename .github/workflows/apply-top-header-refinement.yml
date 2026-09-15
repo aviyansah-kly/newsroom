@@ -1,0 +1,28 @@
+name: Apply top header refinement
+on:
+  push:
+    paths:
+      - 'scripts/patch_top_header_refinement.py'
+      - '.github/workflows/apply-top-header-refinement.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply top header refinement
+        run: python3 scripts/patch_top_header_refinement.py
+      - name: Verify refined header
+        run: |
+          grep -q 'NEWSROOM_TOP_HEADER_REFINEMENT_START' index.html
+          grep -q 'aria-label="Writing View"' index.html
+          grep -q 'Review &amp; Publish' index.html
+          grep -q '</body></html>' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refine editor top header hierarchy'
+          git push
