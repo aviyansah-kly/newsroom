@@ -15,10 +15,9 @@ if js_start in text and js_end in text:
     text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_STICKY_EDITOR_LAYERING_START */
-/* Sticky editor chrome follows the rendered header and deliberately tucks underneath it. */
+/* Sticky toolbar must visually touch the bottom edge of the top header. */
 :root{
   --newsroom-editor-header-height:64px;
-  --newsroom-sticky-toolbar-overlap:10px;
 }
 
 body.alt-editor-layout .topbar{
@@ -33,16 +32,24 @@ body.alt-editor-layout .writing-view-menu{
   z-index:420!important;
 }
 
-/* The toolbar is tucked 10px underneath the higher-z header. This removes any seam
-   caused by borders, zoom rounding, card spacing, or a later layout patch. */
+/* No compensating gap, no inherited card spacing. */
 body.alt-editor-layout .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar{
-  top:calc(var(--newsroom-editor-header-height) - var(--newsroom-sticky-toolbar-overlap))!important;
+  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
   z-index:160!important;
   margin-top:0!important;
+  transform:none!important;
 }
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar{
   box-shadow:0 5px 12px rgba(15,23,42,.05)!important;
+}
+
+/* Parent/card spacing must not create a visual seam once the toolbar is sticky. */
+body.alt-editor-layout .alt-content-card[data-type="text"]{
+  scroll-margin-top:var(--newsroom-editor-header-height)!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"]>.classic-toolbar:first-child{
+  margin-block-start:0!important;
 }
 /* NEWSROOM_STICKY_EDITOR_LAYERING_END */
 '''
@@ -55,21 +62,34 @@ text = text[:idx] + css + '\n' + text[idx:]
 js = r'''<script>
 // NEWSROOM_STICKY_EDITOR_HEADER_SYNC_START
 (function(){
-  function syncHeaderHeight(){
+  function syncStickyToolbar(){
     const header=document.querySelector('body.alt-editor-layout .topbar');
     if(!header)return;
     const h=header.getBoundingClientRect().height;
-    if(h>0)document.documentElement.style.setProperty('--newsroom-editor-header-height',h+'px');
+    if(!(h>0))return;
+    document.documentElement.style.setProperty('--newsroom-editor-header-height',h+'px');
+
+    // Inline !important is the final source of truth so older CSS patches cannot
+    // reintroduce a 72/84px offset or a later responsive rule.
+    document.querySelectorAll('body.alt-editor-layout .classic-toolbar').forEach(toolbar=>{
+      toolbar.style.setProperty('top',Math.max(0,h-1)+'px','important');
+      toolbar.style.setProperty('margin-top','0px','important');
+      toolbar.style.setProperty('transform','none','important');
+    });
   }
   function bind(){
-    syncHeaderHeight();
+    syncStickyToolbar();
     const header=document.querySelector('body.alt-editor-layout .topbar');
-    if(header&&'ResizeObserver' in window)new ResizeObserver(syncHeaderHeight).observe(header);
+    if(header&&'ResizeObserver' in window)new ResizeObserver(syncStickyToolbar).observe(header);
+    if('MutationObserver' in window){
+      const root=document.querySelector('body.alt-editor-layout');
+      if(root)new MutationObserver(syncStickyToolbar).observe(root,{childList:true,subtree:true});
+    }
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});
   else bind();
-  window.addEventListener('resize',syncHeaderHeight,{passive:true});
-  window.addEventListener('load',syncHeaderHeight,{once:true});
+  window.addEventListener('resize',syncStickyToolbar,{passive:true});
+  window.addEventListener('load',syncStickyToolbar,{once:true});
 })();
 // NEWSROOM_STICKY_EDITOR_HEADER_SYNC_END
 </script>
@@ -80,4 +100,4 @@ if body_idx == -1:
 text = text[:body_idx] + js + '\n' + text[body_idx:]
 
 path.write_text(text, encoding='utf-8')
-print('Sticky editor toolbar is now visually flush with the top header.')
+print('Sticky editor toolbar now sits flush against the rendered top header.')
