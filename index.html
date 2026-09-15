@@ -8977,23 +8977,37 @@ body.alt-editor-layout .ai-suggested-field:after{content:none!important;display:
 
 
 
+
 /* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
 :root{--newsroom-editor-header-height:64px}
 
-/* Scope intentionally limited to the Text WYSIWYG only. Do not touch sidebars,
-   Article Settings, tabs, or other sticky surfaces. */
+/* Top-level shells only: match the refined 64px app header without changing
+   anything inside Article Settings tabs/panes. */
+body.alt-editor-layout .cms-nav-drawer{
+  top:var(--newsroom-editor-header-height)!important;
+}
+body.alt-editor-layout .cms-nav-backdrop{
+  inset:var(--newsroom-editor-header-height) 0 0 0!important;
+}
+body.alt-editor-layout .context{
+  top:var(--newsroom-editor-header-height)!important;
+  height:calc(100vh - var(--newsroom-editor-header-height))!important;
+}
+
+/* Text WYSIWYG only. The card header and toolbar must be physically adjacent in
+   normal state, then the toolbar sticks directly below the app header. */
 body.alt-editor-layout .alt-editor-section,
 body.alt-editor-layout .alt-block-list,
 body.alt-editor-layout .alt-content-card[data-type="text"],
 body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
   overflow:visible!important;
 }
-body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
-  padding-top:0!important;
-  margin-top:0!important;
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-head{
+  margin:0!important;
 }
-body.alt-editor-layout .alt-content-card[data-type="text"] .alt-content-card-head{
-  margin-bottom:0!important;
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
+  padding:0!important;
+  margin:0!important;
 }
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
@@ -9005,7 +9019,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
   border-radius:0!important;
 }
 
-/* Tags spacing remains an independent field-level refinement. */
+/* Tags spacing remains independent. */
 body.alt-editor-layout #altEditorialTagsSection .tag-wrap #tagInput{
   display:block!important;
   width:100%!important;
