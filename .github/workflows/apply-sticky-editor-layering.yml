@@ -1,0 +1,28 @@
+name: Apply sticky editor layering fix
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-sticky-editor-layering.yml'
+      - 'scripts/patch_sticky_editor_layering.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply sticky editor layering fix
+        run: python3 scripts/patch_sticky_editor_layering.py
+      - name: Verify sticky editor layering
+        run: |
+          grep -q 'NEWSROOM_STICKY_EDITOR_LAYERING_START' index.html
+          grep -q -- '--newsroom-editor-header-height:64px' index.html
+          grep -q 'z-index:420!important' index.html
+          grep -q 'top:var(--newsroom-editor-header-height)!important' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Fix sticky editor spacing and Writing View layering'
+          git push
