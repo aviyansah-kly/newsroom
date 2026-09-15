@@ -18,17 +18,20 @@ for js_start, js_end in [
     ('// NEWSROOM_EDITOR_FLOATING_TOOLBAR_START', '// NEWSROOM_EDITOR_FLOATING_TOOLBAR_END'),
     ('// NEWSROOM_EDITOR_SPACING_SYNC_START', '// NEWSROOM_EDITOR_SPACING_SYNC_END'),
     ('// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_START', '// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_END'),
+    ('// NEWSROOM_EDITOR_STICKY_STATE_CLEANUP_START', '// NEWSROOM_EDITOR_STICKY_STATE_CLEANUP_END'),
 ]:
     if js_start in text and js_end in text:
         text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
-:root{--newsroom-editor-header-height:64px}
+:root{--newsroom-editor-header-height:68px}
 
-/* One source of truth for the refined app header and the two outer shells. */
+/* Restore the original shell geometry. Keep the compact controls, but use the
+   68px baseline the legacy newsroom layout was built around. */
 body.alt-editor-layout .topbar{
   height:var(--newsroom-editor-header-height)!important;
   min-height:var(--newsroom-editor-header-height)!important;
+  z-index:300!important;
 }
 body.alt-editor-layout .cms-nav-drawer{
   top:var(--newsroom-editor-header-height)!important;
@@ -42,7 +45,8 @@ body.alt-editor-layout .context{
   height:calc(100vh - var(--newsroom-editor-header-height))!important;
 }
 
-/* Native sticky only. No fixed positioning, observers, left/width measurements, or runtime offset rewrites. */
+/* Native sticky only. No fixed positioning, observers, or measured left/width.
+   A 1px tuck removes the visible seam while the higher topbar z-index keeps it hidden. */
 body.alt-editor-layout .alt-editor-section,
 body.alt-editor-layout .alt-block-list,
 body.alt-editor-layout .alt-content-card[data-type="text"],
@@ -60,8 +64,9 @@ body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-b
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
   position:sticky!important;
-  top:var(--newsroom-editor-header-height)!important;
+  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
   left:auto!important;
+  right:auto!important;
   width:auto!important;
   z-index:180!important;
   margin:0!important;
@@ -129,5 +134,29 @@ if style_idx == -1:
     raise SystemExit('Could not find closing </style>')
 text = text[:style_idx] + css + '\n' + text[style_idx:]
 
+cleanup = r'''<script>
+// NEWSROOM_EDITOR_STICKY_STATE_CLEANUP_START
+(function(){
+  function cleanup(){
+    document.querySelectorAll('.newsroom-toolbar-placeholder').forEach(el=>el.remove());
+    const toolbar=document.getElementById('classicToolbar');
+    if(!toolbar)return;
+    toolbar.classList.remove('newsroom-toolbar-fixed');
+    ['top','left','right','width','position','transform'].forEach(prop=>toolbar.style.removeProperty(prop));
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',cleanup,{once:true});
+  else cleanup();
+  window.addEventListener('load',cleanup,{once:true});
+  setTimeout(cleanup,250);
+})();
+// NEWSROOM_EDITOR_STICKY_STATE_CLEANUP_END
+</script>
+'''
+
+body_idx = text.rfind('</body>')
+if body_idx == -1:
+    raise SystemExit('Could not find closing </body>')
+text = text[:body_idx] + cleanup + '\n' + text[body_idx:]
+
 path.write_text(text, encoding='utf-8')
-print('Reset to native sticky with a single 64px header offset.')
+print('Restored 68px shell baseline with native sticky and stale-state cleanup.')
