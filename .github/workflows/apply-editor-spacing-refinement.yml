@@ -1,0 +1,29 @@
+name: Apply editor spacing refinement
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-editor-spacing-refinement.yml'
+      - 'scripts/patch_editor_spacing_refinement.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply editor spacing refinement
+        run: python3 scripts/patch_editor_spacing_refinement.py
+      - name: Verify editor spacing refinement
+        run: |
+          grep -q 'NEWSROOM_EDITOR_SPACING_REFINEMENT_START' index.html
+          grep -q 'NEWSROOM_EDITOR_SPACING_SYNC_START' index.html
+          grep -q 'margin-top:10px!important' index.html
+          grep -q "toolbar.style.setProperty('top',Math.max(0,headerBottom-1)+'px','important')" index.html
+          grep -q 'spacingMeasured' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refine sticky editor and Tags spacing'
+          git push
