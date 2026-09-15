@@ -5,16 +5,25 @@ path = Path('index.html')
 text = path.read_text()
 original = text
 
-old_copy = """      '<div class=\"alt-ai-analyze-copy\"><strong>Selesai menulis?</strong><span>Analyze Article membantu mengisi metadata editorial dan SEO dari tulisan saat ini.</span></div>'+\
-      '<button type=\"button\" class=\"alt-ai-analyze-btn\"><i data-lucide=\"sparkles\"></i><span>Analyze Article</span></button>';"""
-new_copy = """      '<div class=\"alt-ai-analyze-copy\"><strong>Selesai menulis?</strong><span>Klik tombol Generate Attributes di samping untuk mempercepat pengisian atribut artikel.</span></div>'+\
-      '<button type=\"button\" class=\"alt-ai-analyze-btn\"><i data-lucide=\"sparkles\"></i><span>Generate Attributes</span></button>';"""
-if old_copy not in text:
-    raise SystemExit('Analyze Article copy marker not found')
-text = text.replace(old_copy, new_copy, 1)
+# Copy and CTA: keep the existing component/layout, only update the wording.
+copy_old = 'Analyze Article membantu mengisi metadata editorial dan SEO dari tulisan saat ini.'
+copy_new = 'Klik tombol Generate Attributes di samping untuk mempercepat pengisian atribut artikel.'
+if copy_old not in text:
+    raise SystemExit('Analyze Article helper copy not found')
+text = text.replace(copy_old, copy_new, 1)
 
-old_mark = re.compile(r"""  function markField\(el\)\{\n    const host=el\?\.closest\('\.field,\.seo-field,\.alt-entity-picker,\.v58-category-editorial'\);\n    if\(!host\)return;\n    host\.classList\.add\('ai-suggested-field'\);\n    setTimeout\(\(\)=>host\.classList\.remove\('ai-suggested-field'\),2200\);\n  \}""")
-new_mark = """  function markField(el){
+button_old = '<span>Analyze Article</span>'
+button_new = '<span>Generate Attributes</span>'
+if button_old not in text:
+    raise SystemExit('Analyze Article button label not found')
+text = text.replace(button_old, button_new, 1)
+
+# Persist the AI marker until a real user edits/clicks the generated field.
+mark_pattern = re.compile(
+    r"  function markField\(el\)\{.*?\n  \}\n\n  function applyField\(key,value\)\{",
+    re.S,
+)
+mark_replacement = """  function markField(el){
     const host=el?.closest('.field,.seo-field,.alt-entity-picker,.v58-category-editorial');
     if(!host)return;
     host.classList.add('ai-suggested-field');
@@ -25,12 +34,18 @@ new_mark = """  function markField(el){
       host.addEventListener('click',e=>{if(e.isTrusted&&e.target.closest('button'))host.classList.remove('ai-suggested-field')},true);
       host.dataset.aiMarkerBound='1';
     }
-  }"""
-text, count = old_mark.subn(new_mark, text, count=1)
+  }
+
+  function applyField(key,value){"""
+text, count = mark_pattern.subn(mark_replacement, text, count=1)
 if count != 1:
     raise SystemExit(f'markField replacement count={count}')
 
-render_pattern = re.compile(r"""    function render\(\)\{\n      current=deriveSuggestions\(\);.*?\n      review\.classList\.add\('open'\);\n    \}\n\n    wrap\.querySelector\('\.alt-ai-analyze-btn'\)\.onclick=render;""", re.S)
+# Replace the two-step review panel behavior with direct fill into the intended fields only.
+render_pattern = re.compile(
+    r"    function render\(\)\{\n      current=deriveSuggestions\(\);.*?\n      review\.classList\.add\('open'\);\n    \}\n\n    wrap\.querySelector\('\.alt-ai-analyze-btn'\)\.onclick=render;",
+    re.S,
+)
 render_replacement = """    function render(){
       current=deriveSuggestions();
       const button=wrap.querySelector('.alt-ai-analyze-btn');
@@ -56,12 +71,12 @@ text, count = render_pattern.subn(render_replacement, text, count=1)
 if count != 1:
     raise SystemExit(f'render replacement count={count}')
 
-text = text.replace("content:'AI suggestion'!important;", "content:'AI Generated'!important;", 1)
-
-# Keep the old review panel in DOM for backwards compatibility, but it should never appear in the new direct-fill flow.
-css_marker = ".alt-ai-review-panel{\n  display:none;"
-if css_marker not in text:
-    raise SystemExit('AI review CSS marker not found')
+# Explicit but subtle source marker, based on the current design-system blue semantic state.
+marker_old = "content:'AI suggestion'!important;"
+marker_new = "content:'AI Generated'!important;"
+if marker_old not in text:
+    raise SystemExit('AI suggestion label not found')
+text = text.replace(marker_old, marker_new, 1)
 
 if text == original:
     raise SystemExit('No changes applied')
