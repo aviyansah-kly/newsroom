@@ -16,12 +16,13 @@ jobs:
       - name: Verify tags classification positioning
         run: |
           grep -q 'NEWSROOM_TAGS_CLASSIFICATION_POSITION_START' index.html
-          grep -q "categoryField.insertAdjacentElement('afterend',section)" index.html
+          grep -q "locationField.insertAdjacentElement('afterend',section)" index.html
           grep -q "section.className='alt-editorial-tags-section'" index.html
+          grep -q "const infoPane=\$('#infoPane')" index.html
       - name: Commit
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Move Tags next to Category in Editorial'
+          git diff --cached --quiet || git commit -m 'Keep Tags below Location in Editorial'
           git push
