@@ -15,14 +15,22 @@ if js_start in text and js_end in text:
     text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
-/* Text card: no empty visual band between the card header and the WYSIWYG toolbar. */
+/* One shared live offset. JS writes this from the actual rendered topbar bottom edge. */
+:root{--newsroom-live-header-bottom:64px}
+
+/* Text card: no empty visual band between card header and WYSIWYG toolbar. */
 body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
   padding-top:0!important;
   margin-top:0!important;
 }
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar{
   margin-block-start:0!important;
+  top:calc(var(--newsroom-live-header-bottom) - 4px)!important;
 }
+
+/* A tiny overlap sits underneath the higher-z topbar so zoom/subpixel rounding can never show a seam. */
+body.alt-editor-layout .topbar{z-index:400!important}
+body.alt-editor-layout .classic-toolbar{z-index:160!important}
 
 /* Tags input needs breathing room after the generated/existing chips. */
 body.alt-editor-layout #altEditorialTagsSection .tag-wrap #tagInput{
@@ -45,11 +53,15 @@ js = r'''<script>
 // NEWSROOM_EDITOR_SPACING_SYNC_START
 (function(){
   let raf=0;
+  const OVERLAP=4;
 
   function syncToolbar(){
     const header=document.querySelector('body.alt-editor-layout .topbar');
     if(!header)return;
-    const headerBottom=header.getBoundingClientRect().bottom;
+
+    const rect=header.getBoundingClientRect();
+    const headerBottom=Math.max(0,rect.bottom);
+    document.documentElement.style.setProperty('--newsroom-live-header-bottom',headerBottom+'px');
 
     document.querySelectorAll('body.alt-editor-layout .alt-content-card[data-type="text"]').forEach(card=>{
       const head=card.querySelector(':scope > .alt-content-card-head');
@@ -60,11 +72,10 @@ js = r'''<script>
       body.style.setProperty('padding-top','0px','important');
       body.style.setProperty('margin-top','0px','important');
       toolbar.style.setProperty('position','sticky','important');
-      toolbar.style.setProperty('top',Math.max(0,headerBottom-1)+'px','important');
+      toolbar.style.setProperty('top',Math.max(0,headerBottom-OVERLAP)+'px','important');
       toolbar.style.setProperty('transform','none','important');
 
-      /* Remove the large non-sticky band only once per rendered geometry.
-         The correction is based on the actual gap between the card head and toolbar. */
+      /* Normal (not yet sticky) state: collapse only a real accidental empty band. */
       if(toolbar.dataset.spacingMeasured!=='1'){
         toolbar.style.setProperty('margin-top','0px','important');
         const gap=toolbar.getBoundingClientRect().top-head.getBoundingClientRect().bottom;
@@ -100,6 +111,10 @@ js = r'''<script>
   window.addEventListener('resize',remeasure,{passive:true});
   window.addEventListener('scroll',schedule,{passive:true});
 
+  if('ResizeObserver' in window){
+    const header=document.querySelector('body.alt-editor-layout .topbar');
+    if(header)new ResizeObserver(schedule).observe(header);
+  }
   if('MutationObserver' in window){
     const root=document.querySelector('body.alt-editor-layout') || document.body;
     new MutationObserver(schedule).observe(root,{childList:true,subtree:true});
@@ -115,4 +130,4 @@ if body_idx == -1:
 text = text[:body_idx] + js + '\n' + text[body_idx:]
 
 path.write_text(text, encoding='utf-8')
-print('Editor spacing refined: stable sticky toolbar and improved Tags input spacing.')
+print('Editor spacing now follows the actual rendered header bottom edge.')
