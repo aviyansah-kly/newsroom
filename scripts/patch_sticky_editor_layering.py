@@ -12,15 +12,15 @@ if start in text and end in text:
 js_start = '// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_START'
 js_end = '// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_END'
 if js_start in text and js_end in text:
-    text = re.sub(re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\n?', '', text, flags=re.S)
+    text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_STICKY_EDITOR_LAYERING_START */
-/* Keep all sticky editor chrome anchored to the real rendered header height. */
+/* Sticky editor chrome follows the rendered header and deliberately tucks underneath it. */
 :root{
   --newsroom-editor-header-height:64px;
+  --newsroom-sticky-toolbar-overlap:10px;
 }
 
-/* Header-owned popovers must stay above editor chrome and must not be clipped. */
 body.alt-editor-layout .topbar{
   z-index:400!important;
   overflow:visible!important;
@@ -33,14 +33,14 @@ body.alt-editor-layout .writing-view-menu{
   z-index:420!important;
 }
 
-/* Use the live header height, with a 1px overlap so there is never a visible seam. */
+/* The toolbar is tucked 10px underneath the higher-z header. This removes any seam
+   caused by borders, zoom rounding, card spacing, or a later layout patch. */
 body.alt-editor-layout .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar{
-  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
+  top:calc(var(--newsroom-editor-header-height) - var(--newsroom-sticky-toolbar-overlap))!important;
   z-index:160!important;
   margin-top:0!important;
 }
-
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar{
   box-shadow:0 5px 12px rgba(15,23,42,.05)!important;
 }
@@ -58,16 +58,18 @@ js = r'''<script>
   function syncHeaderHeight(){
     const header=document.querySelector('body.alt-editor-layout .topbar');
     if(!header)return;
-    const h=Math.ceil(header.getBoundingClientRect().height);
+    const h=header.getBoundingClientRect().height;
     if(h>0)document.documentElement.style.setProperty('--newsroom-editor-header-height',h+'px');
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',syncHeaderHeight,{once:true});
-  else syncHeaderHeight();
-  window.addEventListener('resize',syncHeaderHeight,{passive:true});
-  if('ResizeObserver' in window){
+  function bind(){
+    syncHeaderHeight();
     const header=document.querySelector('body.alt-editor-layout .topbar');
-    if(header)new ResizeObserver(syncHeaderHeight).observe(header);
+    if(header&&'ResizeObserver' in window)new ResizeObserver(syncHeaderHeight).observe(header);
   }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});
+  else bind();
+  window.addEventListener('resize',syncHeaderHeight,{passive:true});
+  window.addEventListener('load',syncHeaderHeight,{once:true});
 })();
 // NEWSROOM_STICKY_EDITOR_HEADER_SYNC_END
 </script>
@@ -78,4 +80,4 @@ if body_idx == -1:
 text = text[:body_idx] + js + '\n' + text[body_idx:]
 
 path.write_text(text, encoding='utf-8')
-print('Sticky editor now follows the rendered header height.')
+print('Sticky editor toolbar is now visually flush with the top header.')
