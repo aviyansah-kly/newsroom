@@ -8981,13 +8981,16 @@ body.alt-editor-layout .ai-suggested-field:after{content:none!important;display:
 
 
 
-/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
-:root{--newsroom-editor-header-height:64px}
 
-/* One source of truth for the refined app header and the two outer shells. */
+/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
+:root{--newsroom-editor-header-height:68px}
+
+/* Restore the original shell geometry. Keep the compact controls, but use the
+   68px baseline the legacy newsroom layout was built around. */
 body.alt-editor-layout .topbar{
   height:var(--newsroom-editor-header-height)!important;
   min-height:var(--newsroom-editor-header-height)!important;
+  z-index:300!important;
 }
 body.alt-editor-layout .cms-nav-drawer{
   top:var(--newsroom-editor-header-height)!important;
@@ -9001,7 +9004,8 @@ body.alt-editor-layout .context{
   height:calc(100vh - var(--newsroom-editor-header-height))!important;
 }
 
-/* Native sticky only. No fixed positioning, observers, left/width measurements, or runtime offset rewrites. */
+/* Native sticky only. No fixed positioning, observers, or measured left/width.
+   A 1px tuck removes the visible seam while the higher topbar z-index keeps it hidden. */
 body.alt-editor-layout .alt-editor-section,
 body.alt-editor-layout .alt-block-list,
 body.alt-editor-layout .alt-content-card[data-type="text"],
@@ -9019,8 +9023,9 @@ body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-b
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
   position:sticky!important;
-  top:var(--newsroom-editor-header-height)!important;
+  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
   left:auto!important;
+  right:auto!important;
   width:auto!important;
   z-index:180!important;
   margin:0!important;
@@ -13454,4 +13459,22 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
 })();
 // NEWSROOM_EDITORIAL_TEAM_FINAL_CLEANUP_JS_END
 </script>
+<script>
+// NEWSROOM_EDITOR_STICKY_STATE_CLEANUP_START
+(function(){
+  function cleanup(){
+    document.querySelectorAll('.newsroom-toolbar-placeholder').forEach(el=>el.remove());
+    const toolbar=document.getElementById('classicToolbar');
+    if(!toolbar)return;
+    toolbar.classList.remove('newsroom-toolbar-fixed');
+    ['top','left','right','width','position','transform'].forEach(prop=>toolbar.style.removeProperty(prop));
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',cleanup,{once:true});
+  else cleanup();
+  window.addEventListener('load',cleanup,{once:true});
+  setTimeout(cleanup,250);
+})();
+// NEWSROOM_EDITOR_STICKY_STATE_CLEANUP_END
+</script>
+
 </body></html>
