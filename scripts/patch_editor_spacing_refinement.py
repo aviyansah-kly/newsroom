@@ -4,10 +4,14 @@ import re
 path = Path('index.html')
 text = path.read_text(encoding='utf-8')
 
-css_start = '/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */'
-css_end = '/* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */'
-if css_start in text and css_end in text:
-    text = re.sub(re.escape(css_start) + r'.*?' + re.escape(css_end) + r'\n?', '', text, flags=re.S)
+# Remove every experimental spacing/sticky patch we own so only one system remains.
+for css_start, css_end in [
+    ('/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */', '/* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */'),
+    ('/* NEWSROOM_STICKY_EDITOR_LAYERING_START */', '/* NEWSROOM_STICKY_EDITOR_LAYERING_END */'),
+    ('/* NEWSROOM_LEGACY_SIDEBAR_ALIGN_START */', '/* NEWSROOM_LEGACY_SIDEBAR_ALIGN_END */'),
+]:
+    if css_start in text and css_end in text:
+        text = re.sub(re.escape(css_start) + r'.*?' + re.escape(css_end) + r'\n?', '', text, flags=re.S)
 
 for js_start, js_end in [
     ('// NEWSROOM_EDITOR_STICKY_BOOTSTRAP_START', '// NEWSROOM_EDITOR_STICKY_BOOTSTRAP_END'),
@@ -18,52 +22,55 @@ for js_start, js_end in [
     if js_start in text and js_end in text:
         text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
 
-old_start = '/* NEWSROOM_STICKY_EDITOR_LAYERING_START */'
-old_end = '/* NEWSROOM_STICKY_EDITOR_LAYERING_END */'
-if old_start in text and old_end in text:
-    text = re.sub(re.escape(old_start) + r'.*?' + re.escape(old_end) + r'\n?', '', text, flags=re.S)
-
 css = r'''/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
 :root{--newsroom-editor-header-height:64px}
 
-/* Text card geometry only. Do not alter Article Settings or CMS navigation. */
+/* One source of truth for the refined app header and the two outer shells. */
+body.alt-editor-layout .topbar{
+  height:var(--newsroom-editor-header-height)!important;
+  min-height:var(--newsroom-editor-header-height)!important;
+}
+body.alt-editor-layout .cms-nav-drawer{
+  top:var(--newsroom-editor-header-height)!important;
+  height:calc(100vh - var(--newsroom-editor-header-height))!important;
+}
+body.alt-editor-layout .cms-nav-backdrop{
+  inset:var(--newsroom-editor-header-height) 0 0 0!important;
+}
+body.alt-editor-layout .context{
+  top:var(--newsroom-editor-header-height)!important;
+  height:calc(100vh - var(--newsroom-editor-header-height))!important;
+}
+
+/* Native sticky only. No fixed positioning, observers, left/width measurements, or runtime offset rewrites. */
+body.alt-editor-layout .alt-editor-section,
+body.alt-editor-layout .alt-block-list,
+body.alt-editor-layout .alt-content-card[data-type="text"],
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
+  overflow:visible!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-head{
+  margin:0!important;
+  margin-bottom:0!important;
+}
 body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
   padding:0!important;
   margin:0!important;
 }
-body.alt-editor-layout .alt-content-card[data-type="text"] .alt-content-card-head{
-  margin-bottom:0!important;
-}
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
 body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
-  position:relative!important;
-  top:auto!important;
+  position:sticky!important;
+  top:var(--newsroom-editor-header-height)!important;
   left:auto!important;
-  z-index:160!important;
+  width:auto!important;
+  z-index:180!important;
   margin:0!important;
   transform:none!important;
   border-radius:0!important;
-}
-body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.newsroom-toolbar-fixed{
-  position:fixed!important;
-  top:var(--newsroom-editor-header-height)!important;
-  z-index:320!important;
-  margin:0!important;
-  background:rgba(255,255,255,.99)!important;
-  box-shadow:0 5px 14px rgba(15,23,42,.08)!important;
-}
-body.alt-editor-layout .newsroom-toolbar-placeholder{
-  display:block;
-  width:100%;
-  height:0;
-  margin:0;
-  padding:0;
-}
-body.alt-editor-layout .newsroom-toolbar-placeholder.active{
-  height:var(--newsroom-toolbar-height,48px);
+  background:#fff!important;
 }
 
-/* Tags spacing remains independent. */
+/* Keep the field refinements already approved. */
 body.alt-editor-layout #altEditorialTagsSection .tag-wrap #tagInput{
   display:block!important;
   width:100%!important;
@@ -107,15 +114,11 @@ body.alt-editor-layout .newsroom-team-section .team-role-divider{
   margin:10px 0!important;
 }
 @media(max-width:520px){
-  body.alt-editor-layout .newsroom-team-section .team-assignment{
-    grid-template-columns:1fr!important;
-  }
+  body.alt-editor-layout .newsroom-team-section .team-assignment{grid-template-columns:1fr!important}
   body.alt-editor-layout .newsroom-team-section .team-role-head,
   body.alt-editor-layout .newsroom-team-section .team-member-list,
   body.alt-editor-layout .newsroom-team-section .team-add-trigger,
-  body.alt-editor-layout .newsroom-team-section .team-add-panel{
-    grid-column:1!important;
-  }
+  body.alt-editor-layout .newsroom-team-section .team-add-panel{grid-column:1!important}
   body.alt-editor-layout .newsroom-team-section .team-add-trigger{justify-self:start!important}
 }
 /* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */
@@ -126,94 +129,5 @@ if style_idx == -1:
     raise SystemExit('Could not find closing </style>')
 text = text[:style_idx] + css + '\n' + text[style_idx:]
 
-js = r'''<script>
-// NEWSROOM_EDITOR_FLOATING_TOOLBAR_START
-(function(){
-  let observer=null;
-  let mountObserver=null;
-  let placeholder=null;
-  let toolbar=null;
-  let card=null;
-
-  function headerHeight(){
-    const header=document.querySelector('body.alt-editor-layout .topbar');
-    const h=header ? Math.round(header.getBoundingClientRect().height) : 64;
-    document.documentElement.style.setProperty('--newsroom-editor-header-height',Math.max(1,h)+'px');
-    return Math.max(1,h);
-  }
-
-  function syncFixedGeometry(){
-    if(!toolbar||!card||!toolbar.classList.contains('newsroom-toolbar-fixed'))return;
-    const rect=card.getBoundingClientRect();
-    toolbar.style.setProperty('left',rect.left+'px','important');
-    toolbar.style.setProperty('width',rect.width+'px','important');
-  }
-
-  function setFixed(fixed){
-    if(!toolbar||!placeholder)return;
-    if(fixed){
-      const h=Math.ceil(toolbar.getBoundingClientRect().height);
-      document.documentElement.style.setProperty('--newsroom-toolbar-height',h+'px');
-      placeholder.classList.add('active');
-      toolbar.classList.add('newsroom-toolbar-fixed');
-      syncFixedGeometry();
-    }else{
-      toolbar.classList.remove('newsroom-toolbar-fixed');
-      toolbar.style.removeProperty('left');
-      toolbar.style.removeProperty('width');
-      placeholder.classList.remove('active');
-    }
-  }
-
-  function buildObserver(){
-    if(observer)observer.disconnect();
-    const hh=headerHeight();
-    observer=new IntersectionObserver(entries=>{
-      const entry=entries[0];
-      const shouldFix=!entry.isIntersecting && entry.boundingClientRect.top < hh;
-      setFixed(shouldFix);
-    },{root:null,threshold:0,rootMargin:'-'+hh+'px 0px 0px 0px'});
-    observer.observe(placeholder);
-  }
-
-  function initToolbar(){
-    toolbar=document.getElementById('classicToolbar');
-    card=toolbar?.closest('.alt-content-card[data-type="text"]');
-    if(!toolbar||!card)return false;
-
-    if(!placeholder){
-      placeholder=document.createElement('div');
-      placeholder.className='newsroom-toolbar-placeholder';
-      placeholder.setAttribute('aria-hidden','true');
-      toolbar.parentNode.insertBefore(placeholder,toolbar);
-    }
-
-    buildObserver();
-    if(mountObserver){mountObserver.disconnect();mountObserver=null;}
-    return true;
-  }
-
-  function boot(){
-    if(initToolbar())return;
-    if('MutationObserver' in window){
-      mountObserver=new MutationObserver(()=>initToolbar());
-      mountObserver.observe(document.body,{childList:true,subtree:true});
-    }
-  }
-
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});
-  else boot();
-  window.addEventListener('load',()=>{initToolbar();buildObserver();},{once:true});
-  window.addEventListener('resize',()=>{headerHeight();syncFixedGeometry();buildObserver();},{passive:true});
-})();
-// NEWSROOM_EDITOR_FLOATING_TOOLBAR_END
-</script>
-'''
-
-body_idx = text.rfind('</body>')
-if body_idx == -1:
-    raise SystemExit('Could not find closing </body>')
-text = text[:body_idx] + js + '\n' + text[body_idx:]
-
 path.write_text(text, encoding='utf-8')
-print('WYSIWYG floating toolbar stabilized and Editorial Team compacted.')
+print('Reset to native sticky with a single 64px header offset.')
