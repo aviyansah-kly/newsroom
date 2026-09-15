@@ -1,0 +1,28 @@
+name: Apply Generate Attributes flow
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-generate-attributes-flow.yml'
+      - 'scripts/patch_generate_attributes_flow.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply Generate Attributes flow patch
+        run: python3 scripts/patch_generate_attributes_flow.py
+      - name: Verify Generate Attributes flow
+        run: |
+          grep -q 'Generate Attributes' index.html
+          grep -q 'AI Generated' index.html
+          grep -q "\['category','tags','seoKeyword'\]" index.html
+          grep -q '</body></html>' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refine Generate Attributes editorial flow'
+          git push
