@@ -16,15 +16,13 @@ jobs:
       - name: Verify editor spacing refinement
         run: |
           grep -q 'NEWSROOM_EDITOR_SPACING_REFINEMENT_START' index.html
-          grep -q 'NEWSROOM_EDITOR_STICKY_BOOTSTRAP_START' index.html
-          grep -q -- '--newsroom-editor-header-height:64px' index.html
-          grep -q 'cms-nav-drawer' index.html
-          grep -q 'height:calc(100vh - var(--newsroom-editor-header-height))!important' index.html
-          grep -q 'padding:0!important' index.html
-          grep -q 'top:calc(var(--newsroom-editor-header-height) - 1px)!important' index.html
-          grep -q 'stickyReady' index.html
+          grep -q 'NEWSROOM_EDITOR_FLOATING_TOOLBAR_START' index.html
+          grep -q 'newsroom-toolbar-fixed' index.html
+          grep -q 'IntersectionObserver' index.html
+          grep -q 'grid-template-columns:minmax(0,1fr) auto!important' index.html
+          grep -q 'team-add-panel' index.html
           grep -q 'margin-top:10px!important' index.html
-          ! grep -q 'NEWSROOM_LEGACY_SIDEBAR_ALIGN_START' index.html
+          ! grep -q 'NEWSROOM_EDITOR_STICKY_BOOTSTRAP_START' index.html
           ! grep -q 'NEWSROOM_EDITOR_SPACING_SYNC_START' index.html
           ! grep -q 'NEWSROOM_STICKY_EDITOR_HEADER_SYNC_START' index.html
       - name: Commit
@@ -32,5 +30,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.html
-          git diff --cached --quiet || git commit -m 'Align header shells and Text card toolbar'
+          git diff --cached --quiet || git commit -m 'Stabilize WYSIWYG toolbar and compact Editorial Team'
           git push
