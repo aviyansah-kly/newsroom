@@ -4,20 +4,17 @@ import re
 path = Path('index.html')
 text = path.read_text(encoding='utf-8')
 
-# Replace the existing V49 moveTagsToEditorial implementation so Tags lives
-# directly after Category inside the same Editorial Classification cluster.
+# Keep Tags in the Editorial tab and place it in the first metadata cluster,
+# directly below Location. The original field is reused so all existing tag
+# behavior, AI markers, suggestions, and save logic remain intact.
 pattern = re.compile(r"""  function moveTagsToEditorial\(\)\{.*?\n  \}\n\n  function renameMainTab\(\)\{""", re.S)
 replacement = r'''  function moveTagsToEditorial(){
-    const seoPane=$('#seoPane');
     const infoPane=$('#infoPane');
     const tagInput=$('#tagInput');
-    if(!seoPane||!infoPane||!tagInput)return;
+    if(!infoPane||!tagInput)return;
 
     const field=tagInput.closest('.field');
-    const category=$('#category');
-    const categoryField=category?.closest('.field');
-    const classification=categoryField?.closest('.settings-section');
-    if(!field||!categoryField||!classification)return;
+    if(!field)return;
 
     let section=$('#altEditorialTagsSection');
     if(!section){
@@ -26,9 +23,18 @@ replacement = r'''  function moveTagsToEditorial(){
       section.id='altEditorialTagsSection';
       section.innerHTML='<div class="settings-section-head"><div><strong>Tags</strong><span>Tambahkan topik editorial yang relevan untuk artikel.</span></div></div>';
     }
-
     section.appendChild(field);
-    categoryField.insertAdjacentElement('afterend',section);
+
+    const location=$('#altLocation');
+    const locationField=location?.closest('.field');
+    if(locationField && infoPane.contains(locationField)){
+      locationField.insertAdjacentElement('afterend',section);
+    }else{
+      // Location is created by the Editorial metadata enhancer. Retry briefly
+      // instead of falling back to SEO or another cluster.
+      window.setTimeout(moveTagsToEditorial,120);
+      return;
+    }
 
     const label=field.querySelector('label');
     if(label)label.textContent='Tags';
@@ -45,7 +51,7 @@ if start in text and end in text:
     text = re.sub(re.escape(start) + r'.*?' + re.escape(end) + r'\n?', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_TAGS_CLASSIFICATION_POSITION_START */
-/* Category + Tags are one classification decision group. */
+/* Tags remain in Editorial and visually follow Location in the first metadata cluster. */
 body.alt-editor-layout #infoPane .alt-editorial-tags-section{
   margin:10px 0 0!important;
   padding:0!important;
@@ -55,9 +61,8 @@ body.alt-editor-layout #infoPane .alt-editorial-tags-section{
 body.alt-editor-layout #infoPane .alt-editorial-tags-section .field{
   margin:0!important;
 }
-body.alt-editor-layout #infoPane .v58-category-editorial + .alt-editorial-tags-section,
-body.alt-editor-layout #infoPane .field:has(#category) + .alt-editorial-tags-section{
-  margin-top:10px!important;
+body.alt-editor-layout #infoPane .alt-meta-extra>.alt-editorial-tags-section{
+  width:100%!important;
 }
 /* NEWSROOM_TAGS_CLASSIFICATION_POSITION_END */
 '''
@@ -67,4 +72,4 @@ if idx == -1:
 text = text[:idx] + css + '\n' + text[idx:]
 
 path.write_text(text, encoding='utf-8')
-print('Tags moved directly after Category in Editorial Classification.')
+print('Tags kept in Editorial directly below Location.')
