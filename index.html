@@ -6861,7 +6861,7 @@ body.alt-editor-layout .ai-suggested-field{
   outline-offset:1px!important;
 }
 body.alt-editor-layout .ai-suggested-field:after{
-  content:'AI suggestion'!important;
+  content:'AI Generated'!important;
   display:inline-block;
   margin-top:5px;
   font-size:12px!important;
@@ -12434,7 +12434,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const host=el?.closest('.field,.seo-field,.alt-entity-picker,.v58-category-editorial');
     if(!host)return;
     host.classList.add('ai-suggested-field');
-    setTimeout(()=>host.classList.remove('ai-suggested-field'),2200);
+    if(host.dataset.aiMarkerBound!=='1'){
+      const clear=e=>{if(e.isTrusted)host.classList.remove('ai-suggested-field')};
+      host.addEventListener('input',clear,true);
+      host.addEventListener('change',clear,true);
+      host.addEventListener('click',e=>{if(e.isTrusted&&e.target.closest('button'))host.classList.remove('ai-suggested-field')},true);
+      host.dataset.aiMarkerBound='1';
+    }
   }
 
   function applyField(key,value){
@@ -12480,8 +12486,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     wrap.className='alt-ai-analyze-wrap';
     wrap.id='altAnalyzeArticle';
     wrap.innerHTML=
-      '<div class="alt-ai-analyze-copy"><strong>Selesai menulis?</strong><span>Analyze Article membantu mengisi metadata editorial dan SEO dari tulisan saat ini.</span></div>'+
-      '<button type="button" class="alt-ai-analyze-btn"><i data-lucide="sparkles"></i><span>Analyze Article</span></button>';
+      '<div class="alt-ai-analyze-copy"><strong>Selesai menulis?</strong><span>Klik tombol Generate Attributes di samping untuk mempercepat pengisian atribut artikel.</span></div>'+
+      '<button type="button" class="alt-ai-analyze-btn"><i data-lucide="sparkles"></i><span>Generate Attributes</span></button>';
     section.insertAdjacentElement('afterend',wrap);
 
     const review=document.createElement('div');
@@ -12496,29 +12502,22 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     function render(){
       current=deriveSuggestions();
-      const rows=[
-        ['category','Kategori',current.category],
-        ['articleType','Article Type',current.articleType],
-        ['tags','Tags',current.tags.join(', ')],
-        ['figure','Tokoh / Figure',current.figure||'—'],
-        ['seoKeyword','SEO Keyword',current.seoKeyword],
-        ['seoTitle','SEO Title',current.seoTitle],
-        ['meta','Meta Description',current.meta],
-        ['slug','Custom Slug',current.slug]
-      ];
-      const list=review.querySelector('.alt-ai-review-list');
-      list.innerHTML=rows.map(([key,label,value])=>
-        '<div class="alt-ai-review-row" data-ai-key="'+key+'"><span class="label">'+label+'</span><span class="value">'+String(value||'—').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))+'</span><button type="button">Apply</button></div>'
-      ).join('');
-      list.querySelectorAll('.alt-ai-review-row').forEach(row=>{
-        row.querySelector('button').onclick=()=>{
-          const key=row.dataset.aiKey;
-          applyField(key,current[key]);
-          row.querySelector('button').textContent='Applied';
-          row.querySelector('button').disabled=true;
-        };
-      });
-      review.classList.add('open');
+      const button=wrap.querySelector('.alt-ai-analyze-btn');
+      const label=button?.querySelector('span');
+      if(button)button.disabled=true;
+      if(label)label.textContent='Generating…';
+
+      ['category','tags','seoKeyword'].forEach(key=>applyField(key,current[key]));
+      review.classList.remove('open');
+      if(typeof scheduleSave==='function')scheduleSave();
+      if(typeof renderFast==='function')renderFast();
+      if(typeof scheduleHeavyRender==='function')scheduleHeavyRender(80);
+
+      if(label)label.textContent='Generated';
+      window.setTimeout(()=>{
+        if(label)label.textContent='Generate Attributes';
+        if(button)button.disabled=false;
+      },900);
     }
 
     wrap.querySelector('.alt-ai-analyze-btn').onclick=render;
