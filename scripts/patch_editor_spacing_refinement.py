@@ -4,35 +4,94 @@ import re
 path = Path('index.html')
 text = path.read_text(encoding='utf-8')
 
+# Remove previous runtime geometry syncs. They caused sticky threshold jitter/glitches
+# because several scripts kept rewriting top/margin while the page was scrolling.
+for js_start, js_end in [
+    ('// NEWSROOM_EDITOR_SPACING_SYNC_START', '// NEWSROOM_EDITOR_SPACING_SYNC_END'),
+    ('// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_START', '// NEWSROOM_STICKY_EDITOR_HEADER_SYNC_END'),
+]:
+    if js_start in text and js_end in text:
+        text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
+
 css_start = '/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */'
 css_end = '/* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */'
 if css_start in text and css_end in text:
     text = re.sub(re.escape(css_start) + r'.*?' + re.escape(css_end) + r'\n?', '', text, flags=re.S)
 
-js_start = '// NEWSROOM_EDITOR_SPACING_SYNC_START'
-js_end = '// NEWSROOM_EDITOR_SPACING_SYNC_END'
-if js_start in text and js_end in text:
-    text = re.sub(r'<script>\s*' + re.escape(js_start) + r'.*?' + re.escape(js_end) + r'\s*</script>\s*', '', text, flags=re.S)
+# Also neutralize the older sticky layering block so there is exactly one owner of
+# the WYSIWYG top offset.
+old_start = '/* NEWSROOM_STICKY_EDITOR_LAYERING_START */'
+old_end = '/* NEWSROOM_STICKY_EDITOR_LAYERING_END */'
+if old_start in text and old_end in text:
+    text = re.sub(re.escape(old_start) + r'.*?' + re.escape(old_end) + r'\n?', '', text, flags=re.S)
 
 css = r'''/* NEWSROOM_EDITOR_SPACING_REFINEMENT_START */
-/* One shared live offset. JS writes this from the actual rendered topbar bottom edge. */
-:root{--newsroom-live-header-bottom:64px}
+/* One source of truth for every surface that sits below the app header. */
+:root{
+  --newsroom-app-header-height:64px;
+}
 
-/* Text card: no empty visual band between card header and WYSIWYG toolbar. */
+body.alt-editor-layout .topbar{
+  height:var(--newsroom-app-header-height)!important;
+  min-height:var(--newsroom-app-header-height)!important;
+  max-height:var(--newsroom-app-header-height)!important;
+  top:0!important;
+  z-index:400!important;
+}
+
+/* WYSIWYG: CSS-only sticky. No JS writes top/margin while scrolling. */
+body.alt-editor-layout .alt-content-card[data-type="text"],
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
+  overflow:visible!important;
+}
 body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body{
   padding-top:0!important;
   margin-top:0!important;
 }
-body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar{
-  margin-block-start:0!important;
-  top:calc(var(--newsroom-live-header-bottom) - 4px)!important;
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
+body.alt-editor-layout #classicToolbar{
+  position:sticky!important;
+  top:var(--newsroom-app-header-height)!important;
+  z-index:160!important;
+  margin:0!important;
+  transform:none!important;
+  border-radius:0!important;
 }
 
-/* A tiny overlap sits underneath the higher-z topbar so zoom/subpixel rounding can never show a seam. */
-body.alt-editor-layout .topbar{z-index:400!important}
-body.alt-editor-layout .classic-toolbar{z-index:160!important}
+/* Keep normal (non-sticky) card geometry compact and predictable. */
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-content-card-head{
+  margin-bottom:0!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar + #tiptap-editor{
+  margin-top:0!important;
+}
 
-/* Tags input needs breathing room after the generated/existing chips. */
+/* Right settings column must begin directly below the global header, not an old 72/84px offset. */
+body.alt-editor-layout .context{
+  top:var(--newsroom-app-header-height)!important;
+  margin-top:0!important;
+  padding-top:0!important;
+}
+body.alt-editor-layout .context>.panel{
+  margin-top:0!important;
+}
+body.alt-editor-layout .context>.panel>.tabs.article-tabs-promoted,
+body.alt-editor-layout .context .tabs{
+  top:var(--newsroom-app-header-height)!important;
+}
+
+/* Common CMS navigation shells: align with the same header edge when sticky/fixed. */
+body.alt-editor-layout .cms-sidebar,
+body.alt-editor-layout .cms-menu,
+body.alt-editor-layout .sidebar,
+body.alt-editor-layout .left-sidebar,
+body.alt-editor-layout .navigation-sidebar,
+body.alt-editor-layout .editor-sidebar-left{
+  top:var(--newsroom-app-header-height)!important;
+  margin-top:0!important;
+}
+
+/* Tags input breathing room after chips. */
 body.alt-editor-layout #altEditorialTagsSection .tag-wrap #tagInput{
   display:block!important;
   width:100%!important;
@@ -49,85 +108,30 @@ if style_idx == -1:
     raise SystemExit('Could not find closing </style>')
 text = text[:style_idx] + css + '\n' + text[style_idx:]
 
+# One-time class discovery is allowed for the legacy left CMS shell; importantly,
+# it does not run on scroll and therefore cannot cause sticky jitter.
 js = r'''<script>
-// NEWSROOM_EDITOR_SPACING_SYNC_START
+// NEWSROOM_LEGACY_SIDEBAR_ALIGN_START
 (function(){
-  let raf=0;
-  const OVERLAP=4;
-
-  function syncToolbar(){
-    const header=document.querySelector('body.alt-editor-layout .topbar');
-    if(!header)return;
-
-    const rect=header.getBoundingClientRect();
-    const headerBottom=Math.max(0,rect.bottom);
-    document.documentElement.style.setProperty('--newsroom-live-header-bottom',headerBottom+'px');
-
-    document.querySelectorAll('body.alt-editor-layout .alt-content-card[data-type="text"]').forEach(card=>{
-      const head=card.querySelector(':scope > .alt-content-card-head');
-      const body=card.querySelector(':scope > .alt-content-card-body');
-      const toolbar=card.querySelector('.classic-toolbar');
-      if(!head||!body||!toolbar)return;
-
-      body.style.setProperty('padding-top','0px','important');
-      body.style.setProperty('margin-top','0px','important');
-      toolbar.style.setProperty('position','sticky','important');
-      toolbar.style.setProperty('top',Math.max(0,headerBottom-OVERLAP)+'px','important');
-      toolbar.style.setProperty('transform','none','important');
-
-      /* Normal (not yet sticky) state: collapse only a real accidental empty band. */
-      if(toolbar.dataset.spacingMeasured!=='1'){
-        toolbar.style.setProperty('margin-top','0px','important');
-        const gap=toolbar.getBoundingClientRect().top-head.getBoundingClientRect().bottom;
-        if(gap>8 && gap<180){
-          const shift=Math.max(0,Math.round(gap-4));
-          toolbar.style.setProperty('margin-top','-'+shift+'px','important');
-          toolbar.dataset.normalGapShift=String(shift);
-        }else{
-          toolbar.style.setProperty('margin-top','0px','important');
-          toolbar.dataset.normalGapShift='0';
-        }
-        toolbar.dataset.spacingMeasured='1';
-      }
-    });
+  function markLegacySidebar(){
+    const candidates=[...document.querySelectorAll('aside,nav,section,div')];
+    const title=candidates.find(el=>{
+      const own=[...el.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent.trim()).join(' ');
+      return own==='Menu CMS';
+    }) || [...document.querySelectorAll('h1,h2,h3,h4,strong')].find(el=>(el.textContent||'').trim()==='Menu CMS');
+    const shell=title?.closest('aside,nav,.sidebar,.cms-menu,.cms-sidebar');
+    if(shell)shell.classList.add('editor-sidebar-left');
   }
-
-  function schedule(){
-    cancelAnimationFrame(raf);
-    raf=requestAnimationFrame(syncToolbar);
-  }
-
-  function remeasure(){
-    document.querySelectorAll('body.alt-editor-layout .classic-toolbar').forEach(toolbar=>{
-      delete toolbar.dataset.spacingMeasured;
-      toolbar.style.setProperty('margin-top','0px','important');
-    });
-    schedule();
-  }
-
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',schedule,{once:true});
-  else schedule();
-  window.addEventListener('load',remeasure,{once:true});
-  window.addEventListener('resize',remeasure,{passive:true});
-  window.addEventListener('scroll',schedule,{passive:true});
-
-  if('ResizeObserver' in window){
-    const header=document.querySelector('body.alt-editor-layout .topbar');
-    if(header)new ResizeObserver(schedule).observe(header);
-  }
-  if('MutationObserver' in window){
-    const root=document.querySelector('body.alt-editor-layout') || document.body;
-    new MutationObserver(schedule).observe(root,{childList:true,subtree:true});
-  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',markLegacySidebar,{once:true});
+  else markLegacySidebar();
 })();
-// NEWSROOM_EDITOR_SPACING_SYNC_END
+// NEWSROOM_LEGACY_SIDEBAR_ALIGN_END
 </script>
 '''
-
 body_idx = text.rfind('</body>')
 if body_idx == -1:
     raise SystemExit('Could not find closing </body>')
 text = text[:body_idx] + js + '\n' + text[body_idx:]
 
 path.write_text(text, encoding='utf-8')
-print('Editor spacing now follows the actual rendered header bottom edge.')
+print('Stable CSS-only sticky layout applied with one 64px header offset.')
