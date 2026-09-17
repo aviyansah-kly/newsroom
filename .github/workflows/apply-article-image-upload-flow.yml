@@ -1,0 +1,31 @@
+name: Apply article image upload refinement
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-article-image-upload-flow.yml'
+      - 'scripts/patch_article_image_upload_flow.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply article image upload flow
+        run: python3 scripts/patch_article_image_upload_flow.py
+      - name: Verify article image upload flow
+        run: |
+          grep -q 'NEWSROOM_ARTICLE_IMAGE_UPLOAD_FLOW_START' index.html
+          grep -q 'NEWSROOM_ARTICLE_IMAGE_UPLOAD_FLOW_JS_START' index.html
+          grep -q 'v62CropCanvas' index.html
+          grep -q 'v62PhotoTitle' index.html
+          grep -q 'v62PhotoDescription' index.html
+          grep -q 'v62PhotoCopyright' index.html
+          grep -q 'Simpan & Sisipkan ke Artikel' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refine article image upload flow'
+          git push
