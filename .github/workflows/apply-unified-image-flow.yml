@@ -1,0 +1,30 @@
+name: Apply unified image flow
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-unified-image-flow.yml'
+      - 'scripts/patch_unified_image_flow.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply unified image flow
+        run: python3 scripts/patch_unified_image_flow.py
+      - name: Verify unified image flow
+        run: |
+          grep -q 'NEWSROOM_UNIFIED_IMAGE_FLOW_START' index.html
+          grep -q 'newsroomUnifiedImageModal' index.html
+          grep -q 'newsroomOpenUnifiedImageEditor' index.html
+          grep -q 'newsroomOpenUnifiedImageUpload' index.html
+          grep -q 'Simpan &amp; Gunakan Image' index.html
+          grep -q 'window.newsroomMediaApplyTarget' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Unify headline and article image flow'
+          git push
