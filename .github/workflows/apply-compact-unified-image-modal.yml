@@ -1,0 +1,28 @@
+name: Apply compact unified image modal
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-compact-unified-image-modal.yml'
+      - 'scripts/patch_compact_unified_image_modal.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply compact image modal
+        run: python3 scripts/patch_compact_unified_image_modal.py
+      - name: Verify compact image modal
+        run: |
+          grep -q 'NEWSROOM_COMPACT_UNIFIED_IMAGE_MODAL_START' index.html
+          grep -q 'grid-template-columns:minmax(0,1.55fr) minmax(300px,.8fr)' index.html
+          grep -q 'max-height:46vh' index.html
+          grep -q 'newsroom-photo-details' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Compact unified image editor modal'
+          git push
