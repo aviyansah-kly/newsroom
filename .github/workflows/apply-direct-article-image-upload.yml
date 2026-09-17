@@ -1,0 +1,29 @@
+name: Apply direct article image upload
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-direct-article-image-upload.yml'
+      - 'scripts/patch_direct_article_image_upload.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply direct upload flow
+        run: python3 scripts/patch_direct_article_image_upload.py
+      - name: Verify direct upload flow
+        run: |
+          grep -q 'NEWSROOM_DIRECT_ARTICLE_IMAGE_UPLOAD_START' index.html
+          grep -q "input.click()" index.html
+          grep -q "classList.add('open','v62-upload-editing')" index.html
+          grep -q 'Simpan & Sisipkan ke Artikel' index.html
+          ! grep -q "setTimeout(()=>document.querySelector('#imageLibraryPopup \[data-v61-mode=\"upload\"\]')?.click(),0)" index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Streamline article image upload flow'
+          git push
