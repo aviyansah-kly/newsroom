@@ -11683,6 +11683,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       $('#v61ResultsHead').hidden=upload;
       $('#v34Grid').hidden=upload;
       $('#v61UploadPanel').hidden=!upload;
+      if(upload){const directInput=$('#v61UploadInput');p.classList.remove('open');if(directInput){directInput.value='';directInput.click()}return;}
       selected=null;
       $('#v34Use').disabled=true;
       $('#v34Preview').classList.remove('has-selection');
@@ -11771,7 +11772,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       '<div class="newsroom-image-empty-actions"><button type="button" class="newsroom-image-gallery-btn" data-v34-image-select><i data-lucide="images"></i><span>Pilih dari Gallery</span></button><button type="button" class="newsroom-image-upload-btn" data-v34-image-upload><i data-lucide="upload"></i><span>Upload Image</span></button></div>'+
     '</div>';
     body.querySelector('[data-v34-image-select]').onclick=e=>{e.preventDefault();open({type:'card',card:c})};
-    body.querySelector('[data-v34-image-upload]').onclick=e=>{e.preventDefault();open({type:'card',card:c});setTimeout(()=>document.querySelector('#imageLibraryPopup [data-v61-mode="upload"]')?.click(),0)};
+    body.querySelector('[data-v34-image-upload]').onclick=e=>{e.preventDefault();open({type:'card',card:c});const popup=document.getElementById('imageLibraryPopup');const uploadTab=popup?.querySelector('[data-v61-mode="upload"]');if(uploadTab)uploadTab.click();popup?.classList.remove('open');const input=document.getElementById('v61UploadInput');if(input){input.value='';input.click()}};
     const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='none';
     if(window.lucide)window.lucide.createIcons()
   }
@@ -13658,7 +13659,7 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
         copyright.value=item.copyright||'';
         zoom.value='1';posX.value='50';posY.value='50';
         image=new Image();
-        image.onload=()=>{draw();drop.hidden=true;editor.hidden=false;popup.classList.add('v62-upload-editing');use.disabled=false;use.textContent='Simpan & Sisipkan ke Artikel';if(targetText)targetText.textContent='Atur crop dan lengkapi metadata sebelum image dimasukkan.'};
+        image.onload=()=>{draw();drop.hidden=true;editor.hidden=false;popup.classList.add('open','v62-upload-editing');use.disabled=false;use.textContent='Simpan & Sisipkan ke Artikel';if(targetText)targetText.textContent='Atur crop dan lengkapi metadata sebelum image dimasukkan.'};
         image.src=dataUrl;
       };
       wait();
@@ -13673,7 +13674,8 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
     });
 
     back.addEventListener('click',()=>{
-      editor.hidden=true;drop.hidden=false;popup.classList.remove('v62-upload-editing');input.value='';use.disabled=true;use.textContent='Gunakan Image';if(targetText)targetText.textContent='Pilih file image terlebih dahulu.';
+      input.value='';
+      input.click();
     });
 
     use.addEventListener('click',()=>{if(!editor.hidden){draw();syncItem()}},true);
@@ -13691,4 +13693,10 @@ requestAnimationFrame(function(){document.body.classList.add('newsroom-layout-re
 // NEWSROOM_ARTICLE_IMAGE_UPLOAD_FLOW_JS_END
 </script>
 
+<script>
+// NEWSROOM_DIRECT_ARTICLE_IMAGE_UPLOAD_START
+// UX contract: direct device picker -> crop/metadata editor -> insert into article.
+// The Image Gallery modal is no longer used as an intermediate upload step.
+// NEWSROOM_DIRECT_ARTICLE_IMAGE_UPLOAD_END
+</script>
 </body></html>
