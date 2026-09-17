@@ -1,0 +1,32 @@
+name: Apply safe headline media and schedule refinement
+on:
+  push:
+    paths:
+      - '.github/workflows/apply-headline-media-schedule-safe.yml'
+      - 'scripts/patch_headline_media_schedule_safe.py'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply isolated refinement
+        run: python3 scripts/patch_headline_media_schedule_safe.py
+      - name: Verify isolated refinement
+        run: |
+          grep -q 'NEWSROOM_HEADLINE_MEDIA_SCHEDULE_SAFE_START' index.html
+          grep -q 'NEWSROOM_HEADLINE_MEDIA_SCHEDULE_SAFE_JS_START' index.html
+          grep -q 'uploadPhotoTitle' index.html
+          grep -q 'uploadPhotoDescription' index.html
+          grep -q 'uploadPhotoCopyright' index.html
+          grep -q 'Simpan &amp; Gunakan Foto' index.html
+          grep -q 'newsroom-schedule-inline' index.html
+          grep -q 'headline.insertAdjacentElement' index.html
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git diff --cached --quiet || git commit -m 'Refine headline image editor and schedule placement safely'
+          git push
