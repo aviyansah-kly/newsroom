@@ -9587,6 +9587,210 @@ body.alt-editor-layout .header-status-cluster.is-offline #saveStatusTitle{
 }
 /* NEWSROOM_HEADER_DS_NORMALIZATION_END */
 </style>
+<style>
+/* NEWSROOM_HEADER_CONTROLS_FINAL_START */
+
+/* Statuses are pills, never button-like containers. */
+body.alt-editor-layout .header-status-cluster{
+  height:40px!important;
+  min-height:40px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+body.alt-editor-layout .header-status-cluster:after{display:none!important}
+body.alt-editor-layout .header-status-cluster .article-lifecycle-pill,
+body.alt-editor-layout .header-status-cluster #saveStatus{
+  height:30px!important;
+  min-height:30px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  padding:0 10px!important;
+  border:1px solid #dbe4ee!important;
+  border-radius:999px!important;
+  background:#f8fafc!important;
+  box-shadow:none!important;
+  color:#475569!important;
+}
+body.alt-editor-layout .header-status-cluster .article-lifecycle-pill{
+  order:0!important;
+}
+body.alt-editor-layout .header-status-cluster #saveStatus{
+  order:1!important;
+}
+body.alt-editor-layout .header-status-cluster #saveStatus .save-icon{
+  width:16px!important;
+  height:16px!important;
+  display:grid!important;
+  place-items:center!important;
+  background:transparent!important;
+}
+body.alt-editor-layout .header-status-cluster #saveStatus .save-icon svg{
+  width:14px!important;
+  height:14px!important;
+}
+body.alt-editor-layout .header-status-cluster #saveStatus .save-copy{
+  min-height:0!important;
+  display:flex!important;
+  position:static!important;
+  width:auto!important;
+  height:auto!important;
+  margin:0!important;
+  overflow:visible!important;
+  clip:auto!important;
+  white-space:nowrap!important;
+}
+body.alt-editor-layout .header-status-cluster #saveStatusTitle{
+  font-size:12px!important;
+  line-height:16px!important;
+  font-weight:650!important;
+  white-space:nowrap!important;
+}
+body.alt-editor-layout .header-status-cluster #saveStatusTitle:after{content:none!important}
+body.alt-editor-layout .header-status-cluster #saveStatus .save-copy small{display:none!important}
+body.alt-editor-layout .header-status-cluster.is-offline #saveStatus{
+  border-color:#fed7aa!important;
+  background:#fff7ed!important;
+  color:#b45309!important;
+}
+body.alt-editor-layout .header-status-cluster.is-offline #saveStatusTitle{color:#b45309!important}
+
+/* Font size + focus = one compact view-control cluster. */
+body.alt-editor-layout .header-view-cluster{
+  height:40px;
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  padding:3px;
+  border:1px solid #dbe4ee;
+  border-radius:8px;
+  background:#fff;
+  flex:none;
+}
+body.alt-editor-layout .header-font-size{
+  display:inline-flex;
+  align-items:center;
+  gap:1px;
+}
+body.alt-editor-layout .header-font-size button,
+body.alt-editor-layout .header-focus-btn{
+  height:32px!important;
+  min-width:32px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0 8px!important;
+  border:0!important;
+  border-radius:6px!important;
+  background:transparent!important;
+  color:#64748b!important;
+  font-weight:700!important;
+  line-height:1!important;
+}
+body.alt-editor-layout .header-font-size button:hover,
+body.alt-editor-layout .header-focus-btn:hover{
+  background:#f1f5f9!important;
+  color:#0f172a!important;
+}
+body.alt-editor-layout .header-font-size button.active{
+  background:#f1f5f9!important;
+  color:#0f172a!important;
+  box-shadow:inset 0 0 0 1px #e2e8f0!important;
+}
+body.alt-editor-layout .header-font-size [data-font="normal"]{font-size:12px!important}
+body.alt-editor-layout .header-font-size [data-font="large"]{font-size:14px!important}
+body.alt-editor-layout .header-font-size [data-font="xlarge"]{font-size:17px!important}
+body.alt-editor-layout .header-focus-btn{
+  width:32px!important;
+  padding:0!important;
+  margin-left:2px!important;
+  border-left:1px solid #e2e8f0!important;
+  border-radius:0 6px 6px 0!important;
+}
+body.alt-editor-layout .header-focus-btn svg{width:15px!important;height:15px!important}
+
+/* Hide the old header surface; its underlying controls remain as behavior source. */
+body.alt-editor-layout .topbar>.writing-view-wrap{display:none!important}
+body.alt-editor-layout .topbar>#focusBtn{display:none!important}
+
+/* Secondary action contract: Save Draft and Preview must be visually identical. */
+body.alt-editor-layout .topbar #saveDraftBtn,
+body.alt-editor-layout .topbar #previewBtn{
+  height:40px!important;
+  min-height:40px!important;
+  padding:0 13px!important;
+  gap:7px!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:#334155!important;
+  box-shadow:none!important;
+  font-size:13px!important;
+  line-height:1!important;
+  font-weight:600!important;
+}
+body.alt-editor-layout .topbar #saveDraftBtn:hover,
+body.alt-editor-layout .topbar #previewBtn:hover{
+  border-color:#94a3b8!important;
+  background:#f8fafc!important;
+  color:#0f172a!important;
+}
+body.alt-editor-layout .topbar #saveDraftBtn svg,
+body.alt-editor-layout .topbar #previewBtn svg{
+  width:16px!important;height:16px!important;flex:0 0 16px!important;
+}
+body.alt-editor-layout .topbar #saveDraftBtn.saved{
+  border-color:#bbf7d0!important;
+  background:#f0fdf4!important;
+  color:#166534!important;
+}
+
+/* Primary remains the only visually dominant button. */
+body.alt-editor-layout .topbar #publishBtn{
+  height:40px!important;
+  min-height:40px!important;
+  border-radius:8px!important;
+  font-size:13px!important;
+  font-weight:650!important;
+}
+
+/* Responsive: preserve direct font-size access until space is truly scarce. */
+@media(max-width:1180px){
+  body.alt-editor-layout .header-font-size button{padding:0 7px!important}
+}
+@media(max-width:1020px){
+  body.alt-editor-layout #saveDraftBtn span,
+  body.alt-editor-layout #previewBtn span{display:none!important}
+  body.alt-editor-layout #saveDraftBtn,
+  body.alt-editor-layout #previewBtn{
+    width:40px!important;
+    min-width:40px!important;
+    padding:0!important;
+  }
+}
+@media(max-width:860px){
+  body.alt-editor-layout .header-font-size [data-font="xlarge"]{display:none!important}
+}
+@media(max-width:720px){
+  body.alt-editor-layout .header-status-cluster #saveStatusTitle{max-width:118px;overflow:hidden;text-overflow:ellipsis}
+  body.alt-editor-layout .header-font-size [data-font="large"]{display:none!important}
+}
+@media(max-width:620px){
+  body.alt-editor-layout .header-status-cluster .article-lifecycle-pill strong{display:none!important}
+  body.alt-editor-layout .header-status-cluster .article-lifecycle-pill{
+    width:30px!important;padding:0!important;justify-content:center!important;
+  }
+  body.alt-editor-layout .header-status-cluster:not(.is-offline) #saveStatus .save-copy{display:none!important}
+  body.alt-editor-layout .header-status-cluster:not(.is-offline) #saveStatus{
+    width:30px!important;padding:0!important;justify-content:center!important;
+  }
+}
+/* NEWSROOM_HEADER_CONTROLS_FINAL_END */
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="article-lifecycle-pill draft" id="articleLifecycle" aria-live="polite"><span class="article-lifecycle-dot"></span><strong id="articleLifecycleLabel">Draft</strong></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Writing View" title="Writing View"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn save-draft-btn" id="saveDraftBtn" type="button"><i data-lucide="save"></i><span>Save Draft</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
 <nav class="utility-rail"><button class="rail-item" id="cmsMenuBtn" type="button" aria-expanded="false"><span class="rail-icon"><i data-lucide="panel-left-open"></i></span><span class="rail-label">Menu CMS</span></button><a class="rail-item" href="dashboard.html"><span class="rail-icon"><i data-lucide="layout-dashboard"></i></span><span class="rail-label">Dashboard</span></a><div class="rail-sep"></div><button class="rail-item" id="railImport"><span class="rail-icon"><i data-lucide="file-input"></i></span><span class="rail-label">Import Draft</span></button><button class="rail-item ai-floating-trigger" id="railAI"><span class="rail-icon"><i data-lucide="bot-message-square"></i></span><span class="rail-label">Newsroom AI</span></button></nav>
@@ -14653,5 +14857,79 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
   else init();
 })();
 // NEWSROOM_HEADER_HIERARCHY_REFINEMENT_JS_END
+</script>
+<script>
+// NEWSROOM_HEADER_CONTROLS_FINAL_JS_START
+(function(){
+  function init(){
+    const topbar=document.querySelector('.topbar');
+    const status=document.querySelector('.header-status-cluster');
+    const sourceWrap=document.querySelector('.writing-view-wrap');
+    const sourceButtons=[...document.querySelectorAll('.writing-pref-control-menu [data-font]')];
+    const focusSource=document.getElementById('focusBtn');
+    const saveDraft=document.getElementById('saveDraftBtn');
+    const preview=document.getElementById('previewBtn');
+    if(!topbar||!status)return;
+
+    /* Rename preview without touching the existing preview behavior. */
+    if(preview){
+      const label=preview.querySelector('span');
+      if(label)label.textContent='Preview';
+      preview.setAttribute('aria-label','Preview');
+      preview.setAttribute('title','Preview');
+    }
+
+    if(!document.querySelector('.header-view-cluster')){
+      const cluster=document.createElement('div');
+      cluster.className='header-view-cluster';
+      cluster.setAttribute('aria-label','Pengaturan tampilan editor');
+
+      const sizes=document.createElement('div');
+      sizes.className='header-font-size';
+      sizes.setAttribute('role','group');
+      sizes.setAttribute('aria-label','Font Size');
+
+      const defs=[
+        ['normal','A','Font size normal'],
+        ['large','A','Font size besar'],
+        ['xlarge','A','Font size sangat besar']
+      ];
+      defs.forEach(([value,label,title])=>{
+        const btn=document.createElement('button');
+        btn.type='button';
+        btn.dataset.font=value;
+        btn.textContent=label;
+        btn.title=title;
+        btn.setAttribute('aria-label',title);
+        const source=sourceButtons.find(x=>x.dataset.font===value);
+        if(source?.classList.contains('active'))btn.classList.add('active');
+        btn.addEventListener('click',()=>{
+          source?.click();
+          sizes.querySelectorAll('[data-font]').forEach(x=>x.classList.toggle('active',x===btn));
+        });
+        sizes.appendChild(btn);
+      });
+
+      const focus=document.createElement('button');
+      focus.type='button';
+      focus.className='header-focus-btn';
+      focus.title='Mode Fokus';
+      focus.setAttribute('aria-label','Mode Fokus');
+      focus.innerHTML='<i data-lucide="maximize-2"></i>';
+      focus.addEventListener('click',()=>focusSource?.click());
+
+      cluster.append(sizes,focus);
+      const anchor=saveDraft||preview||document.getElementById('publishBtn');
+      if(anchor)topbar.insertBefore(cluster,anchor);
+      else topbar.appendChild(cluster);
+    }
+
+    if(window.lucide)window.lucide.createIcons();
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+// NEWSROOM_HEADER_CONTROLS_FINAL_JS_END
 </script>
 </body></html>
