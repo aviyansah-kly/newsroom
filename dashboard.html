@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard · Liputan6 Newsroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8fafc;--surface:#fff;--soft:#f8fafc;--hover:#f1f5f9;
+  --text:#0f172a;--text2:#475569;--muted:#64748b;
+  --border:#e2e8f0;--input:#cbd5e1;
+  --orange:#f4511e;--orange2:#df4315;--orangeSoft:#fff3ed;
+  --green:#16a34a;--greenSoft:#ecfdf3;
+  --blue:#2563eb;--blueSoft:#eff6ff;
+  --shadow:0 10px 30px rgba(15,23,42,.08)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+a,button{font:inherit}
+.topbar{
+  height:68px;position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;
+  padding:0 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.97);
+}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text)}
+.brand img{width:106px;height:auto}
+.brand-divider{width:1px;height:28px;background:var(--border)}
+.brand strong{font-size:14px}
+.spacer{flex:1}
+.user{
+  display:flex;align-items:center;gap:8px;padding:4px 8px 4px 4px;border:1px solid var(--border);
+  border-radius:999px;background:#fff;color:var(--text2);font-size:12px;font-weight:600;
+}
+.avatar{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--orangeSoft);color:var(--orange);font-weight:700}
+.dashboard{width:min(1180px,100%);margin:0 auto;padding:34px 24px 60px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:24px}
+.page-head h1{margin:0;font-size:26px;line-height:34px;letter-spacing:-.02em}
+.page-head p{margin:5px 0 0;color:var(--muted);line-height:20px}
+.primary{
+  height:40px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:0 13px;border:1px solid var(--orange);border-radius:8px;background:var(--orange);
+  color:#fff;font-size:13px;font-weight:650;text-decoration:none;white-space:nowrap;
+}
+.primary:hover{background:var(--orange2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.stat{padding:18px;border:1px solid var(--border);border-radius:12px;background:#fff}
+.stat span{display:block;font-size:12px;color:var(--muted)}
+.stat strong{display:block;margin-top:7px;font-size:24px;line-height:30px}
+.panel{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid var(--border)}
+.panel-head strong{font-size:14px}
+.panel-head span{font-size:12px;color:var(--muted)}
+.article-row{
+  display:grid;grid-template-columns:minmax(0,1fr) 120px 120px auto;gap:14px;align-items:center;
+  min-height:70px;padding:12px 16px;border-bottom:1px solid #f1f5f9;
+}
+.article-row:last-child{border-bottom:0}
+.article-title{min-width:0}
+.article-title strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.article-title span{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
+.status{display:inline-flex;width:max-content;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.status.draft{background:#f1f5f9;color:#475569}
+.status.ready{background:var(--greenSoft);color:#166534}
+.meta{font-size:12px;color:var(--muted)}
+.open{
+  height:34px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;
+  border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text2);
+  font-size:12px;font-weight:600;text-decoration:none;
+}
+.open:hover{background:var(--hover);color:var(--text)}
+@media(max-width:760px){
+  .dashboard{padding:24px 14px 48px}
+  .page-head{align-items:flex-start;flex-direction:column}
+  .stats{grid-template-columns:1fr}
+  .article-row{grid-template-columns:minmax(0,1fr) auto}
+  .article-row>.meta,.article-row>.status{display:none}
+  .brand-divider,.brand>strong{display:none}
+  .user span{display:none}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="dashboard.html">
+    <img src="assets/liputan6-logo.svg" alt="Liputan6">
+    <span class="brand-divider"></span>
+    <strong>Newsroom</strong>
+  </a>
+  <div class="spacer"></div>
+  <div class="user"><span class="avatar">AY</span><span>Editor Preview</span></div>
+</header>
+
+<main class="dashboard">
+  <div class="page-head">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Pantau draft dan lanjutkan pekerjaan editorial dari satu tempat.</p>
+    </div>
+    <a class="primary" href="index.html">+ Buat Artikel</a>
+  </div>
+
+  <section class="stats" aria-label="Ringkasan">
+    <div class="stat"><span>Draft Saya</span><strong>8</strong></div>
+    <div class="stat"><span>Siap Review</span><strong>3</strong></div>
+    <div class="stat"><span>Published Hari Ini</span><strong>12</strong></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><strong>Artikel Terbaru</strong><span>Preview data</span></div>
+    <div class="article-row">
+      <div class="article-title"><strong>Basarnas: Pemilik Virgo Transport Bertanggung Jawab Angkat Bangkai Kapal Virgo</strong><span>Bisnis · Trending</span></div>
+      <span class="status draft">Draft</span>
+      <span class="meta">Baru saja</span>
+      <a class="open" href="index.html">Buka</a>
+    </div>
+    <div class="article-row">
+      <div class="article-title"><strong>Timnas Indonesia Siapkan Strategi Baru Jelang Laga Berikutnya</strong><span>Sports · Regular</span></div>
+      <span class="status ready">Siap Review</span>
+      <span class="meta">12 menit lalu</span>
+      <a class="open" href="index.html">Buka</a>
+    </div>
+    <div class="article-row">
+      <div class="article-title"><strong>Harga Minyak Dunia Bergerak, Pasar Pantau Pasokan Global</strong><span>Bisnis · Regular</span></div>
+      <span class="status draft">Draft</span>
+      <span class="meta">28 menit lalu</span>
+      <a class="open" href="index.html">Buka</a>
+    </div>
+  </section>
+</main>
+</body>
+</html>
