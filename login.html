@@ -34,11 +34,7 @@ button,a{font:inherit}
   border-bottom:1px solid var(--border);background:rgba(255,255,255,.92);
   backdrop-filter:blur(10px);
 }
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text)}
-.brand img{width:108px;height:auto;display:block}
-.brand-divider{width:1px;height:28px;background:var(--border)}
 .brand-copy strong{display:block;font-size:14px;line-height:18px}
-.brand-copy span{display:block;margin-top:1px;font-size:12px;line-height:16px;color:var(--muted)}
 .login-main{
   display:grid;place-items:center;padding:48px 20px;
 }
@@ -46,19 +42,12 @@ button,a{font:inherit}
   width:min(440px,100%);padding:34px;border:1px solid var(--border);
   border-radius:16px;background:rgba(255,255,255,.96);box-shadow:var(--shadow);
 }
-.login-mark{
-  width:48px;height:48px;display:grid;place-items:center;margin-bottom:22px;
-  border-radius:12px;background:var(--orangeSoft);color:var(--orange);
-}
-.login-mark svg{width:23px;height:23px}
+.login-logo{display:block;width:132px;height:auto;margin:0 auto 26px}
+.login-card{text-align:center}
 .login-card h1{margin:0;font-size:24px;line-height:32px;letter-spacing:-.02em}
 .login-card p{margin:8px 0 0;font-size:14px;line-height:21px;color:var(--muted)}
-.login-note{
-  margin-top:22px;padding:11px 12px;border:1px solid var(--border);
-  border-radius:9px;background:var(--soft);font-size:12px;line-height:18px;color:var(--muted);
-}
 .google-btn{
-  width:100%;height:44px;margin-top:22px;display:flex;align-items:center;justify-content:center;
+  width:100%;height:44px;margin-top:26px;display:flex;align-items:center;justify-content:center;
   gap:10px;padding:0 14px;border:1px solid var(--input);border-radius:8px;
   background:#fff;color:var(--text);font-size:14px;font-weight:600;text-decoration:none;
   transition:.15s;
@@ -78,9 +67,8 @@ button,a{font:inherit}
 }
 @media(max-width:640px){
   .login-topbar{height:60px;padding:0 16px}
-  .brand img{width:96px}
-  .brand-copy{display:none}
-  .brand-divider{display:none}
+  .brand-copy{display:block}
+  .login-logo{width:118px;margin-bottom:22px}
   .login-main{padding:28px 14px}
   .login-card{padding:26px 20px;border-radius:14px}
   .login-card h1{font-size:22px;line-height:29px}
@@ -90,37 +78,25 @@ button,a{font:inherit}
 <body>
 <div class="login-shell">
   <header class="login-topbar">
-    <a class="brand" href="login.html" aria-label="Liputan6 Newsroom">
-      <img src="assets/liputan6-logo.svg" alt="Liputan6">
-      <span class="brand-divider"></span>
-      <span class="brand-copy"><strong>Newsroom</strong><span>Editorial Workspace</span></span>
-    </a>
+    <span class="brand-copy"><strong>Newsroom</strong></span>
   </header>
 
   <main class="login-main">
     <section class="login-card" aria-labelledby="loginTitle">
-      <div class="login-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect width="18" height="18" x="3" y="3" rx="3"></rect>
-          <path d="M8 12h8M12 8v8"></path>
-        </svg>
-      </div>
+      <img class="login-logo" src="assets/liputan6-logo.svg" alt="Liputan6">
       <h1 id="loginTitle">Masuk ke Newsroom</h1>
-      <p>Gunakan akun kerja Anda untuk mengakses dashboard dan workspace editorial Liputan6.</p>
+      <p>Gunakan akun kerja Anda untuk melanjutkan.</p>
 
       <a class="google-btn" href="dashboard.html" id="loginGoogle">
         <span class="google-icon" aria-hidden="true">G</span>
         <span>Login with Google</span>
       </a>
 
-      <div class="login-note">
-        Halaman ini merupakan preview prototype. Tombol login langsung membuka Dashboard tanpa proses autentikasi Google.
-      </div>
-      <div class="login-helper">Akses hanya untuk kebutuhan internal editorial.</div>
+      <div class="login-helper">Akses internal Liputan6 Newsroom</div>
     </section>
   </main>
 
-  <footer class="login-footer">Liputan6 Newsroom · Preview</footer>
+  <footer class="login-footer">Liputan6 Newsroom</footer>
 </div>
 </body>
 </html>
