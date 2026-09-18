@@ -1,0 +1,33 @@
+name: Stabilize image gallery runtime
+
+on:
+  push:
+    paths:
+      - 'scripts/patch_gallery_runtime_stability.py'
+      - '.github/workflows/stabilize-image-gallery-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stabilize gallery runtime
+        run: python scripts/patch_gallery_runtime_stability.py
+      - name: Verify
+        run: |
+          grep -q 'NEWSROOM_IMAGE_ORIENTATION_CHANNEL_START' index.html
+          grep -q 'dataset?.v34Id' index.html
+          grep -q 'newsroomRefreshGalleryMeta' index.html
+          ! grep -q "observer.observe(document.documentElement" index.html
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Stabilize image gallery preview runtime"
+          git push
