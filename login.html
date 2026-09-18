@@ -20,21 +20,61 @@
 html,body{min-height:100%}
 body{
   margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);
-  background:
-    radial-gradient(circle at 14% 12%,rgba(244,81,30,.07),transparent 30%),
-    radial-gradient(circle at 86% 86%,rgba(37,99,235,.05),transparent 32%),
-    var(--bg);
+  background:#f8fafc;
+  overflow:hidden;
+}
+body:before,
+body:after{
+  content:'';
+  position:fixed;
+  width:58vw;
+  height:58vw;
+  min-width:520px;
+  min-height:520px;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:.42;
+  pointer-events:none;
+  z-index:0;
+  will-change:transform;
+}
+body:before{
+  top:-24vw;
+  left:-16vw;
+  background:radial-gradient(circle,rgba(244,81,30,.66) 0%,rgba(244,81,30,.22) 44%,rgba(244,81,30,0) 72%);
+  animation:loginFloatOrange 18s ease-in-out infinite alternate;
+}
+body:after{
+  right:-20vw;
+  bottom:-28vw;
+  background:radial-gradient(circle,rgba(96,165,250,.55) 0%,rgba(191,219,254,.34) 44%,rgba(219,234,254,0) 72%);
+  animation:loginFloatBlue 22s ease-in-out infinite alternate;
+}
+@keyframes loginFloatOrange{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(8vw,6vh,0) scale(1.08)}
+  100%{transform:translate3d(4vw,12vh,0) scale(.96)}
+}
+@keyframes loginFloatBlue{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(-7vw,-5vh,0) scale(1.06)}
+  100%{transform:translate3d(-3vw,-10vh,0) scale(.98)}
+}
+@media(prefers-reduced-motion:reduce){
+  body:before,body:after{animation:none}
 }
 button,a{font:inherit}
 .login-shell{
-  min-height:100vh;display:grid;place-items:center;
+  position:relative;z-index:1;min-height:100vh;display:grid;place-items:center;
 }
 .login-main{
   width:100%;display:grid;place-items:center;padding:32px 20px;
 }
 .login-card{
-  width:min(440px,100%);padding:34px;border:1px solid var(--border);
-  border-radius:16px;background:rgba(255,255,255,.96);box-shadow:var(--shadow);
+  width:min(440px,100%);padding:34px;border:1px solid rgba(226,232,240,.92);
+  border-radius:16px;background:rgba(255,255,255,.9);box-shadow:var(--shadow);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
 }
 .login-logo{display:block;width:132px;height:auto;margin:0 auto 26px}
 .login-card{text-align:center}
@@ -66,7 +106,7 @@ button,a{font:inherit}
     <section class="login-card" aria-labelledby="loginTitle">
       <img class="login-logo" src="assets/liputan6-logo.svg" alt="Liputan6">
       <h1 id="loginTitle">Login</h1>
-      <p>Sign in with your work account to continue to Liputan6 Newsroom.</p>
+      <p>Masuk dengan akun kerja untuk lanjut ke Liputan6 Newsroom.</p>
 
       <a class="google-btn" href="dashboard.html" id="loginGoogle">
         <span class="google-icon" aria-hidden="true">
