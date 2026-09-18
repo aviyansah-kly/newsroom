@@ -10894,7 +10894,7 @@ function closeReviewPublish(){ $('#reviewPublishModal').classList.remove('open')
 $('#reviewPublishClose').onclick=closeReviewPublish;$('#reviewPublishCancel').onclick=closeReviewPublish;
 $('#reviewPublishChecks').onclick=()=>{closeReviewPublish();$$('.tab').find(x=>x.dataset.tab==='guardian')?.click();track('review_publish_jump',{target:'checks'})};
 $('#reviewPublishSettings').onclick=()=>{closeReviewPublish();$$('.tab').find(x=>x.dataset.tab==='publish')?.click();track('review_publish_jump',{target:'publish'})};
-$('#reviewPublishConfirm').onclick=()=>{const st=reviewPublishState();track(st.scheduled?'schedule_confirm':'publish_confirm',{checks:st.issueCount});openModal(st.scheduled?'Schedule Article':'Publish Article','<div class="modal-body"><p><strong>'+(st.scheduled?'Article scheduled':'Article ready to publish')+'.</strong></p><p>'+(st.scheduled?esc(st.when):'Prototype only: no live publishing backend is connected.')+'</p></div>');closeReviewPublish()};
+$('#reviewPublishConfirm').onclick=()=>{const st=reviewPublishState();track(st.scheduled?'schedule_confirm':'publish_confirm',{checks:st.issueCount});openModal(st.scheduled?'Schedule Article':'Publish Article','<div class="modal-body"><p><strong>'+(st.scheduled?'Article scheduled':'Article ready to publish')+'.</strong></p><p>'+(st.scheduled?esc(st.when):'Artikel siap dipublikasikan.')+'</p></div>');closeReviewPublish()};
 // SIXDESK_REVIEW_PUBLISH_FLOW_JS_END
 
 // Preview and publish.
@@ -11007,7 +11007,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     document.body.dataset.editorMode='classic';
 
     const headerTitle=document.getElementById('headerArticleTitle');
-    if(headerTitle) headerTitle.textContent='Workspace Editor · Alternative';
+    if(headerTitle) headerTitle.textContent='Workspace Editor';
 
     const title=document.getElementById('title');
     const dek=document.getElementById('dek');
