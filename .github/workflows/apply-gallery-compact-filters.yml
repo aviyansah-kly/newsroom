@@ -1,0 +1,33 @@
+name: Apply compact gallery filters
+
+on:
+  push:
+    paths:
+      - 'scripts/patch_gallery_compact_filters.py'
+      - '.github/workflows/apply-gallery-compact-filters.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply compact gallery filters
+        run: python scripts/patch_gallery_compact_filters.py
+      - name: Verify
+        run: |
+          grep -q 'NEWSROOM_GALLERY_COMPACT_FILTER_START' index.html
+          grep -q 'newsroom-orientation-segment' index.html
+          grep -q 'rectangle-horizontal' index.html
+          grep -q 'background-image:url' index.html
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Compact image gallery filters"
+          git push
