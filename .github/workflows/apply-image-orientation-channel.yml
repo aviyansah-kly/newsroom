@@ -1,0 +1,34 @@
+name: Apply image orientation channel metadata
+
+on:
+  push:
+    paths:
+      - 'scripts/patch_image_orientation_channel.py'
+      - '.github/workflows/apply-image-orientation-channel.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply orientation and channel metadata
+        run: python scripts/patch_image_orientation_channel.py
+      - name: Verify
+        run: |
+          grep -q 'NEWSROOM_IMAGE_ORIENTATION_CHANNEL_START' index.html
+          grep -q 'newsroomUnifiedOrientation' index.html
+          grep -q 'newsroomUnifiedChannel' index.html
+          grep -q 'newsroomGalleryOrientationFilter' index.html
+          grep -q 'newsroomGalleryChannelFilter' index.html
+      - name: Commit
+        run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add image orientation and channel metadata"
+          git push
