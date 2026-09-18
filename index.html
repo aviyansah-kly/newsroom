@@ -14474,13 +14474,13 @@ body.alt-editor-layout #imageLibraryPopup #v34Sort:focus{
     return 'Landscape';
   };
   const channelFor=item=>item?.channel||item?.category||((item?.meta||'').split('·')[1]||'').trim()||'News';
-
   function data(){return Array.isArray(window.MEDIA_LIBRARY)?window.MEDIA_LIBRARY:[]}
   function matchItem(card){
-    const img=card.querySelector('img');
-    const title=(img?.alt||card.getAttribute('aria-label')||card.textContent||'').trim();
+    const id=card?.dataset?.v34Id||'';
+    if(id){const byId=data().find(x=>x&&String(x.id)===String(id));if(byId)return byId}
+    const img=card?.querySelector('img');
     const src=img?.src||'';
-    return data().find(x=>x&&(x.id===card.dataset.id||x.title===title||x.url===src||x.src===src))||null;
+    return data().find(x=>x&&(x.url===src||x.src===src))||null;
   }
   function decorateCards(){
     document.querySelectorAll('#imageLibraryPopup .v34-card').forEach(card=>{
@@ -14506,19 +14506,7 @@ body.alt-editor-layout #imageLibraryPopup #v34Sort:focus{
     wrap.innerHTML='<select class="newsroom-gallery-filter" id="newsroomGalleryOrientationFilter"><option value="">Semua Orientasi</option><option>Landscape</option><option>Vertical</option><option>Square</option></select><select class="newsroom-gallery-filter" id="newsroomGalleryChannelFilter"><option value="">Semua Kategori / Kanal</option><option>News</option><option>Bisnis</option><option>Bola</option><option>Showbiz</option><option>Tekno</option><option>Lifestyle</option><option>Health</option><option>Regional</option></select>';
     tools.appendChild(wrap);
     wrap.querySelectorAll('select').forEach(el=>el.addEventListener('change',applyFilters));
-  }
-  function updatePreview(){
-    const popup=document.getElementById('imageLibraryPopup');
-    const preview=popup?.querySelector('#v34Preview');
-    if(!preview?.classList.contains('has-selection'))return;
-    const title=popup.querySelector('#v34PreviewTitle')?.textContent?.trim()||'';
-    const img=popup.querySelector('#v34PreviewImg');
-    const item=data().find(x=>x&&x.title===title)||null;
-    const detail=preview.querySelector('.v34-detail-summary');
-    if(!detail)return;
-    let extra=detail.querySelector('.newsroom-preview-meta-extra');
-    if(!extra){extra=document.createElement('div');extra.className='newsroom-preview-meta-extra';detail.appendChild(extra)}
-    extra.innerHTML='<div class="v34-detail-grid"><div class="v34-detail-item"><small>Orientasi</small><span>'+orientationFor(item,img)+'</span></div><div class="v34-detail-item"><small>Kategori / Kanal</small><span>'+channelFor(item)+'</span></div></div>';
+    decorateCards();
   }
   function syncEditorOrientation(){
     const modal=document.getElementById('newsroomUnifiedImageModal');
@@ -14529,12 +14517,21 @@ body.alt-editor-layout #imageLibraryPopup #v34Sort:focus{
     const w=canvas.width,h=canvas.height;
     if(w&&h)select.value=Math.abs(w-h)/Math.max(w,h)<.08?'Square':w>h?'Landscape':'Vertical';
   }
-  document.addEventListener('change',e=>{if(e.target?.id==='newsroomUnifiedOrientation')e.target.dataset.userChanged='1'},true);
-  document.addEventListener('click',()=>setTimeout(()=>{installFilters();decorateCards();updatePreview();syncEditorOrientation()},0),true);
-  const observer=new MutationObserver(()=>{installFilters();decorateCards();updatePreview();syncEditorOrientation()});
-  observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','src']});
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{installFilters();decorateCards();updatePreview()},{once:true});
-  else{installFilters();decorateCards();updatePreview()}
+
+  document.addEventListener('change',e=>{
+    if(e.target?.id==='newsroomUnifiedOrientation')e.target.dataset.userChanged='1';
+  },true);
+
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('#imageLibraryPopup,[data-v34-image-select],#chooseHeadline'))return;
+    setTimeout(()=>{installFilters();decorateCards();syncEditorOrientation()},0);
+  },true);
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',installFilters,{once:true});
+  else installFilters();
+
+  window.newsroomApplyGalleryMetaFilters=applyFilters;
+  window.newsroomRefreshGalleryMeta=()=>{installFilters();decorateCards();applyFilters()};
 })();
 // NEWSROOM_IMAGE_ORIENTATION_CHANNEL_END
 </script>
