@@ -9158,7 +9158,84 @@ body.alt-editor-layout #imageLibraryPopup .v62-upload-back{height:34px;padding:0
 @media(max-width:860px){body.alt-editor-layout #imageLibraryPopup .v62-upload-editor{grid-template-columns:1fr}.v62-upload-details{border-left:0!important;padding-left:0!important;border-top:1px solid var(--border);padding-top:16px}.v62-crop-controls{grid-template-columns:1fr!important}.v62-range{grid-template-columns:88px minmax(0,1fr)!important}}
 /* NEWSROOM_ARTICLE_IMAGE_UPLOAD_FLOW_END */
 
-</style></head><body class="alt-editor-layout">
+</style><style>
+/* NEWSROOM_SAFE_IMAGE_METADATA_FILTERS_START */
+body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-tools{
+  display:grid!important;
+  grid-template-columns:auto minmax(280px,1fr) auto 178px 126px!important;
+  grid-template-rows:42px!important;
+  gap:8px!important;
+  align-items:center!important;
+  padding:12px 18px!important;
+}
+body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment{
+  height:38px;display:inline-flex;align-items:center;gap:2px;padding:3px;
+  border:1px solid #cbd5e1;border-radius:8px;background:#fff;
+}
+body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment button{
+  width:31px;height:30px;min-width:31px;display:grid;place-items:center;padding:0;
+  border:0;border-radius:6px;background:transparent;color:#64748b;cursor:pointer;
+}
+body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment button:hover{background:#f1f5f9;color:#0f172a}
+body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment button.active{background:#eff6ff;color:#2563eb;box-shadow:inset 0 0 0 1px #bfdbfe}
+body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment svg{width:15px;height:15px}
+body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-filter{
+  width:100%;height:42px;padding:0 34px 0 10px;border:1px solid #cbd5e1;border-radius:8px;
+  background:#fff;color:#334155;font-size:12px;font-weight:600;outline:0;
+}
+body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-filter,
+body.alt-editor-layout #imageLibraryPopup .v34-sort,
+#newsroomUnifiedImageModal select{
+  appearance:none;-webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:16px 16px;
+  padding-right:34px!important;
+}
+body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-filter:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.10)}
+#newsroomUnifiedImageModal .newsroom-image-meta-pair{display:grid;grid-template-columns:.78fr 1.22fr;gap:8px}
+#newsroomUnifiedImageModal .newsroom-image-meta-pair .newsroom-photo-field{min-width:0}
+
+/* Icon-only close contract for modal headers. */
+body.alt-editor-layout .modal-head button:has([data-lucide="x"]),
+body.alt-editor-layout .popup-head button:has([data-lucide="x"]),
+body.alt-editor-layout .v34-close{
+  width:34px!important;height:34px!important;min-width:34px!important;min-height:34px!important;
+  display:grid!important;place-items:center!important;padding:0!important;gap:0!important;
+  border:1px solid #e2e8f0!important;border-radius:8px!important;background:#fff!important;color:#64748b!important;
+}
+body.alt-editor-layout .modal-head button:has([data-lucide="x"]) span,
+body.alt-editor-layout .popup-head button:has([data-lucide="x"]) span{display:none!important}
+body.alt-editor-layout .modal-head button:has([data-lucide="x"]):hover,
+body.alt-editor-layout .popup-head button:has([data-lucide="x"]):hover,
+body.alt-editor-layout .v34-close:hover{background:#f1f5f9!important;color:#0f172a!important;border-color:#cbd5e1!important}
+
+@media(max-width:1050px){
+  body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-tools{
+    grid-template-columns:auto minmax(220px,1fr) 126px!important;
+    grid-template-rows:42px 40px!important;
+  }
+  body.alt-editor-layout #imageLibraryPopup .v34-tabs{grid-column:1;grid-row:1}
+  body.alt-editor-layout #imageLibraryPopup .v34-search{grid-column:2;grid-row:1}
+  body.alt-editor-layout #imageLibraryPopup .v34-sort{grid-column:3;grid-row:1}
+  body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment{grid-column:1;grid-row:2}
+  body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-filter{grid-column:2;grid-row:2;width:190px}
+}
+@media(max-width:720px){
+  body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-tools{
+    grid-template-columns:1fr 1fr!important;
+    grid-template-rows:auto auto auto auto!important;
+  }
+  body.alt-editor-layout #imageLibraryPopup .v34-tabs{grid-column:1/-1!important;grid-row:1!important;width:100%}
+  body.alt-editor-layout #imageLibraryPopup .v34-tabs button{flex:1}
+  body.alt-editor-layout #imageLibraryPopup .v34-search{grid-column:1/-1!important;grid-row:2!important}
+  body.alt-editor-layout #imageLibraryPopup .newsroom-orientation-segment{grid-column:1!important;grid-row:3!important;justify-self:start}
+  body.alt-editor-layout #imageLibraryPopup .newsroom-gallery-filter{grid-column:2!important;grid-row:3!important;width:100%}
+  body.alt-editor-layout #imageLibraryPopup .v34-sort{grid-column:1/-1!important;grid-row:4!important;width:100%}
+  #newsroomUnifiedImageModal .newsroom-image-meta-pair{grid-template-columns:1fr}
+}
+/* NEWSROOM_SAFE_IMAGE_METADATA_FILTERS_END */
+</style>
+</head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Perubahan disimpan lokal</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Tersimpan</strong><small id="saveStatusMeta">baru saja</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 siap</strong><small id="readyCountMeta">6 perlu cek</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Writing View" title="Writing View"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference tersimpan untuk artikel berikutnya.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Ukuran tampilan drafting"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Besar"><span class="font-sample font-sample-large">A</span><span>Besar</span></button><button type="button" data-font="xlarge" title="Sangat besar"><span class="font-sample font-sample-xlarge">A</span><span>Sangat besar</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Mode Fokus</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Pratinjau</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
 <nav class="utility-rail"><button class="rail-item" id="cmsMenuBtn" type="button" aria-expanded="false"><span class="rail-icon"><i data-lucide="panel-left-open"></i></span><span class="rail-label">Menu CMS</span></button><a class="rail-item" href="dashboard.html"><span class="rail-icon"><i data-lucide="layout-dashboard"></i></span><span class="rail-label">Dashboard</span></a><div class="rail-sep"></div><button class="rail-item" id="railImport"><span class="rail-icon"><i data-lucide="file-input"></i></span><span class="rail-label">Import Draft</span></button><button class="rail-item ai-floating-trigger" id="railAI"><span class="rail-icon"><i data-lucide="bot-message-square"></i></span><span class="rail-label">Newsroom AI</span></button></nav>
 
@@ -11653,7 +11730,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 <script>
 // SIXDESK_ALTERNATIVE_V34_JS_START
 (function(){
-  let target=null, source='gallery', selected=null, shown=12;
+  let target=null, source='gallery', selected=null, shown=12, orientationFilter='', channelFilter='';
   const BATCH=12, $=(q,r=document)=>r.querySelector(q);
 
   function esc(v){return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -11668,11 +11745,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     p.innerHTML=
       '<div class="v34-head"><div class="v34-title"><strong>Pilih Image</strong><span>Cari dan pilih image untuk area aktif.</span></div><button class="v34-close" type="button" id="v34Close"><i data-lucide="x"></i></button></div>'+
       '<div class="v61-primary-tabs"><button type="button" data-v61-mode="gallery" class="active"><i data-lucide="images"></i><span>Image Gallery</span></button><button type="button" data-v61-mode="upload"><i data-lucide="upload"></i><span>Upload Image</span></button></div>'+
-      '<div class="v34-tools" id="v61GalleryTools"><div class="v34-tabs"><button type="button" data-v34-source="gallery" class="active">Gallery Artikel</button><button type="button" data-v34-source="bank">Image Bank</button></div><div class="v34-search"><i data-lucide="search"></i><input id="v34Search" placeholder="Cari keyword, event, tokoh, atau caption…"></div><select class="v34-sort" id="v34Sort"><option value="recent">Terbaru</option><option value="used">Paling sering dipakai</option></select></div>'+
+      '<div class="v34-tools newsroom-gallery-tools" id="v61GalleryTools"><div class="v34-tabs"><button type="button" data-v34-source="gallery" class="active">Gallery Artikel</button><button type="button" data-v34-source="bank">Image Bank</button></div><div class="v34-search"><i data-lucide="search"></i><input id="v34Search" placeholder="Cari keyword, event, tokoh, atau caption…"></div><div class="newsroom-orientation-segment" role="group" aria-label="Filter orientasi image"><button type="button" class="active" data-v34-orientation="" title="Semua orientasi" aria-label="Semua orientasi"><i data-lucide="layout-grid"></i></button><button type="button" data-v34-orientation="Landscape" title="Landscape" aria-label="Landscape"><i data-lucide="rectangle-horizontal"></i></button><button type="button" data-v34-orientation="Vertical" title="Vertical" aria-label="Vertical"><i data-lucide="rectangle-vertical"></i></button><button type="button" data-v34-orientation="Square" title="Square" aria-label="Square"><i data-lucide="square"></i></button></div><select class="newsroom-gallery-filter" id="v34Channel" aria-label="Kategori atau kanal"><option value="">Semua Kategori / Kanal</option><option>News</option><option>Bisnis</option><option>Bola</option><option>Showbiz</option><option>Tekno</option><option>Lifestyle</option><option>Health</option><option>Regional</option></select><select class="v34-sort" id="v34Sort" aria-label="Urutkan image"><option value="recent">Terbaru</option><option value="used">Paling sering dipakai</option></select></div>'+
       '<div class="v34-main"><section class="v34-results"><div class="v34-results-head" id="v61ResultsHead"><strong>Hasil Image</strong><span id="v34Count">0 image</span></div><div class="v34-grid" id="v34Grid"></div><div class="v61-upload-panel" id="v61UploadPanel" hidden><label class="v61-upload-drop" for="v61UploadInput"><i data-lucide="upload-cloud"></i><strong>Upload image dari perangkat</strong><span>JPG, PNG, atau WEBP · maksimal 10 MB</span><em>Pilih File</em></label><input id="v61UploadInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><div class="v61-upload-error" id="v61UploadError" hidden></div></div></section><aside class="v34-preview" id="v34Preview"><div class="v34-preview-empty"><div><strong>Belum ada image dipilih</strong><span>Klik thumbnail untuk melihat preview.</span></div></div><div class="v34-preview-content"><div class="v34-preview-image"><img id="v34PreviewImg"></div><div class="v34-preview-copy"><strong id="v34PreviewTitle"></strong><span id="v34PreviewMeta"></span></div></div></aside></div>'+
       '<div class="v34-foot"><span id="v34TargetText">Pilih image terlebih dahulu.</span><div class="v34-actions"><button type="button" id="v34Cancel">Batal</button><button type="button" class="primary" id="v34Use" disabled>Gunakan Image</button></div></div>';
     $('#v34Close').onclick=close; $('#v34Cancel').onclick=close; $('#v34Use').onclick=apply;
     $('#v34Search').oninput=()=>{selected=null;shown=BATCH;render()}; $('#v34Sort').onchange=render;
+    $('#v34Channel').onchange=e=>{channelFilter=e.target.value;selected=null;shown=BATCH;render()};
+    p.querySelectorAll('[data-v34-orientation]').forEach(b=>b.onclick=()=>{orientationFilter=b.dataset.v34Orientation||'';selected=null;shown=BATCH;p.querySelectorAll('[data-v34-orientation]').forEach(x=>x.classList.toggle('active',x===b));render()});
     p.querySelectorAll('[data-v34-source]').forEach(b=>b.onclick=()=>{source=b.dataset.v34Source;selected=null;shown=BATCH;p.querySelectorAll('[data-v34-source]').forEach(x=>x.classList.toggle('active',x===b));render()});
 
     p.querySelectorAll('[data-v61-mode]').forEach(btn=>btn.onclick=()=>{
@@ -11724,10 +11803,12 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     };
   }
 
-  function filtered(){const q=($('#v34Search')?.value||'').trim().toLowerCase();let arr=data().filter(i=>i.source===source&&(!q||(i.title+' '+i.meta).toLowerCase().includes(q)));if($('#v34Sort')?.value==='used')arr=[...arr].reverse();return arr}
+  function orientationOf(i){if(i?.orientation)return i.orientation;const idx=Math.max(0,data().findIndex(x=>x.id===i.id));return idx%7===1?'Square':idx%5===2?'Vertical':'Landscape'}
+  function channelOf(i){if(i?.channel||i?.category)return i.channel||i.category;const idx=Math.max(0,data().findIndex(x=>x.id===i.id));const channels=['News','Bisnis','Bola','Lifestyle','Tekno','Showbiz','Regional'];return channels[idx%channels.length]}
+  function filtered(){const q=($('#v34Search')?.value||'').trim().toLowerCase();let arr=data().filter(i=>i.source===source&&(!q||(i.title+' '+i.meta).toLowerCase().includes(q))&&(!orientationFilter||orientationOf(i)===orientationFilter)&&(!channelFilter||channelOf(i)===channelFilter));if($('#v34Sort')?.value==='used')arr=[...arr].reverse();return arr}
   function render(){
     const g=$('#v34Grid');if(!g)return;const all=filtered(), arr=all.slice(0,shown);$('#v34Count').textContent=all.length+' image';
-    g.innerHTML=arr.length?arr.map((i,idx)=>{const usage=(idx*7+(i.source==='bank'?3:1))%28;const orientation=idx%5===1?'square':'landscape';const channel=i.source==='bank'?'Image Bank':'Liputan6.com';const author=['Achmad Dwi Afriyadi','Adhitya Warman','Dewi Divianta','Faizal Fanani'][idx%4];const age=idx%3===0?'1 Minggu yang lalu':idx%3===1?'3 Hari yang lalu':'2 Minggu yang lalu';return '<button type="button" class="v34-card v59-media-card'+(selected===i.id?' selected':'')+'" data-v34-id="'+esc(i.id)+'"><span class="v34-check"><i data-lucide="check"></i></span><img src="'+esc(src(i))+'"><span class="v34-copy v59-media-copy"><strong>'+esc(i.title)+'</strong><span class="v59-media-caption">'+esc(i.meta||'')+'</span><span class="v59-media-info"><i data-lucide="info"></i><span>'+esc(channel)+' used ('+usage+') · '+esc(channel)+' · <b>'+orientation+'</b></span></span><span class="v59-media-age">› '+age+'</span><span class="v59-media-author"><em>Pilih</em><span>'+author+'</span></span></span></button>'}).join(''):'<div class="media-library-empty">Image tidak ditemukan.</div>';
+    g.innerHTML=arr.length?arr.map((i,idx)=>{const usage=(idx*7+(i.source==='bank'?3:1))%28;const orientation=orientationOf(i).toLowerCase();const channel=channelOf(i);const author=['Achmad Dwi Afriyadi','Adhitya Warman','Dewi Divianta','Faizal Fanani'][idx%4];const age=idx%3===0?'1 Minggu yang lalu':idx%3===1?'3 Hari yang lalu':'2 Minggu yang lalu';return '<button type="button" class="v34-card v59-media-card'+(selected===i.id?' selected':'')+'" data-v34-id="'+esc(i.id)+'"><span class="v34-check"><i data-lucide="check"></i></span><img src="'+esc(src(i))+'"><span class="v34-copy v59-media-copy"><strong>'+esc(i.title)+'</strong><span class="v59-media-caption">'+esc(i.meta||'')+'</span><span class="v59-media-info"><i data-lucide="info"></i><span>'+esc(channel)+' used ('+usage+') · '+esc(channel)+' · <b>'+orientation+'</b></span></span><span class="v59-media-age">› '+age+'</span><span class="v59-media-author"><em>Pilih</em><span>'+author+'</span></span></span></button>'}).join(''):'<div class="media-library-empty">Image tidak ditemukan.</div>';
     if(all.length>shown){g.insertAdjacentHTML('beforeend','<div class="v34-load"><button type="button" id="v34Load">Muat lebih banyak</button></div>');$('#v34Load').onclick=()=>{shown+=BATCH;render()}}
     g.querySelectorAll('[data-v34-id]').forEach(b=>{const i=data().find(x=>x.id===b.dataset.v34Id);safeImg(b.querySelector('img'),i);b.onclick=()=>{selected=i.id;preview(i);render()}});
     if(window.lucide)window.lucide.createIcons();
@@ -11738,13 +11819,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const im=$('#v34PreviewImg');im.src=src(i);safeImg(im,i);
     const all=data();const idx=Math.max(0,all.findIndex(x=>x.id===i.id));
     const usage=(idx*7+(i.source==='bank'?3:1))%28;
-    const orientation=idx%5===1?'Square':'Landscape';
-    const channel=i.source==='bank'?'Image Bank':'Liputan6.com';
+    const orientation=orientationOf(i);
+    const channel=channelOf(i);
     const author=['Achmad Dwi Afriyadi','Adhitya Warman','Dewi Divianta','Faizal Fanani'][idx%4];
     const age=idx%3===0?'1 Minggu yang lalu':idx%3===1?'3 Hari yang lalu':'2 Minggu yang lalu';
     const metaParts=(i.meta||'').split('·').map(x=>x.trim()).filter(Boolean);
     const sourceName=metaParts[0]||channel;
-    const category=metaParts.slice(1).join(' · ')||'—';
+    const category=i.channel||i.category||channel;
     $('#v34PreviewTitle').textContent=i.title;
     $('#v34PreviewMeta').textContent='';
     const copy=p.querySelector('.v34-preview-copy');
@@ -11752,8 +11833,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(!detail){detail=document.createElement('div');detail.className='v34-detail-summary';copy.appendChild(detail)}
     detail.innerHTML='<div class="v34-detail-grid">'+
       '<div class="v34-detail-item full"><small>Sumber</small><span>'+esc(sourceName)+'</span></div>'+
-      '<div class="v34-detail-item"><small>Channel</small><span>'+esc(channel)+'</span></div>'+
-      '<div class="v34-detail-item"><small>Kategori</small><span>'+esc(category)+'</span></div>'+
+      '<div class="v34-detail-item full"><small>Kategori / Kanal</small><span>'+esc(category)+'</span></div>'+
       '<div class="v34-detail-item"><small>Dipakai</small><span class="v34-detail-badge">'+usage+' kali</span></div>'+
       '<div class="v34-detail-item"><small>Orientasi</small><span>'+esc(orientation)+'</span></div>'+
       '<div class="v34-detail-item"><small>Terakhir</small><span>'+esc(age)+'</span></div>'+
@@ -11778,7 +11858,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   }
   function imageCard(c,i){const body=c.querySelector('.alt-content-card-body');if(!body)return;const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='';const sn=i.source==='bank'?'Image Bank Liputan6':i.source==='upload'?'Upload Sendiri':'Gallery Artikel';body.innerHTML='<div class="v34-image-selected"><div class="v34-image-preview"><img src="'+esc(src(i))+'"><div class="v34-image-actions"><button type="button" data-v34-change>Ganti</button><button type="button" data-v34-remove>Hapus</button></div></div><div class="v34-image-summary"><div><strong>'+esc(i.title)+'</strong><span>'+esc(sn)+'</span></div><button type="button" class="v34-image-detail-btn" data-v34-detail>Detail Image</button></div><div class="v34-image-details" data-v34-details><div class="full"><label>Title</label><input value="'+esc(i.title)+'"></div><div><label>Photographer</label><input placeholder="Nama fotografer"></div><div><label>Source</label><select><option>'+esc(sn)+'</option><option>Liputan6.com</option><option>External</option></select></div><div class="full"><label>Short Desc</label><textarea>'+esc(i.meta||'')+'</textarea></div></div></div>';safeImg(body.querySelector('img'),i);body.querySelector('[data-v34-change]').onclick=()=>open({type:'card',card:c});body.querySelector('[data-v34-remove]').onclick=()=>emptyCard(c);body.querySelector('[data-v34-detail]').onclick=e=>{const d=body.querySelector('[data-v34-details]');const on=d.classList.toggle('open');e.currentTarget.textContent=on?'Tutup Detail':'Detail Image'};c.querySelector('.alt-block-status').textContent='Image siap';c.querySelector('.alt-block-meta').textContent=i.title}
 
-  function applyTarget(i,t){if(!i||!t)return;if(t.type==='headline')headline(i);else if(t.type==='card'&&t.card)imageCard(t.card,i);else if(t.type==='editor'){try{window.sixdeskTiptap?.chain().focus().setImage({src:src(i),alt:i.title,title:i.meta}).run()}catch(e){}}}window.newsroomMediaApplyTarget=applyTarget;function apply(){const i=data().find(x=>x.id===selected);if(!i||!target)return;const nextTarget=target;close();if(window.newsroomOpenUnifiedImageEditor){window.newsroomOpenUnifiedImageEditor(i,nextTarget);return}applyTarget(i,nextTarget)}
+  function applyTarget(i,t){if(!i||!t)return;if(t.type==='headline')headline(i);else if(t.type==='card'&&t.card)imageCard(t.card,i);else if(t.type==='editor'){try{window.sixdeskTiptap?.chain().focus().setImage({src:src(i),alt:i.title,title:i.meta}).run()}catch(e){}}}window.newsroomMediaApplyTarget=applyTarget;function apply(){const i=data().find(x=>x.id===selected);if(!i||!target)return;i.orientation=i.orientation||orientationOf(i);i.channel=i.channel||i.category||channelOf(i);i.category=i.channel;const nextTarget=target;close();if(window.newsroomOpenUnifiedImageEditor){window.newsroomOpenUnifiedImageEditor(i,nextTarget);return}applyTarget(i,nextTarget)}
 
   function bindHeadline(){
     const choose=$('#chooseHeadline');if(choose){const n=choose.cloneNode(true);choose.replaceWith(n);n.onclick=e=>{e.preventDefault();open({type:'headline'})}}
@@ -13868,6 +13948,10 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
             <div class="newsroom-existing-file-row"><div><span>File</span><strong id="newsroomUnifiedFileName">Image terpilih</strong></div><button class="btn sm" id="newsroomUnifiedReplace" type="button"><i data-lucide="upload"></i><span>Ganti File</span></button></div>
             <label class="newsroom-photo-field"><span>Title</span><input id="newsroomUnifiedTitle" type="text" placeholder="Tulis title image…"></label>
             <label class="newsroom-photo-field"><span>Photographer</span><select id="newsroomUnifiedPhotographer"><option value="">Pilih photographer</option><option value="Liputan6.com">Liputan6.com</option><option value="Reporter / Internal">Reporter / Internal</option><option value="External / Contributor">External / Contributor</option></select></label>
+            <div class="newsroom-image-meta-pair">
+              <label class="newsroom-photo-field"><span>Orientasi</span><select id="newsroomUnifiedOrientation"><option value="Landscape">Landscape</option><option value="Vertical">Vertical</option><option value="Square">Square</option></select></label>
+              <label class="newsroom-photo-field"><span>Kategori / Kanal</span><select id="newsroomUnifiedChannel"><option value="">Pilih kategori / kanal</option><option>News</option><option>Bisnis</option><option>Bola</option><option>Showbiz</option><option>Tekno</option><option>Lifestyle</option><option>Health</option><option>Regional</option></select></label>
+            </div>
             <div class="newsroom-existing-flags">
               <label><input id="newsroomUnifiedSiteOnly" type="checkbox"><span>This Site Only</span></label>
               <label><input id="newsroomUnifiedSpecialInstructions" type="checkbox"><span>Special Instructions</span></label>
@@ -13900,6 +13984,7 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
     img.onload=()=>{
       sourceImage=img;
       if(reset){modal.querySelector('#newsroomUnifiedZoom').value='1';modal.querySelector('#newsroomUnifiedX').value='50';modal.querySelector('#newsroomUnifiedY').value='50'}
+      if(currentItem&&!currentItem.orientation){const ratio=img.naturalWidth/img.naturalHeight;const orientation=Math.abs(ratio-1)<.08?'Square':ratio>1?'Landscape':'Vertical';currentItem.orientation=orientation;modal.querySelector('#newsroomUnifiedOrientation').value=orientation}
       draw();
     };
     img.src=url;
@@ -13928,6 +14013,8 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
     modal.querySelector('#newsroomUnifiedFileName').textContent=item.fileName||item.title||'Image terpilih';
     modal.querySelector('#newsroomUnifiedTitle').value=item.title||'';
     modal.querySelector('#newsroomUnifiedPhotographer').value=item.photographer||item.copyright||'';
+    modal.querySelector('#newsroomUnifiedOrientation').value=item.orientation||'Landscape';
+    modal.querySelector('#newsroomUnifiedChannel').value=item.channel||item.category||'';
     modal.querySelector('#newsroomUnifiedSiteOnly').checked=!!item.thisSiteOnly;
     modal.querySelector('#newsroomUnifiedSpecialInstructions').checked=!!item.specialInstructions;
     const watermark=item.watermark||'none';
@@ -13952,6 +14039,9 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
     currentItem.url=canvas.toDataURL('image/jpeg',.9);
     currentItem.title=modal.querySelector('#newsroomUnifiedTitle').value.trim()||currentItem.title||'Image';
     currentItem.photographer=modal.querySelector('#newsroomUnifiedPhotographer').value;
+    currentItem.orientation=modal.querySelector('#newsroomUnifiedOrientation').value||'Landscape';
+    currentItem.channel=modal.querySelector('#newsroomUnifiedChannel').value;
+    currentItem.category=currentItem.channel;
     currentItem.thisSiteOnly=modal.querySelector('#newsroomUnifiedSiteOnly').checked;
     currentItem.specialInstructions=modal.querySelector('#newsroomUnifiedSpecialInstructions').checked;
     currentItem.watermark=modal.querySelector('input[name="newsroomUnifiedWatermark"]:checked')?.value||'none';
