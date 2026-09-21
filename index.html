@@ -10980,7 +10980,7 @@ function renderTagSuggestions(){
   }
   list.classList.remove('is-empty');list.classList.add('has-results');
   list.innerHTML=available.slice(0,8).map(t=>'<button class="newsroom-tag-result" type="button" data-add="'+esc(t)+'"><span>'+esc(t)+'</span><span class="newsroom-tag-result-icon"><i data-lucide="plus"></i></span></button>').join('');
-  $('#tagSuggestions [data-add]').forEach(b=>b.onclick=()=>{
+  $$('#tagSuggestions [data-add]').forEach(b=>b.onclick=()=>{
     window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:b.dataset.add}}));
   });
   lucide.createIcons()
