@@ -45,6 +45,15 @@
   --ds-color-danger: #b91c1c;
   --ds-color-danger-soft: #fef2f2;
 
+  /* AI provenance / review state. Purple is reserved for AI-filled fields awaiting editor review. */
+  --ds-ai-review: #7c3aed;
+  --ds-ai-review-indigo: #6366f1;
+  --ds-ai-review-violet: #a855f7;
+  --ds-ai-review-border: #8b5cf6;
+  --ds-ai-review-soft: #f5f3ff;
+  --ds-ai-review-soft-2: #faf5ff;
+  --ds-ai-review-ring: rgba(139, 92, 246, 0.18);
+
   --ds-space-1: 4px;
   --ds-space-2: 8px;
   --ds-space-3: 12px;
