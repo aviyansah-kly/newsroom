@@ -4,7 +4,8 @@ Komponen di bawah adalah kandidat kontrak reusable untuk implementasi Frontend. 
 
 ## Application shell
 
-- `AppSidebar` — navigation utama CMS. Expanded default di desktop, dapat collapse ke icon-only, overlay drawer di viewport sempit.
+- `AppHeader` — header standar untuk halaman CMS non-editor. Logo Liputan6 tampil dominan, konteks halaman berada di samping logo, dan user control berada di sisi kanan. Gunakan class shared `.nr-topbar`, `.nr-brand`, `.nr-header-context`, dan `.nr-user`; jangan membuat style header per halaman.
+- `AppSidebar` — navigation utama CMS. Struktur, ukuran, spacing, search, cluster, collapsed state, dan mobile drawer harus sama di seluruh halaman CMS. Per halaman hanya `active` item dan cluster yang terbuka yang boleh berbeda.
 - `SidebarGroup` — cluster menu yang dapat expand/collapse.
 - `SidebarItem` — navigation item dengan icon, label, active, hover, focus, dan collapsed tooltip state.
 - `ConnectivityStatus` — Offline / reconnect feedback.
@@ -12,6 +13,7 @@ Komponen di bawah adalah kandidat kontrak reusable untuk implementasi Frontend. 
 
 ## Editorial inputs
 
+- `SelectControl` — dropdown standar menggunakan class `.nr-select`. Chevron memiliki safe-area di kanan dan tidak boleh menempel pada border control.
 - `CategoryPicker` — searchable hierarchical category picker.
 - `EntityPicker` — reusable multi-select untuk Reporter, Editor, dan entity lain.
 - `TagInput` — tags + suggested candidates + removable chips.
