@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -74,7 +74,7 @@
 </head>
 <body class="nr-app">
 <header class="nr-topbar">
-  <button class="nr-mobile-menu" id="mobileMenu" type="button" aria-label="Buka menu"><i data-lucide="menu"></i></button>
+  <button class="nr-mobile-menu" id="mobileMenu" type="button" aria-label="Open menu"><i data-lucide="menu"></i></button>
   <a class="nr-brand" href="dashboard.html" aria-label="Liputan6 Newsroom"><img src="assets/liputan6-logo.svg" alt="Liputan6"></a>
   <div class="nr-header-context"><strong>Newsroom</strong><span>Tag Management</span></div>
   <div class="nr-spacer"></div>
@@ -84,10 +84,10 @@
 <div class="nr-sidebar-backdrop" id="sidebarBackdrop"></div>
 <aside class="nr-sidebar" id="sidebar">
   <div class="nr-sidebar-head">
-    <div><strong>Menu CMS</strong><span>Akses fitur editorial dan distribusi.</span></div>
+    <div><strong>CMS Menu</strong><span>Editorial and distribution tools.</span></div>
     <button type="button" id="sidebarToggle" aria-label="Collapse sidebar"><i data-lucide="panel-left-close"></i></button>
   </div>
-  <div class="nr-sidebar-search"><i data-lucide="search"></i><input id="sidebarSearch" type="search" placeholder="Cari menu CMS…"></div>
+  <div class="nr-sidebar-search"><i data-lucide="search"></i><input id="sidebarSearch" type="search" placeholder="Search CMS menu…"></div>
   <div class="nr-sidebar-scroll">
     <div class="nr-nav-cluster" data-cluster>
       <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="layout-dashboard"></i><strong>Workspace</strong></span><i data-lucide="chevron-down"></i></button>
@@ -145,11 +145,11 @@
 <main class="nr-page">
   <div class="nr-container">
     <div class="nr-page-head">
-      <div><h1>Tags</h1><p>Kelola taxonomy artikel agar pencarian, distribusi, dan rekomendasi konten tetap konsisten.</p></div>
-      <button class="nr-btn nr-btn-primary" id="addTagBtn" type="button"><i data-lucide="plus"></i><span>Tambah Tag</span></button>
+      <div><h1>Tags</h1><p>Manage article taxonomy to keep search, distribution, and content recommendations consistent.</p></div>
+      <button class="nr-btn nr-btn-primary" id="addTagBtn" type="button"><i data-lucide="plus"></i><span>Add Tag</span></button>
     </div>
 
-    <section class="tag-overview" aria-label="Ringkasan tags">
+    <section class="tag-overview" aria-label="Tag summary">
       <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="tags"></i></span><div class="tag-stat-copy"><span>Total Tags</span><strong id="totalTags">128</strong></div></div>
       <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="badge-check"></i></span><div class="tag-stat-copy"><span>Topic Active</span><strong>96</strong></div></div>
       <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="layers-3"></i></span><div class="tag-stat-copy"><span>Program Active</span><strong>24</strong></div></div>
@@ -158,22 +158,22 @@
 
     <section class="nr-panel">
       <div class="tag-toolbar">
-        <div class="tag-search"><i data-lucide="search"></i><input id="tagSearch" type="search" placeholder="Cari nama atau slug tag…"></div>
-        <select class="nr-select" id="statusFilter" aria-label="Filter status"><option value="all">Semua status</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
-        <select class="nr-select" id="typeFilter" aria-label="Filter tipe"><option value="all">Semua tipe</option><option value="topic">Topic</option><option value="program">Program</option><option value="brand">Brand</option></select>
-        <span class="tag-count" id="resultCount">Menampilkan 12 tags</span>
+        <div class="tag-search"><i data-lucide="search"></i><input id="tagSearch" type="search" placeholder="Search tag name or slug…"></div>
+        <select class="nr-select" id="statusFilter" aria-label="Filter by status"><option value="all">All statuses</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+        <select class="nr-select" id="typeFilter" aria-label="Filter by type"><option value="all">All types</option><option value="topic">Topic</option><option value="program">Program</option><option value="brand">Brand</option></select>
+        <span class="tag-count" id="resultCount">Showing 12 tags</span>
       </div>
-      <div class="bulk-bar" id="bulkBar"><strong><span id="selectedCount">0</span> tag dipilih</strong><button class="nr-btn" type="button" id="bulkActivate">Aktifkan</button><button class="nr-btn" type="button" id="bulkDeactivate">Nonaktifkan</button></div>
+      <div class="bulk-bar" id="bulkBar"><strong><span id="selectedCount">0</span> tags selected</strong><button class="nr-btn" type="button" id="bulkActivate">Activate</button><button class="nr-btn" type="button" id="bulkDeactivate">Deactivate</button></div>
       <div class="tag-table-wrap" id="tableWrap">
         <table class="tag-table">
-          <thead><tr><th style="width:42px"><input class="tag-check" id="checkAll" type="checkbox" aria-label="Pilih semua"></th><th>Nama Tag</th><th>Slug</th><th>Digunakan</th><th>Status Topic</th><th>Status Program</th><th>Status Brand</th><th style="text-align:right">Aksi</th></tr></thead>
+          <thead><tr><th style="width:42px"><input class="tag-check" id="checkAll" type="checkbox" aria-label="Select all"></th><th>Tag Name</th><th>Slug</th><th>Used In</th><th>Topic Status</th><th>Program Status</th><th>Brand Status</th><th style="text-align:right">Actions</th></tr></thead>
           <tbody id="tagRows"></tbody>
         </table>
       </div>
-      <div class="empty-state" id="emptyState"><i data-lucide="search-x"></i><strong>Tidak ada tag ditemukan</strong><div>Coba ubah kata kunci atau filter.</div></div>
+      <div class="empty-state" id="emptyState"><i data-lucide="search-x"></i><strong>No tags found</strong><div>Try another keyword or filter.</div></div>
       <div class="tag-footer">
-        <span class="tag-count">12 dari 128 tags</span>
-        <div class="pagination"><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">4</button><button class="page-btn" aria-label="Halaman berikutnya"><i data-lucide="chevron-right"></i></button></div>
+        <span class="tag-count">12 of 128 tags</span>
+        <div class="pagination"><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">4</button><button class="page-btn" aria-label="Next page"><i data-lucide="chevron-right"></i></button></div>
       </div>
     </section>
   </div>
@@ -181,13 +181,13 @@
 
 <div class="nr-modal-backdrop" id="tagModal" aria-hidden="true">
   <div class="nr-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="nr-modal-head"><strong id="modalTitle">Tambah Tag</strong><button class="nr-btn nr-btn-icon" id="modalClose" type="button" aria-label="Tutup"><i data-lucide="x"></i></button></div>
+    <div class="nr-modal-head"><strong id="modalTitle">Add Tag</strong><button class="nr-btn nr-btn-icon" id="modalClose" type="button" aria-label="Close"><i data-lucide="x"></i></button></div>
     <div class="nr-modal-body">
-      <div class="nr-field"><label for="tagName">Nama Tag</label><input id="tagName" type="text" placeholder="Contoh: Harga BBM"><div class="nr-field-help">Gunakan nama yang jelas dan mudah dikenali editor.</div></div>
-      <div class="nr-field"><label for="tagSlug">Slug</label><input id="tagSlug" type="text" placeholder="harga-bbm"><div class="nr-field-help">Slug dibuat otomatis dari nama dan masih bisa disesuaikan.</div></div>
+      <div class="nr-field"><label for="tagName">Tag Name</label><input id="tagName" type="text" placeholder="Example: Harga BBM"><div class="nr-field-help">Use a clear name that editors can recognize quickly.</div></div>
+      <div class="nr-field"><label for="tagSlug">Slug</label><input id="tagSlug" type="text" placeholder="harga-bbm"><div class="nr-field-help">The slug is generated from the name and can still be adjusted.</div></div>
       <div class="nr-field"><label>Status</label><div class="status-grid"><label class="status-card"><input id="modalTopic" type="checkbox" checked> Topic</label><label class="status-card"><input id="modalProgram" type="checkbox"> Program</label><label class="status-card"><input id="modalBrand" type="checkbox"> Brand</label></div></div>
     </div>
-    <div class="nr-modal-foot"><button class="nr-btn" id="modalCancel" type="button">Batal</button><button class="nr-btn nr-btn-primary" id="modalSave" type="button"><i data-lucide="check"></i><span>Simpan Tag</span></button></div>
+    <div class="nr-modal-foot"><button class="nr-btn" id="modalCancel" type="button">Cancel</button><button class="nr-btn nr-btn-primary" id="modalSave" type="button"><i data-lucide="check"></i><span>Save Tag</span></button></div>
   </div>
 </div>
 
@@ -222,8 +222,8 @@ function filtered(){
 }
 function render(){
  const rows=filtered();
- $('#tagRows').innerHTML=rows.map(x=>'<tr data-row="'+x._i+'"><td><input class="tag-check row-check" type="checkbox" data-index="'+x._i+'"></td><td><div class="tag-name"><span class="tag-name-icon"><i data-lucide="tag"></i></span><span><strong>'+esc(x.name)+'</strong><small>ID TAG-'+String(x._i+101).padStart(4,'0')+'</small></span></div></td><td><span class="tag-slug">'+esc(x.slug)+'</span></td><td><span class="tag-usage">'+x.usage+' artikel</span></td><td>'+statusPill(x.topic,'Topic','topic',x._i)+'</td><td>'+statusPill(x.program,'Program','program',x._i)+'</td><td>'+statusPill(x.brand,'Brand','brand',x._i)+'</td><td><div class="row-actions"><button class="row-action edit-tag" data-index="'+x._i+'" title="Edit tag"><i data-lucide="pencil"></i><span>Edit</span></button></div></td></tr>').join('');
- $('#resultCount').textContent='Menampilkan '+rows.length+' tags';
+ $('#tagRows').innerHTML=rows.map(x=>'<tr data-row="'+x._i+'"><td><input class="tag-check row-check" type="checkbox" data-index="'+x._i+'"></td><td><div class="tag-name"><span class="tag-name-icon"><i data-lucide="tag"></i></span><span><strong>'+esc(x.name)+'</strong><small>ID TAG-'+String(x._i+101).padStart(4,'0')+'</small></span></div></td><td><span class="tag-slug">'+esc(x.slug)+'</span></td><td><span class="tag-usage">'+x.usage+' articles</span></td><td>'+statusPill(x.topic,'Topic','topic',x._i)+'</td><td>'+statusPill(x.program,'Program','program',x._i)+'</td><td>'+statusPill(x.brand,'Brand','brand',x._i)+'</td><td><div class="row-actions"><button class="row-action edit-tag" data-index="'+x._i+'" title="Edit tag"><i data-lucide="pencil"></i><span>Edit</span></button></div></td></tr>').join('');
+ $('#resultCount').textContent='Showing '+rows.length+' tags';
  $('#tableWrap').style.display=rows.length?'block':'none';$('#emptyState').style.display=rows.length?'none':'block';
  bindRows();lucide.createIcons();updateBulk();
 }
@@ -237,7 +237,7 @@ function updateBulk(){
  $('#checkAll').checked=$$('.row-check').length>0&&checked.length===$$('.row-check').length;
 }
 function slugify(v){return v.toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')}
-function openModal(i=-1){editing=i;const item=i>=0?data[i]:null;$('#modalTitle').textContent=item?'Edit Tag':'Tambah Tag';$('#tagName').value=item?.name||'';$('#tagSlug').value=item?.slug||'';$('#modalTopic').checked=item?.topic??true;$('#modalProgram').checked=item?.program??false;$('#modalBrand').checked=item?.brand??false;$('#tagModal').classList.add('open');$('#tagModal').setAttribute('aria-hidden','false');setTimeout(()=>$('#tagName').focus(),0)}
+function openModal(i=-1){editing=i;const item=i>=0?data[i]:null;$('#modalTitle').textContent=item?'Edit Tag':'Add Tag';$('#tagName').value=item?.name||'';$('#tagSlug').value=item?.slug||'';$('#modalTopic').checked=item?.topic??true;$('#modalProgram').checked=item?.program??false;$('#modalBrand').checked=item?.brand??false;$('#tagModal').classList.add('open');$('#tagModal').setAttribute('aria-hidden','false');setTimeout(()=>$('#tagName').focus(),0)}
 function closeModal(){$('#tagModal').classList.remove('open');$('#tagModal').setAttribute('aria-hidden','true')}
 $('#addTagBtn').onclick=()=>openModal();
 $('#modalClose').onclick=$('#modalCancel').onclick=closeModal;
