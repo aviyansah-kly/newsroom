@@ -6737,9 +6737,9 @@ body.alt-editor-layout #infoPane .v58-category-editorial .alt-category-picker{
   gap:12px;
   margin-top:14px;
   padding:12px 14px;
-  border:1px solid #dbeafe;
+  border:1px solid #ddd6fe;
   border-radius:10px;
-  background:#f8fbff;
+  background:#faf5ff;
 }
 .alt-ai-analyze-copy strong{
   display:block;
@@ -6760,14 +6760,30 @@ body.alt-editor-layout #infoPane .v58-category-editorial .alt-category-picker{
   align-items:center;
   gap:7px;
   padding:0 12px;
-  border:1px solid #bfdbfe;
+  border:1px solid #7c3aed;
   border-radius:8px;
-  background:#eff6ff;
-  color:#2563eb;
+  background:#7c3aed;
+  color:#fff;
   font-size:12px!important;
   font-weight:700;
   white-space:nowrap;
   cursor:pointer;
+  box-shadow:0 1px 2px rgba(76,29,149,.16);
+  transition:background .15s ease,border-color .15s ease,box-shadow .15s ease,transform .15s ease;
+}
+.alt-ai-analyze-btn:hover{
+  border-color:#6d28d9;
+  background:#6d28d9;
+  box-shadow:0 3px 10px rgba(124,58,237,.22);
+}
+.alt-ai-analyze-btn:active{transform:translateY(1px)}
+.alt-ai-analyze-btn:focus-visible{
+  outline:0;
+  box-shadow:0 0 0 3px rgba(139,92,246,.22);
+}
+.alt-ai-analyze-btn:disabled{
+  cursor:wait;
+  opacity:.72;
 }
 .alt-ai-analyze-btn svg{width:15px;height:15px}
 
