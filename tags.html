@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tag Management · Liputan6 Newsroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/newsroom-design-system.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+.tag-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.tag-stat{display:flex;align-items:center;gap:12px;min-height:82px}
+.tag-stat-icon{width:38px;height:38px;display:grid;place-items:center;flex:none;border-radius:9px;background:var(--nr-soft);color:var(--nr-text-2)}
+.tag-stat-icon svg{width:18px;height:18px}
+.tag-stat-copy span{display:block;color:var(--nr-muted);font-size:12px}
+.tag-stat-copy strong{display:block;margin-top:2px;font-size:20px;line-height:26px;letter-spacing:-.02em}
+.tag-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--nr-border)}
+.tag-search{position:relative;flex:1;min-width:240px}
+.tag-search svg{position:absolute;left:12px;top:11px;width:16px;height:16px;color:#94a3b8}
+.tag-search input,.tag-select{height:40px;border:1px solid var(--nr-input);border-radius:8px;background:#fff;color:var(--nr-text);outline:0}
+.tag-search input{width:100%;padding:0 12px 0 37px}
+.tag-select{padding:0 32px 0 11px}
+.tag-search input:focus,.tag-select:focus{border-color:#94a3b8;box-shadow:0 0 0 2px rgba(148,163,184,.12)}
+.tag-count{margin-left:auto;color:var(--nr-muted);font-size:12px;white-space:nowrap}
+.tag-table-wrap{overflow:auto}
+.tag-table{width:100%;border-collapse:collapse;min-width:900px}
+.tag-table th{position:sticky;top:0;z-index:1;height:42px;padding:0 12px;background:#f8fafc;border-bottom:1px solid var(--nr-border);color:var(--nr-muted);font-size:11px;font-weight:650;text-align:left;white-space:nowrap}
+.tag-table td{height:56px;padding:8px 12px;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+.tag-table tr:last-child td{border-bottom:0}
+.tag-table tbody tr:hover{background:#fbfdff}
+.tag-check{width:16px;height:16px;accent-color:var(--nr-orange)}
+.tag-name{display:flex;align-items:center;gap:9px;min-width:220px}
+.tag-name-icon{width:30px;height:30px;display:grid;place-items:center;flex:none;border-radius:8px;background:var(--nr-soft);color:var(--nr-muted)}
+.tag-name-icon svg{width:14px;height:14px}
+.tag-name strong{display:block;font-size:13px}
+.tag-name small{display:block;margin-top:1px;color:var(--nr-muted);font-size:11px}
+.tag-slug{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--nr-text-2);font-size:12px}
+.status-toggle{min-height:28px;display:inline-flex;align-items:center;gap:6px;padding:0 8px;border:1px solid var(--nr-border);border-radius:999px;background:#fff;color:var(--nr-muted);font-size:11px;font-weight:600;white-space:nowrap}
+.status-toggle.on{background:var(--nr-green-soft);border-color:#bbf7d0;color:#166534}
+.status-dot{width:6px;height:6px;border-radius:50%;background:#cbd5e1}
+.status-toggle.on .status-dot{background:var(--nr-green)}
+.tag-usage{font-size:12px;color:var(--nr-text-2)}
+.row-actions{display:flex;justify-content:flex-end;gap:4px}
+.row-action{width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:7px;background:transparent;color:var(--nr-muted)}
+.row-action:hover{background:var(--nr-hover);color:var(--nr-text)}
+.row-action svg{width:15px;height:15px}
+.tag-footer{min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-top:1px solid var(--nr-border)}
+.pagination{display:flex;gap:4px}
+.page-btn{width:34px;height:34px;border:1px solid var(--nr-border);border-radius:7px;background:#fff;color:var(--nr-text-2);font-size:12px}
+.page-btn.active{background:var(--nr-orange);border-color:var(--nr-orange);color:#fff}
+.bulk-bar{display:none;align-items:center;gap:8px;padding:10px 14px;background:#fff7ed;border-bottom:1px solid #fed7aa;color:#9a3412}
+.bulk-bar.show{display:flex}
+.bulk-bar strong{font-size:12px;margin-right:auto}
+.empty-state{display:none;padding:48px 20px;text-align:center;color:var(--nr-muted)}
+.empty-state svg{width:32px;height:32px;margin-bottom:8px;color:#94a3b8}
+.nr-modal-backdrop{display:none;position:fixed;inset:0;z-index:120;background:rgba(15,23,42,.38);padding:20px}
+.nr-modal-backdrop.open{display:grid;place-items:center}
+.nr-modal-card{width:min(520px,100%);border-radius:12px;background:#fff;box-shadow:var(--nr-shadow-md);overflow:hidden}
+.nr-modal-head,.nr-modal-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px}
+.nr-modal-head{border-bottom:1px solid var(--nr-border)}
+.nr-modal-foot{border-top:1px solid var(--nr-border)}
+.nr-modal-body{display:grid;gap:14px;padding:16px}
+.nr-field label{display:block;margin-bottom:6px;font-size:12px;font-weight:650}
+.nr-field input{width:100%;height:40px;padding:0 11px;border:1px solid var(--nr-input);border-radius:8px;outline:0}
+.nr-field input:focus{border-color:#94a3b8;box-shadow:0 0 0 2px rgba(148,163,184,.12)}
+.nr-field-help{margin-top:5px;color:var(--nr-muted);font-size:11px}
+.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.status-card{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--nr-border);border-radius:8px;font-size:12px}
+.status-card input{accent-color:var(--nr-orange)}
+@media(max-width:1100px){.tag-overview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.tag-overview{grid-template-columns:1fr 1fr}.tag-toolbar{align-items:stretch}.tag-search{min-width:100%}.tag-count{margin-left:0}.status-grid{grid-template-columns:1fr}.tag-footer{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.tag-overview{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="nr-app">
+<header class="nr-topbar">
+  <button class="nr-mobile-menu" id="mobileMenu" type="button" aria-label="Buka menu"><i data-lucide="menu"></i></button>
+  <a class="nr-brand" href="dashboard.html" aria-label="Liputan6 Newsroom"><img src="assets/liputan6-logo.svg" alt="Liputan6"></a>
+  <div class="nr-header-context"><strong>Newsroom</strong><span>Tag Management</span></div>
+  <div class="nr-spacer"></div>
+  <div class="nr-user"><span class="nr-avatar">AY</span><span>Editor</span></div>
+</header>
+
+<div class="nr-sidebar-backdrop" id="sidebarBackdrop"></div>
+<aside class="nr-sidebar" id="sidebar">
+  <div class="nr-sidebar-head">
+    <div><strong>Menu CMS</strong><span>Akses fitur editorial dan distribusi.</span></div>
+    <button type="button" id="sidebarToggle" aria-label="Collapse sidebar"><i data-lucide="panel-left-close"></i></button>
+  </div>
+  <div class="nr-sidebar-search"><i data-lucide="search"></i><input id="sidebarSearch" type="search" placeholder="Cari menu CMS…"></div>
+  <div class="nr-sidebar-scroll">
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="layout-dashboard"></i><strong>Workspace</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <a class="nr-nav-item" href="dashboard.html" data-item="Dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a class="nr-nav-item" href="index.html" data-item="Articles"><i data-lucide="newspaper"></i><span>Articles</span></a>
+        <button class="nr-nav-item" type="button" data-item="Autopilot Articles"><i data-lucide="bot"></i><span>Autopilot Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Rewrite Articles"><i data-lucide="wand-sparkles"></i><span>Rewrite Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Distributed Articles"><i data-lucide="send"></i><span>Distributed Articles</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="images"></i><strong>Media & Live</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Images"><i data-lucide="image"></i><span>Images</span></button>
+        <button class="nr-nav-item" type="button" data-item="Photo Galleries"><i data-lucide="gallery-horizontal"></i><span>Photo Galleries</span></button>
+        <button class="nr-nav-item" type="button" data-item="Video Galleries"><i data-lucide="clapperboard"></i><span>Video Galleries</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="sparkles"></i><strong>AI & Intelligence</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Persona"><i data-lucide="user-round-cog"></i><span>Persona</span></button>
+        <button class="nr-nav-item" type="button" data-item="SEO Recommendation"><i data-lucide="search-check"></i><span>SEO Recommendation</span></button>
+        <button class="nr-nav-item" type="button" data-item="Topical Hub"><i data-lucide="network"></i><span>Topical Hub</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster open" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="shield-check"></i><strong>Editorial Governance</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <a class="nr-nav-item active" href="tags.html" data-item="Tags"><i data-lucide="tags"></i><span>Tags</span></a>
+        <button class="nr-nav-item" type="button" data-item="CG Articles"><i data-lucide="shield-alert"></i><span>CG Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Comments"><i data-lucide="message-square"></i><span>Comments</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="megaphone"></i><strong>Distribution & Promotion</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Headlines"><i data-lucide="panel-top"></i><span>Headlines</span></button>
+        <button class="nr-nav-item" type="button" data-item="Push Notification"><i data-lucide="bell-ring"></i><span>Push Notification</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="nr-sidebar-bottom"><button class="nr-nav-item" type="button"><i data-lucide="bot-message-square"></i><span>Newsroom AI</span></button></div>
+</aside>
+
+<main class="nr-page">
+  <div class="nr-container">
+    <div class="nr-page-head">
+      <div><h1>Tags</h1><p>Kelola taxonomy artikel agar pencarian, distribusi, dan rekomendasi konten tetap konsisten.</p></div>
+      <button class="nr-btn nr-btn-primary" id="addTagBtn" type="button"><i data-lucide="plus"></i><span>Tambah Tag</span></button>
+    </div>
+
+    <section class="tag-overview" aria-label="Ringkasan tags">
+      <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="tags"></i></span><div class="tag-stat-copy"><span>Total Tags</span><strong id="totalTags">128</strong></div></div>
+      <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="badge-check"></i></span><div class="tag-stat-copy"><span>Topic Active</span><strong>96</strong></div></div>
+      <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="layers-3"></i></span><div class="tag-stat-copy"><span>Program Active</span><strong>24</strong></div></div>
+      <div class="nr-card tag-stat"><span class="tag-stat-icon"><i data-lucide="briefcase-business"></i></span><div class="tag-stat-copy"><span>Brand Active</span><strong>18</strong></div></div>
+    </section>
+
+    <section class="nr-panel">
+      <div class="tag-toolbar">
+        <div class="tag-search"><i data-lucide="search"></i><input id="tagSearch" type="search" placeholder="Cari nama atau slug tag…"></div>
+        <select class="tag-select" id="statusFilter" aria-label="Filter status"><option value="all">Semua status</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+        <select class="tag-select" id="typeFilter" aria-label="Filter tipe"><option value="all">Semua tipe</option><option value="topic">Topic</option><option value="program">Program</option><option value="brand">Brand</option></select>
+        <span class="tag-count" id="resultCount">Menampilkan 12 tags</span>
+      </div>
+      <div class="bulk-bar" id="bulkBar"><strong><span id="selectedCount">0</span> tag dipilih</strong><button class="nr-btn" type="button" id="bulkActivate">Aktifkan</button><button class="nr-btn" type="button" id="bulkDeactivate">Nonaktifkan</button></div>
+      <div class="tag-table-wrap" id="tableWrap">
+        <table class="tag-table">
+          <thead><tr><th style="width:42px"><input class="tag-check" id="checkAll" type="checkbox" aria-label="Pilih semua"></th><th>Nama Tag</th><th>Slug</th><th>Digunakan</th><th>Status Topic</th><th>Status Program</th><th>Status Brand</th><th style="text-align:right">Aksi</th></tr></thead>
+          <tbody id="tagRows"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="emptyState"><i data-lucide="search-x"></i><strong>Tidak ada tag ditemukan</strong><div>Coba ubah kata kunci atau filter.</div></div>
+      <div class="tag-footer">
+        <span class="tag-count">12 dari 128 tags</span>
+        <div class="pagination"><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">4</button><button class="page-btn" aria-label="Halaman berikutnya"><i data-lucide="chevron-right"></i></button></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="nr-modal-backdrop" id="tagModal" aria-hidden="true">
+  <div class="nr-modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="nr-modal-head"><strong id="modalTitle">Tambah Tag</strong><button class="nr-btn nr-btn-icon" id="modalClose" type="button" aria-label="Tutup"><i data-lucide="x"></i></button></div>
+    <div class="nr-modal-body">
+      <div class="nr-field"><label for="tagName">Nama Tag</label><input id="tagName" type="text" placeholder="Contoh: Harga BBM"><div class="nr-field-help">Gunakan nama yang jelas dan mudah dikenali editor.</div></div>
+      <div class="nr-field"><label for="tagSlug">Slug</label><input id="tagSlug" type="text" placeholder="harga-bbm"><div class="nr-field-help">Slug dibuat otomatis dari nama dan masih bisa disesuaikan.</div></div>
+      <div class="nr-field"><label>Status</label><div class="status-grid"><label class="status-card"><input id="modalTopic" type="checkbox" checked> Topic</label><label class="status-card"><input id="modalProgram" type="checkbox"> Program</label><label class="status-card"><input id="modalBrand" type="checkbox"> Brand</label></div></div>
+    </div>
+    <div class="nr-modal-foot"><button class="nr-btn" id="modalCancel" type="button">Batal</button><button class="nr-btn nr-btn-primary" id="modalSave" type="button"><i data-lucide="check"></i><span>Simpan Tag</span></button></div>
+  </div>
+</div>
+
+<script>
+const data=[
+{name:'Harga BBM',slug:'harga-bbm',usage:246,topic:true,program:false,brand:false},
+{name:'Purbaya Yudhi Sadewa',slug:'purbaya-yudhi-sadewa',usage:184,topic:true,program:false,brand:false},
+{name:'Harga Minyak Dunia',slug:'harga-minyak-dunia',usage:162,topic:true,program:false,brand:false},
+{name:'Pertalite',slug:'pertalite',usage:149,topic:true,program:false,brand:true},
+{name:'Biosolar',slug:'biosolar',usage:133,topic:true,program:false,brand:true},
+{name:'Bahlil Lahadalia',slug:'bahlil-lahadalia',usage:122,topic:true,program:false,brand:false},
+{name:'Minyak Dunia',slug:'minyak-dunia',usage:118,topic:true,program:false,brand:false},
+{name:'Migas',slug:'migas',usage:104,topic:true,program:false,brand:false},
+{name:'Pemerintah Indonesia',slug:'pemerintah-indonesia',usage:96,topic:true,program:false,brand:false},
+{name:'APBN',slug:'apbn',usage:91,topic:true,program:false,brand:false},
+{name:'Bencana Alam',slug:'bencana-alam',usage:78,topic:true,program:true,brand:false},
+{name:'Timnas Indonesia',slug:'timnas-indonesia',usage:214,topic:true,program:true,brand:false}
+];
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let editing=-1;
+function statusPill(on,label,key,i){return '<button class="status-toggle '+(on?'on':'')+'" type="button" data-toggle="'+key+'" data-index="'+i+'" aria-pressed="'+on+'"><span class="status-dot"></span>'+label+'</button>'}
+function filtered(){
+ const q=$('#tagSearch').value.trim().toLowerCase(),status=$('#statusFilter').value,type=$('#typeFilter').value;
+ return data.map((x,i)=>({...x,_i:i})).filter(x=>{
+  const matchQ=!q||x.name.toLowerCase().includes(q)||x.slug.toLowerCase().includes(q);
+  const any=x.topic||x.program||x.brand;
+  const matchStatus=status==='all'||(status==='active'?any:!any);
+  const matchType=type==='all'||!!x[type];
+  return matchQ&&matchStatus&&matchType;
+ });
+}
+function render(){
+ const rows=filtered();
+ $('#tagRows').innerHTML=rows.map(x=>'<tr data-row="'+x._i+'"><td><input class="tag-check row-check" type="checkbox" data-index="'+x._i+'"></td><td><div class="tag-name"><span class="tag-name-icon"><i data-lucide="tag"></i></span><span><strong>'+esc(x.name)+'</strong><small>ID TAG-'+String(x._i+101).padStart(4,'0')+'</small></span></div></td><td><span class="tag-slug">'+esc(x.slug)+'</span></td><td><span class="tag-usage">'+x.usage+' artikel</span></td><td>'+statusPill(x.topic,'Topic','topic',x._i)+'</td><td>'+statusPill(x.program,'Program','program',x._i)+'</td><td>'+statusPill(x.brand,'Brand','brand',x._i)+'</td><td><div class="row-actions"><button class="row-action edit-tag" data-index="'+x._i+'" title="Edit tag"><i data-lucide="pencil"></i></button><button class="row-action" title="Lihat artikel"><i data-lucide="external-link"></i></button></div></td></tr>').join('');
+ $('#resultCount').textContent='Menampilkan '+rows.length+' tags';
+ $('#tableWrap').style.display=rows.length?'block':'none';$('#emptyState').style.display=rows.length?'none':'block';
+ bindRows();lucide.createIcons();updateBulk();
+}
+function bindRows(){
+ $$('.status-toggle').forEach(b=>b.onclick=()=>{const i=+b.dataset.index,key=b.dataset.toggle;data[i][key]=!data[i][key];render()});
+ $$('.edit-tag').forEach(b=>b.onclick=()=>openModal(+b.dataset.index));
+ $$('.row-check').forEach(c=>c.onchange=updateBulk);
+}
+function updateBulk(){
+ const checked=$$('.row-check:checked');$('#selectedCount').textContent=checked.length;$('#bulkBar').classList.toggle('show',checked.length>0);
+ $('#checkAll').checked=$$('.row-check').length>0&&checked.length===$$('.row-check').length;
+}
+function slugify(v){return v.toLowerCase().trim().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')}
+function openModal(i=-1){editing=i;const item=i>=0?data[i]:null;$('#modalTitle').textContent=item?'Edit Tag':'Tambah Tag';$('#tagName').value=item?.name||'';$('#tagSlug').value=item?.slug||'';$('#modalTopic').checked=item?.topic??true;$('#modalProgram').checked=item?.program??false;$('#modalBrand').checked=item?.brand??false;$('#tagModal').classList.add('open');$('#tagModal').setAttribute('aria-hidden','false');setTimeout(()=>$('#tagName').focus(),0)}
+function closeModal(){$('#tagModal').classList.remove('open');$('#tagModal').setAttribute('aria-hidden','true')}
+$('#addTagBtn').onclick=()=>openModal();
+$('#modalClose').onclick=$('#modalCancel').onclick=closeModal;
+$('#tagModal').onclick=e=>{if(e.target.id==='tagModal')closeModal()};
+$('#tagName').addEventListener('input',()=>{if(editing<0)$('#tagSlug').value=slugify($('#tagName').value)});
+$('#modalSave').onclick=()=>{const name=$('#tagName').value.trim(),slug=$('#tagSlug').value.trim();if(!name||!slug)return;if(editing>=0){Object.assign(data[editing],{name,slug,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked})}else data.unshift({name,slug,usage:0,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked});closeModal();render()};
+['tagSearch','statusFilter','typeFilter'].forEach(id=>$('#'+id).addEventListener(id==='tagSearch'?'input':'change',render));
+$('#checkAll').onchange=e=>{$$('.row-check').forEach(c=>c.checked=e.target.checked);updateBulk()};
+function bulkSet(v){$$('.row-check:checked').forEach(c=>{const x=data[+c.dataset.index];x.topic=v;x.program=v;x.brand=v});render()}
+$('#bulkActivate').onclick=()=>bulkSet(true);$('#bulkDeactivate').onclick=()=>bulkSet(false);
+
+(function(){
+ const body=document.body,toggle=$('#sidebarToggle'),mobileMenu=$('#mobileMenu'),backdrop=$('#sidebarBackdrop'),search=$('#sidebarSearch');
+ const mobile=()=>window.matchMedia('(max-width:1024px)').matches,closeMobile=()=>body.classList.remove('nr-mobile-sidebar-open');
+ toggle?.addEventListener('click',()=>{if(mobile()){closeMobile();return}body.classList.toggle('nr-sidebar-collapsed');try{localStorage.setItem('newsroom:sidebar-collapsed',body.classList.contains('nr-sidebar-collapsed')?'1':'0')}catch(e){}toggle.innerHTML='<i data-lucide="'+(body.classList.contains('nr-sidebar-collapsed')?'panel-left-open':'panel-left-close')+'"></i>';lucide.createIcons()});
+ mobileMenu?.addEventListener('click',()=>body.classList.add('nr-mobile-sidebar-open'));backdrop?.addEventListener('click',closeMobile);
+ $$('[data-cluster]>.nr-nav-cluster-head').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
+ search?.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();$$('[data-cluster]').forEach(cluster=>{let matches=0;cluster.querySelectorAll('[data-item]').forEach(item=>{const visible=!q||(item.dataset.item||'').toLowerCase().includes(q);item.hidden=!visible;if(visible)matches++});cluster.hidden=matches===0;if(q&&matches)cluster.classList.add('open')})});
+ if(!mobile()){try{if(localStorage.getItem('newsroom:sidebar-collapsed')==='1'){body.classList.add('nr-sidebar-collapsed');toggle.innerHTML='<i data-lucide="panel-left-open"></i>'}}catch(e){}}
+ window.addEventListener('resize',()=>{if(!mobile())closeMobile()});
+})();
+render();
+</script>
+</body>
+</html>
