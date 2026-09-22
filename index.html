@@ -8905,11 +8905,12 @@ body.alt-editor-layout .ai-suggested-field .v58-category-label{
   gap:8px!important;
 }
 body.alt-editor-layout .ai-origin-badge{
-  min-height:24px!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  gap:5px!important;
-  padding:2px 8px!important;
+  width:26px!important;
+  height:26px!important;
+  min-height:26px!important;
+  display:inline-grid!important;
+  place-items:center!important;
+  padding:0!important;
   border:1px solid #93c5fd!important;
   border-radius:999px!important;
   background:linear-gradient(135deg,#eff6ff 0%,#eef6ff 55%,#e0f2fe 100%)!important;
@@ -8929,7 +8930,25 @@ body.alt-editor-layout .ai-origin-badge:hover{
 body.alt-editor-layout .ai-origin-badge:active{transform:scale(.98)}
 body.alt-editor-layout .ai-origin-badge svg{width:12px!important;height:12px!important}
 
-/* Persistent AI-generated state: blue outline + soft blue surface. */
+/* Reusable AI field review state. Purple is reserved for AI-filled fields awaiting editor review. */
+@keyframes newsroomAiFieldReviewRing{
+  0%,100%{
+    border-color:#7c3aed;
+    box-shadow:0 0 0 2px rgba(124,58,237,.16),0 0 10px rgba(124,58,237,.08);
+  }
+  25%{
+    border-color:#6366f1;
+    box-shadow:0 0 0 4px rgba(99,102,241,.18),0 0 18px rgba(99,102,241,.12);
+  }
+  50%{
+    border-color:#a855f7;
+    box-shadow:0 0 0 3px rgba(168,85,247,.20),0 0 16px rgba(168,85,247,.10);
+  }
+  75%{
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 4px rgba(139,92,246,.16),0 0 20px rgba(139,92,246,.10);
+  }
+}
 body.alt-editor-layout .ai-suggested-field>input,
 body.alt-editor-layout .ai-suggested-field>select,
 body.alt-editor-layout .ai-suggested-field>textarea,
@@ -8937,44 +8956,28 @@ body.alt-editor-layout .ai-generated-surface,
 body.alt-editor-layout .ai-suggested-field .alt-chip-input,
 body.alt-editor-layout .ai-suggested-field .alt-entity-picker-control,
 body.alt-editor-layout .ai-suggested-field .alt-category-trigger{
-  border-color:#60a5fa!important;
-  background:linear-gradient(135deg,rgba(239,246,255,.96),rgba(239,246,255,.72),rgba(224,242,254,.84))!important;
-  box-shadow:0 0 0 2px rgba(37,99,235,.12)!important;
+  border-color:#8b5cf6!important;
+  background:linear-gradient(135deg,rgba(250,245,255,.96),rgba(245,243,255,.82),rgba(239,246,255,.92))!important;
+  animation:newsroomAiFieldReviewRing 2.2s ease-in-out infinite!important;
 }
 body.alt-editor-layout .ai-suggested-field:focus-within>input,
 body.alt-editor-layout .ai-suggested-field:focus-within>select,
 body.alt-editor-layout .ai-suggested-field:focus-within>textarea,
 body.alt-editor-layout .ai-suggested-field:focus-within .ai-generated-surface,
 body.alt-editor-layout .ai-suggested-field:focus-within .alt-category-trigger{
-  border-color:#2563eb!important;
-  box-shadow:0 0 0 3px rgba(37,99,235,.16)!important;
-}
-
-/* Strong arrival animation on the OUTLINE so AI-filled fields are easy to notice. */
-@keyframes newsroomAiArrival{
-  0%{box-shadow:0 0 0 0 rgba(37,99,235,0),0 0 0 rgba(37,99,235,0)}
-  24%{box-shadow:0 0 0 5px rgba(37,99,235,.20),0 0 24px rgba(37,99,235,.18)}
-  52%{box-shadow:0 0 0 2px rgba(37,99,235,.10),0 0 10px rgba(37,99,235,.06)}
-  78%{box-shadow:0 0 0 4px rgba(37,99,235,.15),0 0 18px rgba(37,99,235,.10)}
-  100%{box-shadow:0 0 0 2px rgba(37,99,235,.12),0 0 0 rgba(37,99,235,0)}
-}
-body.alt-editor-layout .ai-just-generated>input,
-body.alt-editor-layout .ai-just-generated>select,
-body.alt-editor-layout .ai-just-generated>textarea,
-body.alt-editor-layout .ai-just-generated .ai-generated-surface,
-body.alt-editor-layout .ai-just-generated .alt-chip-input,
-body.alt-editor-layout .ai-just-generated .alt-entity-picker-control,
-body.alt-editor-layout .ai-just-generated .alt-category-trigger{
-  animation:newsroomAiArrival 1.8s ease-out 1!important;
+  border-color:#7c3aed!important;
 }
 @media(prefers-reduced-motion:reduce){
-  body.alt-editor-layout .ai-just-generated>input,
-  body.alt-editor-layout .ai-just-generated>select,
-  body.alt-editor-layout .ai-just-generated>textarea,
-  body.alt-editor-layout .ai-just-generated .ai-generated-surface,
-  body.alt-editor-layout .ai-just-generated .alt-chip-input,
-  body.alt-editor-layout .ai-just-generated .alt-entity-picker-control,
-  body.alt-editor-layout .ai-just-generated .alt-category-trigger{animation:none!important}
+  body.alt-editor-layout .ai-suggested-field>input,
+  body.alt-editor-layout .ai-suggested-field>select,
+  body.alt-editor-layout .ai-suggested-field>textarea,
+  body.alt-editor-layout .ai-generated-surface,
+  body.alt-editor-layout .ai-suggested-field .alt-chip-input,
+  body.alt-editor-layout .ai-suggested-field .alt-entity-picker-control,
+  body.alt-editor-layout .ai-suggested-field .alt-category-trigger{
+    animation:none!important;
+    box-shadow:0 0 0 2px rgba(139,92,246,.14)!important;
+  }
 }
 
 body.alt-editor-layout .ai-suggested-field:after{content:none!important;display:none!important}
@@ -8983,29 +8986,8 @@ body.alt-editor-layout .ai-suggested-field:after{content:none!important;display:
 body.alt-editor-layout #altEditorialTagsSection.ai-suggested-field .tag-wrap{
   position:relative!important;
   border-color:#8b5cf6!important;
-  background:linear-gradient(135deg,rgba(250,245,255,.96),rgba(245,243,255,.82),rgba(239,246,255,.94))!important;
-  box-shadow:0 0 0 2px rgba(139,92,246,.14)!important;
-}
-@keyframes newsroomAiTagReviewRing{
-  0%,100%{
-    border-color:#7c3aed;
-    box-shadow:0 0 0 2px rgba(124,58,237,.18),0 0 10px rgba(124,58,237,.08);
-  }
-  25%{
-    border-color:#6366f1;
-    box-shadow:0 0 0 4px rgba(99,102,241,.20),0 0 20px rgba(99,102,241,.14);
-  }
-  50%{
-    border-color:#a855f7;
-    box-shadow:0 0 0 3px rgba(168,85,247,.22),0 0 18px rgba(168,85,247,.12);
-  }
-  75%{
-    border-color:#8b5cf6;
-    box-shadow:0 0 0 4px rgba(139,92,246,.18),0 0 22px rgba(139,92,246,.12);
-  }
-}
-body.alt-editor-layout #altEditorialTagsSection.ai-suggested-field .tag-wrap{
-  animation:newsroomAiTagReviewRing 2.2s ease-in-out infinite!important;
+  background:linear-gradient(135deg,rgba(250,245,255,.96),rgba(245,243,255,.82),rgba(239,246,255,.92))!important;
+  animation:newsroomAiFieldReviewRing 2.2s ease-in-out infinite!important;
 }
 body.alt-editor-layout #altEditorialTagsSection.ai-suggested-field .tag-chip{
   border-color:#ddd6fe!important;
@@ -9019,6 +9001,7 @@ body.alt-editor-layout #altEditorialTagsSection.ai-suggested-field .ai-origin-ba
 @media(prefers-reduced-motion:reduce){
   body.alt-editor-layout #altEditorialTagsSection.ai-suggested-field .tag-wrap{
     animation:none!important;
+    box-shadow:0 0 0 2px rgba(139,92,246,.14)!important;
   }
 }
 /* NEWSROOM_AI_TAG_FIELD_REVIEW_STATE_END */
@@ -14364,7 +14347,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       badge.className='ai-origin-badge';
       badge.setAttribute('aria-label','Mark AI suggestion as reviewed');
       badge.title='Click after you review this AI suggestion';
-      badge.innerHTML='<i data-lucide="sparkles"></i><span>AI Suggested · Review</span>';
+      badge.innerHTML='<i data-lucide="sparkles"></i>';
       badge.addEventListener('click',e=>{
         e.preventDefault();
         e.stopPropagation();
