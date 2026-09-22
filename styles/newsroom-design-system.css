@@ -65,13 +65,14 @@ body.nr-app a{text-decoration:none;color:inherit}
   flex:none;
 }
 .nr-brand img{
-  width:48px;
-  height:48px;
+  width:112px;
+  height:auto;
   display:block;
 }
 .nr-header-context{
   min-width:0;
   display:flex;
+  padding-left:2px;
   flex-direction:column;
   gap:1px;
 }
@@ -421,7 +422,7 @@ body.nr-app.nr-sidebar-collapsed .nr-nav-item svg{justify-self:center}
 }
 @media(max-width:720px){
   .nr-topbar{padding:0 12px}
-  .nr-brand img{width:42px;height:42px}
+  .nr-brand img{width:96px;height:auto}
   .nr-user span:last-child{display:none}
   .nr-page{padding:20px 14px 44px}
   .nr-page-head{align-items:flex-start;flex-direction:column}
