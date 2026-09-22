@@ -4862,7 +4862,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.is-
   flex:0 0 auto!important;
   margin-left:auto!important;
   padding:3px 7px!important;
-  border:1px solid #dbeafe!important;
+  border:1px solid #bfdbfe!important;
   border-radius:999px!important;
   background:#eff6ff!important;
   color:#2563eb!important;
@@ -8881,10 +8881,9 @@ body.alt-editor-layout #infoPane .alt-meta-extra>.alt-editorial-tags-section{
 
 
 /* NEWSROOM_AI_GENERATED_VISIBILITY_START */
-/* AI provenance uses purple so it cannot be confused with the normal blue focus state. */
+/* AI provenance uses newsroom blue and remains visible until the editor reviews or edits the field. */
 body.alt-editor-layout .ai-suggested-field{outline:none!important}
 
-/* Tags has one canonical title row: .alt-tag-head. Hide any legacy duplicated title. */
 body.alt-editor-layout #altEditorialTagsSection>.settings-section-head,
 body.alt-editor-layout #altEditorialTagsSection .field>label{
   display:none!important;
@@ -8894,9 +8893,7 @@ body.alt-editor-layout #altEditorialTagsSection .alt-tag-head{
   align-items:center!important;
   gap:7px!important;
 }
-body.alt-editor-layout #altEditorialTagsSection .alt-tag-head>strong{
-  margin-right:auto!important;
-}
+body.alt-editor-layout #altEditorialTagsSection .alt-tag-head>strong{margin-right:auto!important}
 
 body.alt-editor-layout .ai-suggested-field>label,
 body.alt-editor-layout .ai-suggested-field .field-label,
@@ -8913,10 +8910,10 @@ body.alt-editor-layout .ai-origin-badge{
   align-items:center!important;
   gap:5px!important;
   padding:2px 8px!important;
-  border:1px solid #c4b5fd!important;
+  border:1px solid #93c5fd!important;
   border-radius:999px!important;
-  background:linear-gradient(135deg,#faf5ff 0%,#f5f3ff 55%,#eef2ff 100%)!important;
-  color:#6d28d9!important;
+  background:linear-gradient(135deg,#eff6ff 0%,#eef6ff 55%,#e0f2fe 100%)!important;
+  color:#1d4ed8!important;
   font-size:11px!important;
   line-height:16px!important;
   font-weight:700!important;
@@ -8926,42 +8923,40 @@ body.alt-editor-layout .ai-origin-badge{
   transition:background .15s ease,border-color .15s ease,transform .15s ease!important;
 }
 body.alt-editor-layout .ai-origin-badge:hover{
-  border-color:#a78bfa!important;
-  background:#ede9fe!important;
+  border-color:#60a5fa!important;
+  background:#dbeafe!important;
 }
 body.alt-editor-layout .ai-origin-badge:active{transform:scale(.98)}
 body.alt-editor-layout .ai-origin-badge svg{width:12px!important;height:12px!important}
 
-/* Persistent AI-generated surface. Purple is provenance; blue remains interaction/focus. */
+/* Persistent AI-generated state: blue outline + soft blue surface. */
 body.alt-editor-layout .ai-suggested-field>input,
 body.alt-editor-layout .ai-suggested-field>select,
 body.alt-editor-layout .ai-suggested-field>textarea,
 body.alt-editor-layout .ai-generated-surface,
 body.alt-editor-layout .ai-suggested-field .alt-chip-input,
-body.alt-editor-layout .ai-suggested-field .alt-entity-picker-control{
-  border-color:#c4b5fd!important;
-  background:linear-gradient(135deg,rgba(250,245,255,.92),rgba(245,243,255,.72),rgba(238,242,255,.82))!important;
-  box-shadow:0 0 0 1px rgba(139,92,246,.10)!important;
-}
+body.alt-editor-layout .ai-suggested-field .alt-entity-picker-control,
 body.alt-editor-layout .ai-suggested-field .alt-category-trigger{
-  border-color:#c4b5fd!important;
-  background:linear-gradient(135deg,rgba(250,245,255,.92),rgba(245,243,255,.72),rgba(238,242,255,.82))!important;
-  box-shadow:0 0 0 1px rgba(139,92,246,.10)!important;
+  border-color:#60a5fa!important;
+  background:linear-gradient(135deg,rgba(239,246,255,.96),rgba(239,246,255,.72),rgba(224,242,254,.84))!important;
+  box-shadow:0 0 0 2px rgba(37,99,235,.12)!important;
 }
 body.alt-editor-layout .ai-suggested-field:focus-within>input,
 body.alt-editor-layout .ai-suggested-field:focus-within>select,
 body.alt-editor-layout .ai-suggested-field:focus-within>textarea,
-body.alt-editor-layout .ai-suggested-field:focus-within .ai-generated-surface{
-  border-color:#a78bfa!important;
-  box-shadow:0 0 0 2px rgba(139,92,246,.13)!important;
+body.alt-editor-layout .ai-suggested-field:focus-within .ai-generated-surface,
+body.alt-editor-layout .ai-suggested-field:focus-within .alt-category-trigger{
+  border-color:#2563eb!important;
+  box-shadow:0 0 0 3px rgba(37,99,235,.16)!important;
 }
 
-/* One-time Gemini/AI-mode style arrival animation; provenance itself stays static. */
+/* Strong arrival animation on the OUTLINE so AI-filled fields are easy to notice. */
 @keyframes newsroomAiArrival{
-  0%{box-shadow:0 0 0 0 rgba(139,92,246,0);filter:saturate(.96)}
-  28%{box-shadow:0 0 0 4px rgba(139,92,246,.11),0 0 22px rgba(99,102,241,.10);filter:saturate(1.08)}
-  68%{box-shadow:0 0 0 2px rgba(167,139,250,.13),0 0 14px rgba(139,92,246,.07)}
-  100%{box-shadow:0 0 0 1px rgba(139,92,246,.10);filter:none}
+  0%{box-shadow:0 0 0 0 rgba(37,99,235,0),0 0 0 rgba(37,99,235,0)}
+  24%{box-shadow:0 0 0 5px rgba(37,99,235,.20),0 0 24px rgba(37,99,235,.18)}
+  52%{box-shadow:0 0 0 2px rgba(37,99,235,.10),0 0 10px rgba(37,99,235,.06)}
+  78%{box-shadow:0 0 0 4px rgba(37,99,235,.15),0 0 18px rgba(37,99,235,.10)}
+  100%{box-shadow:0 0 0 2px rgba(37,99,235,.12),0 0 0 rgba(37,99,235,0)}
 }
 body.alt-editor-layout .ai-just-generated>input,
 body.alt-editor-layout .ai-just-generated>select,
@@ -8970,7 +8965,7 @@ body.alt-editor-layout .ai-just-generated .ai-generated-surface,
 body.alt-editor-layout .ai-just-generated .alt-chip-input,
 body.alt-editor-layout .ai-just-generated .alt-entity-picker-control,
 body.alt-editor-layout .ai-just-generated .alt-category-trigger{
-  animation:newsroomAiArrival 1.35s ease-out 1!important;
+  animation:newsroomAiArrival 1.8s ease-out 1!important;
 }
 @media(prefers-reduced-motion:reduce){
   body.alt-editor-layout .ai-just-generated>input,
@@ -8982,7 +8977,6 @@ body.alt-editor-layout .ai-just-generated .alt-category-trigger{
   body.alt-editor-layout .ai-just-generated .alt-category-trigger{animation:none!important}
 }
 
-/* Disable older trailing captions so provenance is represented only once. */
 body.alt-editor-layout .ai-suggested-field:after{content:none!important;display:none!important}
 /* NEWSROOM_AI_GENERATED_VISIBILITY_END */
 
@@ -10403,9 +10397,9 @@ body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions button s
 /* NEWSROOM_TAG_GENERATED_PREVIEW_START */
 body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions.is-generated-preview{
   padding:7px!important;
-  border:1px solid #dbeafe!important;
+  border:1px solid #bfdbfe!important;
   border-radius:8px!important;
-  background:#f8fbff!important;
+  background:#eff6ff!important;
 }
 body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions.is-generated-preview:before{
   content:'Saran tag';
@@ -10426,9 +10420,9 @@ body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions.is-gener
 /* NEWSROOM_TAG_AI_PREVIEW_REFINEMENT_START */
 body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions.is-generated-preview{
   padding:8px!important;
-  border:1px solid #dbeafe!important;
+  border:1px solid #bfdbfe!important;
   border-radius:8px!important;
-  background:#f8fbff!important;
+  background:#eff6ff!important;
 }
 body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-preview-label{
   width:100%!important;
@@ -14416,14 +14410,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       : '<div class="alt-ai-tag-preview-empty">No new tag suggestions.</div>';
     box.querySelectorAll('[data-generated-tag]').forEach(btn=>{
       btn.onclick=()=>{
-        window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:btn.dataset.generatedTag}}));
+        window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:btn.dataset.generatedTag,source:'ai'}}));
+        markField(input);
         btn.remove();
         if(!box.querySelector('[data-generated-tag]')){
           box.innerHTML='<div class="alt-ai-tag-preview-empty">All suggestions have been added.</div>';
         }
       };
     });
-    markField(input);
     if(window.lucide)window.lucide.createIcons();
   }
 
