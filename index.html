@@ -14225,12 +14225,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   function getArticleText(){
     const title=$('#title')?.value||'';
     const dek=$('#dek')?.value||'';
-    const blocks=[...document.querySelectorAll('.alt-block-list .alt-content-card[data-type="text"]')];
-    const body=blocks.map(card=>{
-      const pm=card.querySelector('.ProseMirror');
-      const mini=card.querySelector('.alt-mini-editor');
-      return (pm?.innerText||mini?.innerText||'').trim();
-    }).filter(Boolean).join('\n');
+    let body='';
+    try{
+      body=window.sixdeskTiptap?.getText?.()||'';
+    }catch(e){}
+    if(!body){
+      const pm=document.querySelector('#tiptap-editor .ProseMirror,.ProseMirror');
+      body=(pm?.innerText||'').trim();
+    }
     return {title,dek,body,all:[title,dek,body].join(' ').toLowerCase()};
   }
 
@@ -14245,11 +14247,9 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   function deriveSuggestions(){
     const t=getArticleText();
     let category='News';
-    if(/timnas|liga|sepak bola|pertandingan|gol|pemain/.test(t.all)) category='Bola / Liga Indonesia';
-    else if(/saham|bank|ekonomi|bbm|minyak|apbn|rupiah|bisnis/.test(t.all)) category='Bisnis / Ekonomi';
-    else if(/teknologi|gadget|startup|aplikasi|internet/.test(t.all)) category='Tekno / Tech News';
-    else if(/artis|film|musik|seleb/.test(t.all)) category='ShowBiz / Selebritis';
-    else if(/kesehatan|dokter|penyakit|diet/.test(t.all)) category='Health / Health Info';
+    if(/timnas|liga|sepak bola|pertandingan|gol|pemain/.test(t.all)) category='Sports';
+    else if(/saham|bank|ekonomi|bbm|minyak|apbn|rupiah|bisnis/.test(t.all)) category='Bisnis';
+    else if(/pemerintah|presiden|menteri|dpr|politik|nasional/.test(t.all)) category='Nasional';
 
     let articleType='Timeless';
     if(/hari ini|terbaru|breaking|langsung|menang|kalah|hasil/.test(t.all)) articleType='Trending';
@@ -14377,22 +14377,27 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const box=section?.querySelector('.alt-ai-tag-suggestions');
     const input=$('#tagInput');
     if(!box||!input)return;
+    const existing=[...document.querySelectorAll('#tagList .tag-chip')].map(chip=>{
+      const clone=chip.cloneNode(true);
+      clone.querySelector('button')?.remove();
+      return (clone.textContent||'').trim();
+    }).filter(Boolean);
     const unique=[...new Set((Array.isArray(values)?values:[values]).map(v=>String(v||'').trim()).filter(Boolean))]
-      .filter(tag=>!tags.includes(tag));
+      .filter(tag=>!existing.includes(tag));
     box.classList.add('open','is-generated-preview');
     box.innerHTML=unique.length
-      ? '<div class="alt-ai-tag-preview-label">Saran tag dari AI</div>'+
+      ? '<div class="alt-ai-tag-preview-label">AI tag suggestions</div>'+
         unique.map(tag=>{
           const safe=String(tag).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
           return '<button type="button" data-generated-tag="'+safe+'"><span>'+safe+'</span><i data-lucide="plus"></i></button>';
         }).join('')
-      : '<div class="alt-ai-tag-preview-empty">Tidak ada saran tag baru.</div>';
+      : '<div class="alt-ai-tag-preview-empty">No new tag suggestions.</div>';
     box.querySelectorAll('[data-generated-tag]').forEach(btn=>{
       btn.onclick=()=>{
         window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:btn.dataset.generatedTag}}));
         btn.remove();
         if(!box.querySelector('[data-generated-tag]')){
-          box.innerHTML='<div class="alt-ai-tag-preview-empty">Semua saran sudah ditambahkan.</div>';
+          box.innerHTML='<div class="alt-ai-tag-preview-empty">All suggestions have been added.</div>';
         }
       };
     });
@@ -14423,24 +14428,26 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     let current=null;
 
     function render(){
-      current=deriveSuggestions();
       const button=wrap.querySelector('.alt-ai-analyze-btn');
       const label=button?.querySelector('span');
       if(button)button.disabled=true;
       if(label)label.textContent='Generating…';
-
-      ['category','seoKeyword'].forEach(key=>applyField(key,current[key]));
-      previewTagSuggestions(current.tags);
-      review.classList.remove('open');
-      if(typeof scheduleSave==='function')scheduleSave();
-      if(typeof renderFast==='function')renderFast();
-      if(typeof scheduleHeavyRender==='function')scheduleHeavyRender(80);
-
-      if(label)label.textContent='Generated';
-      window.setTimeout(()=>{
-        if(label)label.textContent='Generate Attributes';
-        if(button)button.disabled=false;
-      },900);
+      try{
+        current=deriveSuggestions();
+        ['category','seoKeyword'].forEach(key=>applyField(key,current[key]));
+        previewTagSuggestions(current.tags);
+        review.classList.remove('open');
+        window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:current}));
+        if(label)label.textContent='Generated';
+      }catch(err){
+        console.error('Generate Attributes failed',err);
+        if(label)label.textContent='Try Again';
+      }finally{
+        window.setTimeout(()=>{
+          if(label)label.textContent='Generate Attributes';
+          if(button)button.disabled=false;
+        },900);
+      }
     }
 
     wrap.querySelector('.alt-ai-analyze-btn').onclick=render;
