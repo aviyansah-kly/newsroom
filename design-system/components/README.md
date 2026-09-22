@@ -36,6 +36,7 @@ Komponen di bawah adalah kandidat kontrak reusable untuk implementasi Frontend. 
 
 - `AnalyzeArticle` — explicit user-triggered analysis setelah title, short description, dan article content tersedia.
 - `AISuggestionReview` — suggestion per field dengan Apply individual dan Apply All. Tidak boleh silent overwrite.
+- `AIFieldReviewState` — reusable state untuk setiap field yang diisi AI. Gunakan purple provenance tokens, animated outline selama belum direview, dan compact sparkle review control tanpa text label. State kembali normal setelah editor menandai reviewed atau mengubah value secara manual.
 
 ## Button hierarchy
 
