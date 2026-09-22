@@ -8908,21 +8908,28 @@ body.alt-editor-layout .ai-suggested-field .v58-category-label{
   gap:8px!important;
 }
 body.alt-editor-layout .ai-origin-badge{
-  min-height:22px!important;
+  min-height:24px!important;
   display:inline-flex!important;
   align-items:center!important;
-  gap:4px!important;
-  padding:2px 7px!important;
-  border:1px solid #ddd6fe!important;
+  gap:5px!important;
+  padding:2px 8px!important;
+  border:1px solid #c4b5fd!important;
   border-radius:999px!important;
   background:linear-gradient(135deg,#faf5ff 0%,#f5f3ff 55%,#eef2ff 100%)!important;
   color:#6d28d9!important;
   font-size:11px!important;
   line-height:16px!important;
-  font-weight:650!important;
+  font-weight:700!important;
   white-space:nowrap!important;
   flex:none!important;
+  cursor:pointer!important;
+  transition:background .15s ease,border-color .15s ease,transform .15s ease!important;
 }
+body.alt-editor-layout .ai-origin-badge:hover{
+  border-color:#a78bfa!important;
+  background:#ede9fe!important;
+}
+body.alt-editor-layout .ai-origin-badge:active{transform:scale(.98)}
 body.alt-editor-layout .ai-origin-badge svg{width:12px!important;height:12px!important}
 
 /* Persistent AI-generated surface. Purple is provenance; blue remains interaction/focus. */
@@ -8932,6 +8939,11 @@ body.alt-editor-layout .ai-suggested-field>textarea,
 body.alt-editor-layout .ai-generated-surface,
 body.alt-editor-layout .ai-suggested-field .alt-chip-input,
 body.alt-editor-layout .ai-suggested-field .alt-entity-picker-control{
+  border-color:#c4b5fd!important;
+  background:linear-gradient(135deg,rgba(250,245,255,.92),rgba(245,243,255,.72),rgba(238,242,255,.82))!important;
+  box-shadow:0 0 0 1px rgba(139,92,246,.10)!important;
+}
+body.alt-editor-layout .ai-suggested-field .alt-category-trigger{
   border-color:#c4b5fd!important;
   background:linear-gradient(135deg,rgba(250,245,255,.92),rgba(245,243,255,.72),rgba(238,242,255,.82))!important;
   box-shadow:0 0 0 1px rgba(139,92,246,.10)!important;
@@ -8956,7 +8968,8 @@ body.alt-editor-layout .ai-just-generated>select,
 body.alt-editor-layout .ai-just-generated>textarea,
 body.alt-editor-layout .ai-just-generated .ai-generated-surface,
 body.alt-editor-layout .ai-just-generated .alt-chip-input,
-body.alt-editor-layout .ai-just-generated .alt-entity-picker-control{
+body.alt-editor-layout .ai-just-generated .alt-entity-picker-control,
+body.alt-editor-layout .ai-just-generated .alt-category-trigger{
   animation:newsroomAiArrival 1.35s ease-out 1!important;
 }
 @media(prefers-reduced-motion:reduce){
@@ -8965,7 +8978,8 @@ body.alt-editor-layout .ai-just-generated .alt-entity-picker-control{
   body.alt-editor-layout .ai-just-generated>textarea,
   body.alt-editor-layout .ai-just-generated .ai-generated-surface,
   body.alt-editor-layout .ai-just-generated .alt-chip-input,
-  body.alt-editor-layout .ai-just-generated .alt-entity-picker-control{animation:none!important}
+  body.alt-editor-layout .ai-just-generated .alt-entity-picker-control,
+  body.alt-editor-layout .ai-just-generated .alt-category-trigger{animation:none!important}
 }
 
 /* Disable older trailing captions so provenance is represented only once. */
@@ -14282,19 +14296,25 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
   function markField(el){
     const isTags=el?.id==='tagInput';
+    const isCategory=el?.id==='category';
     const host=isTags
       ? (document.querySelector('#altEditorialTagsSection') || el?.closest('.field'))
-      : el?.closest('.field,.seo-field,.alt-entity-picker,.v58-category-editorial');
+      : isCategory
+        ? (document.querySelector('#v58CategoryEditorial') || el?.closest('.field'))
+        : el?.closest('.field,.seo-field,.alt-entity-picker,.v58-category-editorial');
     if(!host)return;
 
     const visualTarget=isTags
       ? (host.querySelector('.tag-wrap') || el?.closest('.tag-wrap') || host)
-      : host;
+      : isCategory
+        ? (host.querySelector('.alt-category-trigger') || host.querySelector('.alt-category-picker') || host)
+        : (el || host);
 
     const clearAiState=()=>{
       host.classList.remove('ai-suggested-field','ai-just-generated');
       visualTarget?.classList.remove('ai-generated-surface');
-      host.querySelector('.ai-origin-badge')?.remove();
+      const badge=host.querySelector('.ai-origin-badge');
+      if(badge)badge.remove();
     };
 
     host.classList.add('ai-suggested-field','ai-just-generated');
@@ -14302,9 +14322,17 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     let badge=host.querySelector('.ai-origin-badge');
     if(!badge){
-      badge=document.createElement('span');
+      badge=document.createElement('button');
+      badge.type='button';
       badge.className='ai-origin-badge';
-      badge.innerHTML='<i data-lucide="sparkles"></i><span>AI Generated</span>';
+      badge.setAttribute('aria-label','Mark AI suggestion as reviewed');
+      badge.title='Click after you review this AI suggestion';
+      badge.innerHTML='<i data-lucide="sparkles"></i><span>AI Suggested · Review</span>';
+      badge.addEventListener('click',e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        clearAiState();
+      });
 
       if(isTags){
         const tagHead=host.querySelector('.alt-tag-head');
@@ -14320,19 +14348,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       }
     }
 
-    // Intro animation only. The purple provenance treatment remains until manual edit.
+    // Arrival animation only. Purple provenance stays until explicit review or manual edit.
     window.setTimeout(()=>host.classList.remove('ai-just-generated'),1500);
 
     if(host.dataset.aiMarkerBound!=='1'){
       const clear=e=>{if(e.isTrusted)clearAiState()};
       host.addEventListener('input',clear,true);
       host.addEventListener('change',clear,true);
-      host.addEventListener('click',e=>{
-        if(!e.isTrusted)return;
-        // Clicking the AI action itself is not a manual edit.
-        if(e.target.closest('.alt-tag-ai'))return;
-        if(e.target.closest('button'))clearAiState();
-      },true);
       host.dataset.aiMarkerBound='1';
     }
     if(window.lucide)window.lucide.createIcons();
