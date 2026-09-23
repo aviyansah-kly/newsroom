@@ -14274,17 +14274,20 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   }
 
   function getArticleText(){
-    const title=$('#title')?.value||'';
-    const dek=$('#dek')?.value||'';
+    const title=($('#title')?.value||'').trim();
+    const dek=($('#dek')?.value||'').trim();
     let body='';
-    try{
-      body=window.sixdeskTiptap?.getText?.()||'';
-    }catch(e){}
-    if(!body){
-      const pm=document.querySelector('#tiptap-editor .ProseMirror,.ProseMirror');
+    try{body=window.sixdeskTiptap?.getText?.()||'';}catch(e){}
+    if(!body.trim()){
+      // The article may be using the modular content cards rather than the first Tiptap instance.
+      const blocks=[...document.querySelectorAll('.alt-block-list .alt-content-card[data-type="text"]')];
+      body=blocks.map(card=>(card.querySelector('.ProseMirror,.alt-mini-editor')?.innerText||'').trim()).filter(Boolean).join('\n');
+    }
+    if(!body.trim()){
+      const pm=document.querySelector('#tiptap-editor .ProseMirror,#tiptap-editor [contenteditable="true"]');
       body=(pm?.innerText||'').trim();
     }
-    return {title,dek,body,all:[title,dek,body].join(' ').toLowerCase()};
+    return {title,dek,body:body.trim(),all:[title,dek,body].join(' ').toLowerCase()};
   }
 
   function slugify(v){
@@ -14467,9 +14470,10 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(aiPending.has(key)||aiReviewed.has(key)||manualEdited.has(key))return false;
     if(!now)return true;
     if(now!==initialValues[key])return false;
+    // HTML carries demo values. Unchanged defaults should not make Generate Attributes
+    // appear to do nothing; modified draft values and explicit editor changes remain protected.
     if(key==='category'||key==='articleType'){
-      const defaultOption=[...el.options].find(option=>option.defaultSelected);
-      return !!defaultOption&&defaultOption.value===now;
+      return [...el.options].some(option=>option.defaultSelected&&option.value===now);
     }
     return el.defaultValue===now;
   }
@@ -14502,17 +14506,17 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   function closeFieldSuggestion(key){
     fieldHost(key)?.querySelector('.nr-ai-field-suggestion')?.remove();
   }
-  function suggestField(key){
-    if(!hasRequiredSource()){
+  function suggestField(key,{skipSourceCheck=false,proposal=null,preserveOthers=false}={}){
+    if(!skipSourceCheck&&!hasRequiredSource()){
       const fallback=$('#altAnalyzeArticle .nr-ai-input-note');
       if(fallback){fallback.hidden=false;fallback.textContent='Complete the title, short description and article before using AI assistance.';}
-      return;
+      return false;
     }
     const host=fieldHost(key);
-    if(!host)return;
-    Object.keys(aiFieldMap).forEach(k=>{if(k!==key)closeFieldSuggestion(k);});
-    if(host.querySelector('.nr-ai-field-suggestion')){closeFieldSuggestion(key);return;}
-    const suggestion=deriveSuggestions()[key];
+    if(!host)return false;
+    if(!preserveOthers&&!skipSourceCheck)Object.keys(aiFieldMap).forEach(k=>{if(k!==key)closeFieldSuggestion(k);});
+    if(host.querySelector('.nr-ai-field-suggestion')){closeFieldSuggestion(key);return false;}
+    const suggestion=proposal??deriveSuggestions()[key];
     if(!suggestion||(Array.isArray(suggestion)&&!suggestion.length))return;
     const box=document.createElement('div');
     box.className='nr-ai-field-suggestion';
@@ -14545,6 +14549,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     else if(key==='slug')host.appendChild(box);
     else anchor?.insertAdjacentElement('afterend',box);
     iconRefresh();
+    return true;
   }
   function setupFieldActions(){
     Object.keys(aiFieldMap).forEach(key=>{
@@ -14615,25 +14620,43 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     button.onclick=()=>{
       const note=wrap.querySelector('.nr-ai-input-note');
       if(!hasRequiredSource()){
+        const source=getArticleText();
+        const missing=[!source.title&&'Title',!source.dek&&'Short Description',!source.body&&'Article Body'].filter(Boolean);
         note.hidden=false;
-        note.textContent='Complete the title, short description and article before generating attributes.';
+        note.textContent='Complete '+missing.join(', ')+' before generating attributes.';
         return;
       }
       note.hidden=true;
       button.disabled=true;button.querySelector('span').textContent='Generating…';
       try{
         lastAiResults=deriveSuggestions();
-        let applied=0,protectedCount=0;
+        let applied=0,protectedCount=0,suggested=0,unchanged=0;
         ['category','articleType','tags','figure','seoKeyword','seoTitle','meta','slug'].forEach(key=>{
-          if(applyField(key,lastAiResults[key]))applied++;
-          else protectedCount++;
+          const proposed=lastAiResults[key];
+          if(!proposed||(Array.isArray(proposed)&&!proposed.length))return;
+          if(key!=='tags'&&String(proposed).trim()===valueOf(key)){
+            unchanged++;
+            return;
+          }
+          if(applyField(key,proposed)){applied++;closeFieldSuggestion(key);}
+          else if(fieldHost(key)){
+            protectedCount++;
+            // Existing editorial data is never silently overwritten. Surface an
+            // explicit per-field alternative rather than returning with no visible result.
+            closeFieldSuggestion(key);
+            if(suggestField(key,{skipSourceCheck:true,proposal:proposed}))suggested++;
+          }
         });
         const preview=$('#altEditorialTagsSection .alt-ai-tag-suggestions');
         if(preview){preview.classList.remove('open','is-generated-preview');preview.replaceChildren();}
         note.hidden=false;
         note.textContent=applied
-          ?applied+' attribute'+(applied===1?'':'s')+' generated. Review purple fields; '+protectedCount+' existing or unavailable field'+(protectedCount===1?' was':'s were')+' left unchanged.'
-          :'Existing values were preserved. Use AI Suggestions on a specific field to review alternatives.';
+          ?applied+' attributes filled. Review the purple fields.'+(suggested?' '+suggested+' existing fields have alternatives to review.':'')
+          :suggested
+            ?'Existing values were preserved. Review '+suggested+' suggested alternatives in Article Settings.'
+            :unchanged
+              ?'Your existing attributes already match the current suggestions. Nothing was overwritten.'
+              :'No attributes were changed. Complete the article or check the field values.';
         updateAiProgress();
         window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:{applied,protectedCount}}));
       }catch(err){
