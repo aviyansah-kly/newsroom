@@ -13220,7 +13220,35 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   function open(t){target=t;source='gallery';selected=null;shown=BATCH;buildPicker();$('#imageLibraryPopup').classList.add('open');$('#v34TargetText').textContent=t.type==='headline'?'Image akan dipakai sebagai Headline Image.':t.type==='card'?'Image akan masuk ke Content Image card.':'Image akan dimasukkan ke editor.';render();setTimeout(()=>$('#v34Search')?.focus(),20);if(window.lucide)window.lucide.createIcons()}
   function close(){$('#imageLibraryPopup')?.classList.remove('open');target=null;selected=null}
 
-  function headline(i){const img=$('#headlineImg'),empty=$('#headlineEmpty'),actions=$('#headlineActions'),drop=img?.closest('.headline-drop');if(!img||!empty||!actions)return;img.src=src(i);img.alt=i.title;img.dataset.v59Selected='1';img.hidden=false;img.removeAttribute('hidden');img.style.display='block';img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';safeImg(img,i);empty.hidden=true;empty.style.display='none';actions.hidden=false;actions.removeAttribute('hidden');actions.style.display='flex';if(drop)drop.classList.add('has-image')}
+  function headline(i){
+    const img=$('#headlineImg'),empty=$('#headlineEmpty'),actions=$('#headlineActions'),drop=img?.closest('.headline-drop');
+    if(!img||!empty||!actions)return;
+    const imageSrc=src(i);
+    img.src=imageSrc;
+    img.alt=i.title||'Headline image';
+    img.dataset.v59Selected='1';
+    img.hidden=false;
+    img.removeAttribute('hidden');
+    img.style.display='block';
+    img.style.width='100%';
+    img.style.height='100%';
+    img.style.aspectRatio='16 / 9';
+    img.style.objectFit='cover';
+    safeImg(img,i);
+    empty.hidden=true;
+    empty.style.display='none';
+    actions.hidden=false;
+    actions.removeAttribute('hidden');
+    actions.style.display='flex';
+    if(drop){
+      drop.classList.remove('v59-empty');
+      drop.classList.add('has-image');
+      drop.style.padding='0';
+      drop.style.borderStyle='solid';
+    }
+    try{headlineData=imageSrc;headlineOriginal=imageSrc}catch(e){}
+    try{if(typeof scheduleSave==='function')scheduleSave()}catch(e){}
+  }
   function emptyCard(c){
     const body=c.querySelector('.alt-content-card-body');if(!body)return;
     body.innerHTML='<div class="v34-image-empty v56-image-empty newsroom-image-empty">'+
@@ -15393,6 +15421,28 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
 #newsroomUnifiedImageModal .newsroom-unified-canvas canvas{display:block;width:100%!important;height:100%!important;object-fit:contain}
 #newsroomUnifiedImageModal .newsroom-unified-context{margin-top:10px;font-size:12px;color:var(--muted)}
 /* NEWSROOM_UNIFIED_IMAGE_FLOW_STYLE_END */
+/* Headline selected state: ensure preview fully replaces the empty placeholder. */
+body.alt-editor-layout .headline-drop.has-image:not(.v59-empty){
+  padding:0!important;
+  overflow:hidden!important;
+  border-style:solid!important;
+  background:#e2e8f0!important;
+}
+body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineImg{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  aspect-ratio:16/9!important;
+  object-fit:cover!important;
+  border-radius:10px!important;
+}
+body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineEmpty{
+  display:none!important;
+}
+body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions{
+  display:flex!important;
+}
+
 /* NEWSROOM_COMPACT_UNIFIED_IMAGE_MODAL_START */
 #newsroomUnifiedImageModal .newsroom-image-editor{
   width:min(1040px,calc(100vw - 32px))!important;
