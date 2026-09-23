@@ -1,0 +1,101 @@
+/* NEWSROOM_COLLAPSIBLE_RIGHT_PANEL_START
+   Shared CollapsibleRightPanel pattern. The icon remains in its panel rail.
+   Override legacy viewport drawer and Focus Mode without changing locked toolbar. */
+:root{--nr-right-expanded:390px;--nr-right-collapsed:56px;--nr-right-gutter:24px}
+body.alt-editor-layout #settingsDrawerBtn,
+body.alt-editor-layout #focusBtn,
+body.alt-editor-layout .settings-drawer-backdrop{display:none!important}
+body.alt-editor-layout .brand img{width:140px!important;height:38px!important;max-width:none!important;object-fit:contain!important}
+body.alt-editor-layout .workspace,
+body.alt-editor-layout.cms-sidebar-collapsed .workspace{
+  grid-template-columns:minmax(0,1fr)!important;
+  width:100%!important;max-width:none!important;
+  padding-right:calc(var(--nr-right-expanded) + var(--nr-right-gutter))!important;
+  transition:padding-right .18s ease!important
+}
+body.alt-editor-layout.nr-right-collapsed .workspace,
+body.alt-editor-layout.nr-right-collapsed.cms-sidebar-collapsed .workspace{
+  padding-right:calc(var(--nr-right-collapsed) + var(--nr-right-gutter))!important
+}
+body.alt-editor-layout .context,
+body.alt-editor-layout.settings-drawer-open .context,
+body.alt-editor-layout.focus.settings-drawer-open .context{
+  display:block!important;
+  position:fixed!important;
+  top:var(--newsroom-editor-header-height,68px)!important;
+  right:0!important;bottom:0!important;left:auto!important;
+  width:var(--nr-right-expanded)!important;
+  height:calc(100vh - var(--newsroom-editor-header-height,68px))!important;
+  max-height:none!important;min-height:0!important;
+  margin:0!important;padding:0!important;
+  transform:none!important;visibility:visible!important;
+  border-left:1px solid #e2e8f0!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  overflow-x:hidden!important;overflow-y:auto!important;
+  z-index:260!important;
+  transition:width .18s ease!important
+}
+body.alt-editor-layout.nr-right-collapsed .context,
+body.alt-editor-layout.nr-right-collapsed.settings-drawer-open .context{
+  width:var(--nr-right-collapsed)!important;
+  overflow-y:hidden!important
+}
+body.alt-editor-layout.nr-right-collapsed .context>section{display:none!important}
+body.alt-editor-layout .context .nr-right-panel-control{
+  position:sticky;top:0;
+  z-index:90;
+  display:flex;align-items:center;justify-content:flex-start;
+  min-height:52px;padding:8px 12px;
+  background:#fff
+}
+body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control{
+  justify-content:center;padding:8px 4px
+}
+body.alt-editor-layout .nr-right-toggle{
+  display:grid;place-items:center;
+  flex:0 0 36px;width:36px;height:36px;
+  padding:0;border:1px solid transparent;border-radius:8px;
+  background:#f8fafc;color:#475569;cursor:pointer
+}
+body.alt-editor-layout .nr-right-toggle:hover{background:#eff6ff;color:#1d4ed8;border-color:#dbeafe}
+body.alt-editor-layout .nr-right-toggle:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
+body.alt-editor-layout.nr-right-collapsed .nr-right-toggle{background:#eff6ff;color:#1d4ed8}
+body.alt-editor-layout .nr-right-toggle svg{width:19px;height:19px}
+body.alt-editor-layout .context>.panel:first-of-type>.panel-head{margin-top:-52px!important;padding-left:58px!important;min-height:52px!important;display:flex!important;align-items:center!important}
+body.alt-editor-layout .context>.panel:first-of-type>.panel-head h3{margin:0!important}
+body.alt-editor-layout .context>.panel:first-of-type>.panel-head p{display:none!important}
+body.alt-editor-layout .context .nr-right-panel-control + .panel{position:relative}
+@media(max-width:1024px){
+  body.alt-editor-layout .brand img{width:116px!important;height:34px!important}
+  body.alt-editor-layout .workspace,
+  body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+  body.alt-editor-layout.nr-right-collapsed .workspace,
+  body.alt-editor-layout.nr-right-collapsed.cms-sidebar-collapsed .workspace{
+    padding-right:calc(var(--nr-right-collapsed) + 12px)!important
+  }
+  body.alt-editor-layout .context,
+  body.alt-editor-layout.settings-drawer-open .context{
+    width:min(var(--nr-right-expanded),calc(100vw - 12px))!important;
+    transform:none!important;
+    box-shadow:-12px 0 30px rgba(15,23,42,.10)!important
+  }
+  body.alt-editor-layout.nr-right-collapsed .context,
+  body.alt-editor-layout.nr-right-collapsed.settings-drawer-open .context{
+    width:var(--nr-right-collapsed)!important;box-shadow:none!important
+  }
+}
+@media(max-width:560px){
+  body.alt-editor-layout .brand img{width:98px!important;height:29px!important}
+  body.alt-editor-layout .workspace,
+  body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+  body.alt-editor-layout.nr-right-collapsed .workspace,
+  body.alt-editor-layout.nr-right-collapsed.cms-sidebar-collapsed .workspace{
+    padding-right:calc(var(--nr-right-collapsed) + 6px)!important
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  body.alt-editor-layout .context,
+  body.alt-editor-layout .workspace{transition:none!important}
+}
+/* NEWSROOM_COLLAPSIBLE_RIGHT_PANEL_END */
