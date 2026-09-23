@@ -10484,6 +10484,45 @@ body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions.is-gener
   flex:none!important;
 }
 /* NEWSROOM_TAG_AI_PREVIEW_REFINEMENT_END */
+
+/* NEWSROOM_PRIMARY_TEXT_TOOLBAR_STICKY_START
+   Primary Tiptap toolbar only. Do not change the working mini toolbars or AI baseline. */
+body.alt-editor-layout .alt-content-card[data-type="text"]:has(> .alt-content-card-body > #classicToolbar){
+  overflow:visible!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body:has(> #classicToolbar){
+  overflow:visible!important;
+  position:static!important;
+  margin:0!important;
+  padding:0!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body > #classicToolbar{
+  margin:0!important;
+  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
+  transform:none!important;
+}
+body.alt-editor-layout #classicToolbar.newsroom-primary-stuck{
+  position:fixed!important;
+  top:calc(var(--newsroom-editor-header-height) - 1px)!important;
+  left:var(--newsroom-primary-toolbar-left)!important;
+  width:var(--newsroom-primary-toolbar-width)!important;
+  max-width:var(--newsroom-primary-toolbar-width)!important;
+  margin:0!important;
+  z-index:260!important;
+  border-bottom:1px solid #cbd5e1!important;
+  box-shadow:0 8px 18px rgba(15,23,42,.10)!important;
+}
+body.alt-editor-layout .newsroom-primary-toolbar-placeholder{
+  display:none;
+  width:100%;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+}
+body.alt-editor-layout .newsroom-primary-toolbar-placeholder.is-visible{
+  display:block;
+}
+/* NEWSROOM_PRIMARY_TEXT_TOOLBAR_STICKY_END */
 </style>
 <link rel="stylesheet" href="styles/newsroom-ai-assist.css">
 </head><body class="alt-editor-layout">
@@ -13407,6 +13446,9 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     return [...document.querySelectorAll('.alt-content-card[data-type="text"]')].map(card=>{
       const toolbar=card.querySelector('.classic-toolbar,.alt-mini-toolbar');
       if(!toolbar)return null;
+      // The primary Tiptap block has its own stable sticky controller; leave
+      // V46 unchanged for secondary text blocks that are already working.
+      if(toolbar.id==='classicToolbar')return null;
       let placeholder=card.querySelector('.alt-v46-toolbar-placeholder');
       if(!placeholder){
         placeholder=document.createElement('div');
@@ -15980,5 +16022,90 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
   else init();
 })();
 // NEWSROOM_HEADER_VIEW_ICONS_ONLY_JS_END
+</script>
+
+<script>
+// NEWSROOM_PRIMARY_TEXT_TOOLBAR_STICKY_JS_START
+(function(){
+  // Only #classicToolbar: preserve V46 controller for subsequent text blocks.
+  const TOP_GAP=-1;
+  let toolbar=null,card=null,placeholder=null,ticking=false;
+
+  function reset(){
+    if(!toolbar)return;
+    toolbar.classList.remove('newsroom-primary-stuck');
+    toolbar.style.removeProperty('--newsroom-primary-toolbar-left');
+    toolbar.style.removeProperty('--newsroom-primary-toolbar-width');
+    if(placeholder){
+      placeholder.classList.remove('is-visible');
+      placeholder.style.height='';
+    }
+  }
+  function update(){
+    ticking=false;
+    if(!toolbar||!toolbar.isConnected||!card?.isConnected)return;
+    const header=document.querySelector('.topbar');
+    const top=(header?.getBoundingClientRect().height||68)+TOP_GAP;
+    // Measure the placeholder instead of the toolbar so the threshold does not
+    // shift when the primary editor receives focus or becomes position:fixed.
+    const anchor=placeholder.getBoundingClientRect();
+    const bounds=card.getBoundingClientRect();
+    const height=toolbar.offsetHeight||44;
+    const shouldStick=anchor.top<=top && bounds.bottom>top+height+8;
+    if(!shouldStick){reset();return}
+    const body=toolbar.parentElement;
+    const rect=body.getBoundingClientRect();
+    placeholder.style.height=height+'px';
+    placeholder.classList.add('is-visible');
+    toolbar.style.setProperty('--newsroom-primary-toolbar-left',rect.left+'px');
+    toolbar.style.setProperty('--newsroom-primary-toolbar-width',rect.width+'px');
+    toolbar.classList.add('newsroom-primary-stuck');
+  }
+  function schedule(){
+    if(ticking)return;
+    ticking=true;
+    requestAnimationFrame(update);
+  }
+  function attach(){
+    const current=document.getElementById('classicToolbar');
+    const owner=current?.closest('.alt-content-card[data-type="text"]');
+    if(!current||!owner){reset();toolbar=null;card=null;return}
+    if(current!==toolbar||owner!==card){
+      reset();
+      toolbar=current;card=owner;
+      placeholder=card.querySelector(':scope > .alt-content-card-body > .newsroom-primary-toolbar-placeholder');
+      if(!placeholder){
+        placeholder=document.createElement('div');
+        placeholder.className='newsroom-primary-toolbar-placeholder';
+        toolbar.insertAdjacentElement('beforebegin',placeholder);
+      }
+      // Remove the old controller's unused placeholder from the primary card.
+      card.querySelector('.alt-v46-toolbar-placeholder')?.remove();
+      toolbar.classList.remove('v46-fixed');
+      ['top','left','width'].forEach(prop=>toolbar.style.removeProperty(prop));
+    }
+    schedule();
+  }
+  function init(){
+    attach();
+    window.addEventListener('scroll',schedule,{passive:true});
+    document.addEventListener('scroll',schedule,{passive:true,capture:true});
+    window.addEventListener('resize',schedule,{passive:true});
+    document.addEventListener('focusin',e=>{
+      if(e.target.closest('.alt-content-card[data-type="text"]'))attach();
+    },true);
+    document.addEventListener('pointerdown',e=>{
+      if(e.target.closest('.alt-content-card[data-type="text"]'))attach();
+    },true);
+    const list=document.querySelector('.alt-block-list');
+    if(list)new MutationObserver(()=>requestAnimationFrame(attach)).observe(list,{childList:true,subtree:false});
+    // The original block can be mounted after DOMContentLoaded by the legacy editor.
+    window.setTimeout(attach,350);
+    window.setTimeout(attach,900);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+// NEWSROOM_PRIMARY_TEXT_TOOLBAR_STICKY_JS_END
 </script>
 </body></html>
