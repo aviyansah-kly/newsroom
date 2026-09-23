@@ -4,7 +4,7 @@
 ## Ownership komponen
 - **AppHeader:** logo dan konteks halaman di kiri; status pekerjaan / action khusus halaman di kanan. Tidak ada user login chip kedua di header. `dashboard.html` dan `tags.html` memakai `.nr-topbar` dari `styles/newsroom-design-system.css`. Halaman Editor mempertahankan header `.topbar` karena layout autosave dan sticky offset Text toolbar sudah disetujui/di-lock. Style identitas/sidebar dipusatkan di `styles/newsroom-shell.css`, jangan membuat header baru untuk setiap page.
 - **AppSidebar:** navigasi menu, search, grouping dan footer user. Editor saat ini memakai `#cmsNavDrawer`, halaman standar `.nr-sidebar`; ukuran/spacing/interaksi tetap mengacu design system bersama. Footer `.cms-nav-bottom` / `.nr-sidebar-bottom` diisi oleh satu controller yang sama: `scripts/newsroom-shell.js`.
-- **SidebarAccount:** inisial 38 × 38px, nama, role, chevron. Klik menampilkan informasi user (dan email bila tersedia). Klik luar/Escape menutup. Collapsed desktop hanya avatar dengan title nama/role; mobile drawer menampilkan seluruh informasi. Focus ring biru. Tidak membuat aksi logout/settings tiruan pada preview.
+- **SidebarAccount:** inisial 38 × 38px, nama, role, chevron. Klik menampilkan informasi user (dan email bila tersedia). Klik luar/Escape menutup. Collapsed desktop hanya avatar dengan title nama/role; mobile drawer menampilkan seluruh informasi. Focus ring biru. Dropdown menampilkan **Profil Saya**, **Pengaturan Akun**, dan **Logout**, dengan separator sebelum Logout. Ketiganya berupa tombol disabled (hanya preview visual; belum melakukan navigasi/perubahan akun).
 - **Newsroom AI:** slot lama sidebar bawah dihapus. Editor tetap dapat menggunakan rail AI existing. Lokasi AI global baru menunggu keputusan UX; jangan meletakkannya otomatis di footer akun.
 
 ## Shared tokens / assets
@@ -14,7 +14,7 @@
 - New pages **wajib** menyertakan stylesheet shell dan script shell, serta node `.nr-sidebar-bottom` pada sidebar dan header `.nr-topbar`. Editor mempertahankan mark-up khususnya untuk menjaga baseline sticky toolbar.
 
 ## Data contract (preview vs production)
-Halaman preview tanpa autentikasi menampilkan `Avi Yansah / Editor` sebagai **contoh**, dan popover menjelaskan bahwa identitas ini belum berasal dari login asli. Frontend production harus menyuplai objek terautentikasi sebelum menjalankan script:
+Halaman preview tanpa autentikasi menampilkan `Avi Yansah / Editor` sebagai **contoh**, tanpa keterangan demo yang memenuhi area dropdown. Identitas tersebut masih dummy; ketiga menu akun tampil tetapi disabled sampai integrasi fitur akun tersedia. Frontend production harus menyuplai objek terautentikasi sebelum menjalankan script:
 
 ```js
 window.NEWSROOM_AUTH_USER = {
@@ -32,6 +32,6 @@ Jangan membaca identitas login dari `Reporter`, `Editor` yang ditugaskan di arti
 3. Account popover berfungsi dengan klik, klik luar, Escape; avatar tetap dapat digunakan saat sidebar collapsed.
 4. Mobile drawer masih memperlihatkan identitas lengkap.
 5. Tidak ada tombol Newsroom AI lama di sidebar bawah; AI Editor rail existing tetap tersedia.
-6. Identitas preview diberi penanda dalam popover; integrasi login membutuhkan data autentikasi yang benar.
+6. Dropdown berisi Profil Saya, Pengaturan Akun, dan Logout; ketiga aksi belum berfungsi pada preview dan tidak membuat klaim logout berhasil. Integrasi login membutuhkan data autentikasi yang benar.
 
 **Perubahan UX header/sidebar selanjutnya wajib mengikuti kontrak ini di seluruh halaman**, bukan hanya halaman Editor.
