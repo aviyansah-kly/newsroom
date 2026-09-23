@@ -62,9 +62,24 @@ body.alt-editor-layout .nr-right-toggle:hover{background:#eff6ff;color:#1d4ed8;b
 body.alt-editor-layout .nr-right-toggle:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
 body.alt-editor-layout.nr-right-collapsed .nr-right-toggle{background:#eff6ff;color:#1d4ed8}
 body.alt-editor-layout .nr-right-toggle svg{width:19px;height:19px}
-body.alt-editor-layout .context>.panel:first-of-type>.panel-head{margin-top:-52px!important;padding-left:58px!important;min-height:52px!important;display:flex!important;align-items:center!important}
-body.alt-editor-layout .context>.panel:first-of-type>.panel-head h3{margin:0!important}
-body.alt-editor-layout .context>.panel:first-of-type>.panel-head p{display:none!important}
+/* The title shares a single row with the panel toggle. Do not overlap the
+   original panel heading below a sticky control (its z-index can hide the title). */
+body.alt-editor-layout .context .nr-right-panel-control{
+  gap:10px!important;
+}
+body.alt-editor-layout .nr-right-panel-title{
+  display:block!important;
+  min-width:0;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:#0f172a;
+  font:700 14px/20px Inter,system-ui,sans-serif!important;
+}
+body.alt-editor-layout.nr-right-collapsed .nr-right-panel-title{display:none!important}
+body.alt-editor-layout .context>.panel:first-of-type>.panel-head{
+  display:none!important;
+}
 body.alt-editor-layout .context .nr-right-panel-control + .panel{position:relative}
 @media(max-width:1024px){
   body.alt-editor-layout .brand img{width:116px!important;height:34px!important}
