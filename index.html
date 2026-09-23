@@ -9144,9 +9144,13 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar{
   margin:0!important;
   box-sizing:border-box!important;
 }
-body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar:not(.v46-fixed),
-body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar:not(.v46-fixed){
+/* First block uses native sticky; later blocks use the existing V46 fixed controller.
+   Do not offset their resting (relative) mini toolbar or it will jump on activation. */
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar:not(.v46-fixed){
   top:var(--newsroom-text-toolbar-top)!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar:not(.v46-fixed){
+  top:auto!important;
 }
 body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
 body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed{
