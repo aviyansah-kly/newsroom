@@ -17,7 +17,11 @@
     const title=document.createElement('strong');
     title.className='nr-right-panel-title';
     title.textContent=panel.querySelector(':scope > .panel > .panel-head h3')?.textContent?.trim()||'Article Settings';
-    control.append(toggle,title);
+    const railLabel=document.createElement('span');
+    railLabel.className='nr-right-panel-rail-label';
+    railLabel.textContent='Article Settings';
+    railLabel.setAttribute('aria-hidden','true');
+    control.append(toggle,title,railLabel);
     panel.prepend(control);
     let stored=null;
     try{stored=localStorage.getItem('newsroom:right-panel-collapsed')}catch(e){}
@@ -40,6 +44,12 @@
       window.dispatchEvent(new Event('resize'));
     }
     toggle.addEventListener('click',()=>setCollapsed(!body.classList.contains('nr-right-collapsed'),true));
+    // The entire minimized rail is a generous pointer target; the button
+    // remains the single keyboard-accessible toggle.
+    control.addEventListener('click',e=>{
+      if(e.target.closest('button'))return;
+      if(body.classList.contains('nr-right-collapsed'))setCollapsed(false,true);
+    });
     setCollapsed(collapsed,false);
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&window.matchMedia('(max-width:1024px)').matches&&!body.classList.contains('nr-right-collapsed')&&!e.target.closest('.modal.open,.popup.open')){
