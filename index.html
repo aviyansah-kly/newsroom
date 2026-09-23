@@ -14341,7 +14341,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   const aiNames={category:'Category',articleType:'Article Type',figure:'Figure',
     tags:'Tags',seoKeyword:'Primary Keyword',seoTitle:'SEO Title',
     meta:'Meta Description',slug:'Custom Slug'};
-  const aiPending=new Set(),aiReviewed=new Set();
+  const aiPending=new Set(),aiReviewed=new Set(),manualEdited=new Set();
   const initialValues={};
   let lastAiResults=null;
 
@@ -14471,8 +14471,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(!el)return false;
     const now=valueOf(key);
     // Preserve text that an editor has already changed; demo defaults may be replaced once.
-    if(aiPending.has(key)||aiReviewed.has(key))return false;
-    return !now||now===initialValues[key];
+    if(aiPending.has(key)||aiReviewed.has(key)||manualEdited.has(key))return false;
+    if(!now)return true;
+    if(now!==initialValues[key])return false;
+    if(key==='category'||key==='articleType'){
+      const defaultOption=[...el.options].find(option=>option.defaultSelected);
+      return !!defaultOption&&defaultOption.value===now;
+    }
+    return el.defaultValue===now;
   }
   function applyField(key,value,{replace=false}={}){
     const el=fieldElement(key);
@@ -14582,7 +14588,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     warning.className='nr-ai-publish-warning';warning.id='nrAiPublishWarning';
     warning.setAttribute('role','alert');
     warning.textContent='Please review AI-filled fields before continuing to publication.';
-    pane.prepend(warning);pane.prepend(box);
+    const tabs=$('.context .article-tabs-promoted')||$('.context .tabs');
+    if(tabs){
+      tabs.insertAdjacentElement('afterend',box);
+      box.insertAdjacentElement('afterend',warning);
+    }else{
+      pane.prepend(warning);
+      pane.prepend(box);
+    }
     box.querySelector('[data-ai-next]').onclick=reviewNext;
     const publish=$('#publishBtn');
     publish?.addEventListener('click',e=>{
@@ -14646,6 +14659,21 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     Object.keys(aiFieldMap).forEach(key=>{initialValues[key]=valueOf(key);});
     setupFieldActions();
     setupAnalyze();
+    document.addEventListener('input',e=>{
+      if(!e.isTrusted)return;
+      Object.keys(aiFieldMap).forEach(key=>{
+        if(fieldElement(key)===e.target)manualEdited.add(key);
+      });
+    },true);
+    document.addEventListener('change',e=>{
+      if(!e.isTrusted)return;
+      Object.keys(aiFieldMap).forEach(key=>{
+        if(fieldElement(key)===e.target)manualEdited.add(key);
+      });
+    },true);
+    $('#v58CategoryEditorial')?.addEventListener('click',e=>{
+      if(e.isTrusted&&e.target.closest('.alt-category-option'))manualEdited.add('category');
+    },true);
     window.addEventListener('newsroom:add-existing-tag',e=>{if(e.detail?.source!=='ai'&&aiPending.has('tags'))setAiReview('tags',true);});
     if(window.lucide)window.lucide.createIcons();
   }
