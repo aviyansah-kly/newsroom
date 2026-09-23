@@ -11787,7 +11787,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     }
     addAIHint('#dek','Short Desc');
     addAIHint('#tagInput','Tags');
-    addAIHint('#seoKeyword','Keyword');
+    // Primary Keyword uses the shared per-field AI Suggestions control.
 
     const editor=$('#tiptap-editor');
     function updatePageCounts(){
@@ -14156,11 +14156,11 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const card=document.createElement('div');
     card.className='alt-slug-card';
     card.innerHTML=
-      '<div class="alt-slug-head"><div><strong>Custom Slug</strong><span>Bagian URL artikel setelah nama kanal. Gunakan hanya bila slug otomatis perlu disesuaikan.</span></div><button type="button" class="alt-slug-generate">Generate dari Judul</button></div>'+
+      '<div class="alt-slug-head"><div><strong>Custom Slug</strong><span>Custom URL path after the channel. Change only when the generated slug needs adjustment.</span></div><button type="button" class="alt-slug-generate">Generate from Title</button></div>'+
       '<div class="alt-slug-input-wrap"><span class="alt-slug-prefix">/artikel/</span></div>'+
       '<div class="alt-slug-meta"><span class="alt-slug-status">Not filled</span><span class="alt-slug-count">0 / 140</span></div>'+
       '<div class="alt-slug-preview"><strong>Preview URL:</strong> https://www.liputan6.com/artikel/</div>'+
-      '<div class="alt-slug-rules"><span>huruf kecil</span><span>angka</span><span>tanda hubung (-)</span></div>';
+      '<div class="alt-slug-rules"><span>lowercase</span><span>numbers</span><span>hyphens (-)</span></div>';
 
     const inputWrap=card.querySelector('.alt-slug-input-wrap');
     inputWrap.appendChild(input);
@@ -14399,11 +14399,11 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       badge.innerHTML='<i data-lucide="sparkles"></i>';
       badge.onclick=e=>{e.preventDefault();e.stopPropagation();setAiReview(key,true);};
       const heading=key==='tags'?host.querySelector('.alt-tag-head')
-        :key==='slug'?host.querySelector('.alt-slug-head')
-        :host.querySelector(':scope > label,.field-label,.alt-entity-picker-label,.v58-category-label');
+        :key==='slug'?host.querySelector('.nr-ai-slug-actions')
+        :host.querySelector('.nr-ai-field-head');
       if(heading){
-        const aiAction=heading.querySelector('.alt-tag-ai');
-        if(aiAction)heading.insertBefore(badge,aiAction);
+        const action=heading.querySelector('.alt-tag-ai,.nr-ai-field-action');
+        if(action)action.insertAdjacentElement('afterend',badge);
         else heading.appendChild(badge);
       }else host.prepend(badge);
     }
@@ -14423,9 +14423,11 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       },true);
       host.addEventListener('click',e=>{
         const affected=Object.keys(aiFieldMap).find(k=>fieldHost(k)===host);
-        if(!affected||!e.isTrusted)return;
-        if(affected==='category'&&e.target.closest('.alt-category-option'))setAiReview(affected,true);
-        if(affected==='tags'&&e.target.closest('[data-r]'))setAiReview(affected,true);
+        if(!affected||!e.isTrusted||!aiPending.has(affected))return;
+        // A click on the value/field is an explicit review. AI actions do not count as review.
+        if(e.target.closest('.nr-ai-field-action,.alt-tag-ai,.nr-ai-field-suggestion,.ai-origin-badge'))return;
+        const target=visualTarget(affected);
+        if(target&&(target===e.target||target.contains(e.target)))setAiReview(affected,true);
       },true);
       host.dataset.aiReviewBound='1';
     }
@@ -14434,17 +14436,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     updateAiProgress();
   }
   function updateAiProgress(){
-    const box=$('#nrAiProgress');
-    if(!box)return;
-    const total=aiPending.size+aiReviewed.size;
-    const remaining=aiPending.size;
-    box.classList.toggle('is-visible',total>0);
-    box.querySelector('[data-ai-progress-count]').textContent=aiReviewed.size+' / '+total+' reviewed';
-    box.querySelector('[data-ai-progress-hint]').textContent=remaining
-      ?remaining+' AI-filled '+(remaining===1?'field requires':'fields require')+' review.'
-      :'All AI-filled fields reviewed.';
-    box.querySelector('[data-ai-next]').hidden=!remaining;
-    if(!remaining)$('#nrAiPublishWarning')?.classList.remove('show');
+    // Review status is communicated only on each field; no extra progress panel.
   }
   function reviewNext(){
     const key=aiPending.values().next().value;
@@ -14572,40 +14564,42 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       button.dataset.nrAiField=key;
       button.innerHTML='<i data-lucide="sparkles"></i><span>AI Suggestions</span>';
       button.onclick=e=>{e.preventDefault();suggestField(key);};
-      const heading=key==='slug'?host.querySelector('.alt-slug-head'):host.querySelector(':scope > label,.field-label,.alt-entity-picker-label,.v58-category-label');
-      if(heading)heading.appendChild(button);
-      else host.insertBefore(button,host.firstChild);
+      if(key==='slug'){
+        const head=host.querySelector('.alt-slug-head');
+        if(head){
+          let controls=head.querySelector('.nr-ai-slug-actions');
+          if(!controls){
+            controls=document.createElement('div');
+            controls.className='nr-ai-slug-actions';
+            const generate=head.querySelector('.alt-slug-generate');
+            if(generate)controls.appendChild(generate);
+            head.appendChild(controls);
+          }
+          controls.appendChild(button);
+        }else host.prepend(button);
+      }else{
+        const heading=host.querySelector(':scope > label,.field-label,.alt-entity-picker-label,.v58-category-label');
+        if(heading){
+          let row=heading.closest('.nr-ai-field-head');
+          if(!row){
+            row=document.createElement('div');
+            row.className='nr-ai-field-head';
+            heading.parentNode.insertBefore(row,heading);
+            row.appendChild(heading);
+          }
+          row.appendChild(button);
+        }else{
+          let row=host.querySelector(':scope > .nr-ai-field-head');
+          if(!row){
+            row=document.createElement('div');
+            row.className='nr-ai-field-head';
+            host.insertBefore(row,host.firstChild);
+          }
+          row.appendChild(button);
+        }
+      }
+      host.querySelectorAll('.alt-ai-hint').forEach(x=>x.remove());
     });
-    iconRefresh();
-  }
-  function setupProgress(){
-    if($('#nrAiProgress'))return;
-    const pane=$('#infoPane');
-    if(!pane)return;
-    const box=document.createElement('div');
-    box.className='nr-ai-progress';box.id='nrAiProgress';
-    box.innerHTML='<i data-lucide="sparkles"></i><div class="nr-ai-progress-copy"><strong data-ai-progress-count>0 / 0 reviewed</strong><span data-ai-progress-hint></span></div><button type="button" data-ai-next>Review next</button>';
-    const warning=document.createElement('div');
-    warning.className='nr-ai-publish-warning';warning.id='nrAiPublishWarning';
-    warning.setAttribute('role','alert');
-    warning.textContent='Please review AI-filled fields before continuing to publication.';
-    const tabs=$('.context .article-tabs-promoted')||$('.context .tabs');
-    if(tabs){
-      tabs.insertAdjacentElement('afterend',box);
-      box.insertAdjacentElement('afterend',warning);
-    }else{
-      pane.prepend(warning);
-      pane.prepend(box);
-    }
-    box.querySelector('[data-ai-next]').onclick=reviewNext;
-    const publish=$('#publishBtn');
-    publish?.addEventListener('click',e=>{
-      if(!aiPending.size)return;
-      e.preventDefault();e.stopImmediatePropagation();
-      warning.classList.add('show');
-      document.querySelector('[data-tab="info"]')?.click();
-      reviewNext();
-    },true);
     iconRefresh();
   }
   function setupAnalyze(){
@@ -14615,7 +14609,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     wrap.className='alt-ai-analyze-wrap';
     wrap.id='altAnalyzeArticle';
     wrap.innerHTML='<div class="alt-ai-analyze-copy"><strong>Finished writing?</strong><span>Generate article attributes using the story and current editorial assignment, then review highlighted fields.</span><small class="nr-ai-input-note" hidden></small></div>'
-      +'<button type="button" class="alt-ai-analyze-btn"><i data-lucide="sparkles"></i><span>Generate Attributes</span></button>';
+      +'<button type="button" class="alt-ai-analyze-btn"><i data-lucide="wand-sparkles"></i><span>Generate Attributes</span></button>';
     section.insertAdjacentElement('afterend',wrap);
     const button=wrap.querySelector('.alt-ai-analyze-btn');
     button.onclick=()=>{
@@ -14641,7 +14635,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
           ?applied+' attribute'+(applied===1?'':'s')+' generated. Review purple fields; '+protectedCount+' existing or unavailable field'+(protectedCount===1?' was':'s were')+' left unchanged.'
           :'Existing values were preserved. Use AI Suggestions on a specific field to review alternatives.';
         updateAiProgress();
-        if(aiPending.size)reviewNext();
         window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:{applied,protectedCount}}));
       }catch(err){
         console.error('Generate Attributes failed:',err);
@@ -14656,7 +14649,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   function init(){
     moveCategoryToEditorial();
     removeEmptyAfterLocation();
-    setupProgress();
     Object.keys(aiFieldMap).forEach(key=>{initialValues[key]=valueOf(key);});
     setupFieldActions();
     setupAnalyze();
