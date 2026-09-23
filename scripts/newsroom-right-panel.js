@@ -14,7 +14,10 @@
     toggle.className='nr-right-toggle';
     toggle.setAttribute('aria-controls','nrArticleSettingsPanel');
     panel.id='nrArticleSettingsPanel';
-    control.append(toggle);
+    const title=document.createElement('strong');
+    title.className='nr-right-panel-title';
+    title.textContent=panel.querySelector(':scope > .panel > .panel-head h3')?.textContent?.trim()||'Article Settings';
+    control.append(toggle,title);
     panel.prepend(control);
     let stored=null;
     try{stored=localStorage.getItem('newsroom:right-panel-collapsed')}catch(e){}
