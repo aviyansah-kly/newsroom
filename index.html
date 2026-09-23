@@ -10485,6 +10485,7 @@ body.alt-editor-layout #altEditorialTagsSection .alt-ai-tag-suggestions.is-gener
 }
 /* NEWSROOM_TAG_AI_PREVIEW_REFINEMENT_END */
 </style>
+<link rel="stylesheet" href="styles/newsroom-ai-assist.css">
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="article-lifecycle-pill draft" id="articleLifecycle" aria-live="polite"><span class="article-lifecycle-dot"></span><strong id="articleLifecycleLabel">Draft</strong></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Changes saved locally</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Saved</strong><small id="saveStatusMeta">just now</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 ready</strong><small id="readyCountMeta">6 to review</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Writing View" title="Writing View"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference is saved for the next article.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Writing size"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Large"><span class="font-sample font-sample-large">A</span><span>Large</span></button><button type="button" data-font="xlarge" title="Extra large"><span class="font-sample font-sample-xlarge">A</span><span>Extra Large</span></button></div></div></div><button class="btn ghost settings-drawer-btn" id="settingsDrawerBtn" type="button" aria-expanded="false"><i data-lucide="panel-right"></i><span>Article Settings</span></button><button class="btn ghost" id="focusBtn"><i data-lucide="maximize-2"></i><span>Focus Mode</span></button><button class="btn save-draft-btn" id="saveDraftBtn" type="button"><i data-lucide="save"></i><span>Save Draft</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Preview</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
 <nav class="utility-rail"><button class="rail-item" id="cmsMenuBtn" type="button" aria-expanded="false"><span class="rail-icon"><i data-lucide="panel-left-open"></i></span><span class="rail-label">CMS Menu</span></button><a class="rail-item" href="dashboard.html"><span class="rail-icon"><i data-lucide="layout-dashboard"></i></span><span class="rail-label">Dashboard</span></a><div class="rail-sep"></div><button class="rail-item" id="railImport"><span class="rail-icon"><i data-lucide="file-input"></i></span><span class="rail-label">Import Draft</span></button><button class="rail-item ai-floating-trigger" id="railAI"><span class="rail-icon"><i data-lucide="bot-message-square"></i></span><span class="rail-label">Newsroom AI</span></button></nav>
@@ -14330,210 +14331,322 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     };
   }
 
-  function markField(el){
-    const isTags=el?.id==='tagInput';
-    const isCategory=el?.id==='category';
-    const host=isTags
-      ? (document.querySelector('#altEditorialTagsSection') || el?.closest('.field'))
-      : isCategory
-        ? (document.querySelector('#v58CategoryEditorial') || el?.closest('.field'))
-        : el?.closest('.field,.seo-field,.alt-entity-picker,.v58-category-editorial');
+
+  // Shared AI-assist state: both actions use the same review treatment.
+  const aiFieldMap={
+    category:'#category',articleType:'#articleType',figure:'#altFigureInput',
+    tags:'#tagInput',seoKeyword:'#seoKeyword',seoTitle:'#seoTitle',
+    meta:'#metaDesc',slug:'#altCustomSlug'
+  };
+  const aiNames={category:'Category',articleType:'Article Type',figure:'Figure',
+    tags:'Tags',seoKeyword:'Primary Keyword',seoTitle:'SEO Title',
+    meta:'Meta Description',slug:'Custom Slug'};
+  const aiPending=new Set(),aiReviewed=new Set();
+  const initialValues={};
+  let lastAiResults=null;
+
+  function fieldElement(key){return $(aiFieldMap[key]);}
+  function fieldHost(key){
+    const el=fieldElement(key);
+    if(!el)return null;
+    if(key==='tags')return $('#altEditorialTagsSection')||el.closest('.field');
+    if(key==='category')return $('#v58CategoryEditorial')||el.closest('.field');
+    return el.closest('.field,.seo-field,.alt-entity-picker')||el.parentElement;
+  }
+  function visualTarget(key){
+    const host=fieldHost(key),el=fieldElement(key);
+    if(!host)return null;
+    if(key==='tags')return host.querySelector('.tag-wrap')||el;
+    if(key==='category')return host.querySelector('.alt-category-trigger')||el;
+    if(key==='slug')return host.querySelector('.alt-slug-input-wrap')||el;
+    return el;
+  }
+  function iconRefresh(){if(window.lucide)window.lucide.createIcons();}
+  function valueOf(key){return (fieldElement(key)?.value||'').trim();}
+  function tagsOnScreen(){
+    return [...document.querySelectorAll('#tagList .tag-chip')].map(chip=>{
+      const copy=chip.cloneNode(true);
+      copy.querySelector('button')?.remove();
+      return (copy.textContent||'').trim();
+    }).filter(Boolean);
+  }
+  function setAiReview(key,reviewed=false){
+    const host=fieldHost(key),target=visualTarget(key);
     if(!host)return;
-
-    const visualTarget=isTags
-      ? (host.querySelector('.tag-wrap') || el?.closest('.tag-wrap') || host)
-      : isCategory
-        ? (host.querySelector('.alt-category-trigger') || host.querySelector('.alt-category-picker') || host)
-        : (el || host);
-
-    const clearAiState=()=>{
-      host.classList.remove('ai-suggested-field','ai-just-generated');
-      visualTarget?.classList.remove('ai-generated-surface');
-      const badge=host.querySelector('.ai-origin-badge');
-      if(badge)badge.remove();
-    };
-
+    host.classList.remove('ai-suggested-field','ai-just-generated');
+    target?.classList.remove('ai-generated-surface');
+    host.querySelector('.ai-origin-badge')?.remove();
+    if(aiPending.delete(key)&&reviewed)aiReviewed.add(key);
+    updateAiProgress();
+  }
+  function markField(el,key){
+    key=key||Object.keys(aiFieldMap).find(k=>fieldElement(k)===el);
+    const host=fieldHost(key),target=visualTarget(key);
+    if(!host||!target)return;
+    aiPending.add(key);
+    aiReviewed.delete(key);
+    host.classList.remove('ai-just-generated');
+    void host.offsetWidth;
     host.classList.add('ai-suggested-field','ai-just-generated');
-    visualTarget?.classList.add('ai-generated-surface');
-
+    target.classList.add('ai-generated-surface');
     let badge=host.querySelector('.ai-origin-badge');
     if(!badge){
       badge=document.createElement('button');
       badge.type='button';
       badge.className='ai-origin-badge';
-      badge.setAttribute('aria-label','Mark AI suggestion as reviewed');
-      badge.title='Click after you review this AI suggestion';
+      badge.setAttribute('aria-label','Mark '+(aiNames[key]||'AI field')+' as reviewed');
+      badge.title='Mark as reviewed';
       badge.innerHTML='<i data-lucide="sparkles"></i>';
-      badge.addEventListener('click',e=>{
-        e.preventDefault();
-        e.stopPropagation();
-        clearAiState();
-      });
-
-      if(isTags){
-        const tagHead=host.querySelector('.alt-tag-head');
-        const aiAction=tagHead?.querySelector('.alt-tag-ai');
-        if(tagHead){
-          if(aiAction)tagHead.insertBefore(badge,aiAction);
-          else tagHead.appendChild(badge);
-        }else host.prepend(badge);
-      }else{
-        const label=host.querySelector('label,.field-label,.alt-entity-picker-label,.v58-category-label');
-        if(label)label.appendChild(badge);
-        else host.prepend(badge);
-      }
+      badge.onclick=e=>{e.preventDefault();e.stopPropagation();setAiReview(key,true);};
+      const heading=key==='tags'?host.querySelector('.alt-tag-head')
+        :key==='slug'?host.querySelector('.alt-slug-head')
+        :host.querySelector(':scope > label,.field-label,.alt-entity-picker-label,.v58-category-label');
+      if(heading){
+        const aiAction=heading.querySelector('.alt-tag-ai');
+        if(aiAction)heading.insertBefore(badge,aiAction);
+        else heading.appendChild(badge);
+      }else host.prepend(badge);
     }
-
-    // Arrival animation only. Purple provenance stays until explicit review or manual edit.
-    window.setTimeout(()=>host.classList.remove('ai-just-generated'),1500);
-
-    if(host.dataset.aiMarkerBound!=='1'){
-      const clear=e=>{if(e.isTrusted)clearAiState()};
-      host.addEventListener('input',clear,true);
-      host.addEventListener('change',clear,true);
-      host.dataset.aiMarkerBound='1';
-    }
-    if(window.lucide)window.lucide.createIcons();
-  }
-  window.addEventListener('newsroom:mark-ai-tag-field',e=>{
-    const input=e.detail?.input||$('#tagInput');
-    if(input)markField(input);
-  });
-
-  function applyField(key,value){
-    if(key==='category'){
-      const category=$('#category');
-      if(category){
-        category.value=value;
-        category.dispatchEvent(new Event('change',{bubbles:true}));
-        const trigger=$('.v58-category-editorial .alt-category-trigger-copy strong');
-        if(trigger)trigger.textContent=value;
-        markField(category);
-      }
-    }else if(key==='articleType'){
-      const el=$('#articleType');if(el){el.value=value;el.dispatchEvent(new Event('change',{bubbles:true}));markField(el)}
-    }else if(key==='tags'){
-      const input=$('#tagInput');
-      if(input){
-        (Array.isArray(value)?value:[value]).filter(Boolean).forEach(tag=>{
-          window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag}}));
-        });
-        input.value='';
-        markField(input);
-      }
-    }else if(key==='figure'){
-      const el=$('#altFigureInput');if(el&&value){el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));markField(el)}
-    }else if(key==='seoKeyword'){
-      const el=$('#seoKeyword');if(el){el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));markField(el)}
-    }else if(key==='seoTitle'){
-      const el=$('#seoTitle');if(el){el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));markField(el)}
-    }else if(key==='meta'){
-      const el=$('#metaDesc');if(el){el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));markField(el)}
-    }else if(key==='slug'){
-      const el=$('#altCustomSlug');if(el){el.value=value;el.dispatchEvent(new Event('input',{bubbles:true}));markField(el)}
-    }
-  }
-
-  function previewTagSuggestions(values=[]){
-    const section=$('#altEditorialTagsSection');
-    const box=section?.querySelector('.alt-ai-tag-suggestions');
-    const input=$('#tagInput');
-    if(!box||!input)return;
-    const existing=[...document.querySelectorAll('#tagList .tag-chip')].map(chip=>{
-      const clone=chip.cloneNode(true);
-      clone.querySelector('button')?.remove();
-      return (clone.textContent||'').trim();
-    }).filter(Boolean);
-    const unique=[...new Set((Array.isArray(values)?values:[values]).map(v=>String(v||'').trim()).filter(Boolean))]
-      .filter(tag=>!existing.includes(tag));
-    box.classList.add('open','is-generated-preview');
-    box.innerHTML=unique.length
-      ? '<div class="alt-ai-tag-preview-label">AI tag suggestions</div>'+
-        unique.map(tag=>{
-          const safe=String(tag).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-          return '<button type="button" data-generated-tag="'+safe+'"><span>'+safe+'</span><i data-lucide="plus"></i></button>';
-        }).join('')
-      : '<div class="alt-ai-tag-preview-empty">No new tag suggestions.</div>';
-    box.querySelectorAll('[data-generated-tag]').forEach(btn=>{
-      btn.onclick=()=>{
-        window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:btn.dataset.generatedTag,source:'ai'}}));
-        markField(input);
-        btn.remove();
-        if(!box.querySelector('[data-generated-tag]')){
-          box.innerHTML='<div class="alt-ai-tag-preview-empty">All suggestions have been added.</div>';
+    if(host.dataset.aiReviewBound!=='1'){
+      host.addEventListener('input',e=>{
+        if(e.isTrusted){
+          const affected=Object.keys(aiFieldMap).find(k=>fieldHost(k)===host);
+          if(affected)setAiReview(affected,true);
         }
-      };
-    });
-    if(window.lucide)window.lucide.createIcons();
+      },true);
+      host.addEventListener('change',e=>{
+        if(e.isTrusted){
+          const affected=Object.keys(aiFieldMap).find(k=>fieldHost(k)===host);
+          if(affected)setAiReview(affected,true);
+        }
+      },true);
+      host.addEventListener('click',e=>{
+        const affected=Object.keys(aiFieldMap).find(k=>fieldHost(k)===host);
+        if(!affected||!e.isTrusted)return;
+        if(affected==='category'&&e.target.closest('.alt-category-option'))setAiReview(affected,true);
+        if(affected==='tags'&&e.target.closest('[data-r]'))setAiReview(affected,true);
+      },true);
+      host.dataset.aiReviewBound='1';
+    }
+    window.setTimeout(()=>host.classList.remove('ai-just-generated'),1500);
+    iconRefresh();
+    updateAiProgress();
   }
-
+  function updateAiProgress(){
+    const box=$('#nrAiProgress');
+    if(!box)return;
+    const total=aiPending.size+aiReviewed.size;
+    const remaining=aiPending.size;
+    box.classList.toggle('is-visible',total>0);
+    box.querySelector('[data-ai-progress-count]').textContent=aiReviewed.size+' / '+total+' reviewed';
+    box.querySelector('[data-ai-progress-hint]').textContent=remaining
+      ?remaining+' AI-filled '+(remaining===1?'field requires':'fields require')+' review.'
+      :'All AI-filled fields reviewed.';
+    box.querySelector('[data-ai-next]').hidden=!remaining;
+    if(!remaining)$('#nrAiPublishWarning')?.classList.remove('show');
+  }
+  function reviewNext(){
+    const key=aiPending.values().next().value;
+    if(!key)return;
+    const tab=(['seoKeyword','seoTitle','meta','slug'].includes(key))?'seo':'info';
+    const pane=tab==='seo'?'#seoPane':'#infoPane';
+    const target=$(pane);
+    if(target&&!target.classList.contains('active')){
+      const trigger=document.querySelector('[data-tab="'+tab+'"]');
+      if(trigger)trigger.click();
+      else document.querySelector('.article-tabs-promoted [data-tab="'+(tab==='info'?'info':'seo')+'"]')?.click();
+    }
+    window.setTimeout(()=>{
+      fieldHost(key)?.scrollIntoView({behavior:'smooth',block:'center'});
+      visualTarget(key)?.focus?.({preventScroll:true});
+    },100);
+  }
+  function hasRequiredSource(){
+    const t=getArticleText();
+    return Boolean(t.title.trim()&&t.dek.trim()&&t.body.trim());
+  }
+  function canFill(key){
+    if(key==='tags')return true;
+    const el=fieldElement(key);
+    if(!el)return false;
+    const now=valueOf(key);
+    // Preserve text that an editor has already changed; demo defaults may be replaced once.
+    if(aiPending.has(key)||aiReviewed.has(key))return false;
+    return !now||now===initialValues[key];
+  }
+  function applyField(key,value,{replace=false}={}){
+    const el=fieldElement(key);
+    if(!el||value==null)return false;
+    if(key==='tags'){
+      const fresh=[...new Set((Array.isArray(value)?value:[value]).map(v=>String(v||'').trim()).filter(Boolean))]
+        .filter(tag=>!tagsOnScreen().includes(tag));
+      fresh.forEach(tag=>window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag,source:'ai'}})));
+      if(fresh.length)markField(el,key);
+      return !!fresh.length;
+    }
+    if(!replace&&!canFill(key))return false;
+    const clean=String(value||'').trim();
+    if(!clean)return false;
+    if(key==='category'||key==='articleType'){
+      if(![...el.options].some(o=>o.value===clean))return false;
+    }
+    if(key==='figure'&&valueOf('figure')&&!replace)return false;
+    el.value=clean;
+    el.dispatchEvent(new Event(key==='category'||key==='articleType'?'change':'input',{bubbles:true}));
+    if(key==='category'){
+      const label=$('#v58CategoryEditorial .alt-category-trigger-copy strong');
+      if(label)label.textContent=clean;
+    }
+    markField(el,key);
+    return true;
+  }
+  function closeFieldSuggestion(key){
+    fieldHost(key)?.querySelector('.nr-ai-field-suggestion')?.remove();
+  }
+  function suggestField(key){
+    if(!hasRequiredSource()){
+      const fallback=$('#altAnalyzeArticle .nr-ai-input-note');
+      if(fallback){fallback.hidden=false;fallback.textContent='Complete the title, short description and article before using AI assistance.';}
+      return;
+    }
+    const host=fieldHost(key);
+    if(!host)return;
+    Object.keys(aiFieldMap).forEach(k=>{if(k!==key)closeFieldSuggestion(k);});
+    if(host.querySelector('.nr-ai-field-suggestion')){closeFieldSuggestion(key);return;}
+    const suggestion=deriveSuggestions()[key];
+    if(!suggestion||(Array.isArray(suggestion)&&!suggestion.length))return;
+    const box=document.createElement('div');
+    box.className='nr-ai-field-suggestion';
+    const heading=document.createElement('strong');
+    heading.textContent='AI suggestion for '+aiNames[key];
+    box.appendChild(heading);
+    const value=document.createElement('div');
+    value.className=key==='tags'?'nr-ai-field-suggestion-tags':'nr-ai-field-suggestion-value';
+    if(key==='tags'){
+      const fresh=suggestion.filter(t=>!tagsOnScreen().includes(t));
+      if(!fresh.length){value.textContent='No additional tags suggested.';}
+      fresh.forEach(t=>{const chip=document.createElement('span');chip.textContent=t;value.appendChild(chip);});
+    }else value.textContent=suggestion;
+    box.appendChild(value);
+    const actions=document.createElement('div');
+    actions.className='nr-ai-field-actions';
+    const cancel=document.createElement('button');
+    cancel.type='button';cancel.textContent='Dismiss';cancel.onclick=()=>box.remove();
+    const apply=document.createElement('button');
+    apply.type='button';apply.dataset.aiApply=key;apply.textContent=key==='tags'?'Add Tags':'Apply';
+    apply.onclick=()=>{
+      const did=applyField(key,suggestion,{replace:true});
+      if(did)box.remove();
+      else {value.textContent='No new value to apply.';apply.disabled=true;}
+    };
+    actions.append(cancel,apply);box.appendChild(actions);
+    const anchor=visualTarget(key);
+    if(key==='tags')host.querySelector('.alt-tag-design')?.appendChild(box);
+    else if(key==='category')host.appendChild(box);
+    else if(key==='slug')host.appendChild(box);
+    else anchor?.insertAdjacentElement('afterend',box);
+    iconRefresh();
+  }
+  function setupFieldActions(){
+    Object.keys(aiFieldMap).forEach(key=>{
+      const el=fieldElement(key),host=fieldHost(key);
+      if(!el||!host)return;
+      if(key==='tags'){
+        const button=host.querySelector('.alt-tag-ai');
+        if(button){
+          button.onclick=e=>{e.preventDefault();suggestField('tags');};
+          button.querySelector('span')?.replaceChildren(document.createTextNode('AI Suggestions'));
+        }
+        return;
+      }
+      if(host.querySelector('[data-nr-ai-field="'+key+'"]'))return;
+      const button=document.createElement('button');
+      button.type='button';button.className='nr-ai-field-action';
+      button.dataset.nrAiField=key;
+      button.innerHTML='<i data-lucide="sparkles"></i><span>AI Suggestions</span>';
+      button.onclick=e=>{e.preventDefault();suggestField(key);};
+      const heading=key==='slug'?host.querySelector('.alt-slug-head'):host.querySelector(':scope > label,.field-label,.alt-entity-picker-label,.v58-category-label');
+      if(heading)heading.appendChild(button);
+      else host.insertBefore(button,host.firstChild);
+    });
+    iconRefresh();
+  }
+  function setupProgress(){
+    if($('#nrAiProgress'))return;
+    const pane=$('#infoPane');
+    if(!pane)return;
+    const box=document.createElement('div');
+    box.className='nr-ai-progress';box.id='nrAiProgress';
+    box.innerHTML='<i data-lucide="sparkles"></i><div class="nr-ai-progress-copy"><strong data-ai-progress-count>0 / 0 reviewed</strong><span data-ai-progress-hint></span></div><button type="button" data-ai-next>Review next</button>';
+    const warning=document.createElement('div');
+    warning.className='nr-ai-publish-warning';warning.id='nrAiPublishWarning';
+    warning.setAttribute('role','alert');
+    warning.textContent='Please review AI-filled fields before continuing to publication.';
+    pane.prepend(warning);pane.prepend(box);
+    box.querySelector('[data-ai-next]').onclick=reviewNext;
+    const publish=$('#publishBtn');
+    publish?.addEventListener('click',e=>{
+      if(!aiPending.size)return;
+      e.preventDefault();e.stopImmediatePropagation();
+      warning.classList.add('show');
+      document.querySelector('[data-tab="info"]')?.click();
+      reviewNext();
+    },true);
+    iconRefresh();
+  }
   function setupAnalyze(){
     const section=$('.alt-editor-section');
     if(!section||$('#altAnalyzeArticle'))return;
-
     const wrap=document.createElement('div');
     wrap.className='alt-ai-analyze-wrap';
     wrap.id='altAnalyzeArticle';
-    wrap.innerHTML=
-      '<div class="alt-ai-analyze-copy"><strong>Finished writing?</strong><span>Generate article attributes with AI, then review each highlighted field.</span></div>'+
-      '<button type="button" class="alt-ai-analyze-btn"><i data-lucide="sparkles"></i><span>Generate Attributes</span></button>';
+    wrap.innerHTML='<div class="alt-ai-analyze-copy"><strong>Finished writing?</strong><span>Generate article attributes using the story and current editorial assignment, then review highlighted fields.</span><small class="nr-ai-input-note" hidden></small></div>'
+      +'<button type="button" class="alt-ai-analyze-btn"><i data-lucide="sparkles"></i><span>Generate Attributes</span></button>';
     section.insertAdjacentElement('afterend',wrap);
-
-    const review=document.createElement('div');
-    review.className='alt-ai-review-panel';
-    review.id='altAiReviewPanel';
-    review.innerHTML=
-      '<div class="alt-ai-review-head"><div><strong>AI Suggestions</strong><span>Review before applying changes.</span></div><div class="alt-ai-review-actions"><button type="button" data-close-ai>Close</button><button type="button" class="primary" data-apply-all-ai>Apply All</button></div></div>'+
-      '<div class="alt-ai-review-list"></div>';
-    wrap.insertAdjacentElement('afterend',review);
-
-    let current=null;
-
-    function render(){
-      const button=wrap.querySelector('.alt-ai-analyze-btn');
-      const label=button?.querySelector('span');
-      if(button)button.disabled=true;
-      if(label)label.textContent='Generating…';
-      try{
-        current=deriveSuggestions();
-        ['category','seoKeyword'].forEach(key=>applyField(key,current[key]));
-        (current.tags||[]).forEach(tag=>{
-          window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag,source:'ai'}}));
-        });
-        const tagInput=$('#tagInput');
-        if(tagInput&&current.tags?.length)markField(tagInput);
-        const tagPreview=$('#altEditorialTagsSection .alt-ai-tag-suggestions');
-        if(tagPreview){
-          tagPreview.classList.remove('open','is-generated-preview');
-          tagPreview.innerHTML='';
-        }
-        review.classList.remove('open');
-        window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:current}));
-        if(label)label.textContent='Generated';
-      }catch(err){
-        console.error('Generate Attributes failed',err);
-        if(label)label.textContent='Try Again';
-      }finally{
-        window.setTimeout(()=>{
-          if(label)label.textContent='Generate Attributes';
-          if(button)button.disabled=false;
-        },900);
+    const button=wrap.querySelector('.alt-ai-analyze-btn');
+    button.onclick=()=>{
+      const note=wrap.querySelector('.nr-ai-input-note');
+      if(!hasRequiredSource()){
+        note.hidden=false;
+        note.textContent='Complete the title, short description and article before generating attributes.';
+        return;
       }
-    }
-
-    wrap.querySelector('.alt-ai-analyze-btn').onclick=render;
-    review.querySelector('[data-close-ai]').onclick=()=>review.classList.remove('open');
-    review.querySelector('[data-apply-all-ai]').onclick=()=>{
-      if(!current)return;
-      ['category','articleType','tags','figure','seoKeyword','seoTitle','meta','slug'].forEach(key=>applyField(key,current[key]));
-      review.querySelectorAll('.alt-ai-review-row button').forEach(btn=>{btn.textContent='Applied';btn.disabled=true});
+      note.hidden=true;
+      button.disabled=true;button.querySelector('span').textContent='Generating…';
+      try{
+        lastAiResults=deriveSuggestions();
+        let applied=0,protectedCount=0;
+        ['category','articleType','tags','figure','seoKeyword','seoTitle','meta','slug'].forEach(key=>{
+          if(applyField(key,lastAiResults[key]))applied++;
+          else protectedCount++;
+        });
+        const preview=$('#altEditorialTagsSection .alt-ai-tag-suggestions');
+        if(preview){preview.classList.remove('open','is-generated-preview');preview.replaceChildren();}
+        note.hidden=false;
+        note.textContent=applied
+          ?applied+' attribute'+(applied===1?'':'s')+' generated. Review purple fields; '+protectedCount+' existing or unavailable field'+(protectedCount===1?' was':'s were')+' left unchanged.'
+          :'Existing values were preserved. Use AI Suggestions on a specific field to review alternatives.';
+        updateAiProgress();
+        if(aiPending.size)reviewNext();
+        window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:{applied,protectedCount}}));
+      }catch(err){
+        console.error('Generate Attributes failed:',err);
+        note.hidden=false;note.textContent='Unable to generate attributes. Please try again.';
+      }finally{
+        button.disabled=false;button.querySelector('span').textContent='Generate Attributes';
+      }
     };
+    iconRefresh();
   }
 
   function init(){
     moveCategoryToEditorial();
     removeEmptyAfterLocation();
+    setupProgress();
+    Object.keys(aiFieldMap).forEach(key=>{initialValues[key]=valueOf(key);});
+    setupFieldActions();
     setupAnalyze();
+    window.addEventListener('newsroom:add-existing-tag',e=>{if(e.detail?.source!=='ai'&&aiPending.has('tags'))setAiReview('tags',true);});
     if(window.lucide)window.lucide.createIcons();
   }
 
