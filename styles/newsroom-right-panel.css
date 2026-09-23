@@ -113,4 +113,50 @@ body.alt-editor-layout .context .nr-right-panel-control + .panel{position:relati
   body.alt-editor-layout .context,
   body.alt-editor-layout .workspace{transition:none!important}
 }
+/* Readable, clickable vertical identity on the minimized settings rail. */
+body.alt-editor-layout .nr-right-panel-rail-label{display:none}
+body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control{
+  height:calc(100vh - var(--newsroom-editor-header-height,68px))!important;
+  min-height:0!important;
+  flex-direction:column;
+  justify-content:flex-start!important;
+  gap:20px!important;
+  cursor:pointer;
+}
+body.alt-editor-layout.nr-right-collapsed .nr-right-panel-rail-label{
+  display:block;
+  writing-mode:vertical-rl;
+  text-orientation:mixed;
+  font:600 13px/18px Inter,system-ui,sans-serif;
+  letter-spacing:.02em;
+  color:#64748b;
+  white-space:nowrap;
+  user-select:none;
+  pointer-events:none;
+}
+body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control:hover .nr-right-panel-rail-label{color:#1d4ed8}
+body.alt-editor-layout.nr-right-collapsed .nr-right-panel-control:focus-within .nr-right-panel-rail-label{color:#1d4ed8}
+
+/* Center canvas grows whenever either nav rail is minimized. Both rails
+   collapsed leaves only the actual 64px left + 56px right rail + gutters.
+   The content/card width is fluid; the locked Text toolbar is untouched. */
+body.alt-editor-layout .workspace{
+  box-sizing:border-box!important;
+  max-width:none!important;
+  width:100%!important;
+  min-width:0!important;
+}
+body.alt-editor-layout .workspace > section,
+body.alt-editor-layout .alt-editor-main,
+body.alt-editor-layout .paper{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+body.alt-editor-layout .workspace > section{justify-self:stretch}
+body.alt-editor-layout .paper{margin-left:0!important;margin-right:0!important}
+body.alt-editor-layout.cms-sidebar-collapsed .workspace{padding-left:88px!important}
+@media(max-width:1024px){
+  body.alt-editor-layout.cms-sidebar-collapsed .workspace{padding-left:24px!important}
+}
 /* NEWSROOM_COLLAPSIBLE_RIGHT_PANEL_END */
