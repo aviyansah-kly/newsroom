@@ -15037,14 +15037,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     items.insertBefore(btn,items.firstChild);
   }
 
-  function addAgent(){
-    if(drawer.querySelector('.cms-nav-bottom'))return;
-    const bottom=document.createElement('div');
-    bottom.className='cms-nav-bottom';
-    bottom.innerHTML='<button type="button" class="cms-nav-item" id="cmsSidebarAgent"><i data-lucide="bot-message-square"></i><span>Newsroom AI</span></button>';
-    drawer.appendChild(bottom);
-    bottom.querySelector('#cmsSidebarAgent')?.addEventListener('click',()=>document.getElementById('railAI')?.click());
-  }
 
   function setDesktopCollapsed(on){
     document.body.classList.toggle('cms-sidebar-collapsed',on);
@@ -15057,7 +15049,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   function isMobile(){return window.matchMedia('(max-width:1024px)').matches}
 
   addDashboard();
-  addAgent();
   drawer.classList.add('open');
   drawer.setAttribute('aria-hidden','false');
   backdrop.hidden=true;
