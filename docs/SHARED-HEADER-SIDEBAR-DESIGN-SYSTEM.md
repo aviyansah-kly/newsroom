@@ -7,6 +7,14 @@
 - **SidebarAccount:** inisial 38 × 38px, nama, role, chevron. Klik menampilkan informasi user (dan email bila tersedia). Klik luar/Escape menutup. Collapsed desktop hanya avatar dengan title nama/role; mobile drawer menampilkan seluruh informasi. Focus ring biru. Dropdown menampilkan **Profil Saya**, **Pengaturan Akun**, dan **Logout**, dengan separator sebelum Logout. Ketiganya berupa tombol disabled (hanya preview visual; belum melakukan navigasi/perubahan akun).
 - **Newsroom AI:** slot lama sidebar bawah dihapus. Editor tetap dapat menggunakan rail AI existing. Lokasi AI global baru menunggu keputusan UX; jangan meletakkannya otomatis di footer akun.
 
+## CollapsibleRightPanel — Editor baseline (2026-09-23)
+- Article Settings owns its own toggle at the upper-left of the right panel. When minimized, the panel stays as a 56px-wide icon rail; never move the toggle into the global header or hide it entirely.
+- The single rail toggle **replaces** both header Focus Mode and header Settings Drawer controls. Collapsing the panel gives more width to the writing area, without hiding the editor header, left navigation, or autosave. Existing legacy header control nodes may remain for historical JS compatibility but must be visually hidden.
+- Expanded width: 390px on desktop; narrow screens allow an overlay no wider than the viewport. Collapsed width: 56px. Keep current active Editorial/SEO/Validasi tab and field values on every toggle. Persist state under `newsroom:right-panel-collapsed`. On a first visit at width ≤1024px, start collapsed.
+- Use `styles/newsroom-right-panel.css` and `scripts/newsroom-right-panel.js` for the implementation. Future CMS pages with an optional right panel should reuse the pattern rather than make a second bespoke drawer.
+- Expand/collapse must not affect the previously approved and protected Text toolbar sticky positions or corner geometry. Desktop header logo is increased within the original 68px header rather than enlarging header height.
+- Validate normal viewport, narrow laptop, mobile drawer, browser zoom, long scroll, field editing and restoration of active tab.
+
 ## Shared tokens / assets
 - `styles/newsroom-design-system.css`: struktur header/sidebar halaman CMS standar.
 - `styles/newsroom-shell.css`: tokens dan implementasi visual akun yang sama untuk Editor, Dashboard dan Tags.
