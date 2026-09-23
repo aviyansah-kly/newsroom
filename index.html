@@ -14411,13 +14411,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       host.addEventListener('input',e=>{
         if(e.isTrusted){
           const affected=Object.keys(aiFieldMap).find(k=>fieldHost(k)===host);
-          if(affected)setAiReview(affected,true);
+          // Typing a tag search is not an edit to the selected tags.
+          if(affected&&affected!=='tags')setAiReview(affected,true);
         }
       },true);
       host.addEventListener('change',e=>{
         if(e.isTrusted){
           const affected=Object.keys(aiFieldMap).find(k=>fieldHost(k)===host);
-          if(affected)setAiReview(affected,true);
+          if(affected&&affected!=='tags')setAiReview(affected,true);
         }
       },true);
       host.addEventListener('click',e=>{
