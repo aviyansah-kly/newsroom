@@ -9163,6 +9163,29 @@ body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
   border-radius:0 0 9px 9px!important;
   overflow:hidden!important;
 }
+/* Primary Text toolbar: mirror the approved secondary Text toolbar sizing.
+   Earlier highly-specific classic rules shrink primary buttons to 30px and
+   tighten group spacing, overriding the shared 36px toolbar design. */
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
+  min-height:42px!important;
+  padding:4px 10px!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar button{
+  height:36px!important;
+  min-width:36px!important;
+  padding:0 8px!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar .alt-toolbar-group{
+  gap:4px!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar .alt-toolbar-group+.alt-toolbar-group{
+  margin-left:8px!important;
+  padding-left:10px!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar .alt-editorial-btn.primary-insert{
+  padding-left:10px!important;
+  padding-right:10px!important;
+}
 /* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */
 
 /* NEWSROOM_HEADLINE_MEDIA_SCHEDULE_SAFE_START */
