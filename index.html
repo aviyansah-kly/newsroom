@@ -15596,9 +15596,26 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
     // otherwise canvas.toDataURL throws SecurityError and Save appears inert.
     if(/^https?:\/\//i.test(url))img.crossOrigin='anonymous';
     img.onerror=()=>{
-      sourceImage=null;
       const context=modal.querySelector('#newsroomUnifiedContext');
-      if(context)context.textContent='Image gagal dimuat. Coba pilih file lain.';
+      if(/^https?:\/\//i.test(url)){
+        // Some image hosts allow display but disallow CORS canvas export.
+        // Load normally and allow insertion of the original URL if cropped
+        // export is blocked by the browser.
+        const fallback=new Image();
+        fallback.onload=()=>{
+          sourceImage=fallback;
+          if(context)context.textContent+=' · Crop mungkin tidak tersedia untuk image ini.';
+          draw();
+        };
+        fallback.onerror=()=>{
+          sourceImage=null;
+          if(context)context.textContent='Image gagal dimuat. Coba pilih file lain.';
+        };
+        fallback.src=url;
+      }else{
+        sourceImage=null;
+        if(context)context.textContent='Image gagal dimuat. Coba pilih file lain.';
+      }
     };
     img.src=url;
   }
