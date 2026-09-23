@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles/newsroom-design-system.css">
+<link rel="stylesheet" href="styles/newsroom-shell.css">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
 .tag-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
@@ -78,7 +79,7 @@
   <a class="nr-brand" href="dashboard.html" aria-label="Liputan6 Newsroom"><img src="assets/liputan6-logo.svg" alt="Liputan6"></a>
   <div class="nr-header-context"><strong>Newsroom</strong><span>Tag Management</span></div>
   <div class="nr-spacer"></div>
-  <div class="nr-user"><span class="nr-avatar">AY</span><span>Editor</span></div>
+  
 </header>
 
 <div class="nr-sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -261,5 +262,6 @@ $('#bulkActivate').onclick=()=>bulkSet(true);$('#bulkDeactivate').onclick=()=>bu
 })();
 render();
 </script>
+<script src="scripts/newsroom-shell.js" defer></script>
 </body>
 </html>
