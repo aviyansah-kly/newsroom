@@ -81,3 +81,169 @@ body.alt-editor-layout .alt-ai-analyze-btn:hover{background:#6d28d9!important}
     animation:none!important;box-shadow:0 0 0 2px var(--ds-ai-review-ring)!important;
   }
 }
+/* Editorial + SEO refinement: consistent field rhythm and right-aligned AI actions. */
+body.alt-editor-layout #infoPane,
+body.alt-editor-layout #seoPane,
+body.alt-editor-layout #infoPane *,
+body.alt-editor-layout #seoPane *{box-sizing:border-box}
+body.alt-editor-layout #infoPane .nr-ai-field-head,
+body.alt-editor-layout #seoPane .nr-ai-field-head{
+  width:100%;min-width:0;display:flex!important;align-items:center!important;
+  justify-content:space-between!important;gap:12px!important;
+  margin:0 0 8px!important;
+}
+body.alt-editor-layout #infoPane .nr-ai-field-head>label,
+body.alt-editor-layout #seoPane .nr-ai-field-head>label,
+body.alt-editor-layout #infoPane .nr-ai-field-head>.field-label,
+body.alt-editor-layout #seoPane .nr-ai-field-head>.field-label{
+  display:block!important;flex:1 1 auto;min-width:0!important;margin:0!important;
+  font-size:12px!important;line-height:18px!important;font-weight:650!important;
+  color:#334155!important;text-align:left!important;overflow-wrap:normal!important;
+}
+body.alt-editor-layout #infoPane .nr-ai-field-head>.nr-ai-field-action,
+body.alt-editor-layout #seoPane .nr-ai-field-head>.nr-ai-field-action{
+  margin-left:auto!important;flex:0 0 auto!important;max-width:148px!important;
+}
+body.alt-editor-layout .nr-ai-field-action{
+  min-height:28px!important;height:auto!important;padding:4px 9px!important;
+  font-size:11px!important;line-height:17px!important;
+  background:var(--ds-ai-review-soft)!important;color:var(--ds-ai-review)!important;
+  border:1px solid #ddd6fe!important;border-radius:8px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:5px!important;white-space:nowrap!important;cursor:pointer!important;
+}
+body.alt-editor-layout .nr-ai-field-action span{white-space:nowrap!important}
+body.alt-editor-layout .nr-ai-field-action svg{width:13px!important;height:13px!important;flex:none!important}
+body.alt-editor-layout .nr-ai-field-head>.ai-origin-badge,
+body.alt-editor-layout .nr-ai-slug-actions>.ai-origin-badge{
+  margin-left:0!important;flex:none!important;
+}
+/* Keep labels and input fields independent so the SEO tab never becomes an inline row. */
+body.alt-editor-layout #seoPane .seo-section{
+  display:block!important;min-width:0!important;padding-left:20px!important;
+  padding-right:20px!important;overflow:visible!important;
+}
+body.alt-editor-layout #seoPane .seo-section>.seo-section-label{
+  display:flex!important;gap:12px!important;align-items:flex-start!important;
+  justify-content:space-between!important;margin-bottom:20px!important;
+}
+body.alt-editor-layout #seoPane .seo-section>.seo-section-label>div{min-width:0!important;flex:1!important}
+body.alt-editor-layout #seoPane .seo-section>.seo-field{
+  display:block!important;width:100%!important;min-width:0!important;
+  margin:0 0 20px!important;padding:0!important;clear:both!important;
+}
+body.alt-editor-layout #seoPane .seo-section>.seo-field:last-child{margin-bottom:0!important}
+body.alt-editor-layout #seoPane .seo-field>input,
+body.alt-editor-layout #seoPane .seo-field>textarea,
+body.alt-editor-layout #seoPane .seo-field>.tag-wrap,
+body.alt-editor-layout #seoPane .seo-field>.nr-ai-field-suggestion{
+  width:100%!important;max-width:100%!important;min-width:0!important;
+  margin:0!important;float:none!important;
+}
+body.alt-editor-layout #seoPane .seo-field>input,
+body.alt-editor-layout #seoPane .seo-field>textarea{
+  display:block!important;padding:10px 12px!important;min-height:42px!important;
+  height:auto!important;line-height:20px!important;overflow-wrap:anywhere!important;
+}
+body.alt-editor-layout #seoPane .seo-field>textarea{
+  min-height:110px!important;resize:vertical!important;
+}
+body.alt-editor-layout #seoPane .seo-field>.nr-ai-field-suggestion{margin-top:9px!important}
+body.alt-editor-layout #seoPane .seo-field>.alt-ai-hint,
+body.alt-editor-layout #seoPane .seo-field>.ai-btn{display:none!important}
+body.alt-editor-layout #seoPane .seo-section>.seo-field>.nr-ai-field-head + input,
+body.alt-editor-layout #seoPane .seo-section>.seo-field>.nr-ai-field-head + textarea{margin-top:0!important}
+
+/* Special-purpose Custom Slug: description first, actions on their own line. */
+body.alt-editor-layout #seoPane .alt-slug-card{
+  display:grid!important;grid-template-columns:minmax(0,1fr)!important;
+  width:100%!important;min-width:0!important;max-width:100%!important;
+  gap:12px!important;padding:14px!important;overflow:hidden!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-head{
+  width:100%!important;min-width:0!important;display:flex!important;
+  flex-direction:column!important;align-items:stretch!important;gap:10px!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-head>div:first-child{
+  min-width:0!important;width:100%!important;max-width:100%!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-head>div:first-child strong{
+  display:block!important;font-size:13px!important;line-height:19px!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-head>div:first-child span{
+  display:block!important;margin-top:4px!important;font-size:12px!important;
+  line-height:18px!important;white-space:normal!important;overflow-wrap:break-word!important;
+}
+body.alt-editor-layout #seoPane .nr-ai-slug-actions{
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  flex-wrap:wrap!important;gap:8px!important;width:100%!important;min-width:0!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-generate{
+  height:30px!important;min-height:30px!important;flex:0 1 auto!important;
+  white-space:normal!important;line-height:17px!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-input-wrap,
+body.alt-editor-layout #seoPane .alt-slug-preview{
+  display:flex!important;width:100%!important;max-width:100%!important;min-width:0!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-preview{
+  display:block!important;line-height:19px!important;
+  overflow-wrap:anywhere!important;word-break:break-word!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-rules{gap:6px!important}
+body.alt-editor-layout #seoPane .alt-slug-rules span{
+  display:inline-block!important;margin:0!important;white-space:normal!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-input-wrap input{
+  flex:1 1 auto!important;min-width:0!important;width:100%!important;
+  padding:0 8px 0 4px!important;
+}
+body.alt-editor-layout #seoPane .alt-slug-meta{
+  display:flex!important;gap:8px!important;flex-wrap:wrap!important;
+  justify-content:space-between!important;
+}
+/* Editorial label alignment / predictable gaps across metadata rows. */
+body.alt-editor-layout #infoPane .settings-section .field,
+body.alt-editor-layout #infoPane .alt-editorial-cluster .field{
+  min-width:0!important;width:100%!important;
+}
+body.alt-editor-layout #infoPane .settings-section .field + .field,
+body.alt-editor-layout #infoPane .alt-editorial-cluster .field + .field{
+  margin-top:16px!important;
+}
+body.alt-editor-layout #infoPane .v58-category-editorial{
+  display:block!important;min-width:0!important;margin:0 0 16px!important;
+}
+body.alt-editor-layout #infoPane .v58-category-editorial>.nr-ai-field-head{
+  margin-bottom:8px!important;
+}
+body.alt-editor-layout #infoPane .v58-category-editorial .alt-category-picker{
+  width:100%!important;min-width:0!important;
+}
+body.alt-editor-layout #infoPane .v58-category-editorial + .field{margin-top:0!important}
+body.alt-editor-layout #infoPane .alt-editorial-tags-section .alt-tag-head{
+  display:flex!important;align-items:center!important;gap:8px!important;
+  width:100%!important;min-width:0!important;flex-wrap:nowrap!important;
+}
+body.alt-editor-layout #infoPane .alt-editorial-tags-section .alt-tag-head>strong{
+  margin:0 auto 0 0!important;min-width:0!important;
+}
+body.alt-editor-layout #infoPane .alt-tag-ai{
+  margin-left:auto!important;display:inline-flex!important;align-items:center!important;
+  flex:none!important;white-space:nowrap!important;height:30px!important;
+  color:var(--ds-ai-review)!important;background:var(--ds-ai-review-soft)!important;
+  border-color:#ddd6fe!important;
+}
+body.alt-editor-layout #infoPane .alt-tag-ai svg{width:14px!important;height:14px!important}
+body.alt-editor-layout #infoPane .alt-tag-hint{margin:0!important;line-height:18px!important}
+body.alt-editor-layout #infoPane .alt-tag-design{display:grid!important;gap:9px!important}
+body.alt-editor-layout #infoPane .alt-editorial-tags-section .tag-wrap{width:100%!important;min-width:0!important}
+body.alt-editor-layout #infoPane .nr-ai-field-suggestion{min-width:0!important;max-width:100%!important}
+body.alt-editor-layout #infoPane .alt-meta-extra{gap:16px!important}
+body.alt-editor-layout .nr-ai-progress{display:none!important}
+body.alt-editor-layout .nr-ai-publish-warning{display:none!important}
+@media(max-width:400px){
+  body.alt-editor-layout #seoPane .seo-section{padding-left:14px!important;padding-right:14px!important}
+  body.alt-editor-layout #seoPane .alt-slug-card{padding:12px!important}
+  body.alt-editor-layout .nr-ai-field-action{font-size:11px!important;padding:4px 6px!important}
+}
