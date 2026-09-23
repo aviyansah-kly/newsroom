@@ -42,7 +42,27 @@
     const popRole=document.createElement('span');popRole.textContent=user.role;
     pop.append(popName,popRole);
     if(user.email){const email=document.createElement('span');email.textContent=user.email;pop.append(email)}
-    if(user.demo){const note=document.createElement('small');note.textContent='Identitas contoh untuk preview. Data login sebenarnya akan ditampilkan setelah integrasi autentikasi CMS.';pop.append(note)}
+    // Preview-only account menu. Show the intended information architecture,
+    // but keep all destination actions disabled until CMS integration is ready.
+    const menu=document.createElement('div');menu.className='nr-account-menu';
+    const actions=[
+      {label:'Profil Saya',icon:'user-round'},
+      {label:'Pengaturan Akun',icon:'settings'},
+      {label:'Logout',icon:'log-out',danger:true}
+    ];
+    const icons={
+      'user-round':'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+      'settings':'<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06-1.87 1.87-.06-.06A1.7 1.7 0 0 0 16 18.4a1.7 1.7 0 0 0-1 1.56V21h-3v-1.04A1.7 1.7 0 0 0 11 18.4a1.7 1.7 0 0 0-1.87.34l-.06.06L7.2 16.93l.06-.06A1.7 1.7 0 0 0 7.6 15 1.7 1.7 0 0 0 6.04 14H5v-3h1.04A1.7 1.7 0 0 0 7.6 10a1.7 1.7 0 0 0-.34-1.87L7.2 8.07 9.07 6.2l.06.06A1.7 1.7 0 0 0 11 6.6a1.7 1.7 0 0 0 1-1.56V4h3v1.04a1.7 1.7 0 0 0 1 1.56 1.7 1.7 0 0 0 1.87-.34l.06-.06L19.8 8.07l-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.56 1H22v3h-1.04A1.7 1.7 0 0 0 19.4 15Z" transform="translate(-1 -0.5) scale(0.98)"/>',
+      'log-out':'<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>'
+    };
+    actions.forEach(action=>{
+      const button=document.createElement('button');
+      button.type='button';button.className='nr-account-menu-item'+(action.danger?' nr-account-menu-danger':'');
+      button.disabled=true;button.title='Segera hadir';button.setAttribute('aria-label',action.label+' (segera hadir)');
+      button.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icons[action.icon]+'</svg>';
+      const label=document.createElement('span');label.textContent=action.label;button.append(label);menu.append(button);
+    });
+    pop.append(menu);
     const close=()=>{pop.hidden=true;trigger.setAttribute('aria-expanded','false')};
     trigger.addEventListener('click',()=>{
       const next=pop.hidden;
