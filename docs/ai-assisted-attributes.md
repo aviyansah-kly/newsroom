@@ -12,7 +12,7 @@ Current Reporter and Editor assignments are existing workspace data and should b
 ## Shared review component
 `styles/newsroom-ai-assist.css` imports `design-system/foundations/tokens.css` and extends the current Newsroom controls with the same purple review border, animated glow, and icon-only sparkle review action for AI-filled fields. Review state ends on explicit review or a manual edit. Tags search input alone does not clear review; adding/removing selected tags does.
 
-The review summary is shared across Editorial and SEO tabs, showing reviewed/total and a Review next action. Review & Publish is intercepted when AI-generated fields still need review; after the last review the normal publishing flow resumes. Reduced-motion users receive a static review border.
+Review is local to each field: the purple animated border persists until the editor clicks the field, edits its value, or activates the icon-only review control. No additional review progress panel or Review next action is shown in Editorial or SEO. Generate Attributes uses wand-sparkles; per-field AI Suggestions use sparkles. Reduced-motion users receive a static review border.
 
 ## Integration notes
 Replace rule-based `deriveSuggestions()` with a service using article Title, Short Description, Article Body, authorized/editor identity, and existing editorial assignments. Never send unrelated user data. Preserve the `applyField(key,value,{replace})` contract and review semantics; only permit the field-specific Apply action to replace existing manual values. The backend must restrict Categories/Article Types to valid taxonomy IDs, canonicalize Tags against the CMS catalogue, and must not change publication schedule or personnel assignments.
