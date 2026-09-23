@@ -16048,7 +16048,9 @@ body.alt-editor-layout #imageLibraryPopup .v34-main{min-height:0!important}
     const top=(header?.getBoundingClientRect().height||68)+TOP_GAP;
     // Measure the placeholder instead of the toolbar so the threshold does not
     // shift when the primary editor receives focus or becomes position:fixed.
-    const anchor=placeholder.getBoundingClientRect();
+    const anchor=placeholder.classList.contains('is-visible')
+      ? placeholder.getBoundingClientRect()
+      : toolbar.getBoundingClientRect();
     const bounds=card.getBoundingClientRect();
     const height=toolbar.offsetHeight||44;
     const shouldStick=anchor.top<=top && bounds.bottom>top+height+8;
