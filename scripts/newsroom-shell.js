@@ -8,18 +8,19 @@
     if(input&&typeof input.name==='string'&&input.name.trim()){
       return {name:input.name.trim(),role:String(input.role||'User'),email:String(input.email||''),demo:false};
     }
-    return {name:'Editor Demo',role:'Editor',email:'',demo:true};
+    return {name:'Avi Yansah',role:'Editor',email:'',demo:true};
   }
   function initials(name){
     return name.trim().split(/\s+/).slice(0,2).map(s=>s.charAt(0).toUpperCase()).join('')||'ED';
   }
   function buildAccount(container){
-    if(!container||container.querySelector('.nr-account'))return;
+    if(!container)return;
+    const legacy=container.querySelector('#cmsSidebarAgent,.nr-nav-item');
+    if(legacy)legacy.remove();
+    if(container.querySelector('.nr-account'))return;
     const user=resolveUser();
     // The previous AI placement is intentionally vacated; the working editor AI
     // entry point remains in its existing rail until the global AI UX is approved.
-    const legacy=container.querySelector('#cmsSidebarAgent,.nr-nav-item');
-    if(legacy)legacy.remove();
     const root=document.createElement('div');
     root.className='nr-account';
     const trigger=document.createElement('button');
