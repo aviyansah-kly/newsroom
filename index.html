@@ -9157,6 +9157,12 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
   top:var(--newsroom-text-toolbar-top)!important;
   border-radius:0 0 9px 9px!important;
 }
+/* Primary Text toolbar has an earlier #classicToolbar rule with higher specificity.
+   Match the approved bottom-only radius without changing sticky positioning. */
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar{
+  border-radius:0 0 9px 9px!important;
+  overflow:hidden!important;
+}
 /* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */
 
 /* NEWSROOM_HEADLINE_MEDIA_SCHEDULE_SAFE_START */
