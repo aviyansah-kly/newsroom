@@ -85,3 +85,16 @@ body.alt-editor-layout.cms-sidebar-collapsed .nr-account-popover{left:calc(100% 
  body.nr-app.nr-sidebar-collapsed .nr-account-popover,
  body.alt-editor-layout.cms-sidebar-collapsed .nr-account-popover{left:0;bottom:calc(100% + 8px)}
 }
+
+/* Shared account dropdown actions (preview: visible, deliberately disabled). */
+.nr-account-menu{margin-top:11px;padding-top:7px;border-top:1px solid #eef2f7;display:grid;gap:2px}
+.nr-account-menu-item{
+  display:flex;width:100%;align-items:center;gap:10px;
+  padding:10px 9px;min-height:40px;border:0;border-radius:8px;
+  background:transparent;color:var(--nr-shell-text);text-align:left;
+  font-size:13px;font-weight:500;line-height:18px;
+}
+.nr-account-menu-item svg{flex:none;width:17px;height:17px;color:var(--nr-shell-muted)}
+.nr-account-menu-item:disabled{opacity:1;cursor:default}
+.nr-account-menu-danger{margin-top:6px;border-top:1px solid #eef2f7;border-radius:0;padding-top:14px;color:#dc2626}
+.nr-account-menu-danger svg{color:#dc2626}
