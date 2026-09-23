@@ -9136,6 +9136,23 @@ body.alt-editor-layout .newsroom-team-section .team-role-divider{
   body.alt-editor-layout .newsroom-team-section .team-add-panel{grid-column:1!important}
   body.alt-editor-layout .newsroom-team-section .team-add-trigger{justify-self:start!important}
 }
+/* Shared Text toolbar geometry: first and subsequent content blocks. */
+:root{--newsroom-text-toolbar-top:calc(var(--newsroom-editor-header-height) - 1px)}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar{
+  border-radius:0 0 9px 9px!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar:not(.v46-fixed),
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar:not(.v46-fixed){
+  top:var(--newsroom-text-toolbar-top)!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed{
+  top:var(--newsroom-text-toolbar-top)!important;
+  border-radius:0 0 9px 9px!important;
+}
 /* NEWSROOM_EDITOR_SPACING_REFINEMENT_END */
 
 /* NEWSROOM_HEADLINE_MEDIA_SCHEDULE_SAFE_START */
@@ -13439,7 +13456,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(window.lucide)window.lucide.createIcons();
   }
 
-  const TOP=72;
+  const TOP=67; // Shared top offset: 68px Newsroom header minus 1px seam.
   let ticking=false;
 
   function getToolbarRecords(){
