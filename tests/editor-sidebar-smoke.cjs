@@ -3,7 +3,7 @@ const { chromium } = require('playwright');
   const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
   const page=await browser.newPage({viewport:{width:1600,height:950}});
   const errors=[];
-  page.on('pageerror',e=>errors.push(e.message));
+  page.on('pageerror',e=>errors.push(e.stack||e.message));
   await page.goto('http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded',timeout:45000});
   await page.waitForSelector('#nrRightPanelToggle',{state:'visible',timeout:15000});
   await page.waitForTimeout(1500);
