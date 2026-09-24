@@ -27,7 +27,6 @@ const {chromium}=require('playwright');
  const created=await editor.locator('a[href*="demo-"]').first().evaluate(e=>({href:e.href,text:e.textContent}));
  if(!created.text||!created.href.includes('liputan6.com'))throw Error('Internal link not inserted into editor');
  console.log('INTERNAL',JSON.stringify(created));
- await editor.click();
  await page.evaluate(()=>document.querySelector('#linkTool')?.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true})));
  await page.locator('#nrLinkTabExternal').click();
  if(!await page.locator('#nrLinkOptions').isVisible())throw Error('External options should only appear on External tab');
