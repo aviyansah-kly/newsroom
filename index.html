@@ -16888,7 +16888,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const query=el('nrLinkSearch').value.trim().toLocaleLowerCase('en');
     let results=DEMO;
     if(aiGenerated){
-      const keywords=(source?.text||query||'').toLocaleLowerCase('en').split(/\\W+/).filter(w=>w.length>=3);
+      const keywords=(source?.text||query||'').toLocaleLowerCase('en').split(/\W+/).filter(w=>w.length>=3);
       results=DEMO.map((item,index)=>{
         const corpus=(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('en');
         return {item,index,score:keywords.reduce((score,word)=>score+(corpus.includes(word)?2:0),0)};
