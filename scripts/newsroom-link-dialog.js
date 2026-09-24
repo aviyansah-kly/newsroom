@@ -51,6 +51,7 @@
         <button type="button" role="tab" aria-selected="true" aria-controls="nrLinkInternal" id="nrLinkTabInternal" data-nr-link-mode="internal"><i data-lucide="newspaper"></i> Internal Link</button>
         <button type="button" role="tab" aria-selected="false" aria-controls="nrLinkExternal" id="nrLinkTabExternal" data-nr-link-mode="external"><i data-lucide="external-link"></i> External Link</button>
       </div>
+      <div class="nr-link-field nr-link-text-first"><label for="nrLinkText">Teks tautan</label><input type="text" id="nrLinkText" maxlength="250" placeholder="Teks yang tampil di artikel"></div>
       <div id="nrLinkInternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabInternal">
         <div class="nr-link-field"><label for="nrLinkSearch"><span>Cari artikel Liputan6</span><span class="nr-link-label-hint">Internal link</span></label>
           <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" autocomplete="off" placeholder="Cari judul, topik, atau keyword…"></div><button type="button" class="nr-link-action ai" id="nrLinkAi" aria-busy="false"><i data-lucide="sparkles"></i><span id="nrLinkAiLabel">Saran AI</span></button></div>
@@ -64,7 +65,6 @@
       <div id="nrLinkExternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabExternal" hidden>
         <div class="nr-link-field"><label for="nrLinkExternalUrl">URL tujuan</label><input type="url" id="nrLinkExternalUrl" placeholder="https://contoh.com/artikel" autocomplete="url"><small>Gunakan URL lengkap. Hanya HTTP atau HTTPS yang didukung.</small></div>
       </div>
-      <div class="nr-link-field"><label for="nrLinkText">Teks tautan <span aria-hidden="true">*</span></label><input type="text" id="nrLinkText" maxlength="250" placeholder="Teks yang tampil di artikel"><small>Anda dapat mengubah teks tanpa mengubah URL tujuan.</small></div>
       <div class="nr-link-options">
         <label class="nr-link-option"><input type="checkbox" id="nrLinkNofollow"><span>Nofollow<small>Gunakan untuk link berbayar, tidak tepercaya, atau yang tidak ingin di-endorse.</small></span></label>
         <label class="nr-link-option"><input type="checkbox" id="nrLinkNewTab"><span>Buka di tab baru<small>Cocok untuk sumber eksternal agar artikel tetap terbuka.</small></span></label>
@@ -90,6 +90,7 @@
     }else{
       if(query)results=DEMO.filter(item=>(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('id-ID').includes(query));
       el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Contoh artikel';
+      if(!query)results=results.slice(0,3);
       el('nrLinkSearchHelp').textContent='Pencarian menggunakan data dummy untuk preview. Klik Saran AI untuk simulasi rekomendasi.';
       el('nrLinkDemoBadge').textContent='DEMO DATA';
     }
