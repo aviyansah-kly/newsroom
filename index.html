@@ -11484,7 +11484,8 @@ function renderGuardian(){
   const sorted=[...issues].sort((a,b)=>(a.level==='danger'?0:1)-(b.level==='danger'?0:1));
   const high=sorted.filter(x=>x.level==='danger').length;
   const review=sorted.length-high;
-  $('#guardianTabCount').textContent=sorted.length;
+  const guardianCountNode=$('#guardianTabCount');
+  if(guardianCountNode)guardianCountNode.textContent=sorted.length;
 
   const summary=$('.guardian-summary');
   if(summary){
@@ -11494,7 +11495,8 @@ function renderGuardian(){
       : '<div class="guardian-summary-main"><span class="guardian-summary-icon"><i data-lucide="shield-check"></i></span><div class="guardian-summary-copy"><strong>Tidak ada temuan utama</strong><span>Tetap lakukan review editorial sebelum publish.</span></div></div>';
   }
 
-  $('#guardianList').innerHTML=sorted.length?sorted.map((x,i)=>{
+  const guardianListNode=$('#guardianList');
+  if(guardianListNode)guardianListNode.innerHTML=sorted.length?sorted.map((x,i)=>{
     const severity=x.level==='danger'?'Prioritas tinggi':'Perlu dicek';
     return '<article class="guardian-item '+x.level+'">'
       +'<div class="guardian-icon"><i data-lucide="'+x.icon+'"></i></div>'
