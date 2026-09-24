@@ -29,9 +29,37 @@
     let stored=null;
     try{stored=localStorage.getItem('newsroom:right-panel-collapsed')}catch(e){}
     const firstVisitCollapsed=window.matchMedia('(max-width:1024px)').matches;
+    // Mirror the left CMS sidebar's expand/collapse icon convention.
+    // The preview includes Lucide; static SVG fallback still works if CDN is offline.
     const svg=(minimized)=>minimized
-      ?'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m11 10 2 2-2 2"/></svg>'
-      :'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m10 10-2 2 2 2"/></svg>';
+      ?'<i data-lucide="panel-right-open"></i>'
+      :'<i data-lucide="panel-right-close"></i>';
+    const fallback=(minimized)=>minimized
+      ?'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/><path d="m11 10 2 2-2 2"/></svg>'
+      :'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/><path d="m10 10-2 2 2 2"/></svg>';
+    const workspace=document.querySelector('.workspace');
+    const nav=document.querySelector('.cms-nav-drawer');
+    function syncCanvas(){
+      if(!workspace)return;
+      const mobile=window.matchMedia('(max-width:1024px)').matches;
+      const left=mobile?24:(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
+      const right=(mobile?56:(body.classList.contains('nr-right-collapsed')?56:390))+(mobile?12:24);
+      // Inline !important overrides the several legacy responsive CSS blocks.
+      workspace.style.setProperty('padding-left',left+'px','important');
+      workspace.style.setProperty('padding-right',right+'px','important');
+      workspace.style.setProperty('width','100%','important');
+      workspace.style.setProperty('max-width','none','important');
+      workspace.style.setProperty('grid-template-columns','minmax(0,1fr)','important');
+      const canvas=workspace.querySelector(':scope > section');
+      const paper=canvas?.querySelector(':scope > .paper');
+      [canvas,paper].filter(Boolean).forEach(el=>{
+        el.style.setProperty('width','100%','important');
+        el.style.setProperty('min-width','0','important');
+        el.style.setProperty('max-width','none','important');
+        el.style.setProperty('margin-left','0','important');
+        el.style.setProperty('margin-right','0','important');
+      });
+    }
     function setCollapsed(next,save){
       body.classList.toggle('nr-right-collapsed',next);
       body.classList.remove('settings-drawer-open','focus');
@@ -41,13 +69,19 @@
       toggle.setAttribute('aria-label',next?'Buka Article Settings':'Minimize Article Settings');
       toggle.title=next?'Buka Article Settings':'Minimize Article Settings';
       // Keep label inside the button, so the whole 56px rail is one hit target.
-      toggle.innerHTML=svg(next);
+      toggle.innerHTML=window.lucide?svg(next):fallback(next);
       toggle.append(railLabel);
+      if(window.lucide)window.lucide.createIcons({nodes:[toggle]});
       if(save){try{localStorage.setItem('newsroom:right-panel-collapsed',next?'1':'0')}catch(e){}}
+      syncCanvas();
       window.dispatchEvent(new Event('resize'));
     }
     toggle.addEventListener('click',()=>setCollapsed(!body.classList.contains('nr-right-collapsed'),true));
     setCollapsed(stored===null?firstVisitCollapsed:stored==='1',false);
+    // The left sidebar controller changes a body class. Recalculate both
+    // horizontal gutters whenever either sidebar toggles or viewport changes.
+    new MutationObserver(syncCanvas).observe(body,{attributes:true,attributeFilter:['class']});
+    window.addEventListener('resize',syncCanvas,{passive:true});
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&window.matchMedia('(max-width:1024px)').matches&&!body.classList.contains('nr-right-collapsed')&&!e.target.closest('.modal.open,.popup.open')){
         setCollapsed(true,true);toggle.focus();
