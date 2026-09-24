@@ -1,0 +1,34 @@
+const { chromium } = require('playwright');
+(async () => {
+  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+  const page=await browser.newPage({viewport:{width:1600,height:950}});
+  const errors=[];
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded',timeout:45000});
+  await page.waitForSelector('#nrRightPanelToggle',{state:'visible',timeout:15000});
+  await page.waitForTimeout(1500);
+  const focusCount=await page.locator('.topbar .header-focus-btn:visible, .topbar #focusBtn:visible, .header-view-focus-action:visible').count();
+  if(focusCount)throw Error('Focus Mode still visible: '+focusCount);
+  const capture=()=>page.evaluate(()=>{
+    const body=document.body,workspace=document.querySelector('.workspace'),paper=workspace?.querySelector(':scope > section > .paper'),panel=document.querySelector('.context');
+    return {leftCollapsed:body.classList.contains('cms-sidebar-collapsed'),rightCollapsed:body.classList.contains('nr-right-collapsed'),workspaceLeft:workspace?.getBoundingClientRect().left,workspaceRight:workspace?.getBoundingClientRect().right,paddingLeft:getComputedStyle(workspace).paddingLeft,paddingRight:getComputedStyle(workspace).paddingRight,paperWidth:paper?.getBoundingClientRect().width,panelWidth:panel?.getBoundingClientRect().width,icon:document.querySelector('#nrRightPanelToggle')?.querySelector('[data-lucide]')?.getAttribute('data-lucide')||document.querySelector('#nrRightPanelToggle svg')?.getAttribute('class')||'svg-fallback'};
+  });
+  const before=await capture();console.log('INITIAL',JSON.stringify(before));
+  await page.locator('#nrRightPanelToggle').click({timeout:10000});
+  await page.waitForTimeout(400);
+  const right=await capture();console.log('RIGHT COLLAPSED',JSON.stringify(right));
+  if(!right.rightCollapsed||right.panelWidth>70||right.paperWidth<=before.paperWidth+200)throw Error('Right sidebar did not collapse and expand writing canvas');
+  const collapsedIcon=await page.locator('#nrRightPanelToggle').getAttribute('aria-label');
+  if(collapsedIcon!=='Buka Article Settings')throw Error('Collapsed icon aria-label incorrect: '+collapsedIcon);
+  await page.locator('#cmsNavClose').click({timeout:10000});
+  await page.waitForTimeout(400);
+  const both=await capture();console.log('BOTH COLLAPSED',JSON.stringify(both));
+  if(!both.leftCollapsed||both.paperWidth<=right.paperWidth+100)throw Error('Left sidebar did not expand canvas');
+  await page.locator('#nrRightPanelToggle').click({timeout:10000});
+  await page.waitForTimeout(400);
+  const leftOnly=await capture();console.log('LEFT COLLAPSED ONLY',JSON.stringify(leftOnly));
+  if(leftOnly.rightCollapsed||leftOnly.paperWidth>=both.paperWidth-200)throw Error('Right sidebar did not reopen');
+  console.log('PASS: focus hidden, right toggle and labels work, writing canvas expands after each sidebar collapse');
+  console.log('PAGE ERRORS (first 5)',JSON.stringify(errors.slice(0,5)));
+  await browser.close();
+})().catch(e=>{console.error(e);process.exit(1)});
