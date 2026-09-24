@@ -1,0 +1,26 @@
+name: Editor Insert Link dialog smoke test
+on:
+  push:
+    branches: [main]
+    paths:
+      - index.html
+      - scripts/newsroom-link-dialog.js
+      - styles/newsroom-link-dialog.css
+      - tests/editor-link-dialog-smoke.cjs
+      - .github/workflows/editor-link-dialog-smoke.yml
+  workflow_dispatch:
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-save --ignore-scripts playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-http.log 2>&1 &
+          sleep 2
+          node tests/editor-link-dialog-smoke.cjs
