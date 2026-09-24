@@ -10851,6 +10851,20 @@ body.alt-editor-layout #legacyEditorViewControls{display:none!important}
 }
 /* NEWSROOM_RIGHT_PANEL_RELIABILITY_FIX_20260924_END */
 
+/* Editor header cleanup: legacy scripts may inject a cloned focus button
+   on DOMContentLoaded. It must not appear at any viewport width. */
+body.alt-editor-layout .topbar .header-focus-btn,
+body.alt-editor-layout .writing-view-menu .header-view-focus-action,
+body.alt-editor-layout .header-view-cluster .header-focus-btn{
+  display:none!important;
+}
+/* The central article must not retain a fixed/max width when either rail
+   collapses; the controller also sets inline widths for legacy compatibility. */
+body.alt-editor-layout .workspace>section>.paper{
+  width:100%!important;max-width:none!important;min-width:0!important;
+}
+body.alt-editor-layout .nr-right-toggle .lucide{width:19px!important;height:19px!important}
+
 </style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="article-lifecycle-pill draft" id="articleLifecycle" aria-live="polite"><span class="article-lifecycle-dot"></span><strong id="articleLifecycleLabel">Draft</strong></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Changes saved locally</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Saved</strong><small id="saveStatusMeta">just now</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 ready</strong><small id="readyCountMeta">6 to review</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Writing View" title="Writing View"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference is saved for the next article.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Writing size"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Large"><span class="font-sample font-sample-large">A</span><span>Large</span></button><button type="button" data-font="xlarge" title="Extra large"><span class="font-sample font-sample-xlarge">A</span><span>Extra Large</span></button></div></div></div><button class="btn save-draft-btn" id="saveDraftBtn" type="button"><i data-lucide="save"></i><span>Save Draft</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Preview</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
@@ -16569,9 +16583,37 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     let stored=null;
     try{stored=localStorage.getItem('newsroom:right-panel-collapsed')}catch(e){}
     const firstVisitCollapsed=window.matchMedia('(max-width:1024px)').matches;
+    // Mirror the left CMS sidebar's expand/collapse icon convention.
+    // The preview includes Lucide; static SVG fallback still works if CDN is offline.
     const svg=(minimized)=>minimized
-      ?'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m11 10 2 2-2 2"/></svg>'
-      :'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M15 3v18"/><path d="m10 10-2 2 2 2"/></svg>';
+      ?'<i data-lucide="panel-right-open"></i>'
+      :'<i data-lucide="panel-right-close"></i>';
+    const fallback=(minimized)=>minimized
+      ?'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/><path d="m11 10 2 2-2 2"/></svg>'
+      :'<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 3v18"/><path d="m10 10-2 2 2 2"/></svg>';
+    const workspace=document.querySelector('.workspace');
+    const nav=document.querySelector('.cms-nav-drawer');
+    function syncCanvas(){
+      if(!workspace)return;
+      const mobile=window.matchMedia('(max-width:1024px)').matches;
+      const left=mobile?24:(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
+      const right=(mobile?56:(body.classList.contains('nr-right-collapsed')?56:390))+(mobile?12:24);
+      // Inline !important overrides the several legacy responsive CSS blocks.
+      workspace.style.setProperty('padding-left',left+'px','important');
+      workspace.style.setProperty('padding-right',right+'px','important');
+      workspace.style.setProperty('width','100%','important');
+      workspace.style.setProperty('max-width','none','important');
+      workspace.style.setProperty('grid-template-columns','minmax(0,1fr)','important');
+      const canvas=workspace.querySelector(':scope > section');
+      const paper=canvas?.querySelector(':scope > .paper');
+      [canvas,paper].filter(Boolean).forEach(el=>{
+        el.style.setProperty('width','100%','important');
+        el.style.setProperty('min-width','0','important');
+        el.style.setProperty('max-width','none','important');
+        el.style.setProperty('margin-left','0','important');
+        el.style.setProperty('margin-right','0','important');
+      });
+    }
     function setCollapsed(next,save){
       body.classList.toggle('nr-right-collapsed',next);
       body.classList.remove('settings-drawer-open','focus');
@@ -16581,13 +16623,19 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       toggle.setAttribute('aria-label',next?'Buka Article Settings':'Minimize Article Settings');
       toggle.title=next?'Buka Article Settings':'Minimize Article Settings';
       // Keep label inside the button, so the whole 56px rail is one hit target.
-      toggle.innerHTML=svg(next);
+      toggle.innerHTML=window.lucide?svg(next):fallback(next);
       toggle.append(railLabel);
+      if(window.lucide)window.lucide.createIcons({nodes:[toggle]});
       if(save){try{localStorage.setItem('newsroom:right-panel-collapsed',next?'1':'0')}catch(e){}}
+      syncCanvas();
       window.dispatchEvent(new Event('resize'));
     }
     toggle.addEventListener('click',()=>setCollapsed(!body.classList.contains('nr-right-collapsed'),true));
     setCollapsed(stored===null?firstVisitCollapsed:stored==='1',false);
+    // The left sidebar controller changes a body class. Recalculate both
+    // horizontal gutters whenever either sidebar toggles or viewport changes.
+    new MutationObserver(syncCanvas).observe(body,{attributes:true,attributeFilter:['class']});
+    window.addEventListener('resize',syncCanvas,{passive:true});
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&window.matchMedia('(max-width:1024px)').matches&&!body.classList.contains('nr-right-collapsed')&&!e.target.closest('.modal.open,.popup.open')){
         setCollapsed(true,true);toggle.focus();
