@@ -271,3 +271,17 @@ body.alt-editor-layout #legacyEditorViewControls{display:none!important}
  body.alt-editor-layout .workspace{transition:none!important}
 }
 /* NEWSROOM_RIGHT_PANEL_RELIABILITY_FIX_20260924_END */
+
+/* Editor header cleanup: legacy scripts may inject a cloned focus button
+   on DOMContentLoaded. It must not appear at any viewport width. */
+body.alt-editor-layout .topbar .header-focus-btn,
+body.alt-editor-layout .writing-view-menu .header-view-focus-action,
+body.alt-editor-layout .header-view-cluster .header-focus-btn{
+  display:none!important;
+}
+/* The central article must not retain a fixed/max width when either rail
+   collapses; the controller also sets inline widths for legacy compatibility. */
+body.alt-editor-layout .workspace>section>.paper{
+  width:100%!important;max-width:none!important;min-width:0!important;
+}
+body.alt-editor-layout .nr-right-toggle .lucide{width:19px!important;height:19px!important}
