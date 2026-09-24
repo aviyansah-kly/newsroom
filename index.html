@@ -11001,33 +11001,44 @@ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-car
 #linkPopup{display:none!important}
 @media(max-width:580px){.nr-link-dialog{border-radius:14px 14px 0 0}.nr-link-top{padding:16px}.nr-link-scroll{padding:14px 16px 10px}.nr-link-foot{padding:12px 16px}.nr-link-result-url{display:none}.nr-link-chosen-copy small{max-width:250px}}
 
-/* INSERT_LINK_COMPACT_V2_START — scoped; existing toolbar geometry remains protected. */
-.nr-link-dialog{width:min(560px,100%)!important;max-height:min(88dvh,720px)!important}
-.nr-link-top{padding:16px 20px!important;align-items:center!important}
-.nr-link-title-wrap{align-items:center!important}
-.nr-link-top h2{margin:0!important;font-size:16px!important}
-.nr-link-tabs{margin:0 20px!important;flex:none}
-.nr-link-scroll{padding:16px 20px 10px!important}
-.nr-link-search-row{margin:0 0 16px!important}
-.nr-link-action.ai{height:42px!important;min-height:42px!important}
-.nr-link-suggestion-head{margin-bottom:8px!important}
-.nr-link-results{max-height:215px!important;gap:6px!important}
-.nr-link-result{padding:10px 12px!important;align-items:center!important}
-.nr-link-result-text{gap:4px!important}
-.nr-link-result strong{font-size:13px!important;line-height:19px!important}
-.nr-link-result-side{background:transparent!important}
-.nr-link-text-field{margin:16px 0 4px!important}
-.nr-link-pane[hidden],.nr-link-options[hidden]{display:none!important}
-.nr-link-options{margin-top:12px!important;padding-top:10px!important}
-.nr-link-option{align-items:center!important;padding:0!important}
-.nr-link-option input{margin-top:0!important}
-.nr-link-foot{justify-content:flex-end!important;gap:8px!important;padding:12px 20px!important}
-.nr-link-dialog .nr-link-primary{background:var(--orange,#f4511e)!important}
-.nr-link-dialog .nr-link-primary:disabled{opacity:.48!important}
-.nr-link-result[aria-selected="true"]{border-color:#2563eb!important;background:#eff6ff!important;box-shadow:0 0 0 1px #2563eb!important}
-.nr-link-result[aria-selected="true"] .nr-link-result-side{color:#2563eb!important}
-@media(max-width:580px){.nr-link-tabs{margin:0 16px!important}.nr-link-scroll{padding:14px 16px 10px!important}.nr-link-search-row{flex-wrap:nowrap!important}.nr-link-action.ai{padding:0 10px!important}.nr-link-foot{padding:12px 16px!important}}
-/* INSERT_LINK_COMPACT_V2_END */
+/* Insert Link v2 — scoped layout, Newsroom design tokens, predictable information clusters. */
+.nr-link-dialog{width:min(620px,100%);color:var(--nr-text,#0f172a);border-color:var(--nr-border,#e2e8f0);border-radius:var(--nr-radius-xl,12px)}
+.nr-link-top{padding:20px 24px 18px;border-color:var(--nr-border,#e2e8f0)}
+.nr-link-scroll{padding:24px;display:flex;flex-direction:column;gap:24px}
+.nr-link-text-first,.nr-link-primary-field{margin:0}
+.nr-link-field{gap:8px}
+.nr-link-field label{color:var(--nr-text-2,#475569);font-size:13px}
+.nr-link-field input{height:var(--nr-control-h,40px);border-color:var(--nr-input,#cbd5e1);border-radius:var(--nr-radius-md,8px)}
+.nr-link-tabs{margin:0;border-radius:var(--nr-radius-md,8px)}
+.nr-link-pane:not([hidden]){display:flex;flex-direction:column;gap:24px}
+.nr-link-cluster{border-top:1px solid var(--nr-border,#e2e8f0);padding-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.nr-link-cluster-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nr-link-cluster-head strong{font-size:13px;font-weight:650;color:var(--nr-text,#0f172a)}
+.nr-link-cluster-head p{margin:4px 0 0;font-size:12px;color:var(--nr-muted,#64748b)}
+.nr-link-search-row{width:100%;margin:0}
+.nr-link-search input{height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px)}
+.nr-link-action{min-height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px);font-weight:600!important;background:var(--nr-surface,#fff);border-color:var(--nr-border,#e2e8f0);color:var(--nr-text-2,#475569)}
+.nr-link-action:hover{background:var(--nr-hover,#f1f5f9)}
+.nr-link-helper{margin:0;color:var(--nr-muted,#64748b)}
+#nrLinkSuggestions{width:100%;padding-top:8px}
+#nrLinkSuggestions[hidden],#nrLinkOptions[hidden]{display:none!important}
+.nr-link-suggestion-head{margin-bottom:12px}
+.nr-link-results{gap:8px}
+.nr-link-result{border-color:var(--nr-border,#e2e8f0);border-radius:var(--nr-radius-md,8px)}
+.nr-link-result:hover{border-color:var(--nr-blue,#2563eb);background:var(--nr-blue-soft,#eff6ff)}
+.nr-link-result[aria-selected="true"]{border-color:var(--nr-blue,#2563eb);background:var(--nr-blue-soft,#eff6ff);box-shadow:0 0 0 1px var(--nr-blue,#2563eb)}
+.nr-link-result[aria-selected="true"] .nr-link-result-side{color:var(--nr-blue,#2563eb);background:#dbeafe}
+.nr-link-options{margin:0}
+.nr-link-foot{padding:16px 24px;border-color:var(--nr-border,#e2e8f0)}
+.nr-link-foot-actions{gap:8px}
+.nr-link-primary,.nr-link-quiet{height:var(--nr-control-h,40px);min-height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px)}
+.nr-link-primary{background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);color:#fff}
+.nr-link-primary:hover{background:var(--nr-orange-hover,#df4315)}
+.nr-link-quiet{background:var(--nr-surface,#fff);border-color:var(--nr-border,#e2e8f0)}
+.nr-link-quiet:hover{background:var(--nr-hover,#f1f5f9)}
+.nr-link-dialog input:focus-visible,.nr-link-dialog button:focus-visible{outline:2px solid var(--nr-blue,#2563eb);outline-offset:2px}
+@media(max-width:580px){.nr-link-top{padding:16px}.nr-link-scroll{padding:20px 16px;gap:20px}.nr-link-pane:not([hidden]){gap:20px}.nr-link-cluster{padding-top:20px}.nr-link-foot{padding:12px 16px}.nr-link-foot-actions{width:100%}.nr-link-foot-actions button{flex:1}}
+
 </style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="article-lifecycle-pill draft" id="articleLifecycle" aria-live="polite"><span class="article-lifecycle-dot"></span><strong id="articleLifecycleLabel">Draft</strong></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Changes saved locally</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Saved</strong><small id="saveStatusMeta">just now</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 ready</strong><small id="readyCountMeta">6 to review</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Writing View" title="Writing View"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference is saved for the next article.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Writing size"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Large"><span class="font-sample font-sample-large">A</span><span>Large</span></button><button type="button" data-font="xlarge" title="Extra large"><span class="font-sample font-sample-xlarge">A</span><span>Extra Large</span></button></div></div></div><button class="btn save-draft-btn" id="saveDraftBtn" type="button"><i data-lucide="save"></i><span>Save Draft</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Preview</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
@@ -16859,71 +16870,94 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     return {kind:'none',text:''};
   }
   function markup(){return `
-  <section class="nr-link-dialog" role="dialog" aria-modal="true" aria-labelledby="nrLinkTitle">
-    <div class="nr-link-top"><div class="nr-link-title-wrap"><span class="nr-link-title-icon"><i data-lucide="link-2"></i></span><h2 id="nrLinkTitle">Insert link</h2></div><button type="button" class="nr-link-close" id="nrLinkClose" aria-label="Close"><i data-lucide="x"></i></button></div>
-    <div class="nr-link-tabs" role="tablist" aria-label="Link type">
-      <button type="button" role="tab" aria-selected="true" aria-controls="nrLinkInternal" id="nrLinkTabInternal" data-nr-link-mode="internal"><i data-lucide="newspaper"></i> Internal</button>
-      <button type="button" role="tab" aria-selected="false" aria-controls="nrLinkExternal" id="nrLinkTabExternal" data-nr-link-mode="external"><i data-lucide="external-link"></i> External</button>
-    </div>
+  <section class="nr-link-dialog" role="dialog" aria-modal="true" aria-labelledby="nrLinkTitle" aria-describedby="nrLinkDescription">
+    <div class="nr-link-top"><div class="nr-link-title-wrap"><span class="nr-link-title-icon"><i data-lucide="link-2"></i></span><div><h2 id="nrLinkTitle">Insert Link</h2><p id="nrLinkDescription">Tambahkan internal atau external link pada teks artikel.</p></div></div><button type="button" class="nr-link-close" id="nrLinkClose" aria-label="Tutup dialog"><i data-lucide="x"></i></button></div>
     <div class="nr-link-scroll">
+      <div class="nr-link-field nr-link-text-first"><label for="nrLinkText">Text to display</label><input type="text" id="nrLinkText" maxlength="250" placeholder="Teks yang tampil di artikel"><small>Gunakan teks yang jelas dan relevan dengan tujuan link.</small></div>
+      <div class="nr-link-tabs" role="tablist" aria-label="Jenis tautan">
+        <button type="button" role="tab" aria-selected="true" aria-controls="nrLinkInternal" id="nrLinkTabInternal" data-nr-link-mode="internal"><i data-lucide="newspaper"></i> Internal Link</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="nrLinkExternal" id="nrLinkTabExternal" data-nr-link-mode="external"><i data-lucide="external-link"></i> External Link</button>
+      </div>
       <div id="nrLinkInternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabInternal">
-        <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" aria-label="Search Liputan6 articles" autocomplete="off" placeholder="Search articles…"></div><button type="button" class="nr-link-action ai" id="nrLinkAi" aria-busy="false" title="Find relevant internal links (demo)"><i data-lucide="sparkles"></i><span id="nrLinkAiLabel">AI suggestions</span></button></div>
-        <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Articles</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">Demo</span></div>
-        <div id="nrLinkResults" class="nr-link-results" role="listbox" aria-label="Internal articles"></div>
+        <div class="nr-link-field nr-link-primary-field"><label for="nrLinkInternalUrl">URL artikel Liputan6</label>
+          <input type="url" id="nrLinkInternalUrl" placeholder="https://www.liputan6.com/..." autocomplete="url">
+          <small>Paste URL langsung atau pilih artikel dari hasil pencarian.</small>
+        </div>
+        <div class="nr-link-cluster nr-link-discovery">
+          <div class="nr-link-cluster-head"><div><strong>Internal Link Suggestions</strong><p>Temukan artikel terkait untuk melengkapi konten.</p></div><span class="nr-link-demo-badge">Demo</span></div>
+          <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" autocomplete="off" aria-label="Cari artikel Liputan6" placeholder="Cari judul, topik, atau keyword…"></div></div>
+          <button type="button" class="nr-btn nr-link-action" id="nrLinkAi" aria-busy="false"><i data-lucide="sparkles"></i><span id="nrLinkAiLabel">Generate Suggestions</span></button>
+          <p class="nr-link-helper" id="nrLinkSearchHelp">Pencarian dan saran AI masih menggunakan data dummy untuk preview.</p>
+          <div id="nrLinkSuggestions" hidden>
+            <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Hasil pencarian</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">Demo</span></div>
+            <div id="nrLinkResults" class="nr-link-results" aria-label="Pilihan artikel internal"></div>
+          </div>
+        </div>
       </div>
       <div id="nrLinkExternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabExternal" hidden>
-        <div class="nr-link-field"><label for="nrLinkExternalUrl">URL</label><input type="url" id="nrLinkExternalUrl" placeholder="https://example.com/article" autocomplete="url" inputmode="url"></div>
+        <div class="nr-link-field"><label for="nrLinkExternalUrl">URL tujuan</label><input type="url" id="nrLinkExternalUrl" placeholder="https://contoh.com/artikel" autocomplete="url"><small>Gunakan URL lengkap. Hanya HTTP atau HTTPS yang didukung.</small></div>
       </div>
-      <div class="nr-link-field nr-link-text-field"><label for="nrLinkText">Link text</label><input type="text" id="nrLinkText" maxlength="250" placeholder="Text shown in the article"></div>
       <div class="nr-link-options" id="nrLinkOptions">
-        <label class="nr-link-option"><input type="checkbox" id="nrLinkNewTab"><span>Open in new tab</span></label>
-        <label class="nr-link-option"><input type="checkbox" id="nrLinkNofollow"><span>Nofollow</span></label>
+        <label class="nr-link-option"><input type="checkbox" id="nrLinkNofollow"><span>Nofollow<small>Gunakan untuk link berbayar, tidak tepercaya, atau yang tidak ingin di-endorse.</small></span></label>
+        <label class="nr-link-option"><input type="checkbox" id="nrLinkNewTab"><span>Buka di tab baru<small>Cocok untuk sumber eksternal agar artikel tetap terbuka.</small></span></label>
       </div>
       <div class="nr-link-error" role="alert" id="nrLinkError" hidden></div>
     </div>
-    <div class="nr-link-foot"><button type="button" id="nrLinkCancel" class="nr-link-quiet">Cancel</button><button type="button" id="nrLinkApply" class="nr-link-primary" disabled>Insert link</button></div>
+    <div class="nr-link-foot"><span class="nr-link-foot-note" id="nrLinkFootNote">Pilih artikel internal untuk mengisi URL otomatis.</span><div class="nr-link-foot-actions"><button type="button" id="nrLinkCancel" class="nr-btn nr-link-quiet">Cancel</button><button type="button" id="nrLinkApply" class="nr-btn nr-btn-primary nr-link-primary" disabled>Insert Link</button></div></div>
   </section>`;}
   function renderResults(){
     if(!dialog)return;
-    const query=el('nrLinkSearch').value.trim().toLocaleLowerCase('en');
+    const query=el('nrLinkSearch').value.trim().toLocaleLowerCase('id-ID');
+    const shouldShow=Boolean(query||aiGenerated);
+    el('nrLinkSuggestions').hidden=!shouldShow;
+    if(!shouldShow)return;
     let results=DEMO;
     if(aiGenerated){
-      const keywords=(source?.text||query||'').toLocaleLowerCase('en').split(/\W+/).filter(w=>w.length>=3);
-      results=DEMO.map((item,index)=>{
-        const corpus=(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('en');
-        return {item,index,score:keywords.reduce((score,word)=>score+(corpus.includes(word)?2:0),0)};
-      }).sort((a,b)=>b.score-a.score||a.index-b.index).slice(0,3).map(x=>x.item);
-      el('nrLinkResultHeading').textContent='AI suggestions';
+      const selected=(source?.text||el('nrLinkSearch').value||'').toLocaleLowerCase('id-ID').split(/\W+/).filter(w=>w.length>=3);
+      const scored=DEMO.map((item,i)=>{
+        const hay=(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('id-ID');
+        return {item,score:selected.reduce((n,word)=>n+(hay.includes(word)?2:0),0),index:i};
+      }).sort((a,b)=>b.score-a.score||a.index-b.index);
+      results=scored.slice(0,3).map(x=>x.item);
+      el('nrLinkResultHeading').textContent='Rekomendasi AI untuk teks ini';
+      el('nrLinkSearchHelp').textContent='Simulasi saran AI berdasarkan teks yang dipilih. Konten dan URL hanya contoh, belum terhubung ke artikel asli.';
       el('nrLinkDemoBadge').textContent='Demo';
     }else{
-      if(query)results=DEMO.filter(item=>(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('en').includes(query));
-      el('nrLinkResultHeading').textContent=query?'Search results':'Articles';
+      if(query)results=DEMO.filter(item=>(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('id-ID').includes(query));
+      el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Contoh artikel';
+      el('nrLinkSearchHelp').textContent='Pencarian menggunakan data dummy untuk preview. Klik Saran AI untuk simulasi rekomendasi.';
       el('nrLinkDemoBadge').textContent='Demo';
     }
     const list=el('nrLinkResults');
+    const contextWord=(source?.text||el('nrLinkSearch').value||'topik artikel').trim().split(/\s+/).slice(0,4).join(' ');
     list.innerHTML=results.length?results.map(item=>`<button type="button" class="nr-link-result" role="option" data-article-id="${esc(item.id)}" aria-selected="${item.id===selectedDemo?.id}">
-      <span class="nr-link-result-text"><span class="nr-link-result-meta"><span class="nr-link-result-category">${esc(item.category)}</span></span><strong>${esc(item.title)}</strong></span>
+      <span class="nr-link-result-text">
+        <span class="nr-link-result-meta"><span class="nr-link-result-category">${esc(item.category)}</span>${aiGenerated?'<small class="nr-link-result-reason">Relevan dengan “'+esc(contextWord)+'”</small>':''}</span>
+        <strong>${esc(item.title)}</strong>
+        <small>${esc(item.description)}</small>
+        <small class="nr-link-result-url">${esc(item.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/read\//,' / '))}</small>
+      </span>
       <span class="nr-link-result-side">${item.id===selectedDemo?.id?'<i data-lucide="check"></i>':'<i data-lucide="chevron-right"></i>'}</span>
-    </button>`).join(''):'<div class="nr-link-empty">No matching articles. Try another search or AI suggestions.</div>';
+    </button>`).join(''):'<div class="nr-link-empty">Belum ada artikel yang cocok dalam data contoh. Coba kata kunci lain atau gunakan Saran AI.</div>';
     if(window.lucide)window.lucide.createIcons({nodes:[list]});
   }
   function showError(message){
     const box=el('nrLinkError');box.textContent=message||'';box.hidden=!message;
   }
   function sync(){
-    const target=mode==='internal'?selectedDemo?.url:normalize(el('nrLinkExternalUrl').value);
-    el('nrLinkApply').disabled=!(target&&el('nrLinkText').value.trim());
-    el('nrLinkOptions').hidden=mode==='internal';
+    const target=normalize(mode==='internal'?el('nrLinkInternalUrl').value:el('nrLinkExternalUrl').value);
+    el('nrLinkApply').disabled=!(target&&el('nrLinkText').value.trim()&&(mode!=='internal'||isInternal(target)));
+    el('nrLinkFootNote').textContent=mode==='internal'?'Masukkan URL Liputan6 atau pilih rekomendasi.':'URL eksternal diperiksa sebelum diterapkan.';
     showError('');
   }
   function setMode(next){
     mode=next;
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===next));
     el('nrLinkInternal').hidden=next!=='internal';el('nrLinkExternal').hidden=next!=='external';
+    el('nrLinkOptions').hidden=next==='internal';
     if(next==='internal'){el('nrLinkNewTab').checked=false;el('nrLinkNofollow').checked=false}
     else{el('nrLinkNewTab').checked=true;el('nrLinkNofollow').checked=false}
     sync();
-    (next==='internal'?el('nrLinkSearch'):el('nrLinkExternalUrl')).focus();
   }
   function open(trigger){
     if(!overlay)return;
@@ -16932,6 +16966,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     selectedDemo=null;aiGenerated=false;
     el('nrLinkSearch').value='';
     el('nrLinkExternalUrl').value=source.href||'';
+    el('nrLinkInternalUrl').value=source.href&&isInternal(source.href)?source.href:'';
     el('nrLinkText').value=source.text||'';
     mode='internal';
     // Editing an existing external link opens the relevant tab immediately.
@@ -16944,11 +16979,12 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     el('nrLinkNewTab').checked=mode==='external'||source.target==='_blank';
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===mode));
     el('nrLinkInternal').hidden=mode!=='internal';el('nrLinkExternal').hidden=mode!=='external';
+    el('nrLinkOptions').hidden=mode==='internal';
     document.querySelectorAll('.popup.open').forEach(p=>p.classList.remove('open'));
     renderResults();sync();overlay.hidden=false;
     document.body.classList.add('nr-link-dialog-open');
     if(window.lucide)window.lucide.createIcons({nodes:[overlay]});
-    (mode==='internal'?el('nrLinkSearch'):el('nrLinkExternalUrl')).focus();
+    (mode==='internal'?el('nrLinkInternalUrl'):el('nrLinkExternalUrl')).focus();
   }
   function close(){
     if(!visible())return;
@@ -16960,13 +16996,13 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   function apply(){
     if(!source)return;
     const text=el('nrLinkText').value.trim();
-    const href=mode==='internal'?selectedDemo?.url:normalize(el('nrLinkExternalUrl').value);
-    if(!text){showError('Enter link text.');el('nrLinkText').focus();return}
-    if(!href){showError(mode==='internal'?'Choose an article first.':'Enter a valid HTTP or HTTPS URL.');return}
-    if(mode==='internal'&&!isInternal(href)){showError('Internal links must point to Liputan6.');return}
+    const href=normalize(mode==='internal'?el('nrLinkInternalUrl').value:el('nrLinkExternalUrl').value);
+    if(!text){showError('Isi teks tautan terlebih dahulu.');el('nrLinkText').focus();return}
+    if(!href){showError('Masukkan URL HTTP/HTTPS yang valid.');return}
+    if(mode==='internal'&&!isInternal(href)){showError('Internal link harus mengarah ke Liputan6.');return}
     const attrs={href,target:el('nrLinkNewTab').checked?'_blank':null,rel:[el('nrLinkNofollow').checked?'nofollow':'',el('nrLinkNewTab').checked?'noopener noreferrer':''].filter(Boolean).join(' ')||null};
     if(source.kind==='tiptap'){
-      const ed=editor();if(!ed){showError('The editor is not ready. Please try again.');return}
+      const ed=editor();if(!ed){showError('Editor belum siap. Coba beberapa saat lagi.');return}
       const from=Math.min(source.from,ed.state.doc.content.size),to=Math.min(source.to,ed.state.doc.content.size);
       try{
         if(source.text&&text===source.text){
@@ -16974,9 +17010,9 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
         }else{
           ed.chain().focus().insertContentAt({from,to},{type:'text',text,marks:[{type:'link',attrs}]}).run();
         }
-      }catch(e){showError('Unable to insert the link. Select the text and try again.');return}
+      }catch(e){showError('Tautan belum dapat diterapkan. Coba pilih ulang teks.');return}
     }else if(source.kind==='mini'){
-      const mini=source.mini;if(!mini?.isConnected){showError('This content block changed. Select the text again.');return}
+      const mini=source.mini;if(!mini?.isConnected){showError('Content block sudah berubah. Pilih ulang teks.');return}
       const range=source.range&&mini.contains(source.range.commonAncestorContainer)?source.range:document.createRange();
       if(!source.range){range.selectNodeContents(mini);range.collapse(false)}
       const a=document.createElement('a');
@@ -16988,7 +17024,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       const selection=window.getSelection();selection.removeAllRanges();selection.addRange(next);
       mini.dispatchEvent(new Event('input',{bubbles:true}));
       mini.focus();
-    }else{showError('Select a text block first.');return}
+    }else{showError('Pilih area Content Text terlebih dahulu.');return}
     close();
   }
   function init(){
@@ -17006,21 +17042,23 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       const button=el('nrLinkAi'),label=el('nrLinkAiLabel');
       if(button.getAttribute('aria-busy')==='true')return;
       button.setAttribute('aria-busy','true');button.disabled=true;
-      label.textContent='Finding…';
-      el('nrLinkResultHeading').textContent='Finding articles…';
-      el('nrLinkResults').innerHTML='<div class="nr-link-empty">Finding relevant links…</div>';
+      label.textContent='Menganalisis…';
+      el('nrLinkSuggestions').hidden=false;
+      el('nrLinkResultHeading').textContent='Mencari artikel relevan…';
+      el('nrLinkResults').innerHTML='<div class="nr-link-empty">AI membaca konteks teks dan mencari kandidat internal link…</div>';
       window.setTimeout(()=>{
-        aiGenerated=true;selectedDemo=null;button.disabled=false;button.setAttribute('aria-busy','false');label.textContent='AI suggestions';
+        aiGenerated=true;selectedDemo=null;button.disabled=false;button.setAttribute('aria-busy','false');label.textContent='Saran AI';
         renderResults();sync();
       },520);
     });
     el('nrLinkResults').addEventListener('click',event=>{
       const choice=event.target.closest('[data-article-id]');if(!choice)return;
       selectedDemo=DEMO.find(item=>item.id===choice.dataset.articleId)||null;
-      if(!source.text&&selectedDemo)el('nrLinkText').value=selectedDemo.title;
+      if(selectedDemo)el('nrLinkInternalUrl').value=selectedDemo.url;
+      if(!source.text&&selectedDemo&&!el('nrLinkText').value.trim())el('nrLinkText').value=selectedDemo.title;
       renderResults();sync();
     });
-    for(const id of ['nrLinkText','nrLinkExternalUrl'])el(id).addEventListener('input',sync);
+    for(const id of ['nrLinkText','nrLinkInternalUrl','nrLinkExternalUrl'])el(id).addEventListener('input',sync);
     overlay.addEventListener('keydown',event=>{
       if(event.key==='Escape'){event.preventDefault();close();return}
       if(event.key!=='Tab')return;
