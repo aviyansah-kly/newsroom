@@ -11001,43 +11001,45 @@ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-car
 #linkPopup{display:none!important}
 @media(max-width:580px){.nr-link-dialog{border-radius:14px 14px 0 0}.nr-link-top{padding:16px}.nr-link-scroll{padding:14px 16px 10px}.nr-link-foot{padding:12px 16px}.nr-link-result-url{display:none}.nr-link-chosen-copy small{max-width:250px}}
 
-/* Insert Link v2 — scoped layout, Newsroom design tokens, predictable information clusters. */
-.nr-link-dialog{width:min(620px,100%);color:var(--nr-text,#0f172a);border-color:var(--nr-border,#e2e8f0);border-radius:var(--nr-radius-xl,12px)}
+/* Insert Link spacing refinement — visual-only; existing Internal/External and AI flows preserved. */
+.nr-link-dialog{color:var(--nr-text,#0f172a);border-color:var(--nr-border,#e2e8f0);border-radius:var(--nr-radius-xl,12px)}
 .nr-link-top{padding:20px 24px 18px;border-color:var(--nr-border,#e2e8f0)}
 .nr-link-scroll{padding:24px;display:flex;flex-direction:column;gap:24px}
-.nr-link-text-first,.nr-link-primary-field{margin:0}
+.nr-link-context,.nr-link-tabs,.nr-link-field,.nr-link-search-row,.nr-link-helper,.nr-link-suggestion-head,.nr-link-options{margin:0}
+.nr-link-context{padding:12px;gap:12px;background:var(--nr-soft,#f8fafc);border-color:var(--nr-border,#e2e8f0);border-radius:var(--nr-radius-md,8px)}
+.nr-link-tabs{border-radius:var(--nr-radius-md,8px)}
+.nr-link-pane:not([hidden]){display:flex;flex-direction:column;gap:16px}
 .nr-link-field{gap:8px}
-.nr-link-field label{color:var(--nr-text-2,#475569);font-size:13px}
-.nr-link-field input{height:var(--nr-control-h,40px);border-color:var(--nr-input,#cbd5e1);border-radius:var(--nr-radius-md,8px)}
-.nr-link-tabs{margin:0;border-radius:var(--nr-radius-md,8px)}
-.nr-link-pane:not([hidden]){display:flex;flex-direction:column;gap:24px}
-.nr-link-cluster{border-top:1px solid var(--nr-border,#e2e8f0);padding-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
-.nr-link-cluster-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.nr-link-cluster-head strong{font-size:13px;font-weight:650;color:var(--nr-text,#0f172a)}
-.nr-link-cluster-head p{margin:4px 0 0;font-size:12px;color:var(--nr-muted,#64748b)}
-.nr-link-search-row{width:100%;margin:0}
-.nr-link-search input{height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px)}
-.nr-link-action{min-height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px);font-weight:600!important;background:var(--nr-surface,#fff);border-color:var(--nr-border,#e2e8f0);color:var(--nr-text-2,#475569)}
-.nr-link-action:hover{background:var(--nr-hover,#f1f5f9)}
-.nr-link-helper{margin:0;color:var(--nr-muted,#64748b)}
-#nrLinkSuggestions{width:100%;padding-top:8px}
-#nrLinkSuggestions[hidden],#nrLinkOptions[hidden]{display:none!important}
-.nr-link-suggestion-head{margin-bottom:12px}
+.nr-link-field label{font-size:13px;color:var(--nr-text-2,#475569)}
+.nr-link-field input,.nr-link-search input{height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px);border-color:var(--nr-input,#cbd5e1)}
+.nr-link-search-row{gap:12px}
+.nr-link-helper{line-height:1.5;color:var(--nr-muted,#64748b)}
+.nr-link-suggestion-head{padding-top:8px;border-top:1px solid var(--nr-border,#e2e8f0);gap:12px}
 .nr-link-results{gap:8px}
-.nr-link-result{border-color:var(--nr-border,#e2e8f0);border-radius:var(--nr-radius-md,8px)}
-.nr-link-result:hover{border-color:var(--nr-blue,#2563eb);background:var(--nr-blue-soft,#eff6ff)}
-.nr-link-result[aria-selected="true"]{border-color:var(--nr-blue,#2563eb);background:var(--nr-blue-soft,#eff6ff);box-shadow:0 0 0 1px var(--nr-blue,#2563eb)}
-.nr-link-result[aria-selected="true"] .nr-link-result-side{color:var(--nr-blue,#2563eb);background:#dbeafe}
-.nr-link-options{margin:0}
+.nr-link-result{padding:12px;border-radius:var(--nr-radius-md,8px);border-color:var(--nr-border,#e2e8f0)}
+.nr-link-chosen{margin:0;padding:12px}
+.nr-link-options{padding-top:24px;border-color:var(--nr-border,#e2e8f0);gap:12px 20px}
+.nr-link-option{padding:0;gap:10px}
 .nr-link-foot{padding:16px 24px;border-color:var(--nr-border,#e2e8f0)}
 .nr-link-foot-actions{gap:8px}
-.nr-link-primary,.nr-link-quiet{height:var(--nr-control-h,40px);min-height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px)}
-.nr-link-primary{background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);color:#fff}
+.nr-link-action,.nr-link-primary,.nr-link-quiet{min-height:var(--nr-control-h,40px);border-radius:var(--nr-radius-md,8px);font-size:13px}
+.nr-link-action{border-color:var(--nr-border,#e2e8f0);color:var(--nr-text-2,#475569);background:var(--nr-surface,#fff);padding:0 13px}
+.nr-link-action:hover{background:var(--nr-hover,#f1f5f9)}
+.nr-link-action.ai{background:var(--nr-surface,#fff);border-color:var(--nr-border,#e2e8f0);color:var(--nr-text-2,#475569)}
+.nr-link-action.ai:hover{background:var(--nr-hover,#f1f5f9)}
+.nr-link-primary{background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);color:#fff;padding:0 16px}
 .nr-link-primary:hover{background:var(--nr-orange-hover,#df4315)}
-.nr-link-quiet{background:var(--nr-surface,#fff);border-color:var(--nr-border,#e2e8f0)}
+.nr-link-quiet{background:var(--nr-surface,#fff);border-color:var(--nr-border,#e2e8f0);color:var(--nr-text-2,#475569);padding:0 13px}
 .nr-link-quiet:hover{background:var(--nr-hover,#f1f5f9)}
-.nr-link-dialog input:focus-visible,.nr-link-dialog button:focus-visible{outline:2px solid var(--nr-blue,#2563eb);outline-offset:2px}
-@media(max-width:580px){.nr-link-top{padding:16px}.nr-link-scroll{padding:20px 16px;gap:20px}.nr-link-pane:not([hidden]){gap:20px}.nr-link-cluster{padding-top:20px}.nr-link-foot{padding:12px 16px}.nr-link-foot-actions{width:100%}.nr-link-foot-actions button{flex:1}}
+.nr-link-dialog button:focus-visible,.nr-link-dialog input:focus-visible{outline:2px solid var(--nr-blue,#2563eb);outline-offset:2px}
+@media(max-width:580px){
+ .nr-link-top{padding:16px}
+ .nr-link-scroll{padding:20px 16px;gap:20px}
+ .nr-link-pane:not([hidden]){gap:16px}
+ .nr-link-options{padding-top:20px}
+ .nr-link-foot{padding:12px 16px}
+ .nr-link-search-row{gap:8px}
+}
 
 </style>
 </head><body class="alt-editor-layout">
@@ -16873,44 +16875,36 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   <section class="nr-link-dialog" role="dialog" aria-modal="true" aria-labelledby="nrLinkTitle" aria-describedby="nrLinkDescription">
     <div class="nr-link-top"><div class="nr-link-title-wrap"><span class="nr-link-title-icon"><i data-lucide="link-2"></i></span><div><h2 id="nrLinkTitle">Insert Link</h2><p id="nrLinkDescription">Tambahkan internal atau external link pada teks artikel.</p></div></div><button type="button" class="nr-link-close" id="nrLinkClose" aria-label="Tutup dialog"><i data-lucide="x"></i></button></div>
     <div class="nr-link-scroll">
-      <div class="nr-link-field nr-link-text-first"><label for="nrLinkText">Text to display</label><input type="text" id="nrLinkText" maxlength="250" placeholder="Teks yang tampil di artikel"><small>Gunakan teks yang jelas dan relevan dengan tujuan link.</small></div>
+      <div class="nr-link-context"><span class="nr-link-context-icon"><i data-lucide="text-select"></i></span><div class="nr-link-context-copy"><div class="nr-link-eyebrow">Teks yang dipilih</div><p id="nrLinkSelection">Belum ada teks dipilih — isi teks tautan di bawah.</p></div></div>
       <div class="nr-link-tabs" role="tablist" aria-label="Jenis tautan">
         <button type="button" role="tab" aria-selected="true" aria-controls="nrLinkInternal" id="nrLinkTabInternal" data-nr-link-mode="internal"><i data-lucide="newspaper"></i> Internal Link</button>
         <button type="button" role="tab" aria-selected="false" aria-controls="nrLinkExternal" id="nrLinkTabExternal" data-nr-link-mode="external"><i data-lucide="external-link"></i> External Link</button>
       </div>
       <div id="nrLinkInternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabInternal">
-        <div class="nr-link-field nr-link-primary-field"><label for="nrLinkInternalUrl">URL artikel Liputan6</label>
-          <input type="url" id="nrLinkInternalUrl" placeholder="https://www.liputan6.com/..." autocomplete="url">
-          <small>Paste URL langsung atau pilih artikel dari hasil pencarian.</small>
+        <div class="nr-link-field"><label for="nrLinkSearch"><span>Cari artikel Liputan6</span><span class="nr-link-label-hint">Internal link</span></label>
+          <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" autocomplete="off" placeholder="Cari judul, topik, atau keyword…"></div><button type="button" class="nr-link-action ai" id="nrLinkAi" aria-busy="false"><i data-lucide="sparkles"></i><span id="nrLinkAiLabel">Saran AI</span></button></div>
+          <div class="nr-link-ai-flow" aria-hidden="true"><span><i data-lucide="text-select"></i> baca konteks</span><i data-lucide="chevron-right"></i><span><i data-lucide="sparkles"></i> rekomendasi</span><i data-lucide="chevron-right"></i><span><i data-lucide="mouse-pointer-click"></i> pilih artikel</span></div>
+          <p class="nr-link-helper" id="nrLinkSearchHelp">Cari manual atau gunakan Saran AI untuk rekomendasi berdasarkan teks yang dipilih. Data masih dummy untuk preview flow.</p>
         </div>
-        <div class="nr-link-cluster nr-link-discovery">
-          <div class="nr-link-cluster-head"><div><strong>Internal Link Suggestions</strong><p>Temukan artikel terkait untuk melengkapi konten.</p></div><span class="nr-link-demo-badge">Demo</span></div>
-          <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" autocomplete="off" aria-label="Cari artikel Liputan6" placeholder="Cari judul, topik, atau keyword…"></div></div>
-          <button type="button" class="nr-btn nr-link-action" id="nrLinkAi" aria-busy="false"><i data-lucide="sparkles"></i><span id="nrLinkAiLabel">Generate Suggestions</span></button>
-          <p class="nr-link-helper" id="nrLinkSearchHelp">Pencarian dan saran AI masih menggunakan data dummy untuk preview.</p>
-          <div id="nrLinkSuggestions" hidden>
-            <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Hasil pencarian</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">Demo</span></div>
-            <div id="nrLinkResults" class="nr-link-results" aria-label="Pilihan artikel internal"></div>
-          </div>
-        </div>
+        <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Contoh artikel</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">DEMO DATA</span></div>
+        <div id="nrLinkResults" class="nr-link-results" role="listbox" aria-label="Pilihan artikel internal"></div>
+        <div class="nr-link-chosen" id="nrLinkChosen" hidden><i data-lucide="circle-check"></i><span class="nr-link-chosen-copy"><strong id="nrLinkChosenText"></strong><small id="nrLinkChosenUrl"></small></span></div>
       </div>
       <div id="nrLinkExternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabExternal" hidden>
         <div class="nr-link-field"><label for="nrLinkExternalUrl">URL tujuan</label><input type="url" id="nrLinkExternalUrl" placeholder="https://contoh.com/artikel" autocomplete="url"><small>Gunakan URL lengkap. Hanya HTTP atau HTTPS yang didukung.</small></div>
       </div>
-      <div class="nr-link-options" id="nrLinkOptions">
+      <div class="nr-link-field"><label for="nrLinkText">Teks tautan <span aria-hidden="true">*</span></label><input type="text" id="nrLinkText" maxlength="250" placeholder="Teks yang tampil di artikel"><small>Anda dapat mengubah teks tanpa mengubah URL tujuan.</small></div>
+      <div class="nr-link-options">
         <label class="nr-link-option"><input type="checkbox" id="nrLinkNofollow"><span>Nofollow<small>Gunakan untuk link berbayar, tidak tepercaya, atau yang tidak ingin di-endorse.</small></span></label>
         <label class="nr-link-option"><input type="checkbox" id="nrLinkNewTab"><span>Buka di tab baru<small>Cocok untuk sumber eksternal agar artikel tetap terbuka.</small></span></label>
       </div>
       <div class="nr-link-error" role="alert" id="nrLinkError" hidden></div>
     </div>
-    <div class="nr-link-foot"><span class="nr-link-foot-note" id="nrLinkFootNote">Pilih artikel internal untuk mengisi URL otomatis.</span><div class="nr-link-foot-actions"><button type="button" id="nrLinkCancel" class="nr-btn nr-link-quiet">Cancel</button><button type="button" id="nrLinkApply" class="nr-btn nr-btn-primary nr-link-primary" disabled>Insert Link</button></div></div>
+    <div class="nr-link-foot"><span class="nr-link-foot-note" id="nrLinkFootNote">Pilih artikel internal untuk mengisi URL otomatis.</span><div class="nr-link-foot-actions"><button type="button" id="nrLinkCancel" class="nr-link-quiet">Batal</button><button type="button" id="nrLinkApply" class="nr-link-primary" disabled>Terapkan Link</button></div></div>
   </section>`;}
   function renderResults(){
     if(!dialog)return;
     const query=el('nrLinkSearch').value.trim().toLocaleLowerCase('id-ID');
-    const shouldShow=Boolean(query||aiGenerated);
-    el('nrLinkSuggestions').hidden=!shouldShow;
-    if(!shouldShow)return;
     let results=DEMO;
     if(aiGenerated){
       const selected=(source?.text||el('nrLinkSearch').value||'').toLocaleLowerCase('id-ID').split(/\W+/).filter(w=>w.length>=3);
@@ -16921,12 +16915,12 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       results=scored.slice(0,3).map(x=>x.item);
       el('nrLinkResultHeading').textContent='Rekomendasi AI untuk teks ini';
       el('nrLinkSearchHelp').textContent='Simulasi saran AI berdasarkan teks yang dipilih. Konten dan URL hanya contoh, belum terhubung ke artikel asli.';
-      el('nrLinkDemoBadge').textContent='Demo';
+      el('nrLinkDemoBadge').textContent='AI DEMO';
     }else{
       if(query)results=DEMO.filter(item=>(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('id-ID').includes(query));
       el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Contoh artikel';
       el('nrLinkSearchHelp').textContent='Pencarian menggunakan data dummy untuk preview. Klik Saran AI untuk simulasi rekomendasi.';
-      el('nrLinkDemoBadge').textContent='Demo';
+      el('nrLinkDemoBadge').textContent='DEMO DATA';
     }
     const list=el('nrLinkResults');
     const contextWord=(source?.text||el('nrLinkSearch').value||'topik artikel').trim().split(/\s+/).slice(0,4).join(' ');
@@ -16945,16 +16939,20 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const box=el('nrLinkError');box.textContent=message||'';box.hidden=!message;
   }
   function sync(){
-    const target=normalize(mode==='internal'?el('nrLinkInternalUrl').value:el('nrLinkExternalUrl').value);
-    el('nrLinkApply').disabled=!(target&&el('nrLinkText').value.trim()&&(mode!=='internal'||isInternal(target)));
-    el('nrLinkFootNote').textContent=mode==='internal'?'Masukkan URL Liputan6 atau pilih rekomendasi.':'URL eksternal diperiksa sebelum diterapkan.';
+    const target=mode==='internal'?selectedDemo?.url:normalize(el('nrLinkExternalUrl').value);
+    el('nrLinkApply').disabled=!(target&&el('nrLinkText').value.trim());
+    el('nrLinkChosen').hidden=!selectedDemo||mode!=='internal';
+    if(selectedDemo&&mode==='internal'){
+      el('nrLinkChosenText').textContent='Artikel dipilih: '+selectedDemo.title;
+      el('nrLinkChosenUrl').textContent=selectedDemo.url;
+    }
+    el('nrLinkFootNote').textContent=mode==='internal'?'Pilih satu artikel internal, lalu Terapkan Link.':'URL eksternal diperiksa sebelum diterapkan.';
     showError('');
   }
   function setMode(next){
     mode=next;
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===next));
     el('nrLinkInternal').hidden=next!=='internal';el('nrLinkExternal').hidden=next!=='external';
-    el('nrLinkOptions').hidden=next==='internal';
     if(next==='internal'){el('nrLinkNewTab').checked=false;el('nrLinkNofollow').checked=false}
     else{el('nrLinkNewTab').checked=true;el('nrLinkNofollow').checked=false}
     sync();
@@ -16966,8 +16964,8 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     selectedDemo=null;aiGenerated=false;
     el('nrLinkSearch').value='';
     el('nrLinkExternalUrl').value=source.href||'';
-    el('nrLinkInternalUrl').value=source.href&&isInternal(source.href)?source.href:'';
     el('nrLinkText').value=source.text||'';
+    el('nrLinkSelection').textContent=source.text?'“'+source.text+'”':'Belum ada teks dipilih — isi teks tautan di bawah.';
     mode='internal';
     // Editing an existing external link opens the relevant tab immediately.
     if(source.href&&!isInternal(source.href))mode='external';
@@ -16979,12 +16977,11 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     el('nrLinkNewTab').checked=mode==='external'||source.target==='_blank';
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===mode));
     el('nrLinkInternal').hidden=mode!=='internal';el('nrLinkExternal').hidden=mode!=='external';
-    el('nrLinkOptions').hidden=mode==='internal';
     document.querySelectorAll('.popup.open').forEach(p=>p.classList.remove('open'));
     renderResults();sync();overlay.hidden=false;
     document.body.classList.add('nr-link-dialog-open');
     if(window.lucide)window.lucide.createIcons({nodes:[overlay]});
-    (mode==='internal'?el('nrLinkInternalUrl'):el('nrLinkExternalUrl')).focus();
+    (mode==='internal'?el('nrLinkSearch'):el('nrLinkExternalUrl')).focus();
   }
   function close(){
     if(!visible())return;
@@ -16996,9 +16993,9 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   function apply(){
     if(!source)return;
     const text=el('nrLinkText').value.trim();
-    const href=normalize(mode==='internal'?el('nrLinkInternalUrl').value:el('nrLinkExternalUrl').value);
+    const href=mode==='internal'?selectedDemo?.url:normalize(el('nrLinkExternalUrl').value);
     if(!text){showError('Isi teks tautan terlebih dahulu.');el('nrLinkText').focus();return}
-    if(!href){showError('Masukkan URL HTTP/HTTPS yang valid.');return}
+    if(!href){showError(mode==='internal'?'Pilih artikel internal terlebih dahulu.':'Masukkan URL HTTP/HTTPS yang valid.');return}
     if(mode==='internal'&&!isInternal(href)){showError('Internal link harus mengarah ke Liputan6.');return}
     const attrs={href,target:el('nrLinkNewTab').checked?'_blank':null,rel:[el('nrLinkNofollow').checked?'nofollow':'',el('nrLinkNewTab').checked?'noopener noreferrer':''].filter(Boolean).join(' ')||null};
     if(source.kind==='tiptap'){
@@ -17043,7 +17040,6 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       if(button.getAttribute('aria-busy')==='true')return;
       button.setAttribute('aria-busy','true');button.disabled=true;
       label.textContent='Menganalisis…';
-      el('nrLinkSuggestions').hidden=false;
       el('nrLinkResultHeading').textContent='Mencari artikel relevan…';
       el('nrLinkResults').innerHTML='<div class="nr-link-empty">AI membaca konteks teks dan mencari kandidat internal link…</div>';
       window.setTimeout(()=>{
@@ -17054,11 +17050,10 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     el('nrLinkResults').addEventListener('click',event=>{
       const choice=event.target.closest('[data-article-id]');if(!choice)return;
       selectedDemo=DEMO.find(item=>item.id===choice.dataset.articleId)||null;
-      if(selectedDemo)el('nrLinkInternalUrl').value=selectedDemo.url;
-      if(!source.text&&selectedDemo&&!el('nrLinkText').value.trim())el('nrLinkText').value=selectedDemo.title;
+      if(!source.text&&selectedDemo)el('nrLinkText').value=selectedDemo.title;
       renderResults();sync();
     });
-    for(const id of ['nrLinkText','nrLinkInternalUrl','nrLinkExternalUrl'])el(id).addEventListener('input',sync);
+    for(const id of ['nrLinkText','nrLinkExternalUrl'])el(id).addEventListener('input',sync);
     overlay.addEventListener('keydown',event=>{
       if(event.key==='Escape'){event.preventDefault();close();return}
       if(event.key!=='Tab')return;
