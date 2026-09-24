@@ -44,29 +44,30 @@
   }
   function markup(){return `
   <section class="nr-link-dialog" role="dialog" aria-modal="true" aria-labelledby="nrLinkTitle" aria-describedby="nrLinkDescription">
-    <div class="nr-link-top"><div><h2 id="nrLinkTitle">Tambah Tautan</h2><p id="nrLinkDescription">Hubungkan teks artikel ke sumber yang relevan.</p></div><button type="button" class="nr-link-close" id="nrLinkClose" aria-label="Tutup dialog"><i data-lucide="x"></i></button></div>
+    <div class="nr-link-top"><div class="nr-link-title-wrap"><span class="nr-link-title-icon"><i data-lucide="link-2"></i></span><div><h2 id="nrLinkTitle">Insert Link</h2><p id="nrLinkDescription">Tambahkan internal atau external link pada teks artikel.</p></div></div><button type="button" class="nr-link-close" id="nrLinkClose" aria-label="Tutup dialog"><i data-lucide="x"></i></button></div>
     <div class="nr-link-scroll">
-      <div class="nr-link-context"><div class="nr-link-eyebrow">Teks yang dipilih</div><p id="nrLinkSelection">Belum ada teks dipilih — isi teks tautan di bawah.</p></div>
+      <div class="nr-link-context"><span class="nr-link-context-icon"><i data-lucide="text-select"></i></span><div class="nr-link-context-copy"><div class="nr-link-eyebrow">Teks yang dipilih</div><p id="nrLinkSelection">Belum ada teks dipilih — isi teks tautan di bawah.</p></div></div>
       <div class="nr-link-tabs" role="tablist" aria-label="Jenis tautan">
         <button type="button" role="tab" aria-selected="true" aria-controls="nrLinkInternal" id="nrLinkTabInternal" data-nr-link-mode="internal"><i data-lucide="newspaper"></i> Internal Link</button>
         <button type="button" role="tab" aria-selected="false" aria-controls="nrLinkExternal" id="nrLinkTabExternal" data-nr-link-mode="external"><i data-lucide="external-link"></i> External Link</button>
       </div>
       <div id="nrLinkInternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabInternal">
-        <div class="nr-link-field"><label for="nrLinkSearch">Cari artikel Liputan6</label>
-          <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" autocomplete="off" placeholder="Cari berdasarkan judul atau topik…"></div><button type="button" class="nr-link-action ai" id="nrLinkAi"><i data-lucide="sparkles"></i> Saran AI</button></div>
-          <p class="nr-link-helper" id="nrLinkSearchHelp">Cari artikel atau klik Saran AI untuk rekomendasi sesuai teks terpilih. Data masih dummy.</p>
+        <div class="nr-link-field"><label for="nrLinkSearch"><span>Cari artikel Liputan6</span><span class="nr-link-label-hint">Internal link</span></label>
+          <div class="nr-link-search-row"><div class="nr-link-search"><span class="nr-link-search-icon"><i data-lucide="search"></i></span><input type="search" id="nrLinkSearch" autocomplete="off" placeholder="Cari judul, topik, atau keyword…"></div><button type="button" class="nr-link-action ai" id="nrLinkAi" aria-busy="false"><i data-lucide="sparkles"></i><span id="nrLinkAiLabel">Saran AI</span></button></div>
+          <div class="nr-link-ai-flow" aria-hidden="true"><span><i data-lucide="text-select"></i> baca konteks</span><i data-lucide="chevron-right"></i><span><i data-lucide="sparkles"></i> rekomendasi</span><i data-lucide="chevron-right"></i><span><i data-lucide="mouse-pointer-click"></i> pilih artikel</span></div>
+          <p class="nr-link-helper" id="nrLinkSearchHelp">Cari manual atau gunakan Saran AI untuk rekomendasi berdasarkan teks yang dipilih. Data masih dummy untuk preview flow.</p>
         </div>
         <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Contoh artikel</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">DEMO DATA</span></div>
         <div id="nrLinkResults" class="nr-link-results" role="listbox" aria-label="Pilihan artikel internal"></div>
-        <div class="nr-link-chosen" id="nrLinkChosen" hidden><i data-lucide="circle-check"></i><span id="nrLinkChosenText"></span></div>
+        <div class="nr-link-chosen" id="nrLinkChosen" hidden><i data-lucide="circle-check"></i><span class="nr-link-chosen-copy"><strong id="nrLinkChosenText"></strong><small id="nrLinkChosenUrl"></small></span></div>
       </div>
       <div id="nrLinkExternal" class="nr-link-pane" role="tabpanel" aria-labelledby="nrLinkTabExternal" hidden>
         <div class="nr-link-field"><label for="nrLinkExternalUrl">URL tujuan</label><input type="url" id="nrLinkExternalUrl" placeholder="https://contoh.com/artikel" autocomplete="url"><small>Gunakan URL lengkap. Hanya HTTP atau HTTPS yang didukung.</small></div>
       </div>
       <div class="nr-link-field"><label for="nrLinkText">Teks tautan <span aria-hidden="true">*</span></label><input type="text" id="nrLinkText" maxlength="250" placeholder="Teks yang tampil di artikel"><small>Anda dapat mengubah teks tanpa mengubah URL tujuan.</small></div>
       <div class="nr-link-options">
-        <label class="nr-link-option"><input type="checkbox" id="nrLinkNofollow"><span>Nofollow<small>Untuk tautan yang tidak ingin diikuti mesin pencari.</small></span></label>
-        <label class="nr-link-option"><input type="checkbox" id="nrLinkNewTab"><span>Buka di tab baru<small>Disarankan untuk sumber eksternal.</small></span></label>
+        <label class="nr-link-option"><input type="checkbox" id="nrLinkNofollow"><span>Nofollow<small>Gunakan untuk link berbayar, tidak tepercaya, atau yang tidak ingin di-endorse.</small></span></label>
+        <label class="nr-link-option"><input type="checkbox" id="nrLinkNewTab"><span>Buka di tab baru<small>Cocok untuk sumber eksternal agar artikel tetap terbuka.</small></span></label>
       </div>
       <div class="nr-link-error" role="alert" id="nrLinkError" hidden></div>
     </div>
@@ -93,9 +94,15 @@
       el('nrLinkDemoBadge').textContent='DEMO DATA';
     }
     const list=el('nrLinkResults');
+    const contextWord=(source?.text||el('nrLinkSearch').value||'topik artikel').trim().split(/\s+/).slice(0,4).join(' ');
     list.innerHTML=results.length?results.map(item=>`<button type="button" class="nr-link-result" role="option" data-article-id="${esc(item.id)}" aria-selected="${item.id===selectedDemo?.id}">
-      <span class="nr-link-result-text"><strong>${esc(item.title)}</strong><small>${esc(item.category)} · ${esc(item.description)}</small></span>
-      ${item.id===selectedDemo?.id?'<i data-lucide="check-circle-2"></i>':'<i data-lucide="arrow-up-right"></i>'}
+      <span class="nr-link-result-text">
+        <span class="nr-link-result-meta"><span class="nr-link-result-category">${esc(item.category)}</span>${aiGenerated?'<small class="nr-link-result-reason">Relevan dengan “'+esc(contextWord)+'”</small>':''}</span>
+        <strong>${esc(item.title)}</strong>
+        <small>${esc(item.description)}</small>
+        <small class="nr-link-result-url">${esc(item.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/read\//,' / '))}</small>
+      </span>
+      <span class="nr-link-result-side">${item.id===selectedDemo?.id?'<i data-lucide="check"></i>':'<i data-lucide="chevron-right"></i>'}</span>
     </button>`).join(''):'<div class="nr-link-empty">Belum ada artikel yang cocok dalam data contoh. Coba kata kunci lain atau gunakan Saran AI.</div>';
     if(window.lucide)window.lucide.createIcons({nodes:[list]});
   }
@@ -106,8 +113,11 @@
     const target=mode==='internal'?selectedDemo?.url:normalize(el('nrLinkExternalUrl').value);
     el('nrLinkApply').disabled=!(target&&el('nrLinkText').value.trim());
     el('nrLinkChosen').hidden=!selectedDemo||mode!=='internal';
-    if(selectedDemo&&mode==='internal')el('nrLinkChosenText').textContent=selectedDemo.title;
-    el('nrLinkFootNote').textContent=mode==='internal'?'Saran AI menggunakan data dummy untuk menjelaskan alur.':'URL eksternal diperiksa sebelum diterapkan.';
+    if(selectedDemo&&mode==='internal'){
+      el('nrLinkChosenText').textContent='Artikel dipilih: '+selectedDemo.title;
+      el('nrLinkChosenUrl').textContent=selectedDemo.url;
+    }
+    el('nrLinkFootNote').textContent=mode==='internal'?'Pilih satu artikel internal, lalu Terapkan Link.':'URL eksternal diperiksa sebelum diterapkan.';
     showError('');
   }
   function setMode(next){
@@ -115,7 +125,7 @@
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===next));
     el('nrLinkInternal').hidden=next!=='internal';el('nrLinkExternal').hidden=next!=='external';
     if(next==='internal'){el('nrLinkNewTab').checked=false;el('nrLinkNofollow').checked=false}
-    else{el('nrLinkNewTab').checked=true;el('nrLinkNofollow').checked=true}
+    else{el('nrLinkNewTab').checked=true;el('nrLinkNofollow').checked=false}
     sync();
   }
   function open(trigger){
@@ -134,7 +144,7 @@
       selectedDemo=DEMO.find(item=>item.url===source.href)||null;
       if(!selectedDemo){mode='external';el('nrLinkExternalUrl').value=source.href}
     }
-    el('nrLinkNofollow').checked=mode==='external'||/\bnofollow\b/.test(source.rel||'');
+    el('nrLinkNofollow').checked=/\bnofollow\b/.test(source.rel||'');
     el('nrLinkNewTab').checked=mode==='external'||source.target==='_blank';
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===mode));
     el('nrLinkInternal').hidden=mode!=='internal';el('nrLinkExternal').hidden=mode!=='external';
@@ -158,7 +168,7 @@
     if(!text){showError('Isi teks tautan terlebih dahulu.');el('nrLinkText').focus();return}
     if(!href){showError(mode==='internal'?'Pilih artikel internal terlebih dahulu.':'Masukkan URL HTTP/HTTPS yang valid.');return}
     if(mode==='internal'&&!isInternal(href)){showError('Internal link harus mengarah ke Liputan6.');return}
-    const attrs={href,target:el('nrLinkNewTab').checked?'_blank':'_self',rel:[el('nrLinkNofollow').checked?'nofollow':'',el('nrLinkNewTab').checked?'noopener noreferrer':''].filter(Boolean).join(' ')||null};
+    const attrs={href,target:el('nrLinkNewTab').checked?'_blank':null,rel:[el('nrLinkNofollow').checked?'nofollow':'',el('nrLinkNewTab').checked?'noopener noreferrer':''].filter(Boolean).join(' ')||null};
     if(source.kind==='tiptap'){
       const ed=editor();if(!ed){showError('Editor belum siap. Coba beberapa saat lagi.');return}
       const from=Math.min(source.from,ed.state.doc.content.size),to=Math.min(source.to,ed.state.doc.content.size);
@@ -174,7 +184,8 @@
       const range=source.range&&mini.contains(source.range.commonAncestorContainer)?source.range:document.createRange();
       if(!source.range){range.selectNodeContents(mini);range.collapse(false)}
       const a=document.createElement('a');
-      a.textContent=text;a.href=href;a.target=attrs.target;
+      a.textContent=text;a.href=href;
+      if(attrs.target)a.target=attrs.target;
       if(attrs.rel)a.rel=attrs.rel;
       range.deleteContents();range.insertNode(a);
       const next=document.createRange();next.setStartAfter(a);next.collapse(true);
@@ -195,7 +206,18 @@
     el('nrLinkApply').addEventListener('click',apply);
     overlay.querySelectorAll('[data-nr-link-mode]').forEach(btn=>btn.addEventListener('click',()=>setMode(btn.dataset.nrLinkMode)));
     el('nrLinkSearch').addEventListener('input',()=>{aiGenerated=false;selectedDemo=null;renderResults();sync()});
-    el('nrLinkAi').addEventListener('click',()=>{aiGenerated=true;selectedDemo=null;renderResults();sync()});
+    el('nrLinkAi').addEventListener('click',()=>{
+      const button=el('nrLinkAi'),label=el('nrLinkAiLabel');
+      if(button.getAttribute('aria-busy')==='true')return;
+      button.setAttribute('aria-busy','true');button.disabled=true;
+      label.textContent='Menganalisis…';
+      el('nrLinkResultHeading').textContent='Mencari artikel relevan…';
+      el('nrLinkResults').innerHTML='<div class="nr-link-empty">AI membaca konteks teks dan mencari kandidat internal link…</div>';
+      window.setTimeout(()=>{
+        aiGenerated=true;selectedDemo=null;button.disabled=false;button.setAttribute('aria-busy','false');label.textContent='Saran AI';
+        renderResults();sync();
+      },520);
+    });
     el('nrLinkResults').addEventListener('click',event=>{
       const choice=event.target.closest('[data-article-id]');if(!choice)return;
       selectedDemo=DEMO.find(item=>item.id===choice.dataset.articleId)||null;
