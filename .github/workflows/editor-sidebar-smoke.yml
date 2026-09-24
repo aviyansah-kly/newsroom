@@ -7,6 +7,7 @@ on:
       - scripts/newsroom-right-panel.js
       - styles/newsroom-right-panel.css
       - tests/editor-sidebar-smoke.cjs
+      - tests/editor-link-dialog-smoke.cjs
       - .github/workflows/editor-sidebar-smoke.yml
   workflow_dispatch:
 jobs:
@@ -24,3 +25,4 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-http.log 2>&1 &
           sleep 2
           node tests/editor-sidebar-smoke.cjs
+          node tests/editor-link-dialog-smoke.cjs
