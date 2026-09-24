@@ -160,3 +160,114 @@ body.alt-editor-layout.cms-sidebar-collapsed .workspace{padding-left:88px!import
   body.alt-editor-layout.cms-sidebar-collapsed .workspace{padding-left:24px!important}
 }
 /* NEWSROOM_COLLAPSIBLE_RIGHT_PANEL_END */
+
+/* NEWSROOM_RIGHT_PANEL_RELIABILITY_FIX_20260924_START
+   This block wins over legacy inline editor layout and avoids stale fixed 980px paper sizing.
+   Both rail widths feed the SAME workspace calculation. */
+body.alt-editor-layout{
+  --nr-left-current:236px;
+  --nr-right-current:390px;
+}
+body.alt-editor-layout.cms-sidebar-collapsed{--nr-left-current:64px}
+body.alt-editor-layout.nr-right-collapsed{--nr-right-current:56px}
+body.alt-editor-layout .workspace,
+body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+body.alt-editor-layout.nr-right-collapsed .workspace,
+body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .workspace{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  padding-left:calc(var(--nr-left-current) + 24px)!important;
+  padding-right:calc(var(--nr-right-current) + 24px)!important;
+  column-gap:0!important;
+  transition:padding-left .18s ease,padding-right .18s ease!important;
+}
+body.alt-editor-layout .workspace > section,
+body.alt-editor-layout .workspace > section > .paper,
+body.alt-editor-layout .workspace .alt-editor-main,
+body.alt-editor-layout .workspace .alt-meta-section,
+body.alt-editor-layout .workspace .alt-editor-section{
+  min-width:0!important;
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  box-sizing:border-box!important;
+}
+body.alt-editor-layout .context,
+body.alt-editor-layout.settings-drawer-open .context,
+body.alt-editor-layout.nr-right-collapsed .context{
+  transform:none!important;
+  pointer-events:auto!important;
+}
+body.alt-editor-layout .context .nr-right-panel-control{
+  pointer-events:auto!important;
+}
+body.alt-editor-layout .context .nr-right-toggle{
+  position:relative!important;
+  z-index:2!important;
+  pointer-events:auto!important;
+  touch-action:manipulation;
+}
+body.alt-editor-layout .nr-right-panel-rail-label{display:none}
+body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control{
+  height:100%!important;
+  min-height:calc(100vh - var(--newsroom-editor-header-height,68px))!important;
+  display:flex!important;
+  align-items:stretch!important;
+  padding:0!important;
+}
+body.alt-editor-layout.nr-right-collapsed .nr-right-toggle{
+  width:100%!important;
+  height:100%!important;
+  min-height:calc(100vh - var(--newsroom-editor-header-height,68px))!important;
+  flex:1 1 auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+  gap:20px!important;
+  padding:15px 4px!important;
+  border-radius:0!important;
+  background:transparent!important;
+}
+body.alt-editor-layout.nr-right-collapsed .nr-right-panel-rail-label{
+  display:block!important;
+  writing-mode:vertical-rl;
+  font:600 13px/18px Inter,system-ui,sans-serif;
+  letter-spacing:.02em;
+  color:#64748b;
+  white-space:nowrap;
+  pointer-events:none;
+}
+body.alt-editor-layout.nr-right-collapsed .nr-right-toggle:hover .nr-right-panel-rail-label{color:#1d4ed8}
+body.alt-editor-layout .nr-right-toggle svg{width:19px!important;height:19px!important;flex:none}
+body.alt-editor-layout #focusBtn,
+body.alt-editor-layout #settingsDrawerBtn,
+body.alt-editor-layout #legacyEditorViewControls{display:none!important}
+@media(max-width:1024px){
+ body.alt-editor-layout{--nr-left-current:0px}
+ body.alt-editor-layout .workspace,
+ body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+ body.alt-editor-layout.nr-right-collapsed .workspace,
+ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .workspace{
+   padding-left:24px!important;
+   padding-right:calc(56px + 12px)!important;
+ }
+}
+@media(max-width:560px){
+ body.alt-editor-layout .workspace,
+ body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+ body.alt-editor-layout.nr-right-collapsed .workspace,
+ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .workspace{
+   padding-left:12px!important;
+   padding-right:62px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ body.alt-editor-layout .workspace{transition:none!important}
+}
+/* NEWSROOM_RIGHT_PANEL_RELIABILITY_FIX_20260924_END */
