@@ -285,3 +285,29 @@ body.alt-editor-layout .workspace>section>.paper{
   width:100%!important;max-width:none!important;min-width:0!important;
 }
 body.alt-editor-layout .nr-right-toggle .lucide{width:19px!important;height:19px!important}
+
+/* NEWSROOM_WRITING_SURFACE_EXPAND_WITH_RAILS_START
+   The outer paper was already fluid, but the real authoring surface still had
+   a legacy max-width:920px. Grow the actual writing card only when at least one
+   side panel is minimized, so the visible editor responds to the rail state. */
+body.alt-editor-layout .alt-writing-card{
+  box-sizing:border-box!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .alt-writing-card,
+body.alt-editor-layout.nr-right-collapsed .alt-writing-card,
+body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-card{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .alt-writing-card .alt-editor-section,
+body.alt-editor-layout.nr-right-collapsed .alt-writing-card .alt-editor-section,
+body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-card .alt-editor-section,
+body.alt-editor-layout.cms-sidebar-collapsed .alt-writing-card .alt-block-list,
+body.alt-editor-layout.nr-right-collapsed .alt-writing-card .alt-block-list,
+body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-card .alt-block-list{
+  width:100%!important;
+  max-width:none!important;
+}
+/* NEWSROOM_WRITING_SURFACE_EXPAND_WITH_RAILS_END */
