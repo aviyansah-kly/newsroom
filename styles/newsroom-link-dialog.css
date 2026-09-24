@@ -145,3 +145,35 @@
  .nr-link-foot{padding:12px 16px}
  .nr-link-search-row{gap:8px}
 }
+
+/* Compact Insert Link: retain previous tabs/search/AI interaction while removing redundant information. */
+.nr-link-dialog{width:min(580px,100%);max-height:min(88dvh,720px)}
+.nr-link-top{padding:16px 20px}
+.nr-link-top p,.nr-link-context,.nr-link-ai-flow,.nr-link-helper,.nr-link-chosen,.nr-link-foot-note,
+.nr-link-result-text>small,.nr-link-result-reason{display:none!important}
+.nr-link-scroll{padding:18px 20px;gap:16px}
+.nr-link-tabs,.nr-link-field,.nr-link-search-row,.nr-link-suggestion-head,.nr-link-options{margin:0}
+.nr-link-text-first{margin:0}
+.nr-link-pane:not([hidden]){gap:12px}
+.nr-link-field{gap:7px}
+.nr-link-field input,.nr-link-search input{height:var(--nr-control-h,40px)}
+.nr-link-search-row{gap:8px}
+.nr-link-suggestion-head{padding-top:4px}
+.nr-link-results{max-height:172px;overflow:auto;gap:6px}
+.nr-link-result{min-height:54px;padding:9px 11px}
+.nr-link-result-text{gap:4px}
+.nr-link-result-meta{margin:0}
+.nr-link-options{padding-top:14px;gap:8px 20px}
+.nr-link-option{min-height:25px;align-items:center}
+.nr-link-option small{display:none}
+.nr-link-option input{margin:0}
+.nr-link-foot{padding:12px 20px;justify-content:flex-end}
+.nr-link-foot-actions{width:auto}
+@media(max-width:580px){
+.nr-link-dialog{max-height:94dvh}
+.nr-link-scroll{padding:16px;gap:14px}
+.nr-link-pane:not([hidden]){gap:10px}
+.nr-link-results{max-height:150px}
+.nr-link-foot{padding:12px 16px}
+.nr-link-foot-actions{width:100%}
+}
