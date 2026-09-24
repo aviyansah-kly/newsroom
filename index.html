@@ -16883,9 +16883,15 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       el('nrLinkDemoBadge').textContent='DEMO DATA';
     }
     const list=el('nrLinkResults');
+    const contextWord=(source?.text||el('nrLinkSearch').value||'topik artikel').trim().split(/\s+/).slice(0,4).join(' ');
     list.innerHTML=results.length?results.map(item=>`<button type="button" class="nr-link-result" role="option" data-article-id="${esc(item.id)}" aria-selected="${item.id===selectedDemo?.id}">
-      <span class="nr-link-result-text"><strong>${esc(item.title)}</strong><small>${esc(item.category)} · ${esc(item.description)}</small></span>
-      ${item.id===selectedDemo?.id?'<i data-lucide="check-circle-2"></i>':'<i data-lucide="arrow-up-right"></i>'}
+      <span class="nr-link-result-text">
+        <span class="nr-link-result-meta"><span class="nr-link-result-category">${esc(item.category)}</span>${aiGenerated?'<small class="nr-link-result-reason">Relevan dengan “'+esc(contextWord)+'”</small>':''}</span>
+        <strong>${esc(item.title)}</strong>
+        <small>${esc(item.description)}</small>
+        <small class="nr-link-result-url">${esc(item.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/read\//,' / '))}</small>
+      </span>
+      <span class="nr-link-result-side">${item.id===selectedDemo?.id?'<i data-lucide="check"></i>':'<i data-lucide="chevron-right"></i>'}</span>
     </button>`).join(''):'<div class="nr-link-empty">Belum ada artikel yang cocok dalam data contoh. Coba kata kunci lain atau gunakan Saran AI.</div>';
     if(window.lucide)window.lucide.createIcons({nodes:[list]});
   }
@@ -16896,8 +16902,11 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const target=mode==='internal'?selectedDemo?.url:normalize(el('nrLinkExternalUrl').value);
     el('nrLinkApply').disabled=!(target&&el('nrLinkText').value.trim());
     el('nrLinkChosen').hidden=!selectedDemo||mode!=='internal';
-    if(selectedDemo&&mode==='internal')el('nrLinkChosenText').textContent=selectedDemo.title;
-    el('nrLinkFootNote').textContent=mode==='internal'?'Saran AI menggunakan data dummy untuk menjelaskan alur.':'URL eksternal diperiksa sebelum diterapkan.';
+    if(selectedDemo&&mode==='internal'){
+      el('nrLinkChosenText').textContent='Artikel dipilih: '+selectedDemo.title;
+      el('nrLinkChosenUrl').textContent=selectedDemo.url;
+    }
+    el('nrLinkFootNote').textContent=mode==='internal'?'Pilih satu artikel internal, lalu Terapkan Link.':'URL eksternal diperiksa sebelum diterapkan.';
     showError('');
   }
   function setMode(next){
@@ -16905,7 +16914,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===next));
     el('nrLinkInternal').hidden=next!=='internal';el('nrLinkExternal').hidden=next!=='external';
     if(next==='internal'){el('nrLinkNewTab').checked=false;el('nrLinkNofollow').checked=false}
-    else{el('nrLinkNewTab').checked=true;el('nrLinkNofollow').checked=true}
+    else{el('nrLinkNewTab').checked=true;el('nrLinkNofollow').checked=false}
     sync();
   }
   function open(trigger){
@@ -16924,7 +16933,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       selectedDemo=DEMO.find(item=>item.url===source.href)||null;
       if(!selectedDemo){mode='external';el('nrLinkExternalUrl').value=source.href}
     }
-    el('nrLinkNofollow').checked=mode==='external'||/\bnofollow\b/.test(source.rel||'');
+    el('nrLinkNofollow').checked=/\bnofollow\b/.test(source.rel||'');
     el('nrLinkNewTab').checked=mode==='external'||source.target==='_blank';
     for(const tab of overlay.querySelectorAll('[data-nr-link-mode]'))tab.setAttribute('aria-selected',String(tab.dataset.nrLinkMode===mode));
     el('nrLinkInternal').hidden=mode!=='internal';el('nrLinkExternal').hidden=mode!=='external';
@@ -16948,7 +16957,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     if(!text){showError('Isi teks tautan terlebih dahulu.');el('nrLinkText').focus();return}
     if(!href){showError(mode==='internal'?'Pilih artikel internal terlebih dahulu.':'Masukkan URL HTTP/HTTPS yang valid.');return}
     if(mode==='internal'&&!isInternal(href)){showError('Internal link harus mengarah ke Liputan6.');return}
-    const attrs={href,target:el('nrLinkNewTab').checked?'_blank':'_self',rel:[el('nrLinkNofollow').checked?'nofollow':'',el('nrLinkNewTab').checked?'noopener noreferrer':''].filter(Boolean).join(' ')||null};
+    const attrs={href,target:el('nrLinkNewTab').checked?'_blank':null,rel:[el('nrLinkNofollow').checked?'nofollow':'',el('nrLinkNewTab').checked?'noopener noreferrer':''].filter(Boolean).join(' ')||null};
     if(source.kind==='tiptap'){
       const ed=editor();if(!ed){showError('Editor belum siap. Coba beberapa saat lagi.');return}
       const from=Math.min(source.from,ed.state.doc.content.size),to=Math.min(source.to,ed.state.doc.content.size);
@@ -16964,7 +16973,8 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       const range=source.range&&mini.contains(source.range.commonAncestorContainer)?source.range:document.createRange();
       if(!source.range){range.selectNodeContents(mini);range.collapse(false)}
       const a=document.createElement('a');
-      a.textContent=text;a.href=href;a.target=attrs.target;
+      a.textContent=text;a.href=href;
+      if(attrs.target)a.target=attrs.target;
       if(attrs.rel)a.rel=attrs.rel;
       range.deleteContents();range.insertNode(a);
       const next=document.createRange();next.setStartAfter(a);next.collapse(true);
@@ -16985,7 +16995,18 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     el('nrLinkApply').addEventListener('click',apply);
     overlay.querySelectorAll('[data-nr-link-mode]').forEach(btn=>btn.addEventListener('click',()=>setMode(btn.dataset.nrLinkMode)));
     el('nrLinkSearch').addEventListener('input',()=>{aiGenerated=false;selectedDemo=null;renderResults();sync()});
-    el('nrLinkAi').addEventListener('click',()=>{aiGenerated=true;selectedDemo=null;renderResults();sync()});
+    el('nrLinkAi').addEventListener('click',()=>{
+      const button=el('nrLinkAi'),label=el('nrLinkAiLabel');
+      if(button.getAttribute('aria-busy')==='true')return;
+      button.setAttribute('aria-busy','true');button.disabled=true;
+      label.textContent='Menganalisis…';
+      el('nrLinkResultHeading').textContent='Mencari artikel relevan…';
+      el('nrLinkResults').innerHTML='<div class="nr-link-empty">AI membaca konteks teks dan mencari kandidat internal link…</div>';
+      window.setTimeout(()=>{
+        aiGenerated=true;selectedDemo=null;button.disabled=false;button.setAttribute('aria-busy','false');label.textContent='Saran AI';
+        renderResults();sync();
+      },520);
+    });
     el('nrLinkResults').addEventListener('click',event=>{
       const choice=event.target.closest('[data-article-id]');if(!choice)return;
       selectedDemo=DEMO.find(item=>item.id===choice.dataset.articleId)||null;
