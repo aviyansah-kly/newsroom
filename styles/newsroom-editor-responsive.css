@@ -1,0 +1,108 @@
+/* Newsroom editor: responsive header/status and fluid authoring canvas.
+   Scope only to editor shell; approved Text toolbar remains unchanged. */
+body.alt-editor-layout .topbar{min-width:0!important}
+body.alt-editor-layout .topbar>*{min-width:0}
+body.alt-editor-layout .header-status-cluster{flex:0 0 auto;min-width:0}
+body.alt-editor-layout #saveStatus{
+  display:inline-flex!important;align-items:center!important;
+  min-width:112px!important;max-width:216px!important;
+  padding:0 10px!important;gap:7px!important;
+  overflow:visible!important;
+}
+body.alt-editor-layout #saveStatus .save-copy{
+  display:flex!important;min-width:0!important;align-items:flex-start;
+  justify-content:center;overflow:visible!important;
+}
+body.alt-editor-layout #saveStatus .save-copy strong{
+  display:block!important;font-size:12px!important;line-height:16px!important;
+  white-space:nowrap!important;overflow:visible!important;
+  text-overflow:clip!important;
+}
+body.alt-editor-layout #saveStatus .save-copy strong::after{display:none!important;content:none!important}
+body.alt-editor-layout #saveStatus[data-save-mode="memory"],
+body.alt-editor-layout #saveStatus.error{border-color:#fca5a5!important;background:#fff7f7!important}
+body.alt-editor-layout #saveStatus[data-save-mode="session"],
+body.alt-editor-layout #saveStatus[data-save-mode="local-minimal"]{border-color:#fcd34d!important;background:#fffbeb!important}
+body.alt-editor-layout .workspace,
+body.alt-editor-layout .workspace>section,
+body.alt-editor-layout .workspace>section>.paper,
+body.alt-editor-layout .alt-writing-card,
+body.alt-editor-layout .alt-writing-card .alt-editor-section,
+body.alt-editor-layout .alt-writing-card .alt-block-list{
+  box-sizing:border-box!important;min-width:0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .alt-writing-card,
+body.alt-editor-layout.nr-right-collapsed .alt-writing-card,
+body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-card{
+  width:100%!important;max-width:none!important;
+  margin-inline:0!important;
+}
+body.alt-editor-layout .alt-writing-card .alt-field-card,
+body.alt-editor-layout .alt-writing-card .alt-content-card{
+  min-width:0!important;max-width:100%!important;
+}
+/* Collapse secondary header information first, retaining autosave text and publish. */
+@media(max-width:1250px){
+  body.alt-editor-layout .header-article-context{flex:0 1 180px!important;min-width:0!important}
+  body.alt-editor-layout .header-article-meta{display:none!important}
+}
+@media(max-width:1060px){
+  body.alt-editor-layout .header-article-context{display:none!important}
+  body.alt-editor-layout .topbar{gap:8px!important;padding-inline:12px!important}
+  body.alt-editor-layout .writing-view-wrap{display:none!important}
+}
+@media(max-width:850px){
+  body.alt-editor-layout #readyBtn{display:none!important}
+  body.alt-editor-layout .header-status-cluster .article-lifecycle-pill{display:none!important}
+  body.alt-editor-layout .header-status-cluster{border:0!important;padding:0!important}
+  body.alt-editor-layout .header-status-cluster::after{display:none!important}
+  body.alt-editor-layout #saveStatus{min-width:106px!important}
+  body.alt-editor-layout #saveDraftBtn,
+  body.alt-editor-layout #previewBtn{
+    flex:0 0 38px!important;width:38px!important;min-width:38px!important;
+    padding:0!important;justify-content:center!important
+  }
+  body.alt-editor-layout #saveDraftBtn>span,
+  body.alt-editor-layout #previewBtn>span{display:none!important}
+  body.alt-editor-layout #saveDraftBtn svg,
+  body.alt-editor-layout #previewBtn svg{width:17px!important;height:17px!important}
+  body.alt-editor-layout .offline-indicator{display:none!important}
+}
+@media(max-width:620px){
+  body.alt-editor-layout .topbar{gap:6px!important;padding-inline:8px!important}
+  body.alt-editor-layout .brand img{width:86px!important;height:auto!important;max-width:86px!important}
+  body.alt-editor-layout #previewBtn{display:none!important}
+  body.alt-editor-layout #saveStatus{
+    position:static!important;width:auto!important;min-width:102px!important;
+    max-width:150px!important;padding-inline:8px!important
+  }
+  body.alt-editor-layout #saveStatus .save-copy{
+    position:static!important;width:auto!important;height:auto!important;
+    margin:0!important;padding:0!important;overflow:visible!important;
+    clip:auto!important;white-space:nowrap!important;
+  }
+  body.alt-editor-layout #saveStatus .save-copy strong{
+    font-size:12px!important;line-height:16px!important
+  }
+  body.alt-editor-layout .workspace,
+  body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+  body.alt-editor-layout.nr-right-collapsed .workspace,
+  body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .workspace{
+    min-width:0!important
+  }
+  body.alt-editor-layout .workspace>section>.paper{padding:16px 12px 40px!important}
+  body.alt-editor-layout .alt-writing-card{padding:14px!important;gap:16px!important}
+}
+@media(max-width:390px){
+  body.alt-editor-layout .brand img{width:72px!important;max-width:72px!important}
+  body.alt-editor-layout #saveStatus{min-width:96px!important}
+  body.alt-editor-layout #saveDraftBtn{width:34px!important;min-width:34px!important}
+}
+/* Focus and icons remain discoverable when labels are compacted. */
+body.alt-editor-layout #saveDraftBtn:focus-visible,
+body.alt-editor-layout #publishBtn:focus-visible{
+  outline:2px solid var(--nr-blue,#2563eb)!important;outline-offset:2px!important
+}
+@media(prefers-reduced-motion:reduce){
+ body.alt-editor-layout .workspace{transition:none!important}
+}
