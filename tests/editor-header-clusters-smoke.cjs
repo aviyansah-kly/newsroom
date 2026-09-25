@@ -14,6 +14,8 @@ const {chromium}=require('playwright');
   if(await page.locator('.header-actions-cluster #saveDraftBtn').count()!==1)throw Error('Save Draft missing');
   if(await page.locator('.header-publish-cluster #publishBtn').count()!==1)throw Error('Publish missing');
   if(await page.locator('.topbar .writing-view-wrap:visible').count())throw Error('Duplicate view control visible');
+  if(await page.locator('#writingViewBtn').count())throw Error('Duplicate writing-view button must be removed from DOM');
+  if(await page.locator('.topbar .header-font-size-select-wrap').count())throw Error('Legacy font size select must be removed from DOM');
   if(await page.locator('.topbar .header-font-icon-btn:visible').count()!==1)throw Error('Keep one T view control');
 
   // Saving is local browser storage; never imply successful server sync.
