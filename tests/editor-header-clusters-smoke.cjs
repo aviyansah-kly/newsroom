@@ -13,6 +13,8 @@ const {chromium}=require('playwright');
   if(await page.locator('.header-status-cluster #saveStatus').count()!==1)throw Error('Save status missing');
   if(await page.locator('.header-actions-cluster #saveDraftBtn').count()!==1)throw Error('Save Draft missing');
   if(await page.locator('.header-publish-cluster #publishBtn').count()!==1)throw Error('Publish missing');
+  if(await page.locator('.topbar .writing-view-wrap:visible').count())throw Error('Duplicate view control visible');
+  if(await page.locator('.topbar .header-font-icon-btn:visible').count()!==1)throw Error('Keep one T view control');
 
   // Saving is local browser storage; never imply successful server sync.
   await page.evaluate(()=>{
@@ -20,17 +22,21 @@ const {chromium}=require('playwright');
     status.classList.remove('saving','error');status.classList.add('saved');status.dataset.saveMode='local';
   });
   await page.waitForFunction(()=>document.getElementById('saveStatusTitle').textContent==='Tersimpan lokal');
+  if(await page.locator('#saveStatus').getAttribute('data-status-icon')!=='circle-check')throw Error('Local status requires success icon');
   await page.context().setOffline(true);
   await page.waitForFunction(()=>document.getElementById('saveStatusTitle').textContent==='Offline · Lokal');
+  if(await page.locator('#saveStatus').getAttribute('data-status-icon')!=='wifi-off')throw Error('Offline must show wifi-off');
   await page.context().setOffline(false);
   await page.waitForFunction(()=>document.getElementById('saveStatusTitle').textContent==='Tersimpan lokal');
   await page.evaluate(()=>document.getElementById('saveStatus').dataset.saveMode='memory');
   await page.waitForFunction(()=>document.getElementById('saveStatusTitle').textContent==='Tidak aman');
+  if(await page.locator('#saveStatus').getAttribute('data-status-icon')!=='circle-alert')throw Error('Memory fallback icon mismatch');
   await page.evaluate(()=>{
     const status=document.getElementById('saveStatus');
     status.classList.remove('saved','saving');status.classList.add('error');
   });
   await page.waitForFunction(()=>document.getElementById('saveStatusTitle').textContent==='Gagal simpan');
+  if(await page.locator('#saveStatus').getAttribute('data-status-icon')!=='circle-x')throw Error('Failed save must show error icon');
 
   for(const width of [1440,1280,1024,768,620,390]){
    await page.setViewportSize({width,height:900});
