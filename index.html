@@ -17275,7 +17275,9 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
    const actions=document.createElement('div');
    actions.className='header-actions-cluster';
    actions.setAttribute('aria-label','Alat editor');
-   if(view)actions.appendChild(view);
+   // Keep the source writing-view menu in DOM for the existing Font Size control,
+   // but do not render its redundant sliders button in the header.
+   if(view)view.hidden=true;
    if(saveDraft)actions.appendChild(saveDraft);
    if(preview)actions.appendChild(preview);
    const primary=document.createElement('div');
@@ -17291,37 +17293,47 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
      button.title=name;
    });
    const viewButton=document.getElementById('writingViewBtn');
-   if(viewButton){viewButton.setAttribute('aria-label','Tampilan');viewButton.title='Tampilan'}
+   if(viewButton){viewButton.setAttribute('aria-label','Tampilan (menu sumber)');viewButton.title='Tampilan'}
+   const fontButton=header.querySelector('.header-font-icon-btn');
+   if(fontButton){fontButton.title='Tampilan teks';fontButton.setAttribute('aria-label','Tampilan teks')}
 
+   const saveIcon=status.querySelector('.save-icon');
+   let renderedIcon='';
    function reflectSaveState(){
      const offline=navigator.onLine===false;
      const saving=status.classList.contains('saving');
      const error=status.classList.contains('error');
      const mode=status.dataset.saveMode||'';
-     let label,detail,state;
+     let label,detail,state,iconName;
      if(error){
-       label='Gagal simpan';state='failed';
+       label='Gagal simpan';state='failed';iconName='circle-x';
        detail='Draft tidak berhasil disimpan. Periksa kapasitas penyimpanan browser.';
      }else if(saving){
        label=offline?'Offline · Simpan…':'Menyimpan…';
-       state=offline?'offline':'saving';
+       state=offline?'offline':'saving';iconName=offline?'wifi-off':'loader-circle';
        detail=offline?'Tidak ada koneksi. Mencoba menyimpan perubahan di browser ini.':'Menyimpan perubahan ke browser ini; belum ke server CMS.';
      }else if(mode==='memory'){
-       label='Tidak aman';state='memory';
+       label='Tidak aman';state='memory';iconName='circle-alert';
        detail='Draft hanya ada di memori halaman. Jangan tutup tab; salin konten penting.';
      }else if(mode==='session'){
-       label=offline?'Offline · Sesi':'Tersimpan sesi';state=offline?'offline':'limited';
+       label=offline?'Offline · Sesi':'Tersimpan sesi';state=offline?'offline':'limited';iconName=offline?'wifi-off':'clock-3';
        detail='Draft tersimpan sementara selama sesi browser ini. Belum tersimpan permanen atau ke server.';
      }else if(mode==='local-minimal'){
-       label=offline?'Offline · Parsial':'Sebagian tersimpan';state=offline?'offline':'limited';
+       label=offline?'Offline · Parsial':'Sebagian tersimpan';state=offline?'offline':'limited';iconName=offline?'wifi-off':'triangle-alert';
        detail='Hanya sebagian data tersimpan di browser. Periksa konten dan metadata sebelum menutup halaman.';
      }else if(mode==='local'){
-       label=offline?'Offline · Lokal':'Tersimpan lokal';state=offline?'offline':'saved';
+       label=offline?'Offline · Lokal':'Tersimpan lokal';state=offline?'offline':'saved';iconName=offline?'wifi-off':'circle-check';
        detail='Draft tersimpan di browser perangkat ini. '+(offline?'Koneksi offline. ':'')+'Belum tersinkron ke server CMS.';
      }else{
-       label=offline?'Offline':'Belum disimpan';state=offline?'offline':'pending';
+       label=offline?'Offline':'Belum disimpan';state=offline?'offline':'pending';iconName=offline?'wifi-off':'clock-3';
        detail=offline?'Perangkat offline. Mulai mengetik untuk menyimpan draft secara lokal.':'Belum ada konfirmasi penyimpanan draft ke browser.';
      }
+     if(saveIcon&&renderedIcon!==iconName){
+       renderedIcon=iconName;
+       saveIcon.innerHTML='<i data-lucide="'+iconName+'"></i>';
+       if(window.lucide)window.lucide.createIcons({nodes:[saveIcon]});
+     }
+     status.dataset.statusIcon=iconName;
      if(statusTitle.textContent!==label)statusTitle.textContent=label;
      if(statusCluster.dataset.storageState!==state)statusCluster.dataset.storageState=state;
      const at=status.dataset.savedAt;
