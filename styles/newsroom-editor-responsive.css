@@ -18,6 +18,12 @@ body.alt-editor-layout #saveStatus .save-copy strong{
   white-space:nowrap!important;overflow:visible!important;
   text-overflow:clip!important;
 }
+body.alt-editor-layout #saveStatus.saved .save-copy strong,
+body.alt-editor-layout #saveStatus.saving .save-copy strong,
+body.alt-editor-layout #saveStatus.error .save-copy strong{
+  display:block!important;font-size:12px!important;line-height:16px!important;
+  white-space:nowrap!important;overflow:visible!important;
+}
 body.alt-editor-layout #saveStatus .save-copy strong::after{display:none!important;content:none!important}
 body.alt-editor-layout #saveStatus[data-save-mode="memory"],
 body.alt-editor-layout #saveStatus.error{border-color:#fca5a5!important;background:#fff7f7!important}
