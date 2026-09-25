@@ -311,3 +311,6 @@ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-car
   max-width:none!important;
 }
 /* NEWSROOM_WRITING_SURFACE_EXPAND_WITH_RAILS_END */
+
+/* Shared sidebar responsive gutters: match the embedded controller at phone widths. */
+@media(max-width:560px){body.alt-editor-layout .workspace,body.alt-editor-layout.cms-sidebar-collapsed .workspace,body.alt-editor-layout.nr-right-collapsed .workspace,body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .workspace{padding-left:12px!important;padding-right:62px!important}}
