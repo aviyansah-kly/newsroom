@@ -58,7 +58,7 @@
           <div class="nr-link-ai-flow" aria-hidden="true"><span><i data-lucide="text-select"></i> baca konteks</span><i data-lucide="chevron-right"></i><span><i data-lucide="sparkles"></i> rekomendasi</span><i data-lucide="chevron-right"></i><span><i data-lucide="mouse-pointer-click"></i> pilih artikel</span></div>
           <p class="nr-link-helper" id="nrLinkSearchHelp">Cari manual atau gunakan Saran AI untuk rekomendasi berdasarkan teks yang dipilih. Data masih dummy untuk preview flow.</p>
         </div>
-        <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Contoh artikel</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">DEMO DATA</span></div>
+        <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Artikel terkait</strong></div>
         <div id="nrLinkResults" class="nr-link-results" role="listbox" aria-label="Pilihan artikel internal"></div>
         <div class="nr-link-chosen" id="nrLinkChosen" hidden><i data-lucide="circle-check"></i><span class="nr-link-chosen-copy"><strong id="nrLinkChosenText"></strong><small id="nrLinkChosenUrl"></small></span></div>
       </div>
@@ -86,13 +86,11 @@
       results=scored.slice(0,3).map(x=>x.item);
       el('nrLinkResultHeading').textContent='Rekomendasi AI untuk teks ini';
       el('nrLinkSearchHelp').textContent='Simulasi saran AI berdasarkan teks yang dipilih. Konten dan URL hanya contoh, belum terhubung ke artikel asli.';
-      el('nrLinkDemoBadge').textContent='AI DEMO';
     }else{
       if(query)results=DEMO.filter(item=>(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('id-ID').includes(query));
-      el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Contoh artikel';
+      el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Artikel terkait';
       if(!query)results=results.slice(0,3);
       el('nrLinkSearchHelp').textContent='Pencarian menggunakan data dummy untuk preview. Klik Saran AI untuk simulasi rekomendasi.';
-      el('nrLinkDemoBadge').textContent='DEMO DATA';
     }
     const list=el('nrLinkResults');
     const contextWord=(source?.text||el('nrLinkSearch').value||'topik artikel').trim().split(/\s+/).slice(0,4).join(' ');
@@ -104,7 +102,7 @@
         <small class="nr-link-result-url">${esc(item.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/read\//,' / '))}</small>
       </span>
       <span class="nr-link-result-side">${item.id===selectedDemo?.id?'<i data-lucide="check"></i>':'<i data-lucide="chevron-right"></i>'}</span>
-    </button>`).join(''):'<div class="nr-link-empty">Belum ada artikel yang cocok dalam data contoh. Coba kata kunci lain atau gunakan Saran AI.</div>';
+    </button>`).join(''):'<div class="nr-link-empty">Tidak ada artikel yang cocok. Coba kata kunci lain atau gunakan Saran AI.</div>';
     if(window.lucide)window.lucide.createIcons({nodes:[list]});
   }
   function showError(message){
