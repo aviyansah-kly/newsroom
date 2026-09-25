@@ -240,3 +240,132 @@ body.alt-editor-layout .header-status-cluster[data-storage-state="saving"] #save
   animation:none
  }
 }
+
+/* REVIEW & PUBLISH v2: issue-first, compact, accessible modal. */
+html.nr-review-scroll-lock,
+body.nr-review-scroll-lock{overscroll-behavior:none!important;overflow:hidden!important}
+body.nr-review-scroll-lock{touch-action:none}
+#altValidationModal.modal{
+  z-index:2200!important;padding:20px!important;
+  overscroll-behavior:contain!important;
+}
+#altValidationModal.modal.open{display:flex!important}
+#altValidationModal .alt-validation-card{
+  width:min(560px,calc(100vw - 32px))!important;
+  max-width:100%!important;
+  max-height:min(740px,calc(100dvh - 40px))!important;
+  display:flex!important;flex-direction:column!important;
+  overflow:hidden!important;border-radius:12px!important;
+}
+#altValidationModal .modal-head{
+  flex:0 0 auto;position:static!important;
+  min-height:62px;padding:16px 20px!important;
+  border-bottom:1px solid var(--nr-border,#e2e8f0);
+}
+#altValidationModal .modal-head strong{font-size:16px!important;line-height:22px!important}
+#altValidationModal .modal-head .brand-sub{display:none!important}
+#altValidationModal #altValidationClose{
+  width:34px!important;min-width:34px!important;height:34px!important;
+  display:grid;place-items:center;padding:0!important;
+}
+#altValidationModal .modal-body{
+  flex:1 1 auto;min-height:0;overflow-y:auto!important;
+  overscroll-behavior:contain!important;touch-action:pan-y;
+  padding:20px!important;scrollbar-gutter:stable;
+}
+#altValidationModal .alt-validation-summary{
+  padding:14px 16px!important;margin:0 0 20px!important;
+  background:#f8fafc;border:1px solid #dbe4ee;border-radius:10px;
+  align-items:center;
+}
+#altValidationModal.has-issues .alt-validation-summary{
+  background:#fffbeb;border-color:#fcdba1
+}
+#altValidationModal .alt-validation-summary strong{font-size:14px!important;line-height:20px}
+#altValidationModal .alt-validation-summary span{font-size:12px!important;line-height:17px}
+#altValidationModal .alt-validation-summary .publish-readiness-badge{
+  flex:none;white-space:nowrap;margin:0;padding:5px 9px;
+  border-radius:999px;background:#fff;border:1px solid #e2e8f0;
+  color:#475569;font-size:12px;font-weight:650;
+}
+#altValidationModal .alt-validation-group-title{
+  font-size:12px;font-weight:700;color:#92400e;
+  padding:0 0 10px;
+}
+#altValidationModal .alt-validation-issues{margin-bottom:18px}
+#altValidationModal .alt-validation-issues[hidden]{display:none!important}
+#altValidationModal .alt-validation-list{
+  border:1px solid #e2e8f0;border-radius:10px;
+  overflow:hidden;background:#fff
+}
+#altValidationModal .alt-validation-row{
+  display:grid;grid-template-columns:28px minmax(0,1fr) auto;
+  gap:12px;align-items:center;min-height:56px;
+  padding:12px!important
+}
+#altValidationModal .alt-validation-row .icon{
+  margin:0;width:28px;height:28px;border-radius:8px
+}
+#altValidationModal .alt-validation-row .icon svg{width:16px;height:16px}
+#altValidationModal .alt-validation-row .alt-validation-row-copy{min-width:0}
+#altValidationModal .alt-validation-row strong{
+  font-size:13px;line-height:18px;display:block;color:#0f172a
+}
+#altValidationModal .alt-validation-row .alt-validation-row-copy>span{
+  font-size:12px;line-height:17px;color:#64748b;margin-top:3px
+}
+#altValidationModal .alt-validation-row button{
+  height:34px!important;min-height:34px!important;
+  border:1px solid var(--nr-border,#e2e8f0);
+  border-radius:var(--nr-radius-md,8px);
+  padding:0 12px!important;color:#334155;background:#fff;
+}
+#altValidationModal .alt-validation-row button:hover{
+  background:#f8fafc;border-color:#94a3b8
+}
+#altValidationModal .alt-validation-ready{
+  border:1px solid #e2e8f0;border-radius:10px;
+  background:#fff;overflow:hidden;margin:0
+}
+#altValidationModal .alt-validation-ready summary{
+  cursor:pointer;list-style:none;display:flex;align-items:center;
+  justify-content:space-between;padding:12px 14px;
+  font-size:13px;color:#334155;
+}
+#altValidationModal .alt-validation-ready summary::-webkit-details-marker{display:none}
+#altValidationModal .alt-validation-ready summary>span{display:flex;align-items:center;gap:8px}
+#altValidationModal .alt-validation-ready summary svg{width:16px;height:16px;flex:none}
+#altValidationModal .alt-validation-ready summary>span svg{color:#15803d}
+#altValidationModal .alt-validation-ready[open] summary>svg{transform:rotate(180deg)}
+#altValidationModal .alt-validation-ready .alt-validation-list{
+  border:0;border-top:1px solid #e2e8f0;border-radius:0
+}
+#altValidationModal .alt-redpel-box{margin-top:16px}
+#altValidationModal .modal-foot{
+  position:static!important;flex:0 0 auto;
+  display:flex;justify-content:flex-end;gap:10px;
+  padding:14px 20px!important;border-top:1px solid #e2e8f0;
+  background:#fff
+}
+#altValidationModal .modal-foot button{
+  min-height:40px;border-radius:8px;font-size:13px;font-weight:600
+}
+#altValidationModal .modal-foot button:disabled{
+  cursor:not-allowed;opacity:.5
+}
+#altValidationModal button:focus-visible,
+#altValidationModal summary:focus-visible{
+  outline:2px solid #2563eb;outline-offset:2px
+}
+/* Remove old font-size selector DOM only via JS; no secondary view button. */
+body.alt-editor-layout .topbar .header-font-size-select-wrap,
+body.alt-editor-layout .topbar .header-font-size{display:none!important}
+@media(max-width:620px){
+  #altValidationModal.modal{padding:10px!important}
+  #altValidationModal .alt-validation-card{
+    width:100%!important;max-height:calc(100dvh - 20px)!important
+  }
+  #altValidationModal .modal-head{padding:12px 16px!important}
+  #altValidationModal .modal-body{padding:16px!important;scrollbar-gutter:auto}
+  #altValidationModal .modal-foot{padding:12px 16px!important}
+}
