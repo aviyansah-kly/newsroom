@@ -42,8 +42,9 @@
     function syncCanvas(){
       if(!workspace)return;
       const mobile=window.matchMedia('(max-width:1024px)').matches;
-      const left=mobile?24:(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
-      const right=(mobile?56:(body.classList.contains('nr-right-collapsed')?56:390))+(mobile?12:24);
+      const narrow=window.matchMedia('(max-width:560px)').matches;
+      const left=mobile?(narrow?12:24):(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
+      const right=mobile?(narrow?62:68):(body.classList.contains('nr-right-collapsed')?56:390)+24;
       // Inline !important overrides the several legacy responsive CSS blocks.
       workspace.style.setProperty('padding-left',left+'px','important');
       workspace.style.setProperty('padding-right',right+'px','important');
