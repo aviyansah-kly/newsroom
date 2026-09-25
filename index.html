@@ -11073,6 +11073,26 @@ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-car
 .nr-link-foot-actions{width:100%}
 }
 
+/* Article results: preserve the selected outline at every scroll-list edge. */
+.nr-link-results{
+  padding:4px;
+  grid-template-columns:minmax(0,1fr);
+  overflow-x:hidden;
+  scrollbar-gutter:stable;
+}
+.nr-link-result{
+  min-width:0;
+  max-width:100%;
+  box-shadow:none;
+}
+.nr-link-result[aria-selected="true"]{
+  border-color:#8b5cf6;
+  background:#faf5ff;
+  box-shadow:inset 0 0 0 1px #8b5cf6;
+}
+.nr-link-demo-badge{display:none!important}
+@media(max-width:580px){.nr-link-results{padding:4px}}
+
 </style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="brand"><div><img src="assets/liputan6-logo.svg" alt="Liputan6"></div></div><div class="header-article-context"><span class="header-article-title" id="headerArticleTitle">Workspace Editor</span><span class="header-article-meta" id="headerArticleMeta">Article / Sports / Regular</span></div><div class="spacer"></div><div class="article-lifecycle-pill draft" id="articleLifecycle" aria-live="polite"><span class="article-lifecycle-dot"></span><strong id="articleLifecycleLabel">Draft</strong></div><div class="offline-indicator" id="offlineIndicator" hidden aria-live="polite"><span class="offline-dot"></span><strong id="offlineIndicatorTitle">Offline</strong><span id="offlineIndicatorMeta">Changes saved locally</span></div><div class="save-indicator saved" id="saveStatus" aria-live="polite"><span class="save-icon"><i data-lucide="circle-check"></i></span><span class="save-copy"><strong id="saveStatusTitle">Saved</strong><small id="saveStatusMeta">just now</small></span></div><button class="header-status-pill readiness" id="readyBtn"><span class="status-icon"><i data-lucide="circle-check-big"></i></span><span class="status-copy"><strong id="readyCount">0/6 ready</strong><small id="readyCountMeta">6 to review</small></span></button><div class="writing-view-wrap"><button class="btn ghost writing-view-btn" id="writingViewBtn" type="button" aria-expanded="false" aria-haspopup="true" aria-label="Writing View" title="Writing View"><i data-lucide="type"></i><span>Writing View</span><i data-lucide="chevron-down"></i></button><div class="writing-view-menu" id="writingViewMenu" role="menu" aria-label="Writing View"><div class="writing-view-menu-head"><strong>Writing View</strong><span>Preference is saved for the next article.</span></div><div class="writing-pref-control writing-pref-control-menu" aria-label="Writing size"><button type="button" data-font="normal" title="Normal"><span class="font-sample font-sample-normal">A</span><span>Normal</span></button><button type="button" data-font="large" title="Large"><span class="font-sample font-sample-large">A</span><span>Large</span></button><button type="button" data-font="xlarge" title="Extra large"><span class="font-sample font-sample-xlarge">A</span><span>Extra Large</span></button></div></div></div><button class="btn save-draft-btn" id="saveDraftBtn" type="button"><i data-lucide="save"></i><span>Save Draft</span></button><button class="btn" id="previewBtn"><i data-lucide="eye"></i><span>Preview</span></button><button class="btn primary" id="publishBtn"><i data-lucide="send"></i><span>Review &amp; Publish</span></button></header>
@@ -16919,7 +16939,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
           <div class="nr-link-ai-flow" aria-hidden="true"><span><i data-lucide="text-select"></i> baca konteks</span><i data-lucide="chevron-right"></i><span><i data-lucide="sparkles"></i> rekomendasi</span><i data-lucide="chevron-right"></i><span><i data-lucide="mouse-pointer-click"></i> pilih artikel</span></div>
           <p class="nr-link-helper" id="nrLinkSearchHelp">Cari manual atau gunakan Saran AI untuk rekomendasi berdasarkan teks yang dipilih. Data masih dummy untuk preview flow.</p>
         </div>
-        <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Contoh artikel</strong><span class="nr-link-demo-badge" id="nrLinkDemoBadge">DEMO DATA</span></div>
+        <div class="nr-link-suggestion-head"><strong id="nrLinkResultHeading">Artikel terkait</strong></div>
         <div id="nrLinkResults" class="nr-link-results" role="listbox" aria-label="Pilihan artikel internal"></div>
         <div class="nr-link-chosen" id="nrLinkChosen" hidden><i data-lucide="circle-check"></i><span class="nr-link-chosen-copy"><strong id="nrLinkChosenText"></strong><small id="nrLinkChosenUrl"></small></span></div>
       </div>
@@ -16947,13 +16967,11 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       results=scored.slice(0,3).map(x=>x.item);
       el('nrLinkResultHeading').textContent='Rekomendasi AI untuk teks ini';
       el('nrLinkSearchHelp').textContent='Simulasi saran AI berdasarkan teks yang dipilih. Konten dan URL hanya contoh, belum terhubung ke artikel asli.';
-      el('nrLinkDemoBadge').textContent='AI DEMO';
     }else{
       if(query)results=DEMO.filter(item=>(item.title+' '+item.description+' '+item.category).toLocaleLowerCase('id-ID').includes(query));
-      el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Contoh artikel';
+      el('nrLinkResultHeading').textContent=query?'Hasil pencarian':'Artikel terkait';
       if(!query)results=results.slice(0,3);
       el('nrLinkSearchHelp').textContent='Pencarian menggunakan data dummy untuk preview. Klik Saran AI untuk simulasi rekomendasi.';
-      el('nrLinkDemoBadge').textContent='DEMO DATA';
     }
     const list=el('nrLinkResults');
     const contextWord=(source?.text||el('nrLinkSearch').value||'topik artikel').trim().split(/\s+/).slice(0,4).join(' ');
@@ -16965,7 +16983,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
         <small class="nr-link-result-url">${esc(item.url.replace(/^https?:\/\/(www\.)?/,'').replace(/\/read\//,' / '))}</small>
       </span>
       <span class="nr-link-result-side">${item.id===selectedDemo?.id?'<i data-lucide="check"></i>':'<i data-lucide="chevron-right"></i>'}</span>
-    </button>`).join(''):'<div class="nr-link-empty">Belum ada artikel yang cocok dalam data contoh. Coba kata kunci lain atau gunakan Saran AI.</div>';
+    </button>`).join(''):'<div class="nr-link-empty">Tidak ada artikel yang cocok. Coba kata kunci lain atau gunakan Saran AI.</div>';
     if(window.lucide)window.lucide.createIcons({nodes:[list]});
   }
   function showError(message){
