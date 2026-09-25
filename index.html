@@ -10892,6 +10892,66 @@ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .alt-writing-car
 /* NEWSROOM_WRITING_SURFACE_EXPAND_WITH_RAILS_END */
 
 </style>
+<style id="nr-editor-responsive-autosave">
+
+/* Newsroom responsive workspace + truthful, persistent local autosave feedback. */
+body.alt-editor-layout .topbar{min-width:0!important}
+body.alt-editor-layout .topbar .header-status-cluster{min-width:0;flex:none}
+body.alt-editor-layout #saveStatus.save-indicator{flex:none!important;max-width:none!important;min-width:118px!important}
+body.alt-editor-layout #saveStatus .save-copy{display:block!important;min-width:0!important}
+body.alt-editor-layout #saveStatus .save-copy strong{font-size:12px!important;white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important}
+body.alt-editor-layout #saveStatus.error .save-copy strong{color:var(--nr-red,#dc2626)!important}
+body.alt-editor-layout #saveStatus.saving .save-copy strong{color:var(--nr-text-2,#475569)!important}
+body.alt-editor-layout #saveStatus.saved .save-copy strong{color:var(--nr-text-2,#475569)!important}
+body.alt-editor-layout .workspace>section,
+body.alt-editor-layout .workspace>section>.paper,
+body.alt-editor-layout .alt-writing-card,
+body.alt-editor-layout .alt-writing-card .alt-editor-section,
+body.alt-editor-layout .alt-writing-card .alt-block-list{min-width:0!important;box-sizing:border-box!important}
+@media(max-width:1320px){
+ body.alt-editor-layout .topbar{gap:7px!important;padding-inline:12px!important}
+ body.alt-editor-layout .header-article-context{min-width:0!important;flex:0 1 185px!important}
+ body.alt-editor-layout #saveDraftBtn span{display:none!important}
+ body.alt-editor-layout #saveDraftBtn{width:36px!important;min-width:36px!important;padding:0!important}
+}
+@media(max-width:1100px){
+ body.alt-editor-layout .header-article-context{display:none!important}
+ body.alt-editor-layout .article-lifecycle-pill{padding-inline:7px!important}
+ body.alt-editor-layout .topbar .spacer{min-width:0!important}
+}
+@media(max-width:900px){
+ body.alt-editor-layout #saveStatus .save-copy{display:block!important}
+ body.alt-editor-layout #saveStatus .save-copy strong,
+ body.alt-editor-layout #saveStatus.saved .save-copy strong,
+ body.alt-editor-layout #saveStatus.saving .save-copy strong,
+ body.alt-editor-layout #saveStatus.error .save-copy strong{font-size:12px!important}
+ body.alt-editor-layout #saveStatus .save-copy strong:after{content:none!important}
+ body.alt-editor-layout #saveStatus{width:auto!important;min-width:106px!important;padding:0 6px!important}
+ body.alt-editor-layout #previewBtn{display:none!important}
+ body.alt-editor-layout #readyBtn{display:none!important}
+}
+@media(max-width:680px){
+ body.alt-editor-layout .topbar{gap:5px!important;padding-inline:8px!important}
+ body.alt-editor-layout .topbar .brand img{width:82px!important;height:auto!important}
+ body.alt-editor-layout #saveStatus{min-width:0!important;max-width:122px!important}
+ body.alt-editor-layout #saveStatus .save-icon{display:none!important}
+ body.alt-editor-layout #saveStatus .save-copy strong{font-size:11px!important}
+ body.alt-editor-layout .article-lifecycle-pill{display:none!important}
+ body.alt-editor-layout #saveDraftBtn{display:none!important}
+ body.alt-editor-layout #publishBtn{flex:none!important}
+}
+@media(max-width:420px){
+ body.alt-editor-layout .topbar .brand img{width:58px!important}
+ body.alt-editor-layout #saveStatus{max-width:120px!important}
+ body.alt-editor-layout #saveStatus .save-copy strong{font-size:10px!important}
+}
+@media(max-width:560px){
+ body.alt-editor-layout .workspace,
+ body.alt-editor-layout.cms-sidebar-collapsed .workspace,
+ body.alt-editor-layout.nr-right-collapsed .workspace,
+ body.alt-editor-layout.cms-sidebar-collapsed.nr-right-collapsed .workspace{padding-left:12px!important;padding-right:62px!important}
+}
+</style>
 <style id="nr-link-dialog-design-system">
 /* Newsroom — Insert Link / Internal Link prototype, scoped to modal only.
    Reuses shell color, type, radii and button tokens. No Text toolbar changes. */
@@ -11604,7 +11664,7 @@ async function saveNow(){
       status.dataset.savedAt=String(Date.now());
       status.dataset.saveMode=mode;
     }
-    if($('#saveStatusTitle'))$('#saveStatusTitle').textContent=navigator.onLine===false?'Offline · Disimpan lokal':'Saved';
+    if($('#saveStatusTitle'))$('#saveStatusTitle').textContent=mode==='memory'?'Belum tersimpan permanen':mode==='session'?'Tersimpan sesi':'Tersimpan lokal';
     if($('#saveStatusMeta'))$('#saveStatusMeta').textContent='';
     if($('#updatedAt'))$('#updatedAt').textContent='Diubah '+now;
 
@@ -15508,11 +15568,15 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   if(legacyBox)legacyBox.hidden=true;
   if(!saveStatus||!saveTitle)return;
 
+  function localLabel(){
+    const mode=saveStatus.dataset.saveMode;
+    return mode==='memory'?'Belum tersimpan permanen':mode==='session'?'Tersimpan sesi':'Tersimpan lokal';
+  }
   function renderOffline(){
     if(legacyBox)legacyBox.hidden=true;
     cluster?.classList.add('is-offline');
-    saveStatus.classList.remove('error');
-    saveTitle.textContent=saveStatus.classList.contains('saving')?'Offline · Menyimpan lokal…':'Offline · Disimpan lokal';
+    if(saveStatus.classList.contains('error'))saveTitle.textContent='Gagal simpan';
+    else saveTitle.textContent=saveStatus.classList.contains('saving')?'Menyimpan lokal…':localLabel();
     saveStatus.title='Offline — perubahan disimpan di perangkat ini dan belum tersinkron ke server.';
   }
 
@@ -15520,8 +15584,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(legacyBox)legacyBox.hidden=true;
     cluster?.classList.remove('is-offline');
     if(saveStatus.classList.contains('saving'))saveTitle.textContent='Menyimpan…';
-    else if(!saveStatus.classList.contains('error'))saveTitle.textContent='Saved';
-    saveStatus.title='Perubahan terakhir sudah tersimpan.';
+    else if(!saveStatus.classList.contains('error'))saveTitle.textContent=localLabel();
+    saveStatus.title=saveStatus.classList.contains('error')?'Penyimpanan gagal. Periksa ruang penyimpanan.':'Perubahan tersimpan di browser ini, belum dikirim ke server.';
   }
 
   function sync(){
@@ -16826,8 +16890,9 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     function syncCanvas(){
       if(!workspace)return;
       const mobile=window.matchMedia('(max-width:1024px)').matches;
-      const left=mobile?24:(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
-      const right=(mobile?56:(body.classList.contains('nr-right-collapsed')?56:390))+(mobile?12:24);
+      const narrow=window.matchMedia('(max-width:560px)').matches;
+      const left=mobile?(narrow?12:24):(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
+      const right=mobile?(narrow?62:68):(body.classList.contains('nr-right-collapsed')?56:390)+24;
       // Inline !important overrides the several legacy responsive CSS blocks.
       workspace.style.setProperty('padding-left',left+'px','important');
       workspace.style.setProperty('padding-right',right+'px','important');
