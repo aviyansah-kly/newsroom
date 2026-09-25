@@ -12618,17 +12618,47 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       },true);
     }
 
+    // One review overlay: only its body may scroll; the editor underneath is locked.
+    let reviewReturnFocus=null,reviewScrollY=0;
+    function closeValidation(){
+      const modal=$('#altValidationModal');
+      if(!modal?.classList.contains('open'))return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.documentElement.classList.remove('nr-review-scroll-lock');
+      document.body.classList.remove('nr-review-scroll-lock');
+      document.body.style.removeProperty('position');
+      document.body.style.removeProperty('top');
+      document.body.style.removeProperty('left');
+      document.body.style.removeProperty('right');
+      document.body.style.removeProperty('width');
+      window.scrollTo(0,reviewScrollY);
+      reviewReturnFocus?.focus?.({preventScroll:true});
+      reviewReturnFocus=null;
+    }
     function ensureValidationModal(){
-      if($('#altValidationModal')) return;
-      const m=document.createElement('div'); m.className='modal'; m.id='altValidationModal';
-      m.innerHTML='<div class="modal-card alt-validation-card"><div class="modal-head"><div><strong>Review & Publish</strong><div class="brand-sub">Validasi akhir sebelum artikel dikirim atau dipublikasikan.</div></div><button class="btn ghost sm" id="altValidationClose"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="alt-validation-summary"><div><strong id="altValidationTitle">Memeriksa artikel…</strong><span id="altValidationSub"></span></div><span class="publish-readiness-badge" id="altValidationBadge"></span></div><div class="alt-validation-list" id="altValidationList"></div><div class="alt-redpel-box" id="altRedpelBox"><strong>Approval Redpel diperlukan</strong><p>Artikel yang memenuhi trigger Content Guardian harus mendapat persetujuan Redaktur Pelaksana sebelum tayang.</p></div></div><div class="modal-foot"><button class="btn" id="altValidationBack">Kembali Edit</button><button class="btn primary" id="altValidationAction">Publish</button></div></div>';
+      if($('#altValidationModal'))return;
+      const m=document.createElement('div');m.className='modal';m.id='altValidationModal';
+      m.setAttribute('aria-hidden','true');
+      m.innerHTML='<div class="modal-card alt-validation-card" role="dialog" aria-modal="true" aria-labelledby="altValidationHeading" aria-describedby="altValidationSub"><div class="modal-head"><div><strong id="altValidationHeading">Review & Publish</strong></div><button type="button" class="btn ghost sm" id="altValidationClose" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="alt-validation-summary" role="status" aria-live="polite"><div><strong id="altValidationTitle">Memeriksa artikel…</strong><span id="altValidationSub"></span></div><span class="publish-readiness-badge" id="altValidationBadge"></span></div><div class="alt-validation-issues" id="altValidationIssues"><div class="alt-validation-group-title">Perlu diperbaiki</div><div class="alt-validation-list" id="altValidationList"></div></div><details class="alt-validation-ready" id="altValidationReady"><summary><span><i data-lucide="circle-check"></i> <strong id="altValidationReadyLabel">Item sudah siap</strong></span><i data-lucide="chevron-down"></i></summary><div class="alt-validation-list" id="altValidationReadyList"></div></details><div class="alt-redpel-box" id="altRedpelBox"><strong>Approval Redpel diperlukan</strong><p>Artikel perlu persetujuan Redpel sebelum tayang.</p></div></div><div class="modal-foot"><button type="button" class="btn" id="altValidationBack">Kembali Edit</button><button type="button" class="btn primary" id="altValidationAction" disabled>Publish</button></div></div>';
       document.body.appendChild(m);
-      $('#altValidationClose').onclick=$('#altValidationBack').onclick=()=>m.classList.remove('open');
+      $('#altValidationClose').onclick=$('#altValidationBack').onclick=closeValidation;
+      m.addEventListener('click',e=>{if(e.target===m)closeValidation()});
+      m.addEventListener('keydown',e=>{
+        if(e.key==='Escape'){e.preventDefault();closeValidation();return}
+        if(e.key!=='Tab')return;
+        const focusable=[...m.querySelectorAll('button:not([disabled]),summary,[href],input:not([disabled])')]
+          .filter(el=>el.getClientRects().length&&getComputedStyle(el).visibility!=='hidden');
+        if(!focusable.length)return;
+        const first=focusable[0],last=focusable[focusable.length-1];
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+      });
     }
     ensureValidationModal();
 
     function openTarget(key){
-      $('#altValidationModal')?.classList.remove('open');
+      closeValidation();
       const map={title:title,dek:dek,content:editor,headline:$('#chooseHeadline'),reporter:$('#reporter'),seo:$('#seoKeyword')};
       const el=map[key]; if(!el) return;
       if(el.closest('.pane')){
@@ -12648,12 +12678,23 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Lengkapi gambar utama artikel.'},
         {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'Minimal satu keyword SEO.'}
       ];
-      const list=$('#altValidationList'); list.innerHTML='';
-      checks.forEach(c=>{const row=document.createElement('div');row.className='alt-validation-row'+(c.ok?'':' warn');row.innerHTML='<span class="icon"><i data-lucide="'+(c.ok?'check':'alert-triangle')+'"></i></span><div><strong>'+c.label+'</strong><span>'+(c.ok?'Siap':c.help)+'</span></div>'+(c.ok?'<span></span>':'<button type="button">Perbaiki</button>'); if(!c.ok)row.querySelector('button').onclick=()=>openTarget(c.key);list.appendChild(row);});
+      const issues=$('#altValidationList'),ready=$('#altValidationReadyList');
+      issues.replaceChildren();ready.replaceChildren();
+      checks.forEach(c=>{
+        const row=document.createElement('div');
+        row.className='alt-validation-row'+(c.ok?'':' warn');
+        row.innerHTML='<span class="icon"><i data-lucide="'+(c.ok?'check':'alert-triangle')+'"></i></span><div class="alt-validation-row-copy"><strong>'+c.label+'</strong>'+(c.ok?'':'<span>'+c.help+'</span>')+'</div>'+(c.ok?'':'<button type="button" class="btn">Perbaiki</button>');
+        if(!c.ok){row.querySelector('button').onclick=()=>openTarget(c.key);issues.appendChild(row)}
+        else ready.appendChild(row);
+      });
       const missing=checks.filter(x=>!x.ok).length;
-      $('#altValidationTitle').textContent=missing?missing+' item perlu diperbaiki':'Semua requirement utama ready';
-      $('#altValidationSub').textContent=missing?'Selesaikan item berikut sebelum lanjut.':'Artikel ready masuk tahap approval/publish.';
+      $('#altValidationIssues').hidden=missing===0;
+      $('#altValidationReadyLabel').textContent=(checks.length-missing)+' item sudah siap';
+      $('#altValidationReady').open=missing===0;
+      $('#altValidationTitle').textContent=missing?missing+' item perlu diperbaiki':'Semua item siap';
+      $('#altValidationSub').textContent=missing?'Perbaiki item berikut sebelum melanjutkan.':'Artikel siap untuk langkah berikutnya.';
       $('#altValidationBadge').textContent=(checks.length-missing)+'/'+checks.length+' ready';
+      $('#altValidationModal').classList.toggle('has-issues',missing>0);
       const guardianCount=parseInt($('#guardianTabCount')?.textContent||'0',10)||0;
       const needsRedpel=!missing && guardianCount>0;
       $('#altRedpelBox').classList.toggle('show',needsRedpel);
@@ -12665,7 +12706,18 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         else { action.textContent='Published'; action.disabled=true; }
       };
       if(window.lucide)lucide.createIcons();
+      reviewReturnFocus=document.activeElement;
+      reviewScrollY=window.scrollY;
+      document.body.style.position='fixed';
+      document.body.style.top='-'+reviewScrollY+'px';
+      document.body.style.left='0';
+      document.body.style.right='0';
+      document.body.style.width='100%';
+      document.documentElement.classList.add('nr-review-scroll-lock');
+      document.body.classList.add('nr-review-scroll-lock');
       $('#altValidationModal').classList.add('open');
+      $('#altValidationModal').setAttribute('aria-hidden','false');
+      $('#altValidationClose').focus({preventScroll:true});
     }
 
     const publishBtn=$('#publishBtn');
@@ -17277,7 +17329,18 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
    actions.setAttribute('aria-label','Alat editor');
    // Keep the source writing-view menu in DOM for the existing Font Size control,
    // but do not render its redundant sliders button in the header.
-   if(view)view.hidden=true;
+   if(view){
+     // Remove the duplicate control node, not merely hide the icon; retain the
+     // hidden preference menu that drives the approved T typography control.
+     view.querySelector('#writingViewBtn')?.remove();
+     view.hidden=true;
+   }
+   const legacyView=header.querySelector('.header-view-cluster');
+   if(legacyView){
+     legacyView.querySelector('.header-font-size-select-wrap')?.remove();
+     legacyView.querySelector('.header-font-size')?.remove();
+     legacyView.querySelectorAll('.header-focus-btn').forEach(button=>button.remove());
+   }
    if(saveDraft)actions.appendChild(saveDraft);
    if(preview)actions.appendChild(preview);
    const primary=document.createElement('div');
