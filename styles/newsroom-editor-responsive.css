@@ -225,3 +225,18 @@ body.alt-editor-layout .header-publish-cluster #publishBtn{height:40px!important
   body.alt-editor-layout .header-publish-cluster{padding-left:3px}
   body.alt-editor-layout .topbar{gap:3px!important}
 }
+
+/* Header cleanup: preserve T / Font Size as the single view control.
+   Keep the original dropdown in DOM as its working action source. */
+body.alt-editor-layout .topbar .writing-view-wrap{display:none!important}
+body.alt-editor-layout .topbar .header-view-cluster{margin-right:0!important}
+body.alt-editor-layout .header-actions-cluster{gap:8px!important}
+body.alt-editor-layout .header-status-cluster[data-storage-state="saving"] #saveStatus .save-icon svg{
+  animation:nr-save-spin 1.1s linear infinite
+}
+@keyframes nr-save-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){
+ body.alt-editor-layout .header-status-cluster[data-storage-state="saving"] #saveStatus .save-icon svg{
+  animation:none
+ }
+}
