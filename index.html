@@ -17238,4 +17238,110 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 })();
 
 </script>
+<script id="nr-header-clusters-v2">
+// NEWSROOM_HEADER_CLUSTERS_V2_START
+(function(){
+ 'use strict';
+ function init(){
+   const header=document.querySelector('body.alt-editor-layout .topbar');
+   const lifecycle=document.getElementById('articleLifecycle');
+   const status=document.getElementById('saveStatus');
+   const statusTitle=document.getElementById('saveStatusTitle');
+   const publish=document.getElementById('publishBtn');
+   if(!header||!lifecycle||!status||!statusTitle||!publish)return;
+
+   // Preserve existing button nodes, listeners, menus, and approved editor toolbar.
+   const brand=header.querySelector(':scope>.brand');
+   const context=header.querySelector(':scope>.header-article-context');
+   const spacer=header.querySelector(':scope>.spacer');
+   const ready=header.querySelector('#readyBtn');
+   const view=header.querySelector('.writing-view-wrap');
+   const saveDraft=header.querySelector('#saveDraftBtn');
+   const preview=header.querySelector('#previewBtn');
+   const identity=document.createElement('div');
+   identity.className='header-identity-cluster';
+   identity.setAttribute('aria-label','Identitas artikel');
+   if(brand)identity.appendChild(brand);
+   if(context)identity.appendChild(context);
+   header.insertBefore(identity,spacer||header.firstChild);
+   let statusCluster=header.querySelector('.header-status-cluster');
+   if(!statusCluster){
+     statusCluster=document.createElement('div');
+     statusCluster.className='header-status-cluster';
+     header.insertBefore(statusCluster,lifecycle);
+     statusCluster.append(lifecycle,status);
+   }
+   statusCluster.setAttribute('aria-label','Status artikel dan penyimpanan');
+   const actions=document.createElement('div');
+   actions.className='header-actions-cluster';
+   actions.setAttribute('aria-label','Alat editor');
+   if(view)actions.appendChild(view);
+   if(saveDraft)actions.appendChild(saveDraft);
+   if(preview)actions.appendChild(preview);
+   const primary=document.createElement('div');
+   primary.className='header-publish-cluster';
+   primary.setAttribute('aria-label','Aksi publikasi');
+   primary.appendChild(publish);
+   header.append(actions,primary);
+   if(ready)ready.hidden=true;
+
+   [saveDraft,preview].filter(Boolean).forEach((button)=>{
+     const name=button===saveDraft?'Save Draft':'Preview';
+     button.setAttribute('aria-label',name);
+     button.title=name;
+   });
+   const viewButton=document.getElementById('writingViewBtn');
+   if(viewButton){viewButton.setAttribute('aria-label','Tampilan');viewButton.title='Tampilan'}
+
+   function reflectSaveState(){
+     const offline=navigator.onLine===false;
+     const saving=status.classList.contains('saving');
+     const error=status.classList.contains('error');
+     const mode=status.dataset.saveMode||'';
+     let label,detail,state;
+     if(error){
+       label='Gagal simpan';state='failed';
+       detail='Draft tidak berhasil disimpan. Periksa kapasitas penyimpanan browser.';
+     }else if(saving){
+       label=offline?'Offline · Simpan…':'Menyimpan…';
+       state=offline?'offline':'saving';
+       detail=offline?'Tidak ada koneksi. Mencoba menyimpan perubahan di browser ini.':'Menyimpan perubahan ke browser ini; belum ke server CMS.';
+     }else if(mode==='memory'){
+       label='Tidak aman';state='memory';
+       detail='Draft hanya ada di memori halaman. Jangan tutup tab; salin konten penting.';
+     }else if(mode==='session'){
+       label=offline?'Offline · Sesi':'Tersimpan sesi';state=offline?'offline':'limited';
+       detail='Draft tersimpan sementara selama sesi browser ini. Belum tersimpan permanen atau ke server.';
+     }else if(mode==='local-minimal'){
+       label=offline?'Offline · Parsial':'Sebagian tersimpan';state=offline?'offline':'limited';
+       detail='Hanya sebagian data tersimpan di browser. Periksa konten dan metadata sebelum menutup halaman.';
+     }else if(mode==='local'){
+       label=offline?'Offline · Lokal':'Tersimpan lokal';state=offline?'offline':'saved';
+       detail='Draft tersimpan di browser perangkat ini. '+(offline?'Koneksi offline. ':'')+'Belum tersinkron ke server CMS.';
+     }else{
+       label=offline?'Offline':'Belum disimpan';state=offline?'offline':'pending';
+       detail=offline?'Perangkat offline. Mulai mengetik untuk menyimpan draft secara lokal.':'Belum ada konfirmasi penyimpanan draft ke browser.';
+     }
+     if(statusTitle.textContent!==label)statusTitle.textContent=label;
+     if(statusCluster.dataset.storageState!==state)statusCluster.dataset.storageState=state;
+     const at=status.dataset.savedAt;
+     if(at&&['local','session','local-minimal'].includes(mode)){
+       const savedAt=new Date(Number(at));
+       if(!Number.isNaN(savedAt.getTime()))detail+=' Terakhir: '+savedAt.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})+'.';
+     }
+     if(status.title!==detail)status.title=detail;
+     if(status.getAttribute('aria-label')!==detail)status.setAttribute('aria-label',label+'. '+detail);
+   }
+   const observer=new MutationObserver(reflectSaveState);
+   observer.observe(status,{attributes:true,attributeFilter:['class','data-save-mode','data-saved-at']});
+   observer.observe(statusTitle,{childList:true,characterData:true,subtree:true});
+   window.addEventListener('offline',reflectSaveState);
+   window.addEventListener('online',reflectSaveState);
+   reflectSaveState();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+ else init();
+})();
+// NEWSROOM_HEADER_CLUSTERS_V2_END
+</script>
 </body></html>
