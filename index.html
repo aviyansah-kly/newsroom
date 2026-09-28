@@ -11242,17 +11242,22 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
 #altValidationModal .alt-validation-row .icon{width:28px;height:28px}
 #altValidationModal .alt-validation-row button{height:32px;min-height:32px}
 #altValidationModal .alt-validation-ready{margin:0;border-top:1px solid var(--border);padding-top:14px}
-#altValidationModal .alt-validation-ready summary{min-height:34px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0;cursor:pointer;color:var(--muted);font-size:13px;list-style:none}
-#altValidationModal .alt-validation-ready summary::-webkit-details-marker{display:none}
-#altValidationModal .alt-validation-ready summary span{display:flex;align-items:center;gap:7px;min-width:0}
-#altValidationModal .alt-validation-ready summary span strong{font-size:13px;font-weight:600;color:var(--text)}
-#altValidationModal .alt-validation-ready summary svg{width:15px;height:15px;flex:none}
-#altValidationModal .alt-validation-ready .alt-validation-list{margin-top:8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;background:transparent;overflow:visible}
-#altValidationModal .alt-validation-ready .alt-validation-row{min-height:42px;padding:8px 10px;border:1px solid var(--border)!important;border-radius:8px!important;background:#fff;grid-template-columns:22px minmax(0,1fr)!important}
-#altValidationModal .alt-validation-ready .alt-validation-row .icon{width:22px;height:22px;border-radius:6px}
-#altValidationModal .alt-validation-ready .alt-validation-row .icon svg{width:13px;height:13px}
-#altValidationModal .alt-validation-ready .alt-validation-row-copy strong{font-size:12px;line-height:17px;font-weight:600}
-#altValidationModal .alt-validation-ready .alt-validation-row-copy span{display:none}
+#altValidationModal .alt-validation-ready-toggle{width:100%;min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 2px;border:0;background:transparent;color:var(--text);cursor:pointer}
+#altValidationModal .alt-validation-ready-toggle>span{display:flex;align-items:center;gap:8px;min-width:0}
+#altValidationModal .alt-validation-ready-toggle>span>svg{width:16px;height:16px;color:var(--green);flex:none}
+#altValidationModal .alt-validation-ready-toggle strong{font-size:13px;line-height:18px;font-weight:600}
+#altValidationModal .alt-validation-ready-toggle .ready-chevron{width:16px;height:16px;color:var(--muted);flex:none;transition:transform .15s ease}
+#altValidationModal .alt-validation-ready-toggle[aria-expanded="true"] .ready-chevron{transform:rotate(180deg)}
+#altValidationModal .alt-validation-ready-panel{padding-top:8px}
+#altValidationModal .alt-validation-ready-panel[hidden]{display:none!important}
+#altValidationModal .alt-validation-ready-panel .alt-validation-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;background:transparent;overflow:visible}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row{min-height:42px;padding:8px 10px;border:1px solid var(--border)!important;border-radius:8px!important;background:#fff;grid-template-columns:22px minmax(0,1fr)!important}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row .icon{width:22px;height:22px;border-radius:6px}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row .icon svg{width:13px;height:13px}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row-copy strong{font-size:12px;line-height:17px;font-weight:600}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row-copy span{display:none}
+#altValidationModal #altValidationAction{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+#altValidationModal #altValidationAction svg{width:15px;height:15px}
 .alt-redpel-box{margin-top:14px}
 @media(max-width:560px){
   #altValidationModal{padding:8px}
@@ -11262,7 +11267,7 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
   #altValidationModal .modal-foot{min-height:64px;padding:10px 14px}
   #altValidationModal .modal-foot .btn{flex:1;min-width:0}
   .nr-validation-inline-grid{grid-template-columns:minmax(0,1fr)}
-  #altValidationModal .alt-validation-ready .alt-validation-list{grid-template-columns:minmax(0,1fr)}
+  #altValidationModal .alt-validation-ready-panel .alt-validation-list{grid-template-columns:minmax(0,1fr)}
 }
 /* NEWSROOM_REVIEW_INLINE_CORRECTION_END */
 </style>
@@ -12772,9 +12777,15 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       if($('#altValidationModal'))return;
       const m=document.createElement('div');m.className='modal';m.id='altValidationModal';
       m.setAttribute('aria-hidden','true');
-      m.innerHTML='<div class="modal-card alt-validation-card" role="dialog" aria-modal="true" aria-labelledby="altValidationHeading" aria-describedby="altValidationSub"><div class="modal-head"><div><strong id="altValidationHeading">Review & Publish</strong></div><button type="button" class="btn ghost sm" id="altValidationClose" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="alt-validation-summary" role="status" aria-live="polite"><div><strong id="altValidationTitle">Memeriksa artikel…</strong><span id="altValidationSub"></span></div><span class="publish-readiness-badge" id="altValidationBadge"></span></div><div class="alt-validation-issues" id="altValidationIssues"><div class="alt-validation-group-title">Perlu diperbaiki</div><div class="alt-validation-list" id="altValidationList"></div></div><details class="alt-validation-ready" id="altValidationReady"><summary><span><i data-lucide="circle-check"></i> <strong id="altValidationReadyLabel">Item sudah siap</strong></span><i data-lucide="chevron-down"></i></summary><div class="alt-validation-list" id="altValidationReadyList"></div></details><div class="alt-redpel-box" id="altRedpelBox"><strong>Approval Redpel diperlukan</strong><p>Artikel perlu persetujuan Redpel sebelum tayang.</p></div></div><div class="modal-foot"><button type="button" class="btn" id="altValidationBack">Kembali Edit</button><button type="button" class="btn primary" id="altValidationAction" disabled>Publish</button></div></div>';
+      m.innerHTML='<div class="modal-card alt-validation-card" role="dialog" aria-modal="true" aria-labelledby="altValidationHeading" aria-describedby="altValidationSub"><div class="modal-head"><div><strong id="altValidationHeading">Review & Publish</strong></div><button type="button" class="btn ghost sm" id="altValidationClose" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="alt-validation-summary" role="status" aria-live="polite"><div><strong id="altValidationTitle">Memeriksa artikel…</strong><span id="altValidationSub"></span></div><span class="publish-readiness-badge" id="altValidationBadge"></span></div><div class="alt-validation-issues" id="altValidationIssues"><div class="alt-validation-group-title">Perlu diperbaiki</div><div class="alt-validation-list" id="altValidationList"></div></div><div class="alt-validation-ready" id="altValidationReady"><button type="button" class="alt-validation-ready-toggle" id="altValidationReadyToggle" aria-expanded="false"><span><i data-lucide="circle-check"></i><strong id="altValidationReadyLabel">Sudah siap</strong></span><i data-lucide="chevron-down" class="ready-chevron"></i></button><div class="alt-validation-ready-panel" id="altValidationReadyPanel" hidden><div class="alt-validation-list" id="altValidationReadyList"></div></div></div><div class="alt-redpel-box" id="altRedpelBox"><strong>Approval Redpel diperlukan</strong><p>Artikel perlu persetujuan Redpel sebelum tayang.</p></div></div><div class="modal-foot"><button type="button" class="btn" id="altValidationBack">Kembali Edit</button><button type="button" class="btn primary" id="altValidationAction" disabled><i data-lucide="send"></i><span>Publish</span></button></div></div>';
       document.body.appendChild(m);
       $('#altValidationClose').onclick=$('#altValidationBack').onclick=closeValidation;
+      $('#altValidationReadyToggle').onclick=()=>{
+        const toggle=$('#altValidationReadyToggle'),panel=$('#altValidationReadyPanel');
+        const expanded=toggle.getAttribute('aria-expanded')==='true';
+        toggle.setAttribute('aria-expanded',String(!expanded));
+        panel.hidden=expanded;
+      };
       m.addEventListener('click',e=>{if(e.target===m)closeValidation()});
       m.addEventListener('keydown',e=>{
         if(e.key==='Escape'){e.preventDefault();closeValidation();return}
@@ -12808,41 +12819,55 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     ];
     function ensureInlineCorrection(){
       const summary=$('#altValidationModal .alt-validation-summary');
-      if(!summary||$('#nrValidationInline'))return;
-      const section=document.createElement('section');
-      section.id='nrValidationInline';
-      section.className='nr-validation-inline';
-      section.setAttribute('aria-labelledby','nrValidationInlineTitle');
-      section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Lengkapi</strong></div></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
-      summary.insertAdjacentElement('afterend',section);
-      const initiative=$('#contentInitiative');
-      if(initiative&&![...initiative.options].some(o=>o.value==='Regular')){
-        const regular=new Option('Regular','Regular');
-        initiative.add(regular,1);
+      if(!summary)return;
+      let section=$('#nrValidationInline');
+      if(!section){
+        section=document.createElement('section');
+        section.id='nrValidationInline';
+        section.className='nr-validation-inline';
+        section.setAttribute('aria-labelledby','nrValidationInlineTitle');
+        section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Lengkapi</strong></div></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
+        summary.insertAdjacentElement('afterend',section);
       }
+      const fallbackOptions={
+        contentType:[['','Pilih Content Type'],['Text','Text'],['Photo','Photo'],['Video','Video']],
+        contentInitiative:[['','Pilih Content Initiative'],['Regular','Regular'],['Predictive Calendar','Predictive Calendar'],['Google Trend','Google Trend'],['Content Gap','Content Gap'],['Socmed Trend','Socmed Trend'],['Leveling System','Leveling System'],['Hygiene Content','Hygiene Content'],['Temuan Seru','Temuan Seru'],['Advertorial','Advertorial']]
+      };
+      const initiative=$('#contentInitiative');
+      if(initiative&&![...initiative.options].some(o=>o.value==='Regular'))initiative.add(new Option('Regular','Regular'),1);
+
       const grid=$('#nrValidationInlineGrid');
+      grid.replaceChildren();
       validationFields.forEach(f=>{
         const original=$('#'+f.source);
-        if(!original)return;
         const wrap=document.createElement('div');
         wrap.className='nr-validation-field';
-        wrap.innerHTML='<label for="nrValidation_'+f.key+'">'+f.label+' <span aria-hidden="true">*</span></label><select id="nrValidation_'+f.key+'" class="nr-validation-select" aria-required="true"></select><small id="nrValidationHelp_'+f.key+'">'+f.help+'</small>';
+        wrap.dataset.validationField=f.key;
+        wrap.innerHTML='<label for="nrValidation_'+f.key+'">'+f.label+' <span aria-hidden="true">*</span></label><select id="nrValidation_'+f.key+'" class="nr-validation-select" aria-required="true"></select><small>'+f.help+'</small>';
         grid.appendChild(wrap);
         const select=wrap.querySelector('select');
-        select.replaceChildren(...[...original.options].map(option=>option.cloneNode(true)));
-        select.value=original.value;
+        const sourceOptions=original?[...original.options].map(o=>[o.value,o.textContent]):fallbackOptions[f.key];
+        sourceOptions.forEach(([value,label])=>select.add(new Option(label,value)));
+        select.value=original?.value||'';
         select.addEventListener('change',()=>{
-          original.value=select.value;
-          original.dispatchEvent(new Event('input',{bubbles:true}));
-          original.dispatchEvent(new Event('change',{bubbles:true}));
+          const target=$('#'+f.source);
+          if(target){
+            target.value=select.value;
+            target.dispatchEvent(new Event('input',{bubbles:true}));
+            target.dispatchEvent(new Event('change',{bubbles:true}));
+          }
           track('review_publish_inline_correction',{field:f.key,has_value:!!select.value});
           renderValidation();
         });
       });
-      const save=$('#saveStatus');
-      if(save)new MutationObserver(()=>{
-        if($('#altValidationModal')?.classList.contains('open'))renderValidationStatus();
-      }).observe(save,{attributes:true,attributeFilter:['class','data-save-mode']});
+
+      if(!section.dataset.saveObserver){
+        const save=$('#saveStatus');
+        if(save)new MutationObserver(()=>{
+          if($('#altValidationModal')?.classList.contains('open'))renderValidationStatus();
+        }).observe(save,{attributes:true,attributeFilter:['class','data-save-mode']});
+        section.dataset.saveObserver='true';
+      }
     }
     function renderValidationStatus(){
       const status=$('#saveStatus'),note=$('#nrValidationSave'),action=$('#altValidationAction');
@@ -12860,8 +12885,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       ensureInlineCorrection();
       const pm=editor?.querySelector('.ProseMirror');
       const hasHeadline=!!($('#headlineImg')&&!$('#headlineImg').hidden&&$('#headlineImg').getAttribute('src'));
-      const contentType=$('#contentType')?.value||'';
-      const initiative=$('#contentInitiative')?.value||'';
+      const contentType=$('#contentType')?.value||$('#nrValidation_contentType')?.value||'';
+      const initiative=$('#contentInitiative')?.value||$('#nrValidation_contentInitiative')?.value||'';
       const checks=[
         {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Judul wajib diisi.'},
         {key:'dek',label:'Ringkasan / Dek',ok:!!dek?.value.trim(),help:'Ringkasan membantu preview dan distribusi.'},
@@ -12878,7 +12903,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         const field=validationFields.find(f=>f.key===c.key);
         if(field){
           const select=$('#nrValidation_'+c.key);
-          if(select&&select.value!==$('#'+field.source)?.value)select.value=$('#'+field.source)?.value||'';
+          const source=$('#'+field.source);
+          if(select&&source&&select.value!==source.value)select.value=source.value||'';
           const wrap=select?.closest('.nr-validation-field');
           wrap?.classList.toggle('invalid',!c.ok);
           select?.setAttribute('aria-invalid',String(!c.ok));
@@ -12899,7 +12925,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       $('#altValidationModal').dataset.missing=String(missing);
       $('#altValidationIssues').hidden=issues.children.length===0;
       $('#altValidationReadyLabel').textContent=(checks.length-missing)+' sudah siap';
-      $('#altValidationReady').open=false;
+      $('#altValidationReadyToggle')?.setAttribute('aria-expanded','false');
+      if($('#altValidationReadyPanel'))$('#altValidationReadyPanel').hidden=true;
       $('#altValidationTitle').textContent=missing?missing+' hal perlu diperbaiki':'Siap dipublikasikan';
       $('#altValidationSub').textContent=missing?'Lengkapi sebelum publish.':'Semua siap.';
       $('#altValidationBadge').textContent=(checks.length-missing)+'/'+checks.length+' ready';
@@ -12908,12 +12935,12 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const needsRedpel=!missing&&guardianCount>0;
       $('#altRedpelBox').classList.toggle('show',needsRedpel);
       const action=$('#altValidationAction');
-      action.textContent=needsRedpel?'Kirim ke Redpel':'Publish';
+      action.innerHTML=needsRedpel?'<i data-lucide="send"></i><span>Kirim ke Redpel</span>':'<i data-lucide="send"></i><span>Publish</span>';
       action.onclick=()=>{
         if(action.disabled)return;
         validationSubmitted=true;
-        if(needsRedpel){action.textContent='Terkirim ke Redpel';const rc=$('#readyCount');if(rc)rc.textContent='Menunggu Redpel';}
-        else action.textContent='Published';
+        if(needsRedpel){action.innerHTML='<i data-lucide="check"></i><span>Terkirim</span>';const rc=$('#readyCount');if(rc)rc.textContent='Menunggu Redpel';}
+        else action.innerHTML='<i data-lucide="check"></i><span>Published</span>';
         action.disabled=true;
       };
       renderValidationStatus();
