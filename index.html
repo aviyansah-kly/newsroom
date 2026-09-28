@@ -11241,20 +11241,24 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
 #altValidationModal .alt-validation-row{grid-template-columns:28px minmax(0,1fr) auto;min-height:54px;padding:9px 11px}
 #altValidationModal .alt-validation-row .icon{width:28px;height:28px}
 #altValidationModal .alt-validation-row button{height:32px;min-height:32px}
-#altValidationModal .alt-validation-ready{margin:0;border-top:1px solid var(--border);padding-top:14px}
-#altValidationModal .alt-validation-ready-toggle{width:100%;min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 2px;border:0;background:transparent;color:var(--text);cursor:pointer}
+#altValidationModal .alt-validation-ready{margin:0;border:1px solid var(--border);border-radius:10px;background:#fff;overflow:hidden}
+#altValidationModal .alt-validation-ready-toggle{width:100%;min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;border:0;background:#fff;color:var(--text);cursor:pointer}
+#altValidationModal .alt-validation-ready-toggle:hover{background:#f8fafc}
 #altValidationModal .alt-validation-ready-toggle>span{display:flex;align-items:center;gap:8px;min-width:0}
 #altValidationModal .alt-validation-ready-toggle>span>svg{width:16px;height:16px;color:var(--green);flex:none}
 #altValidationModal .alt-validation-ready-toggle strong{font-size:13px;line-height:18px;font-weight:600}
 #altValidationModal .alt-validation-ready-toggle .ready-chevron{width:16px;height:16px;color:var(--muted);flex:none;transition:transform .15s ease}
 #altValidationModal .alt-validation-ready-toggle[aria-expanded="true"] .ready-chevron{transform:rotate(180deg)}
-#altValidationModal .alt-validation-ready-panel{padding-top:8px}
+#altValidationModal .alt-validation-ready-panel{padding:0;border-top:1px solid var(--border);background:#fff}
 #altValidationModal .alt-validation-ready-panel[hidden]{display:none!important}
-#altValidationModal .alt-validation-ready-panel .alt-validation-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;background:transparent;overflow:visible}
-#altValidationModal .alt-validation-ready-panel .alt-validation-row{min-height:42px;padding:8px 10px;border:1px solid var(--border)!important;border-radius:8px!important;background:#fff;grid-template-columns:22px minmax(0,1fr)!important}
-#altValidationModal .alt-validation-ready-panel .alt-validation-row .icon{width:22px;height:22px;border-radius:6px}
+#altValidationModal .alt-validation-ready-panel .alt-validation-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:0!important;border-radius:0!important;background:#fff;overflow:hidden}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row{min-height:48px;padding:10px 14px;border:0!important;border-bottom:1px solid #eef2f7!important;border-radius:0!important;background:#fff;grid-template-columns:22px minmax(0,1fr)!important;gap:9px;align-items:center}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row:nth-child(odd){border-right:1px solid #eef2f7!important}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row:nth-last-child(-n+2){border-bottom:0!important}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row .icon{width:22px;height:22px;border-radius:6px;background:#ecfdf3;color:#15803d;display:grid;place-items:center}
 #altValidationModal .alt-validation-ready-panel .alt-validation-row .icon svg{width:13px;height:13px}
-#altValidationModal .alt-validation-ready-panel .alt-validation-row-copy strong{font-size:12px;line-height:17px;font-weight:600}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row-copy{min-width:0}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row-copy strong{display:block;font-size:12px;line-height:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #altValidationModal .alt-validation-ready-panel .alt-validation-row-copy span{display:none}
 #altValidationModal #altValidationAction{display:inline-flex;align-items:center;justify-content:center;gap:7px}
 #altValidationModal #altValidationAction svg{width:15px;height:15px}
@@ -11268,6 +11272,9 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
   #altValidationModal .modal-foot .btn{flex:1;min-width:0}
   .nr-validation-inline-grid{grid-template-columns:minmax(0,1fr)}
   #altValidationModal .alt-validation-ready-panel .alt-validation-list{grid-template-columns:minmax(0,1fr)}
+  #altValidationModal .alt-validation-ready-panel .alt-validation-row:nth-child(odd){border-right:0!important}
+  #altValidationModal .alt-validation-ready-panel .alt-validation-row:nth-last-child(-n+2){border-bottom:1px solid #eef2f7!important}
+  #altValidationModal .alt-validation-ready-panel .alt-validation-row:last-child{border-bottom:0!important}
 }
 /* NEWSROOM_REVIEW_INLINE_CORRECTION_END */
 </style>
