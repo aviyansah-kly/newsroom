@@ -11203,27 +11203,26 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
 </style>
 <style>
 /* NEWSROOM_REVIEW_INLINE_CORRECTION_START */
-#altValidationModal .alt-validation-card{width:min(640px,94vw)!important;display:flex;flex-direction:column;max-height:min(88dvh,820px);overflow:hidden;border:1px solid var(--border);border-radius:14px}
+#altValidationModal .alt-validation-card{width:min(660px,94vw)!important;display:flex;flex-direction:column;max-height:min(90dvh,860px);overflow:hidden;border:1px solid var(--border);border-radius:14px}
 #altValidationModal .modal-head{flex:none;position:relative;top:auto;min-height:64px;padding:0 20px;border-bottom:1px solid var(--border);background:#fff}
 #altValidationModal .modal-head strong{font-size:16px;line-height:24px;font-weight:650;letter-spacing:-.01em}
 #altValidationModal .modal-head .btn{width:36px;height:36px;min-height:36px;padding:0;border-radius:8px}
 #altValidationModal .modal-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:20px;background:#fff}
 #altValidationModal .modal-foot{flex:none;position:relative;top:auto;bottom:auto;z-index:2;min-height:68px;padding:12px 20px;border-top:1px solid var(--border);background:#fff}
-#altValidationModal .modal-foot .btn{min-width:104px}
+#altValidationModal .modal-foot .btn{min-width:112px}
 #altValidationModal .modal-foot .btn.primary:disabled{opacity:.48;cursor:not-allowed}
-.alt-validation-summary{display:flex;align-items:center;gap:12px;padding:0 0 18px;margin:0 0 18px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
-.alt-validation-summary:before{content:'';width:10px;height:10px;flex:none;border-radius:999px;background:#f59e0b;box-shadow:0 0 0 4px #fff7ed}
+.alt-validation-summary{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;margin:0 0 18px;border:1px solid var(--border);border-radius:10px;background:#f8fafc}
+.alt-validation-summary:before{content:'';width:10px;height:10px;flex:none;margin-top:5px;border-radius:999px;background:#f59e0b;box-shadow:0 0 0 4px #fff7ed}
 #altValidationModal:not(.has-issues) .alt-validation-summary:before{background:#16a34a;box-shadow:0 0 0 4px #f0fdf4}
 .alt-validation-summary>div{min-width:0;flex:1}
 .alt-validation-summary strong{display:block;font-size:14px;line-height:20px;font-weight:600;color:var(--text)}
 .alt-validation-summary span{display:block;margin-top:2px;font-size:13px;line-height:18px;color:var(--muted)}
 .alt-validation-summary .publish-readiness-badge{display:none!important}
-.nr-validation-inline{padding:0;margin:0 0 20px;border:0;border-radius:0;background:transparent}
-.nr-validation-inline-heading{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:12px}
-.nr-validation-inline-heading strong{font-size:14px;line-height:20px;font-weight:600;color:var(--text)}
-.nr-validation-inline-heading p{margin:2px 0 0;font-size:13px;line-height:18px;color:var(--muted)}
-.nr-validation-inline-badge{display:none!important}
-.nr-validation-inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.nr-validation-inline{padding:0;margin:0 0 18px}
+.nr-validation-inline-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.nr-validation-inline-heading strong{font-size:13px;line-height:18px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.04em}
+.nr-validation-inline-heading p{margin:2px 0 0;font-size:12px;line-height:17px;color:var(--muted)}
+.nr-validation-inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px;border:1px solid var(--border);border-radius:10px;background:#fff}
 .nr-validation-field{display:flex;flex-direction:column;min-width:0;gap:6px}
 .nr-validation-field label{font-size:13px;line-height:18px;font-weight:600;color:var(--text)}
 .nr-validation-field label span{color:var(--red)}
@@ -11233,21 +11232,21 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
 .nr-validation-field.invalid .nr-validation-select{border-color:#f59e0b;background:#fffcf5;box-shadow:0 0 0 3px rgba(245,158,11,.08)}
 .nr-validation-field small{display:none}
 .nr-validation-field.invalid small{display:block;font-size:12px;line-height:17px;color:#b45309}
-.nr-validation-save-status{min-height:18px;display:flex;align-items:center;margin:10px 0 0;font-size:12px;line-height:18px;color:var(--muted)}
+.nr-validation-save-status{min-height:18px;display:flex;align-items:center;margin:8px 2px 0;font-size:12px;line-height:18px;color:var(--muted)}
 .nr-validation-save-status:empty{display:none}
 .nr-validation-save-status.saving{color:#92400e}.nr-validation-save-status.error{color:var(--red)}
-.alt-validation-issues{margin-top:0}
-.alt-validation-group-title{margin:0 0 8px;font-size:12px;line-height:18px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.alt-validation-issues{margin:0 0 16px}
+.alt-validation-group-title{margin:0 0 8px;font-size:13px;line-height:18px;font-weight:700;color:var(--text)}
 #altValidationModal .alt-validation-list{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff}
 #altValidationModal .alt-validation-row{grid-template-columns:28px minmax(0,1fr) auto;min-height:54px;padding:9px 11px}
 #altValidationModal .alt-validation-row .icon{width:28px;height:28px}
 #altValidationModal .alt-validation-row button{height:32px;min-height:32px}
-#altValidationModal .alt-validation-ready{margin-top:12px;border:0}
-#altValidationModal .alt-validation-ready summary{min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 2px;cursor:pointer;color:var(--muted);font-size:13px;list-style:none}
+#altValidationModal .alt-validation-ready{margin:0;border-top:1px solid var(--border);padding-top:14px}
+#altValidationModal .alt-validation-ready summary{min-height:36px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0;cursor:pointer;color:var(--muted);font-size:13px;list-style:none}
 #altValidationModal .alt-validation-ready summary::-webkit-details-marker{display:none}
 #altValidationModal .alt-validation-ready summary span{display:flex;align-items:center;gap:7px}
 #altValidationModal .alt-validation-ready summary svg{width:15px;height:15px}
-#altValidationModal .alt-validation-ready:not([open]) .alt-validation-list{display:none}
+#altValidationModal .alt-validation-ready .alt-validation-list{margin-top:8px}
 .alt-redpel-box{margin-top:14px}
 @media(max-width:560px){
   #altValidationModal{padding:8px}
@@ -12766,7 +12765,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       if($('#altValidationModal'))return;
       const m=document.createElement('div');m.className='modal';m.id='altValidationModal';
       m.setAttribute('aria-hidden','true');
-      m.innerHTML='<div class="modal-card alt-validation-card" role="dialog" aria-modal="true" aria-labelledby="altValidationHeading" aria-describedby="altValidationSub"><div class="modal-head"><div><strong id="altValidationHeading">Review & Publish</strong></div><button type="button" class="btn ghost sm" id="altValidationClose" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="alt-validation-summary" role="status" aria-live="polite"><div><strong id="altValidationTitle">Memeriksa artikel…</strong><span id="altValidationSub"></span></div><span class="publish-readiness-badge" id="altValidationBadge"></span></div><div class="alt-validation-issues" id="altValidationIssues"><div class="alt-validation-group-title">Perlu diperbaiki</div><div class="alt-validation-list" id="altValidationList"></div></div><details class="alt-validation-ready" id="altValidationReady"><summary><span><i data-lucide="circle-check"></i> <strong id="altValidationReadyLabel">Item sudah siap</strong></span><i data-lucide="chevron-down"></i></summary><div class="alt-validation-list" id="altValidationReadyList"></div></details><div class="alt-redpel-box" id="altRedpelBox"><strong>Approval Redpel diperlukan</strong><p>Artikel perlu persetujuan Redpel sebelum tayang.</p></div></div><div class="modal-foot"><button type="button" class="btn" id="altValidationBack">Kembali Edit</button><button type="button" class="btn primary" id="altValidationAction" disabled>Publish</button></div></div>';
+      m.innerHTML='<div class="modal-card alt-validation-card" role="dialog" aria-modal="true" aria-labelledby="altValidationHeading" aria-describedby="altValidationSub"><div class="modal-head"><div><strong id="altValidationHeading">Review & Publish</strong></div><button type="button" class="btn ghost sm" id="altValidationClose" aria-label="Tutup review"><i data-lucide="x"></i></button></div><div class="modal-body"><div class="alt-validation-summary" role="status" aria-live="polite"><div><strong id="altValidationTitle">Memeriksa artikel…</strong><span id="altValidationSub"></span></div><span class="publish-readiness-badge" id="altValidationBadge"></span></div><div class="alt-validation-issues" id="altValidationIssues"><div class="alt-validation-group-title">Perlu diperbaiki di editor</div><div class="alt-validation-list" id="altValidationList"></div></div><details class="alt-validation-ready" id="altValidationReady"><summary><span><i data-lucide="circle-check"></i> <strong id="altValidationReadyLabel">Item sudah siap</strong></span><i data-lucide="chevron-down"></i></summary><div class="alt-validation-list" id="altValidationReadyList"></div></details><div class="alt-redpel-box" id="altRedpelBox"><strong>Approval Redpel diperlukan</strong><p>Artikel perlu persetujuan Redpel sebelum tayang.</p></div></div><div class="modal-foot"><button type="button" class="btn" id="altValidationBack">Kembali Edit</button><button type="button" class="btn primary" id="altValidationAction" disabled>Publish</button></div></div>';
       document.body.appendChild(m);
       $('#altValidationClose').onclick=$('#altValidationBack').onclick=closeValidation;
       m.addEventListener('click',e=>{if(e.target===m)closeValidation()});
@@ -12807,7 +12806,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       section.id='nrValidationInline';
       section.className='nr-validation-inline';
       section.setAttribute('aria-labelledby','nrValidationInlineTitle');
-      section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Klasifikasi konten</strong><p>Pastikan pilihan berikut sudah sesuai.</p></div></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
+      section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Wajib dilengkapi</strong><p>Field yang bisa diselesaikan langsung di sini.</p></div></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
       summary.insertAdjacentElement('afterend',section);
       const initiative=$('#contentInitiative');
       if(initiative&&![...initiative.options].some(o=>o.value==='Regular')){
@@ -12892,10 +12891,10 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const missing=checks.filter(x=>!x.ok).length;
       $('#altValidationModal').dataset.missing=String(missing);
       $('#altValidationIssues').hidden=issues.children.length===0;
-      $('#altValidationReadyLabel').textContent='Lihat '+(checks.length-missing)+' pemeriksaan yang sudah siap';
+      $('#altValidationReadyLabel').textContent=(checks.length-missing)+' pemeriksaan sudah siap';
       $('#altValidationReady').open=false;
-      $('#altValidationTitle').textContent=missing?missing+' hal perlu dilengkapi':'Siap dipublikasikan';
-      $('#altValidationSub').textContent=missing?'Lengkapi yang masih diperlukan sebelum publish.':'Semua pemeriksaan utama sudah terpenuhi.';
+      $('#altValidationTitle').textContent=missing?missing+' hal perlu ditinjau':'Siap dipublikasikan';
+      $('#altValidationSub').textContent=missing?'Selesaikan field di bawah atau kembali ke editor untuk item lainnya.':'Semua pemeriksaan utama sudah terpenuhi.';
       $('#altValidationBadge').textContent=(checks.length-missing)+'/'+checks.length+' ready';
       $('#altValidationModal').classList.toggle('has-issues',missing>0);
       const guardianCount=parseInt($('#guardianTabCount')?.textContent||'0',10)||0;
