@@ -12808,10 +12808,12 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       if(!note||!action)return;
       const saving=status?.classList.contains('saving');
       const failed=status?.classList.contains('error');
-      note.className='nr-validation-save-status'+(failed?' error':saving?' saving':'');
-      note.textContent=failed?'Perubahan gagal disimpan. Coba lagi sebelum publish.':saving?'Menyimpan perubahan…':'Perubahan mengikuti autosave artikel.';
+      const mode=status?.dataset.saveMode||'';
+      const incomplete=status?.classList.contains('saved')&&mode!=='local';
+      note.className='nr-validation-save-status'+(failed||incomplete?' error':saving?' saving':'');
+      note.textContent=failed?'Perubahan gagal disimpan. Coba lagi sebelum publish.':saving?'Menyimpan perubahan…':incomplete?'Draft belum tersimpan lengkap. Kosongkan penyimpanan browser lalu coba lagi.':'Draft tersimpan lokal di browser (prototype, belum ke server).';
       const missing=Number($('#altValidationModal')?.dataset.missing||0);
-      action.disabled=missing>0||saving||failed||validationSubmitted;
+      action.disabled=missing>0||saving||failed||incomplete||validationSubmitted;
     }
     function renderValidation(){
       ensureInlineCorrection();
