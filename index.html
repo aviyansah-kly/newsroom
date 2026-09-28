@@ -11203,26 +11203,61 @@ body.alt-editor-layout #altEditorialTagsSection .newsroom-ai-tag-preview-empty{
 </style>
 <style>
 /* NEWSROOM_REVIEW_INLINE_CORRECTION_START */
-#altValidationModal .alt-validation-card{display:flex;flex-direction:column;max-height:min(92dvh,900px);overflow:hidden}
-#altValidationModal .modal-head,#altValidationModal .modal-foot{flex:none;position:relative;top:auto;bottom:auto;z-index:2}
-#altValidationModal .modal-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
-.nr-validation-inline{padding:16px;margin:0 0 16px;border:1px solid var(--border);border-radius:12px;background:var(--soft)}
-.nr-validation-inline-heading{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:14px}
-.nr-validation-inline-heading strong{font-size:14px;font-weight:600;color:var(--text)}
-.nr-validation-inline-heading p{margin:4px 0 0;font-size:13px;color:var(--muted)}
-.nr-validation-inline-badge{flex:none;border:1px solid #fed7aa;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:600;color:#9a3412;background:#fff7ed}
-.nr-validation-inline-badge.complete{border-color:#bbf7d0;color:#166534;background:#f0fdf4}
+#altValidationModal .alt-validation-card{width:min(640px,94vw)!important;display:flex;flex-direction:column;max-height:min(88dvh,820px);overflow:hidden;border:1px solid var(--border);border-radius:14px}
+#altValidationModal .modal-head{flex:none;position:relative;top:auto;min-height:64px;padding:0 20px;border-bottom:1px solid var(--border);background:#fff}
+#altValidationModal .modal-head strong{font-size:16px;line-height:24px;font-weight:650;letter-spacing:-.01em}
+#altValidationModal .modal-head .btn{width:36px;height:36px;min-height:36px;padding:0;border-radius:8px}
+#altValidationModal .modal-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:20px;background:#fff}
+#altValidationModal .modal-foot{flex:none;position:relative;top:auto;bottom:auto;z-index:2;min-height:68px;padding:12px 20px;border-top:1px solid var(--border);background:#fff}
+#altValidationModal .modal-foot .btn{min-width:104px}
+#altValidationModal .modal-foot .btn.primary:disabled{opacity:.48;cursor:not-allowed}
+.alt-validation-summary{display:flex;align-items:center;gap:12px;padding:0 0 18px;margin:0 0 18px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent}
+.alt-validation-summary:before{content:'';width:10px;height:10px;flex:none;border-radius:999px;background:#f59e0b;box-shadow:0 0 0 4px #fff7ed}
+#altValidationModal:not(.has-issues) .alt-validation-summary:before{background:#16a34a;box-shadow:0 0 0 4px #f0fdf4}
+.alt-validation-summary>div{min-width:0;flex:1}
+.alt-validation-summary strong{display:block;font-size:14px;line-height:20px;font-weight:600;color:var(--text)}
+.alt-validation-summary span{display:block;margin-top:2px;font-size:13px;line-height:18px;color:var(--muted)}
+.alt-validation-summary .publish-readiness-badge{display:none!important}
+.nr-validation-inline{padding:0;margin:0 0 20px;border:0;border-radius:0;background:transparent}
+.nr-validation-inline-heading{display:flex;align-items:start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.nr-validation-inline-heading strong{font-size:14px;line-height:20px;font-weight:600;color:var(--text)}
+.nr-validation-inline-heading p{margin:2px 0 0;font-size:13px;line-height:18px;color:var(--muted)}
+.nr-validation-inline-badge{display:none!important}
 .nr-validation-inline-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .nr-validation-field{display:flex;flex-direction:column;min-width:0;gap:6px}
-.nr-validation-field label{font-size:13px;font-weight:600;color:var(--text)}
+.nr-validation-field label{font-size:13px;line-height:18px;font-weight:600;color:var(--text)}
 .nr-validation-field label span{color:var(--red)}
-.nr-validation-select{width:100%;height:42px;min-width:0;padding:0 36px 0 12px;border:1px solid var(--input);border-radius:8px;background:#fff;color:var(--text);font:inherit;font-size:14px}
-.nr-validation-select:focus{outline:0;border-color:var(--blue);box-shadow:var(--focus)}
-.nr-validation-field.invalid .nr-validation-select{border-color:#f59e0b;background:#fffcf5}
-.nr-validation-field small{font-size:12px;line-height:1.45;color:var(--muted)}
-.nr-validation-save-status{display:flex;align-items:center;margin:12px 0 0;font-size:12px;color:var(--muted)}
+.nr-validation-select{width:100%;height:42px;min-width:0;padding:0 36px 0 12px;border:1px solid var(--input);border-radius:8px;background:#fff;color:var(--text);font:inherit;font-size:14px;box-shadow:0 1px 2px rgba(15,23,42,.03)}
+.nr-validation-select:hover{border-color:#94a3b8}
+.nr-validation-select:focus{outline:0;border-color:#94a3b8;box-shadow:0 0 0 3px rgba(148,163,184,.18)}
+.nr-validation-field.invalid .nr-validation-select{border-color:#f59e0b;background:#fffcf5;box-shadow:0 0 0 3px rgba(245,158,11,.08)}
+.nr-validation-field small{display:none}
+.nr-validation-field.invalid small{display:block;font-size:12px;line-height:17px;color:#b45309}
+.nr-validation-save-status{min-height:18px;display:flex;align-items:center;margin:10px 0 0;font-size:12px;line-height:18px;color:var(--muted)}
+.nr-validation-save-status:empty{display:none}
 .nr-validation-save-status.saving{color:#92400e}.nr-validation-save-status.error{color:var(--red)}
-@media(max-width:560px){#altValidationModal{padding:8px}#altValidationModal .alt-validation-card{width:100%!important;max-height:calc(100dvh - 16px)}.nr-validation-inline-grid{grid-template-columns:minmax(0,1fr)}.nr-validation-inline-heading{flex-wrap:wrap}}
+.alt-validation-issues{margin-top:0}
+.alt-validation-group-title{margin:0 0 8px;font-size:12px;line-height:18px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+#altValidationModal .alt-validation-list{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff}
+#altValidationModal .alt-validation-row{grid-template-columns:28px minmax(0,1fr) auto;min-height:54px;padding:9px 11px}
+#altValidationModal .alt-validation-row .icon{width:28px;height:28px}
+#altValidationModal .alt-validation-row button{height:32px;min-height:32px}
+#altValidationModal .alt-validation-ready{margin-top:12px;border:0}
+#altValidationModal .alt-validation-ready summary{min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 2px;cursor:pointer;color:var(--muted);font-size:13px;list-style:none}
+#altValidationModal .alt-validation-ready summary::-webkit-details-marker{display:none}
+#altValidationModal .alt-validation-ready summary span{display:flex;align-items:center;gap:7px}
+#altValidationModal .alt-validation-ready summary svg{width:15px;height:15px}
+#altValidationModal .alt-validation-ready:not([open]) .alt-validation-list{display:none}
+.alt-redpel-box{margin-top:14px}
+@media(max-width:560px){
+  #altValidationModal{padding:8px}
+  #altValidationModal .alt-validation-card{width:100%!important;max-height:calc(100dvh - 16px);border-radius:12px}
+  #altValidationModal .modal-head{min-height:58px;padding:0 14px}
+  #altValidationModal .modal-body{padding:16px 14px}
+  #altValidationModal .modal-foot{min-height:64px;padding:10px 14px}
+  #altValidationModal .modal-foot .btn{flex:1;min-width:0}
+  .nr-validation-inline-grid{grid-template-columns:minmax(0,1fr)}
+}
 /* NEWSROOM_REVIEW_INLINE_CORRECTION_END */
 </style>
 </head><body class="alt-editor-layout">
@@ -12772,11 +12807,11 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       section.id='nrValidationInline';
       section.className='nr-validation-inline';
       section.setAttribute('aria-labelledby','nrValidationInlineTitle');
-      section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Editorial classification</strong><p>Lengkapi atau periksa field berikut tanpa keluar dari review.</p></div><span class="nr-validation-inline-badge" id="nrValidationInlineBadge">Memeriksa…</span></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
+      section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Klasifikasi konten</strong><p>Pastikan pilihan berikut sudah sesuai.</p></div></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
       summary.insertAdjacentElement('afterend',section);
       const initiative=$('#contentInitiative');
       if(initiative&&![...initiative.options].some(o=>o.value==='Regular')){
-        const regular=new Option('Konten reguler / Tidak ada inisiatif','Regular');
+        const regular=new Option('Regular','Regular');
         initiative.add(regular,1);
       }
       const grid=$('#nrValidationInlineGrid');
@@ -12811,7 +12846,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const mode=status?.dataset.saveMode||'';
       const incomplete=status?.classList.contains('saved')&&mode!=='local';
       note.className='nr-validation-save-status'+(failed||incomplete?' error':saving?' saving':'');
-      note.textContent=failed?'Perubahan gagal disimpan. Coba lagi sebelum publish.':saving?'Menyimpan perubahan…':incomplete?'Draft belum tersimpan lengkap. Kosongkan penyimpanan browser lalu coba lagi.':'Draft tersimpan lokal di browser (prototype, belum ke server).';
+      note.textContent=failed?'Perubahan belum tersimpan. Coba lagi sebelum publish.':saving?'Menyimpan perubahan…':incomplete?'Perubahan belum tersimpan lengkap. Coba lagi sebelum publish.':'';
       const missing=Number($('#altValidationModal')?.dataset.missing||0);
       action.disabled=missing>0||saving||failed||incomplete||validationSubmitted;
     }
@@ -12854,16 +12889,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         if(!c.ok){row.querySelector('button').onclick=()=>openTarget(c.key);issues.appendChild(row)}
         else ready.appendChild(row);
       });
-      const classificationCount=Number(!!contentType)+Number(!!initiative);
-      $('#nrValidationInlineBadge').textContent=classificationCount+'/2 lengkap';
-      $('#nrValidationInlineBadge').classList.toggle('complete',classificationCount===2);
       const missing=checks.filter(x=>!x.ok).length;
       $('#altValidationModal').dataset.missing=String(missing);
       $('#altValidationIssues').hidden=issues.children.length===0;
-      $('#altValidationReadyLabel').textContent=(checks.length-missing)+' item sudah siap';
-      $('#altValidationReady').open=missing===0;
-      $('#altValidationTitle').textContent=missing?missing+' item perlu diperbaiki':'Semua item siap';
-      $('#altValidationSub').textContent=missing?'Perbaiki item berikut sebelum melanjutkan.':'Artikel siap untuk langkah berikutnya.';
+      $('#altValidationReadyLabel').textContent='Lihat '+(checks.length-missing)+' pemeriksaan yang sudah siap';
+      $('#altValidationReady').open=false;
+      $('#altValidationTitle').textContent=missing?missing+' hal perlu dilengkapi':'Siap dipublikasikan';
+      $('#altValidationSub').textContent=missing?'Lengkapi yang masih diperlukan sebelum publish.':'Semua pemeriksaan utama sudah terpenuhi.';
       $('#altValidationBadge').textContent=(checks.length-missing)+'/'+checks.length+' ready';
       $('#altValidationModal').classList.toggle('has-issues',missing>0);
       const guardianCount=parseInt($('#guardianTabCount')?.textContent||'0',10)||0;
