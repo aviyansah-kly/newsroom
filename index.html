@@ -12836,6 +12836,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         section.innerHTML='<div class="nr-validation-inline-heading"><div><strong id="nrValidationInlineTitle">Lengkapi</strong></div></div><div class="nr-validation-inline-grid" id="nrValidationInlineGrid"></div><p class="nr-validation-save-status" id="nrValidationSave" role="status" aria-live="polite"></p>';
         summary.insertAdjacentElement('afterend',section);
       }
+
       const fallbackOptions={
         contentType:[['','Pilih Content Type'],['Text','Text'],['Photo','Photo'],['Video','Video']],
         contentInitiative:[['','Pilih Content Initiative'],['Regular','Regular'],['Predictive Calendar','Predictive Calendar'],['Google Trend','Google Trend'],['Content Gap','Content Gap'],['Socmed Trend','Socmed Trend'],['Leveling System','Leveling System'],['Hygiene Content','Hygiene Content'],['Temuan Seru','Temuan Seru'],['Advertorial','Advertorial']]
@@ -12844,28 +12845,40 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       if(initiative&&![...initiative.options].some(o=>o.value==='Regular'))initiative.add(new Option('Regular','Regular'),1);
 
       const grid=$('#nrValidationInlineGrid');
-      grid.replaceChildren();
       validationFields.forEach(f=>{
-        const original=$('#'+f.source);
-        const wrap=document.createElement('div');
-        wrap.className='nr-validation-field';
-        wrap.dataset.validationField=f.key;
-        wrap.innerHTML='<label for="nrValidation_'+f.key+'">'+f.label+' <span aria-hidden="true">*</span></label><select id="nrValidation_'+f.key+'" class="nr-validation-select" aria-required="true"></select><small>'+f.help+'</small>';
-        grid.appendChild(wrap);
-        const select=wrap.querySelector('select');
-        const sourceOptions=original?[...original.options].map(o=>[o.value,o.textContent]):fallbackOptions[f.key];
-        sourceOptions.forEach(([value,label])=>select.add(new Option(label,value)));
-        select.value=original?.value||'';
-        select.addEventListener('change',()=>{
-          const target=$('#'+f.source);
-          if(target){
-            target.value=select.value;
-            target.dispatchEvent(new Event('input',{bubbles:true}));
-            target.dispatchEvent(new Event('change',{bubbles:true}));
-          }
-          track('review_publish_inline_correction',{field:f.key,has_value:!!select.value});
-          renderValidation();
-        });
+        let select=$('#nrValidation_'+f.key);
+        if(!select){
+          const original=$('#'+f.source);
+          const wrap=document.createElement('div');
+          wrap.className='nr-validation-field';
+          wrap.dataset.validationField=f.key;
+          wrap.innerHTML='<label for="nrValidation_'+f.key+'">'+f.label+' <span aria-hidden="true">*</span></label><select id="nrValidation_'+f.key+'" class="nr-validation-select" aria-required="true"></select><small>'+f.help+'</small>';
+          grid.appendChild(wrap);
+          select=wrap.querySelector('select');
+
+          const sourceOptions=original?[...original.options].map(o=>[o.value,o.textContent]):fallbackOptions[f.key];
+          sourceOptions.forEach(([value,label])=>select.add(new Option(label,value)));
+          select.value=original?.value||'';
+
+          select.addEventListener('change',()=>{
+            const value=select.value;
+            const fieldWrap=select.closest('.nr-validation-field');
+            fieldWrap?.classList.toggle('invalid',!value);
+            select.setAttribute('aria-invalid',String(!value));
+
+            const target=$('#'+f.source);
+            if(target){
+              target.value=value;
+              target.dispatchEvent(new Event('input',{bubbles:true}));
+              target.dispatchEvent(new Event('change',{bubbles:true}));
+            }
+            track('review_publish_inline_correction',{field:f.key,has_value:!!value});
+            queueMicrotask(renderValidation);
+          });
+        }else{
+          const original=$('#'+f.source);
+          if(original&&document.activeElement!==select&&select.value!==original.value)select.value=original.value||select.value;
+        }
       });
 
       if(!section.dataset.saveObserver){
@@ -12892,8 +12905,9 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       ensureInlineCorrection();
       const pm=editor?.querySelector('.ProseMirror');
       const hasHeadline=!!($('#headlineImg')&&!$('#headlineImg').hidden&&$('#headlineImg').getAttribute('src'));
-      const contentType=$('#contentType')?.value||$('#nrValidation_contentType')?.value||'';
-      const initiative=$('#contentInitiative')?.value||$('#nrValidation_contentInitiative')?.value||'';
+      const reviewOpen=$('#altValidationModal')?.classList.contains('open');
+      const contentType=(reviewOpen?$('#nrValidation_contentType')?.value:'')||$('#contentType')?.value||'';
+      const initiative=(reviewOpen?$('#nrValidation_contentInitiative')?.value:'')||$('#contentInitiative')?.value||'';
       const checks=[
         {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Judul wajib diisi.'},
         {key:'dek',label:'Ringkasan / Dek',ok:!!dek?.value.trim(),help:'Ringkasan membantu preview dan distribusi.'},
@@ -12911,7 +12925,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         if(field){
           const select=$('#nrValidation_'+c.key);
           const source=$('#'+field.source);
-          if(select&&source&&select.value!==source.value)select.value=source.value||'';
+          if(select&&source&&!$('#altValidationModal')?.classList.contains('open')&&select.value!==source.value)select.value=source.value||'';
           const wrap=select?.closest('.nr-validation-field');
           wrap?.classList.toggle('invalid',!c.ok);
           select?.setAttribute('aria-invalid',String(!c.ok));
