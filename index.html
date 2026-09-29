@@ -11289,10 +11289,28 @@ body.alt-editor-layout .alt-category-first-grid{
   grid-template-columns:minmax(0,1fr)!important;
   gap:0!important;
 }
-body.alt-editor-layout .alt-category-native-field,
-body.alt-editor-layout .alt-subcategory-native-field{
-  display:none!important;
+body.alt-editor-layout .alt-category-native-field{display:block!important}
+body.alt-editor-layout .alt-subcategory-native-field{display:none!important}
+body.alt-editor-layout #category.alt-category-select-native,
+body.alt-editor-layout #altSubCategory.alt-category-select-native{display:none!important}
+body.alt-editor-layout .alt-category-native,
+body.alt-editor-layout .alt-subcategory-native{display:block!important}
+body.alt-editor-layout .alt-category-native>select,
+body.alt-editor-layout .alt-subcategory-native>select{display:none!important}
+body.alt-editor-layout .category-tree-field{
+  display:block!important;
+  margin:0 0 14px!important;
 }
+body.alt-editor-layout .category-tree-field>label{
+  display:block!important;
+  margin-bottom:6px!important;
+  color:var(--text)!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:600!important;
+}
+body.alt-editor-layout .alt-category-first-step:empty,
+body.alt-editor-layout .alt-category-first-step.category-step-empty{display:none!important}
 body.alt-editor-layout .alt-category-tree-picker{
   position:relative!important;
   width:100%!important;
@@ -18057,20 +18075,28 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   }
 
   function ensureStep(category,sub){
-    let step=document.querySelector('.alt-category-first-step');
-    if(step)return step;
-    const writing=document.querySelector('.alt-writing-card');
-    if(!writing)return category.closest('.settings-section')||category.parentElement;
-    step=document.createElement('section');
-    step.className='alt-category-first-step';
-    step.innerHTML='<div class="alt-category-first-head"><div><strong>Kategori Artikel</strong><span>Pilih kanal atau subkanal sebelum mulai menulis.</span></div></div><div class="alt-category-first-grid"></div>';
-    writing.parentElement.insertBefore(step,writing);
-    const grid=step.querySelector('.alt-category-first-grid');
+    const infoPane=document.getElementById('infoPane');
+    const classification=infoPane&&[...infoPane.querySelectorAll('.settings-section')].find(sec=>sec.querySelector('#articleType'));
     const catField=category.closest('.field');
     const subField=sub&&sub.closest('.field');
-    if(catField)grid.appendChild(catField);
-    if(subField)grid.appendChild(subField);
-    return step;
+    if(!catField)return null;
+
+    // Legacy V44/V46 moved Category into the writing canvas. Put it back where
+    // editors expect metadata: Article Settings > Info > Editorial Classification.
+    if(classification){
+      const articleType=document.getElementById('articleType');
+      const articleTypeField=articleType&&articleType.closest('.field');
+      if(articleTypeField)classification.insertBefore(catField,articleTypeField);
+      else classification.appendChild(catField);
+      if(subField && subField!==catField)classification.insertBefore(subField,catField.nextSibling);
+    }
+
+    document.querySelectorAll('.alt-category-first-step').forEach(step=>{
+      step.querySelectorAll('.alt-category-picker,.alt-category-tree-picker,.newsroom-category-picker').forEach(x=>x.remove());
+      if(!step.querySelector('.field'))step.classList.add('category-step-empty');
+    });
+
+    return catField;
   }
 
   function init(){
@@ -18085,20 +18111,23 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       category.insertAdjacentElement('afterend',sub);
     }
 
-    const step=ensureStep(category,sub);
-    if(!step)return;
+    const catField=ensureStep(category,sub);
+    if(!catField)return;
 
-    step.querySelectorAll('.alt-category-picker,.alt-category-tree-picker,.newsroom-category-picker').forEach(x=>x.remove());
+    document.querySelectorAll('.alt-category-picker,.alt-category-tree-picker,.newsroom-category-picker').forEach(x=>x.remove());
 
-    const catField=category.closest('.field');
     const subField=sub.closest('.field');
-    if(catField)catField.classList.add('alt-category-native-field');
-    if(subField)subField.classList.add('alt-subcategory-native-field');
+    catField.classList.remove('alt-category-native','alt-category-native-field');
+    catField.classList.add('category-tree-field');
+    if(subField){
+      subField.classList.remove('alt-subcategory-native');
+      subField.classList.add('alt-subcategory-native-field');
+    }
+    category.classList.add('alt-category-select-native');
+    sub.classList.add('alt-category-select-native');
 
-    const head=step.querySelector('.alt-category-first-head strong');
-    const desc=step.querySelector('.alt-category-first-head span');
-    if(head)head.textContent='Kategori Artikel';
-    if(desc)desc.textContent='Pilih kanal, subkanal, hingga level ketiga sesuai struktur editorial.';
+    const label=catField.querySelector('label');
+    if(label)label.textContent='Kategori Artikel';
 
     const legacyCategory=(category.value||'').trim();
     const legacySub=(sub.value||'').trim();
@@ -18138,8 +18167,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       '</div>'+
       '<div class="alt-category-tree-help"><i data-lucide="info"></i><span>Item berstatus Dihapus tidak ditampilkan. Item Hidden tetap bisa dipilih sesuai aturan CMS.</span></div>';
 
-    const grid=step.querySelector('.alt-category-first-grid')||step;
-    grid.appendChild(picker);
+    category.insertAdjacentElement('afterend',picker);
 
     const trigger=picker.querySelector('.alt-category-tree-trigger');
     const triggerTitle=picker.querySelector('.alt-category-tree-trigger-text strong');
