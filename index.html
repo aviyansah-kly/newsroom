@@ -18113,32 +18113,47 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 <script>
 // NEWSROOM_CATEGORY_TREE_2026_JS_START
 (function(){
-  // Existing CMS category hierarchy. UI supports Category + up to 3 nested subcategories.
-  const CATEGORY_PATHS=[{"id":"22","label":"Apec / Berita Apec"},{"id":"21","label":"Apec / Buah Bibir"},{"id":"1010","label":"Apps"},{"id":"1214","label":"Artis / Selebgram"},{"id":"1280","label":"Berita"},{"id":"1281","label":"Berita / Politik"},{"id":"1285","label":"Berita / Regional"},{"id":"5","label":"Bisnis"},{"id":"42","label":"Bisnis / Bank"},{"id":"1047","label":"Bisnis / Bank / gedang"},{"id":"242","label":"Bisnis / CPNS"},{"id":"43","label":"Bisnis / Ekonomi"},{"id":"40","label":"Bisnis / Energi & Tambang"},{"id":"541","label":"Bisnis / Info Kementan"},{"id":"412","label":"Bisnis / Konsultasi Pajak"},{"id":"1211","label":"Bisnis / Saham"},{"id":"11","label":"Bola"},{"id":"136","label":"Bola / Corner"},{"id":"131","label":"Bola / Liga Inggris"},{"id":"546","label":"Bola / Liga Internasional"},{"id":"130","label":"Bola / Liga Italia"},{"id":"122","label":"Bola / Liga Indonesia"},{"id":"129","label":"Bola / Liga Spanyol"},{"id":"335","label":"Bola / Piala-Asean / Catatan Reporter"},{"id":"333","label":"Bola / Piala-Asean / Data Pertandingan"},{"id":"336","label":"Bola / Piala-Asean / Foto"},{"id":"331","label":"Bola / Piala-Asean / News Update"},{"id":"334","label":"Bola / Piala-Asean / Pinggir Lapangan"},{"id":"332","label":"Bola / Piala-Asean / Wawancara"},{"id":"1108","label":"Bola / Piala Dunia"},{"id":"133","label":"Bola / Prediksi"},{"id":"225","label":"Bola / Sports"},{"id":"224","label":"Bola / WAGs"},{"id":"240","label":"Bola / Worldcup / Sejarah"},{"id":"241","label":"Bola / Worldcup / Team Player"},{"id":"238","label":"Bola / Worldcup / WAGs"},{"id":"239","label":"Bola / Worldcup / Kickoff"},{"id":"1006","label":"Cek Fakta"},{"id":"45","label":"Citizen6"},{"id":"326","label":"Citizen6 / Blog Keren"},{"id":"585","label":"Citizen6 / Campus CJ"},{"id":"1004","label":"Citizen6 / Forum"},{"id":"324","label":"Citizen6 / Hits"},{"id":"327","label":"Citizen6 / Komunitasku"},{"id":"328","label":"Citizen6 / Potret"},{"id":"1005","label":"Citizen6 / Sahabat Liputan6"},{"id":"325","label":"Citizen6 / TGIF"},{"id":"1016","label":"Disabilitas"},{"id":"1187","label":"En / Food"},{"id":"1186","label":"En / Techno"},{"id":"1188","label":"En / Trivia"},{"id":"1177","label":"Feed"},{"id":"1179","label":"Feeds"},{"id":"1024","label":"Food"},{"id":"1096","label":"Galeri / subgaleri1"},{"id":"237","label":"Gallery"},{"id":"274","label":"Global"},{"id":"597","label":"Global / Histori"},{"id":"595","label":"Global / Internasional"},{"id":"596","label":"Global / Sains"},{"id":"598","label":"Global / Unik"},{"id":"20","label":"Haji / Info Haji"},{"id":"19","label":"Haji / Serba - Serbi"},{"id":"1083","label":"Haji / Update Haji"},{"id":"9","label":"Health"},{"id":"1068","label":"Health / bintang"},{"id":"1009","label":"Health / Daily Paskibraka"},{"id":"220","label":"Health / Drugs & Diseases"},{"id":"548","label":"Health / Fit & Diet"},{"id":"547","label":"Health / Health Info"},{"id":"219","label":"Health / Herbal"},{"id":"267","label":"Health / Konsultasi Psikologi"},{"id":"549","label":"Health / Mind & Soul"},{"id":"223","label":"Health / Mom & Kids"},{"id":"221","label":"Health / Persona"},{"id":"59","label":"Health / Seks"},{"id":"1011","label":"Hot"},{"id":"257","label":"Indonesia-Baru / Debat Calon Presiden 2014"},{"id":"194","label":"Indonesia-Baru / Kursi Istana"},{"id":"193","label":"Indonesia-Baru / Kursi Senayan"},{"id":"199","label":"Indonesia-Baru / Profil Parpol"},{"id":"195","label":"Indonesia-Baru / Seleb Politik"},{"id":"1105","label":"Islami"},{"id":"1109","label":"Islami / Haji"},{"id":"1112","label":"Islami / Haji / Info Haji"},{"id":"1113","label":"Islami / Haji / Serba - Serbi"},{"id":"1111","label":"Islami / Haji / Update Haji"},{"id":"1057","label":"Jateng"},{"id":"1058","label":"Jatim"},{"id":"1162","label":"Kalimantan"},{"id":"1283","label":"Kesehatan"},{"id":"1284","label":"Kesehatan / Herbal"},{"id":"210","label":"Lifestyle"},{"id":"544","label":"Lifestyle / Art & Culture"},{"id":"211","label":"Lifestyle / Fashion & Beauty"},{"id":"218","label":"Lifestyle / Home & Decor"},{"id":"212","label":"Lifestyle / Karir"},{"id":"591","label":"Lifestyle / Pesona Indonesia"},{"id":"216","label":"Lifestyle / Culinary"},{"id":"213","label":"Lifestyle / Life"},{"id":"215","label":"Lifestyle / Shopping"},{"id":"214","label":"Lifestyle / Style News"},{"id":"217","label":"Lifestyle / Travel"},{"id":"38","label":"Liputanchampions / Berita"},{"id":"37","label":"Liputanchampions / Champstainment"},{"id":"35","label":"Liputanchampions / Euro League"},{"id":"36","label":"Liputanchampions / Highlight"},{"id":"1066","label":"newest photo"},{"id":"1166","label":"Newest / Sub Newest"},{"id":"17","label":"News"},{"id":"315","label":"News / 100-Hari-Jokowi-Jk / Foto"},{"id":"313","label":"News / 100-Hari-Jokowi-Jk / Kabinet Jokowi-JK"},{"id":"314","label":"News / 100-Hari-Jokowi-Jk / Nawacita"},{"id":"316","label":"News / 100-Hari-Jokowi-Jk / Video"},{"id":"265","label":"News / Infografis"},{"id":"253","label":"News / Inspirasi-Anak-Bangsa / Bakti Anak Bangsa"},{"id":"252","label":"News / Inspirasi-Anak-Bangsa / Edukasi"},{"id":"254","label":"News / Inspirasi-Anak-Bangsa / Galeri"},{"id":"343","label":"News / Kemdikbud / Galeri Foto"},{"id":"344","label":"News / Kemdikbud / Opini"},{"id":"341","label":"News / Kemdikbud / Saran Pendidikan"},{"id":"342","label":"News / Kemdikbud / Sosok Berprestasi"},{"id":"162","label":"News / Liputan Khusus"},{"id":"51","label":"News / Peristiwa"},{"id":"187","label":"News / Politik"},{"id":"347","label":"News / Rajut"},{"id":"506","label":"News / Warta-Dpr / Buletin"},{"id":"504","label":"News / Warta-Dpr / Galeri Foto"},{"id":"580","label":"News / Warta-Dpr / Galleri Foto"},{"id":"581","label":"News / Warta-Dpr / Galleri Vidio"},{"id":"578","label":"News / Warta-Dpr / Kunker"},{"id":"579","label":"News / Warta-Dpr / Legislasi"},{"id":"507","label":"News / Warta-Dpr / Majalah"},{"id":"1048","label":"News / Warta-Dpr / Majalah / anak-anak"},{"id":"1049","label":"News / Warta-Dpr / Majalah / remaja"},{"id":"1050","label":"News / Warta-Dpr / Majalah / remaja / laki-laki"},{"id":"1051","label":"News / Warta-Dpr / Majalah / remaja / laki-laki / usia dibawah tujuh tahun namun bukan balita"},{"id":"505","label":"News / Warta-Dpr / Sosok"},{"id":"582","label":"News / Warta-Dpr / Warta DPR Sosok"},{"id":"390","label":"News / Zona MPR RI"},{"id":"1171","label":"OLAHRAGA"},{"id":"1063","label":"On Off"},{"id":"1169","label":"Opini"},{"id":"14","label":"Otomotif"},{"id":"533","label":"Otomotif / GIIAS"},{"id":"227","label":"Otomotif / Mobil"},{"id":"229","label":"Otomotif / Modifikasi"},{"id":"228","label":"Otomotif / Motor"},{"id":"231","label":"Otomotif / Narsis"},{"id":"226","label":"Otomotif / Oto News"},{"id":"230","label":"Otomotif / Tips & Trik"},{"id":"1200","label":"Otosia"},{"id":"1206","label":"Otosia / Berita"},{"id":"1210","label":"Otosia / Etalase"},{"id":"1209","label":"Otosia / Galeri"},{"id":"1202","label":"Otosia / Home"},{"id":"1208","label":"Otosia / Intermezzo"},{"id":"1205","label":"Otosia / Mobil"},{"id":"1203","label":"Otosia / Motor"},{"id":"1204","label":"Otosia / Review"},{"id":"1207","label":"Otosia / Tips"},{"id":"1164","label":"Pemilu"},{"id":"1173","label":"PENDIDIKAN"},{"id":"1081","label":"Piala Dunia"},{"id":"710","label":"Pilkada / Jawa Barat"},{"id":"587","label":"Ramadan / Cahaya Hati"},{"id":"250","label":"Ramadan / HijabPedia"},{"id":"589","label":"Ramadan / Ngabuburit"},{"id":"586","label":"Ramadan / Ramadan Update"},{"id":"588","label":"Ramadan / Resep Praktis"},{"id":"523","label":"Regional"},{"id":"543","label":"Regional / Jawa Barat"},{"id":"526","label":"Regional / Bali Nusra"},{"id":"564","label":"Regional / Kalimantan"},{"id":"527","label":"Regional / Sulawesi"},{"id":"565","label":"Regional / Maluku-Papua"},{"id":"525","label":"Regional / Sumatera"},{"id":"542","label":"Regional / Jawa Tengah - DIY"},{"id":"524","label":"Regional / Jawa Timur"},{"id":"1070","label":"Resep Masakan"},{"id":"41","label":"Saham"},{"id":"513","label":"Sea-Games-2015 / Galeri Foto dan Vidio"},{"id":"512","label":"Sea-Games-2015 / Jadwal Pertandingan"},{"id":"516","label":"Sea-Games-2015 / MVPMaksimal"},{"id":"510","label":"Sea-Games-2015 / News"},{"id":"707","label":"Sea-Games / Video"},{"id":"13","label":"ShowBiz"},{"id":"206","label":"ShowBiz / Blink-Blink"},{"id":"410","label":"ShowBiz / Bollywood"},{"id":"142","label":"ShowBiz / Selebritis"},{"id":"143","label":"ShowBiz / Film"},{"id":"409","label":"ShowBiz / Hollywood"},{"id":"538","label":"ShowBiz / Indie"},{"id":"411","label":"ShowBiz / J-Pop"},{"id":"44","label":"ShowBiz / K-Pop"},{"id":"1007","label":"ShowBiz / Liga Dangdut Indonesia"},{"id":"52","label":"ShowBiz / Musik"},{"id":"12","label":"Sport"},{"id":"1282","label":"Sport / Piala Dunia"},{"id":"1215","label":"Spotlight"},{"id":"1015","label":"Surabaya"},{"id":"8","label":"Tekno"},{"id":"537","label":"Tekno / Android"},{"id":"339","label":"Tekno / Apps"},{"id":"116","label":"Tekno / Tech News"},{"id":"56","label":"Tekno / Gadget"},{"id":"54","label":"Tekno / Game"},{"id":"55","label":"Tekno / Internet"},{"id":"522","label":"Tekno / Startup"},{"id":"53","label":"Tekno / Telko"},{"id":"264","label":"Tekno / Tips"},{"id":"201","label":"TV"},{"id":"258","label":"TV / Fokus"},{"id":"266","label":"TV / Kontes"},{"id":"205","label":"TV / Liputan6 Malam"},{"id":"202","label":"TV / Liputan6 Pagi"},{"id":"203","label":"TV / Liputan6 Petang"},{"id":"204","label":"TV / Liputan6 Siang"},{"id":"259","label":"TV / Patroli"},{"id":"255","label":"TV / Potret"},{"id":"256","label":"TV / Sigi"}];
-  const MAX_DEPTH=4;
+  // Source of truth: "All Site List Kanal & Sub Kanal" > Liputan6 sheet.
+  // Tuple: [url_slug, display_name, keputusan, CMS]
+  const SOURCE_ROWS=[["news","News","","CMS"],["news/politik","Politik","","CMS"],["news/warta-dpr/kunker","Kunker","Dihapus","CMS"],["news/100-hari-jokowi-jk/kabinet-jokowi-jk","Kabinet Jokowi-JK","Dihapus","No"],["news/warta-dpr/legislasi","Legislasi","Dihapus","CMS"],["news/peristiwa","Peristiwa","","CMS"],["news/megapolitan","Megapolitan","","CMS"],["news/100-hari-jokowi-jk/nawacita","Nawacita","Dihapus","No"],["news/warta-dpr/galleri-foto","Galleri Foto","Dihapus","CMS"],["news/diary-paskibraka","Diary Paskibraka","Dihapus","No"],["news/warta-dpr/galleri-vidio","Galleri Vidio","Dihapus","CMS"],["news/rajut","Rajut","","CMS"],["news/warta-dpr/warta-dpr-sosok","Warta DPR Sosok","Dihapus","CMS"],["news/100-hari-jokowi-jk/foto","Foto","Dihapus","No"],["news/100-hari-jokowi-jk/video","Video","Dihapus","No"],["news/liputankhusus","Liputan Khusus","","CMS"],["news/infografis","Infografis","","CMS"],["news/wawancara-khusus","Wawancara Khusus","Dihapus","No"],["news/info-lalu-lintas-terkini","Info Lalu Lintas Terkini","Dihapus","No"],["news/zona-mpr-ri","Zona MPR RI","Disembunyikan","CMS"],["news/kemdikbud/saran-pendidikan","Saran Pendidikan","Dihapus","CMS"],["news/kemdikbud/sosok-berprestasi","Sosok Berprestasi","Dihapus","CMS"],["news/kemdikbud/galeri-foto","Galeri Foto","Dihapus","CMS"],["news/kemdikbud/opini","Opini","Dihapus","CMS"],["news/inspirasi-anak-bangsa/edukasi","Edukasi","Dihapus","CMS"],["news/inspirasi-anak-bangsa/bakti-anak-bangsa","Bakti Anak Bangsa","Dihapus","CMS"],["news/inspirasi-anak-bangsa/galeri","Galeri","Dihapus","CMS"],["news/feed","Feed","Dihapus","No"],["news/warta-dpr","Warta DPR","Disembunyikan","CMS"],["news/warta-dpr/galeri-foto","Galeri Foto","Dihapus","CMS"],["news/warta-dpr/majalah","Majalah","Dihapus","CMS"],["news/warta-dpr/sosok","Sosok","Dihapus","CMS"],["news/internasional","Internasional","Dihapus","No"],["news/nasional","Nasional","Dihapus","No"],["news/warta-dpr/buletin","Buletin","Dihapus","CMS"],["bisnis","Bisnis","","CMS"],["bisnis/ekonomi","Ekonomi","","CMS"],["bisnis/bank","Bank","Rename","CMS"],["bisnis/saham","Saham","","CMS"],["bisnis/energi-tambang","Energi & Tambang","","CMS"],["bisnis/konsultasi-pajak","Konsultasi Pajak","Rename","CMS"],["bisnis/cpns","CPNS","Dihapus","CMS"],["bisnis/info-kemenpan","Info Kemenpan","Dihapus","No"],["bisnis/info-kementan","Info Kementan","Dihapus","CMS"],["ramadan","Ramadan","Dihapus","No"],["ramadan/ramadan-update","Ramadan Update","Dihapus","No"],["ramadan/resep-praktis","Resep Praktis","Dihapus","No"],["ramadan/hijab-tutorial","HijabPedia","Dihapus","No"],["ramadan/ngabuburit","Ngabuburit","Dihapus","No"],["ramadan/cahaya-hati","Cahaya Hati","Dihapus","No"],["ramadan/cerita-ramadan","Cerita Ramadan","Dihapus","No"],["ramadan/thr","THR","Dihapus","No"],["pemilu","Pemilu","","No"],["haji","Haji","Dihapus","No"],["haji/feed","Feed","Dihapus","No"],["haji/infohaji","Info Haji","Dihapus","No"],["haji/serbaserbi","Serba - Serbi","Dihapus","No"],["showbiz","ShowBiz","","CMS"],["showbiz/celeb","Selebritis","","CMS"],["showbiz/musik","Musik","","CMS"],["showbiz/film","Film","","CMS"],["showbiz/kpop","K-Pop","","CMS"],["showbiz/hollywood","Hollywood","","CMS"],["showbiz/bollywood","Bollywood","","CMS"],["showbiz/jpop","J-Pop","","CMS"],["showbiz/indie","Indie","Dihapus","CMS"],["showbiz/blink-blink","Blink-Blink","Dihapus","CMS"],["showbiz/liga-dangdut-indonesia","Liga Dangdut Indonesia","Dihapus","CMS"],["bola","Bola","","CMS"],["bola/piala-dunia","Piala Dunia","","CMS"],["bola/piala-asean/news-update","News Update","Dihapus","CMS"],["bola/worldcup/wags","WAGs","Dihapus","CMS"],["bola/worldcup/wawancara","Kickoff","Dihapus","CMS"],["bola/piala-asean/wawancara","Wawancara","Dihapus","CMS"],["bola/worldcup/histori","Sejarah","Dihapus","CMS"],["bola/liga-spanyol","Liga Spanyol","","CMS"],["bola/piala-asean/data-pertandingan","Data Pertandingan","Dihapus","CMS"],["bola/worldcup/team-player","Team Player","Dihapus","CMS"],["bola/piala-asean/pinggir-lapangan","Pinggir Lapangan","Dihapus","CMS"],["bola/liga-italia","Liga Italia","","CMS"],["bola/piala-asean/catatan-reporter","Catatan Reporter","Dihapus","CMS"],["bola/liga-inggris","Liga Inggris","","CMS"],["bola/piala-asean/foto","Foto","Dihapus","CMS"],["bola/liga-nasional","BRI Super League","","CMS"],["bola/liga-internasional","Liga Internasional","","CMS"],["bola/wags","WAGs","Dihapus","CMS"],["bola/sports","Sports","","CMS"],["bola/corner","Corner","","CMS"],["bola/prediksi","Prediksi","","CMS"],["bola/piala-presiden","Piala Presiden","Dihapus","No"],["bola/feed","Feed","Dihapus","No"],["lifestyle","Lifestyle","","CMS"],["lifestyle/fashion-beauty","Fashion & Beauty","Dihapus","No"],["lifestyle/karir","Karir","Dihapus","No"],["lifestyle/life","Life","Dihapus","No"],["lifestyle/style-news","Style News","Dihapus","No"],["lifestyle/shopping","Shopping","Dihapus","No"],["lifestyle/kuliner","Culinary","","CMS"],["lifestyle/travel","Travel","","CMS"],["lifestyle/home-decor","Home & Decor","","CMS"],["lifestyle/art-culture","Art & Culture","Dihapus","No"],["lifestyle/kemenpar","Pesona Indonesia","Disembunyikan","CMS"],["lifestyle/feed","Feed","Dihapus","No"],["lifestyle/wanita","Wanita","Dihapus","No"],["kesehatan","Kesehatan","","CMS"],["kesehatan/info-sehat","Info Sehat","","CMS"],["kesehatan/ibu-dan-anak","Ibu dan Anak","","CMS"],["kesehatan/herbal","Herbal","","CMS"],["kesehatan/diet-dan-kebugaran","Diet dan Kebugaran","","CMS"],["kesehatan/persona","Persona","","CMS"],["kesehatan/obat-obatan","Obat Obatan","","CMS"],["kesehatan/relationship","Relationship","","CMS"],["kesehatan/psikologi","Psikologi","","CMS"],["tekno","Tekno","","CMS"],["tekno/gadget","Gadget","","CMS"],["tekno/tips-trik","Tips","","CMS"],["tekno/game","Game","","CMS"],["tekno/apps","Apps","","CMS"],["tekno/internet","Internet","","CMS"],["tekno/berita","Tech News","","CMS"],["tekno/telko","Telko","","CMS"],["tekno/android","Android","","CMS"],["tekno/startup","Startup","","CMS"],["otomotif","Otomotif","","CMS"],["otomotif/oto-news","Oto News","","CMS"],["otomotif/mobil","Mobil","","CMS"],["otomotif/motor","Motor","","CMS"],["otomotif/modifikasi","Modifikasi","","CMS"],["otomotif/tips-trik","Tips & Trik","","CMS"],["otomotif/narsis","Narsis","","CMS"],["otomotif/giias","GIIAS","","CMS"],["cek-fakta/cek-fakta","Cek Fakta","","CMS"],["saham","Saham","Migrasi Subkanal","CMS"],["video","Enam Plus","","No"],["video/bisnis","Bisnis","","No"],["video/bola","Bola","","No"],["video/buser","Buser","","No"],["video/citizen6","Citizen6","","No"],["video/global","Global","","No"],["video/health","Health","","No"],["video/lifestyle","Lifestyle","","No"],["video/musik","Musik","","No"],["video/news","News","","No"],["video/otomotif","Otomotif","","No"],["video/ramadan","Ramadan","","No"],["video/showbiz","Showbiz","","No"],["video/tekno","Tekno","","No"],["video/properti","Properti","","No"],["video/regional","Regional","","No"],["crypto","Crypto","Dihapus","CMS"],["tv","TV","","CMS"],["tv/liputan6-pagi","Liputan6 Pagi","","CMS"],["tv/liputan6-siang","Liputan6 Siang","","CMS"],["tv/liputan6-petang","Liputan6 Petang","Disembunyikan","CMS"],["tv/liputan6-malam","Liputan6 Malam","Disembunyikan","CMS"],["tv/potret","Potret","Disembunyikan","CMS"],["tv/sigi","Sigi","Disembunyikan","No"],["tv/fokus","Fokus","","CMS"],["tv/patroli","Patroli","Disembunyikan","CMS"],["tv/kontes","Kontes","Disembunyikan","CMS"],["photo","Foto","","CMS"],["photo/ramadan","Ramadan","Dihapus","CMS"],["photo/enam","Enam+","Dihapus","CMS"],["photo/etalase","Etalase","Dihapus","CMS"],["photo/intermezzo","Intermezzo","Dihapus","CMS"],["photo/wawancara-khusus","Wawancara Khusus","Dihapus","CMS"],["photo/global","Global","","CMS"],["photo/tekno","Tekno","","CMS"],["photo/sport","Sport","","CMS"],["photo/showbiz","Showbiz","","CMS"],["photo/otomotif","Otomotif","","CMS"],["photo/news","News","","CMS"],["photo/lifestyle","Lifestyle","","CMS"],["photo/health","Health","","CMS"],["photo/musik","Musik","","CMS"],["photo/bisnis","Bisnis","","CMS"],["photo/bola","Bola","","CMS"],["photo/citizen6","Citizen6","","CMS"],["photo/properti","Properti","Dihapus","CMS"],["photo/islami","Islami","","CMS"],["photo/opini","Opini","Dihapus","CMS"],["photo/en","En","Dihapus","CMS"],["photo/gayahidup","Gaya Hidup","","CMS"],["photo/pilpres","Pilpres","Dihapus","CMS"],["photo/belanja","Belanja","Dihapus","CMS"],["photo/surabaya","Surabaya","Dihapus","CMS"],["photo/sea-games-2015","SEA Games 2015","Dihapus","CMS"],["photo/sea-games","SEA Games","Dihapus","CMS"],["photo/saham","Saham","Dihapus","CMS"],["photo/regional","Regional","Dihapus","CMS"],["photo/quickcount","Quick Count","Dihapus","CMS"],["photo/pileg","Pileg","Dihapus","CMS"],["photo/pilkada","Pilkada","Dihapus","CMS"],["photo/haji","Haji","","CMS"],["photo/oto","Oto","Dihapus","CMS"],["photo/on-off","On Off","Dihapus","CMS"],["photo/disabilitas","Disabilitas","Dihapus","CMS"],["photo/asian-para-games","Asian Para Games","Dihapus","CMS"],["photo/energi-dan-mineral","Energi dan Mineral","Dihapus","CMS"],["photo/hot","Hot","Dihapus","CMS"],["photo/fashion-beauty","Fashion & Beauty","","CMS"],["photo/asian-games","Asian Games","Dihapus","CMS"],["photo/otosia","Otosia","Dihapus","CMS"],["photo/spotlight","Spotlight","Dihapus","CMS"],["photo/kalimantan","Kalimantan","Dihapus","CMS"],["photo/berita","Berita","","CMS"],["photo/kesehatan","Kesehatan","","CMS"],["regional","Regional","","CMS"],["regional/surabaya","Jawa Timur","","CMS"],["regional/palembang","Sumatera","","CMS"],["regional/denpasar","Bali Nusra","","CMS"],["regional/makassar","Sulawesi","","CMS"],["regional/semarang","Jawa Tengah - DIY","","CMS"],["regional/bandung","Jawa Barat","","CMS"],["regional/kalimantan","Kalimantan","","CMS"],["regional/maluku-papua","Maluku-Papua","","CMS"],["global","Global","","CMS"],["global/internasional","Internasional","","CMS"],["global/sains","Sains","","CMS"],["global/histori","Histori","","CMS"],["global/unik","Unik","","CMS"],["hot/hot","Hot","","CMS"],["islami","Islami","","CMS"],["islami/haji","Haji","","CMS"],["islami/haji/info-haji","Info Haji","Dihapus","No"],["islami/ramadan/ramadan-update","Ramadan Update","Dihapus","CMS"],["islami/haji/serba-serbi","Serba - Serbi","Dihapus","No"],["islami/ramadan","Ramadan","","CMS"],["islami/ramadan/resep-praktis","Resep Praktis","Dihapus","CMS"],["islami/ramadan/hijab-tutorial","HijabPedia","Dihapus","CMS"],["islami/ramadan/ngabuburit","Ngabuburit","Dihapus","CMS"],["islami/ramadan/cahaya-hati","Cahaya Hati","Dihapus","CMS"],["islami/ramadan/cerita-ramadan","Cerita Ramadan","Dihapus","No"],["islami/ramadan/thr","THR","Dihapus","No"],["on-off/on-off","On Off","","CMS"],["citizen6","Citizen6","","CMS"],["citizen6/forum","Forum","Dihapus","No"],["citizen6/hits","Hits","Dihapus","No"],["citizen6/blog-keren","Blog Keren","Dihapus","No"],["citizen6/komunitasku","Komunitasku","Dihapus","No"],["citizen6/potret","Potret","Dihapus","No"],["citizen6/campus-cj","Campus CJ","Dihapus","No"],["citizen6/sahabat-liputan6","Sahabat Liputan6","Dihapus","No"],["citizen6/tgif","TGIF","Dihapus","No"],["citizen6/feed","Feed","Dihapus","No"],["surabaya/surabaya","Surabaya","Dihapus","No"],["opini","Opini","","CMS"],["feeds","Feeds","","CMS"],["otosia","Otosia","","CMS"],["otosia/home","Home","","CMS"],["otosia/mobil","Mobil","","CMS"],["otosia/motor","Motor","","CMS"],["otosia/berita","Berita","","CMS"],["otosia/review","Review","Dihapus","CMS"],["otosia/tips","Tips","","CMS"],["otosia/galeri","Galeri","Dihapus","CMS"],["otosia/etalase","Etalase","Dihapus","CMS"],["otosia/intermezzo","Intermezzo","","CMS"],["spotlight","Spotlight","","CMS"],["jatim","Jatim","Dihapus","No"],["pilkada","Pilkada","Dihapus","No"],["pilkada/jawa-barat","Jawa Barat","Dihapus","No"],["pilkada/jawa-tengah","Jawa Tengah","Dihapus","No"],["pilkada/jawa-timur","Jawa Timur","Dihapus","No"],["pilkada/bali","Bali","Dihapus","No"],["pilkada/sumatera-utara","Sumatera Utara","Dihapus","No"],["pilkada/sumatera-selatan","Sumatera Selatan","Dihapus","No"],["pilkada/sulawesi-selatan","Sulawesi Selatan","Dihapus","No"],["pilkada/daerah-lain","Daerah Lain","Dihapus","No"],["en","English","","CMS"],["en/food","Food","","CMS"],["en/techno","Techno","","CMS"],["en/trivia","Trivia","","CMS"],["jateng","Jateng","Dihapus","No"],["disabilitas/disabilitas","Disabilitas","","CMS"],["berita","Berita","","CMS"],["berita/regional","Regional","","CMS"],["berita/politik","Politik","","CMS"],["berita/peristiwa","Peristiwa","","CMS"],["berita/megapolitan","Megapolitan","","CMS"],["berita/infografis","Infografis","","CMS"],["health","Health","","CMS"],["health/health-info","Health Info","","CMS"],["health/fit-diet","Fit & Diet","","CMS"],["health/herbal","Herbal","","CMS"],["health/drugs-diseases","Drugs & Diseases","","CMS"],["health/persona","Persona","","CMS"],["health/diary-paskibraka","Diary Paskibraka","Dihapus","CMS"],["health/mind-soul","Mind & Soul","","CMS"],["health/mom-kids","Mom & Kids","","CMS"],["health/seks","Seks","","CMS"],["health/konsultasi-pikologi","Konsultasi Psikologi","","CMS"],["health/feed","Feed","","No"],["sport","Sport","","CMS"],["sport/piala-dunia","Piala Dunia","","CMS"],["sport/liga-spanyol","Liga Spanyol","","CMS"],["sport/liga-italia","Liga Italia","","CMS"],["sport/liga-inggris","Liga Inggris","","CMS"],["sport/liga-champions","Liga Champions","","CMS"],["sport/liga-jerman","Liga Jerman","","CMS"],["sport/liga-prancis","Liga Prancis","","CMS"],["sport/super-league","BRI Super League","","CMS"],["sport/timnas-indonesia","Timnas Indonesia","","CMS"],["sport/liga-internasional","Liga Internasional","","CMS"],["sport/olympic","Olympic","","CMS"],["sport/corner","Corner","","CMS"],["sport/prediksi","Prediksi","","CMS"],["belanja","Belanja","Dihapus","No"],["quran","Quran","","No"],["apps","Apps","","No"],["apec","Apec","Dihapus","No"],["apec/beritaapec","Berita Apec","Dihapus","No"],["apec/buahbibir","Buah Bibir","Dihapus","No"],["diary-paskibraka","Diary Paskibraka","Disembunyikan","No"],["sindikasi","Sindikasi","Dihapus","No"],["liputan-khusus","Liputan Khusus","Dihapus","No"],["liputan-khusus/infografis","Infografis","Dihapus","No"],["liputan-khusus/journal","Journal","Dihapus","No"],["liputan-khusus/warta-dpr","Warta DPR","Dihapus","No"],["liputan-khusus/wawancara-khusus","Wawancara Khusus","Dihapus","No"],["liputan-khusus/zona-mpr-ri","Zona MPR RI","Dihapus","No"],["quickcount","Quick Count","","No"],["indonesia-baru","Indonesia Baru","Dihapus","No"],["indonesia-baru/kursi-senayan","Kursi Senayan","Dihapus","No"],["indonesia-baru/kursi-istana","Kursi Istana","Dihapus","No"],["indonesia-baru/seleb-politik","Seleb Politik","Dihapus","No"],["indonesia-baru/profil-parpol","Profil Parpol","Dihapus","No"],["indonesia-baru/debat-calon-presiden-2014","Debat Calon Presiden 2014","Dihapus","No"],["asian-para-games","Asian Para Games","Dihapus","No"],["sea-games","SEA Games","Dihapus","No"],["sea-games/foto","Foto","Dihapus","No"],["sea-games/video","Video","Dihapus","No"],["fashion-beauty","Fashion & Beauty","","No"],["asian-games","Asian Games","Dihapus","No"],["berita-bca","Berita BCA","Dihapus","No"],["pilpres","Pilpres","Dihapus","No"],["pileg","Pileg","Dihapus","No"],["putri-muslimah","Puteri Muslimah","Dihapus","No"],["properti","Properti","Dihapus","No"]];
+  const MAX_DEPTH=3;
   const esc=v=>String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-  function normalizePart(v){
-    return String(v||'').trim().replace(/-/g,' ');
+  function humanizeSlug(part){
+    return String(part||'').replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())
+      .replace(/\bDpr\b/g,'DPR').replace(/\bMpr\b/g,'MPR').replace(/\bJk\b/g,'JK');
   }
 
   function buildTree(){
     const roots=[];
-    const rootMap=new Map();
-    CATEGORY_PATHS.forEach(item=>{
-      const raw=String(item.label||'').split('/').map(x=>x.trim()).filter(Boolean).slice(0,MAX_DEPTH);
-      if(!raw.length)return;
+    const maps=[new Map()];
+    const exact=new Map(SOURCE_ROWS.map(row=>[row[0].toLowerCase(),row]));
+    SOURCE_ROWS.forEach(row=>{
+      const [slug,name,status,cms]=row;
+      const parts=String(slug||'').split('/').filter(Boolean).slice(0,MAX_DEPTH);
+      if(!parts.length)return;
       let list=roots;
-      let map=rootMap;
-      raw.forEach((name,index)=>{
-        const key=name.toLowerCase();
+      let map=maps[0];
+      parts.forEach((part,index)=>{
+        const prefix=parts.slice(0,index+1).join('/');
+        const exactRow=exact.get(prefix.toLowerCase());
+        const key=part.toLowerCase();
         let node=map.get(key);
         if(!node){
-          node={name,id:index===raw.length-1?item.id:null,children:[],_map:new Map()};
+          node={
+            name:exactRow?.[1]||humanizeSlug(part),
+            slug:prefix,
+            status:exactRow?.[2]||'',
+            cms:exactRow?.[3]||'',
+            children:[],
+            _map:new Map()
+          };
           map.set(key,node);
           list.push(node);
-        }else if(index===raw.length-1 && !node.id){
-          node.id=item.id;
+        }else if(exactRow){
+          node.name=exactRow[1]||node.name;
+          node.status=exactRow[2]||'';
+          node.cms=exactRow[3]||'';
         }
         list=node.children;
         map=node._map;
@@ -18179,7 +18194,6 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const catField=category.closest('.field');
     const subField=sub&&sub.closest('.field');
     if(!catField)return null;
-
     if(classification){
       const articleType=document.getElementById('articleType');
       const articleTypeField=articleType&&articleType.closest('.field');
@@ -18187,7 +18201,6 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       else classification.appendChild(catField);
       if(subField&&subField!==catField)classification.insertBefore(subField,catField.nextSibling);
     }
-
     document.querySelectorAll('.alt-category-first-step').forEach(step=>{
       step.querySelectorAll('.alt-category-picker,.alt-category-tree-picker,.newsroom-category-picker').forEach(x=>x.remove());
       if(!step.querySelector('.field'))step.classList.add('category-step-empty');
@@ -18198,7 +18211,6 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   function init(){
     const category=document.getElementById('category');
     if(!category)return;
-
     let sub=document.getElementById('altSubCategory');
     if(!sub){
       sub=document.createElement('select');
@@ -18209,7 +18221,6 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 
     const catField=placeCategoryField(category,sub);
     if(!catField)return;
-
     document.querySelectorAll('.alt-category-picker,.alt-category-tree-picker,.newsroom-category-picker').forEach(x=>x.remove());
 
     const subField=sub.closest('.field');
@@ -18225,12 +18236,9 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const label=catField.querySelector('label');
     if(label)label.textContent='Kategori Artikel';
 
-    const legacyCategory=(category.value||'').trim();
-    const legacySub=(sub.value||'').trim();
-    let selected=findLegacy(legacyCategory,legacySub);
+    let selected=findLegacy((category.value||'').trim(),(sub.value||'').trim());
 
-    const rootNames=TREE.map(x=>x.name);
-    category.innerHTML=rootNames.map(name=>'<option value="'+esc(name)+'">'+esc(name)+'</option>').join('');
+    category.innerHTML=TREE.map(node=>'<option value="'+esc(node.name)+'">'+esc(node.name)+'</option>').join('');
 
     function syncSubOptions(){
       const path=selected?.path||[];
@@ -18258,17 +18266,18 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const input=picker.querySelector('.alt-category-tree-search input');
     const results=picker.querySelector('.alt-category-tree-results');
     const openSet=new Set();
-
     const keyFor=path=>path.join(' > ');
 
     function syncNative(emit){
       if(!selected)return;
       const path=selected.path;
       category.value=path[0]||'';
-      category.dataset.categoryId=selected.node.id||'';
+      category.dataset.slug=selected.node.slug||'';
+      category.dataset.status=selected.node.status||'';
+      category.dataset.cms=selected.node.cms||'';
       syncSubOptions();
       sub.value=path.slice(1).join(' / ');
-      sub.dataset.categoryId=selected.node.id||'';
+      sub.dataset.slug=selected.node.slug||'';
       triggerTitle.textContent=path.join(' / ');
       const meta=document.getElementById('headerArticleMeta');
       if(meta)meta.textContent=path.join(' / ');
@@ -18281,25 +18290,25 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     }
 
     function matches(node,path,q){
-      const here=path.concat(node.name);
-      if(here.join(' ').toLowerCase().includes(q))return true;
-      return (node.children||[]).some(child=>matches(child,here,q));
+      const next=path.concat(node.name);
+      const hay=(next.join(' ')+' '+node.slug).toLowerCase();
+      if(hay.includes(q))return true;
+      return (node.children||[]).some(child=>matches(child,next,q));
     }
 
     function renderNode(node,path,level,q){
-      if(level>MAX_DEPTH)return '';
       const next=path.concat(node.name);
       if(q&&!matches(node,path,q))return '';
       const key=keyFor(next);
-      const children=(node.children||[]).filter(Boolean);
+      const children=node.children||[];
       const open=!!q||openSet.has(key);
-      const active=(selected?.value||'').toLowerCase()===next.join(' / ').toLowerCase();
+      const active=(selected?.node?.slug||'')===node.slug;
       const childHtml=children.map(child=>renderNode(child,next,level+1,q)).join('');
       return '<div class="alt-category-tree-node '+(open?'open':'')+'" data-level="'+level+'" data-node-key="'+esc(key)+'" role="treeitem" aria-level="'+level+'">'+
         '<div class="alt-category-tree-row">'+
           (children.length?'<button type="button" class="alt-category-tree-toggle" data-toggle-key="'+esc(key)+'" aria-label="'+(open?'Tutup ':'Buka ')+esc(node.name)+'"><i data-lucide="chevron-right"></i></button>':'<span class="alt-category-tree-toggle is-spacer"></span>')+
-          '<button type="button" class="alt-category-tree-select '+(active?'active':'')+'" data-select-path="'+esc(next.join(' / '))+'">'+
-            '<span class="alt-category-tree-label">'+esc(normalizePart(node.name))+'</span>'+
+          '<button type="button" class="alt-category-tree-select '+(active?'active':'')+'" data-select-slug="'+esc(node.slug)+'">'+
+            '<span class="alt-category-tree-label">'+esc(node.name)+'</span>'+
           '</button>'+
         '</div>'+
         (children.length?'<div class="alt-category-tree-children" role="group">'+childHtml+'</div>':'')+
@@ -18310,7 +18319,6 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       const q=String(query).trim().toLowerCase();
       const html=TREE.map(node=>renderNode(node,[],1,q)).join('');
       results.innerHTML=html||'<div class="alt-category-tree-empty">Kategori tidak ditemukan</div>';
-
       results.querySelectorAll('[data-toggle-key]').forEach(btn=>{
         btn.addEventListener('click',e=>{
           e.stopPropagation();
@@ -18319,15 +18327,12 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
           render(input.value);
         });
       });
-
-      results.querySelectorAll('[data-select-path]').forEach(btn=>{
+      results.querySelectorAll('[data-select-slug]').forEach(btn=>{
         btn.addEventListener('click',()=>{
-          const found=findPath(btn.dataset.selectPath);
+          const found=ALL.find(x=>x.node.slug===btn.dataset.selectSlug);
           if(!found)return;
           selected=found;
-          selected.path.slice(0,-1).reduce((acc,label)=>{
-            acc.push(label);openSet.add(keyFor(acc));return acc;
-          },[]);
+          selected.path.slice(0,-1).reduce((acc,label)=>{acc.push(label);openSet.add(keyFor(acc));return acc;},[]);
           syncNative(true);
           close();
           render('');
@@ -18348,9 +18353,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       picker.classList.toggle('open',open);
       trigger.setAttribute('aria-expanded',String(open));
       if(open){
-        selected?.path?.slice(0,-1).reduce((acc,label)=>{
-          acc.push(label);openSet.add(keyFor(acc));return acc;
-        },[]);
+        selected?.path?.slice(0,-1).reduce((acc,label)=>{acc.push(label);openSet.add(keyFor(acc));return acc;},[]);
         render('');
         setTimeout(()=>input.focus(),0);
       }
