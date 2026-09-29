@@ -11654,6 +11654,49 @@ body.alt-editor-layout .alt-category-tree-node[data-level="4"]>.alt-category-tre
   margin-left:8px!important;
   padding-left:12px!important;
 }
+
+/* TREE HIERARCHY REFINEMENT V2 */
+body.alt-editor-layout .alt-category-tree-children{
+  margin-left:8px!important;
+  padding-left:12px!important;
+}
+body.alt-editor-layout .alt-category-tree-children:before{
+  left:4px!important;
+}
+body.alt-editor-layout .alt-category-tree-children>.alt-category-tree-node:before{
+  left:-8px!important;
+  width:14px!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="2"]>.alt-category-tree-row,
+body.alt-editor-layout .alt-category-tree-node[data-level="3"]>.alt-category-tree-row,
+body.alt-editor-layout .alt-category-tree-node[data-level="4"]>.alt-category-tree-row{
+  grid-template-columns:18px minmax(0,1fr)!important;
+  gap:0!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="2"]>.alt-category-tree-row .alt-category-tree-toggle,
+body.alt-editor-layout .alt-category-tree-node[data-level="3"]>.alt-category-tree-row .alt-category-tree-toggle,
+body.alt-editor-layout .alt-category-tree-node[data-level="4"]>.alt-category-tree-row .alt-category-tree-toggle{
+  width:18px!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="2"]>.alt-category-tree-row .alt-category-tree-select,
+body.alt-editor-layout .alt-category-tree-node[data-level="3"]>.alt-category-tree-row .alt-category-tree-select,
+body.alt-editor-layout .alt-category-tree-node[data-level="4"]>.alt-category-tree-row .alt-category-tree-select{
+  padding-left:4px!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="1"]>.alt-category-tree-row .alt-category-tree-select{
+  font-weight:600!important;
+  color:var(--text)!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="1"]>.alt-category-tree-row .alt-category-tree-select.active{
+  font-weight:600!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="2"]>.alt-category-tree-row .alt-category-tree-select{
+  font-weight:500!important;
+}
+body.alt-editor-layout .alt-category-tree-node[data-level="3"]>.alt-category-tree-row .alt-category-tree-select,
+body.alt-editor-layout .alt-category-tree-node[data-level="4"]>.alt-category-tree-row .alt-category-tree-select{
+  font-weight:400!important;
+}
 /* NEWSROOM_CATEGORY_TREE_2026_END */
 </style>
 
