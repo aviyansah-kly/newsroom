@@ -12815,6 +12815,93 @@ body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-item>svg{
 }
 /* NEWSROOM_SHELL_REFINEMENT_V4_END */
 
+/* NEWSROOM_SHELL_REFINEMENT_V5_START */
+/* Fill the 248px header-left shell cleanly so the vertical selector ends near the breadcrumb divider. */
+.newsroom-header-left{
+  padding:0 6px 0 10px!important;
+  gap:2px!important;
+}
+.newsroom-header-brand{
+  width:58px!important;
+  min-width:58px!important;
+}
+.newsroom-header-site-switcher{
+  width:auto!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  margin:0!important;
+}
+.newsroom-header-site-trigger{
+  width:100%!important;
+  padding:0 3px 0 4px!important;
+  gap:3px!important;
+}
+.newsroom-header-site-trigger .newsroom-site-wordmark{
+  flex:1 1 auto!important;
+  min-width:0!important;
+}
+.newsroom-header-site-trigger .newsroom-site-wordmark img{
+  max-width:118px!important;
+}
+.newsroom-header-left + .newsroom-header-separator{
+  margin-left:0!important;
+  margin-right:8px!important;
+}
+
+/* Collapsed utility stack gets the same top/bottom outline rhythm as the menu sections below. */
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search-row{
+  position:relative!important;
+  width:64px!important;
+  padding:8px!important;
+  gap:5px!important;
+  border-top:1px solid var(--border)!important;
+  border-bottom:1px solid var(--border)!important;
+  background:#fff!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-collapse-btn,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search{
+  border:1px solid transparent!important;
+  border-radius:8px!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-collapse-btn:hover,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search:hover{
+  border-color:var(--border)!important;
+  background:var(--hover)!important;
+}
+
+/* Strict 64px collapsed shell alignment. */
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-drawer{
+  overflow-x:hidden!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-scroll{
+  width:64px!important;
+  padding-left:8px!important;
+  padding-right:8px!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-cluster,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-items{
+  width:48px!important;
+  max-width:48px!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-cluster-head,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-item{
+  left:auto!important;
+  right:auto!important;
+}
+
+/* Mobile retains enough room for both logos without clipping. */
+@media(max-width:1024px){
+  .newsroom-header-left{
+    gap:2px!important;
+    padding:0!important;
+  }
+  .newsroom-header-site-switcher{
+    flex:0 1 122px!important;
+  }
+}
+/* NEWSROOM_SHELL_REFINEMENT_V5_END */
+
+
 
 
 </style>
@@ -19612,5 +19699,58 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   else init();
 })();
 // NEWSROOM_COLLAPSED_SEARCH_BEHAVIOR_END
+</script>
+<script>
+// NEWSROOM_COLLAPSED_NAV_INTERACTION_START
+(function(){
+  function init(){
+    const drawer=document.getElementById('cmsNavDrawer');
+    const toggle=document.getElementById('cmsNavClose');
+    if(!drawer||!toggle)return;
+
+    function expandThen(fn){
+      if(!document.body.classList.contains('cms-sidebar-collapsed')){
+        fn?.();
+        return;
+      }
+      toggle.click();
+      setTimeout(()=>fn?.(),190);
+    }
+
+    // In collapsed mode, clicking a group icon expands the sidebar and opens that group.
+    drawer.querySelectorAll('[data-cms-cluster]').forEach(cluster=>{
+      const head=cluster.querySelector('.cms-nav-cluster-head');
+      if(!head)return;
+      head.addEventListener('click',e=>{
+        if(!document.body.classList.contains('cms-sidebar-collapsed'))return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        expandThen(()=>{
+          cluster.classList.add('open');
+          head.focus();
+        });
+      },true);
+    });
+
+    // Submenu icons remain functional: expand first, then keep the selected item active.
+    drawer.querySelectorAll('[data-cms-item]').forEach(item=>{
+      item.addEventListener('click',e=>{
+        if(!document.body.classList.contains('cms-sidebar-collapsed'))return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const href=item.getAttribute('href');
+        expandThen(()=>{
+          drawer.querySelectorAll('[data-cms-item]').forEach(x=>x.classList.remove('active'));
+          item.classList.add('active');
+          item.focus();
+          if(href && href !== '#') window.location.href=href;
+        });
+      },true);
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+// NEWSROOM_COLLAPSED_NAV_INTERACTION_END
 </script>
 </body></html>
