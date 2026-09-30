@@ -12707,6 +12707,115 @@ body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-brand img{
 }
 /* NEWSROOM_SHELL_REFINEMENT_V3_END */
 
+/* NEWSROOM_SHELL_REFINEMENT_V4_START */
+/* Align the header boundary exactly with the left sidebar boundary. */
+body.alt-editor-layout .topbar{
+  padding-left:0!important;
+  padding-right:16px!important;
+}
+.newsroom-header-left{
+  width:var(--newsroom-shell-sidebar)!important;
+  min-width:var(--newsroom-shell-sidebar)!important;
+  padding:0 10px 0 14px!important;
+  box-sizing:border-box!important;
+}
+.newsroom-header-left + .newsroom-header-separator{
+  margin:0 10px 0 0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left{
+  width:var(--newsroom-shell-collapsed)!important;
+  min-width:var(--newsroom-shell-collapsed)!important;
+  padding:0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left + .newsroom-header-separator{
+  margin-right:10px!important;
+}
+
+/* Collapsed control stack: expand button -> search icon -> menu icons. */
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search-row{
+  width:64px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:5px!important;
+  padding:8px!important;
+  border-bottom:1px solid var(--border)!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-collapse-btn{
+  order:1!important;
+  width:40px!important;
+  height:36px!important;
+  margin:0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search{
+  order:2!important;
+  display:grid!important;
+  place-items:center!important;
+  width:40px!important;
+  height:36px!important;
+  min-width:40px!important;
+  border-radius:8px!important;
+  cursor:pointer!important;
+  position:relative!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search:hover{
+  background:var(--hover)!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search svg{
+  position:static!important;
+  left:auto!important;
+  top:auto!important;
+  transform:none!important;
+  width:15px!important;
+  height:15px!important;
+  color:var(--muted)!important;
+  pointer-events:none!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search input{
+  position:absolute!important;
+  inset:0!important;
+  width:40px!important;
+  height:36px!important;
+  padding:0!important;
+  border:0!important;
+  opacity:0!important;
+  cursor:pointer!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-scroll{
+  padding-top:4px!important;
+}
+
+/* One exact x-axis for every collapsed navigation icon. */
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-cluster-head,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-item,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-bottom .cms-nav-item{
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-cluster-head>span,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-item{
+  justify-content:center!important;
+  align-content:center!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-cluster-head svg,
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-item>svg{
+  display:block!important;
+  margin:0 auto!important;
+}
+
+/* Mobile header keeps its own comfortable gutter. */
+@media(max-width:1024px){
+  body.alt-editor-layout .topbar{
+    padding-left:10px!important;
+  }
+  .newsroom-header-left{
+    padding:0!important;
+  }
+}
+/* NEWSROOM_SHELL_REFINEMENT_V4_END */
+
+
 
 </style>
 </head><body class="alt-editor-layout">
@@ -19478,5 +19587,30 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   else setTimeout(sync,0);
 })();
 // NEWSROOM_HEADER_SIDEBAR_SYNC_END
+</script>
+<script>
+// NEWSROOM_COLLAPSED_SEARCH_BEHAVIOR_START
+(function(){
+  function init(){
+    const searchWrap=document.querySelector('.cms-nav-search');
+    const searchInput=document.getElementById('cmsNavSearch');
+    const toggle=document.getElementById('cmsNavClose');
+    if(!searchWrap||!searchInput||!toggle)return;
+
+    searchWrap.addEventListener('click',e=>{
+      if(!document.body.classList.contains('cms-sidebar-collapsed'))return;
+      e.preventDefault();
+      e.stopPropagation();
+      toggle.click();
+      setTimeout(()=>{
+        searchInput.focus();
+        searchInput.select?.();
+      },190);
+    },true);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+// NEWSROOM_COLLAPSED_SEARCH_BEHAVIOR_END
 </script>
 </body></html>
