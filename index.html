@@ -13049,6 +13049,85 @@ body.alt-editor-layout.cms-sidebar-collapsed .newsroom-breadcrumb{
 }
 /* NEWSROOM_SHELL_REFINEMENT_V7_END */
 
+/* NEWSROOM_SHELL_REFINEMENT_V8_START */
+/* Breadcrumb must always start to the right of the sidebar boundary separator. */
+.newsroom-breadcrumb{
+  margin-left:0!important;
+  position:relative!important;
+  left:0!important;
+  padding-left:14px!important;
+  max-width:calc(100vw - var(--newsroom-shell-sidebar) - 520px)!important;
+}
+.newsroom-header-left + .newsroom-header-separator{
+  left:var(--newsroom-shell-sidebar)!important;
+}
+.newsroom-header-left{
+  margin-right:calc(var(--newsroom-shell-sidebar) - 10px - 58px - 4px - 126px)!important;
+}
+
+/* Make vertical selector box longer and visually align with sidebar controls. */
+.newsroom-header-site-switcher{
+  width:138px!important;
+  min-width:138px!important;
+  flex-basis:138px!important;
+}
+.newsroom-header-site-trigger{
+  width:138px!important;
+  min-width:138px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 8px!important;
+  gap:8px!important;
+  border:1px solid var(--border)!important;
+  border-radius:8px!important;
+  background:#fff!important;
+}
+.newsroom-header-site-trigger:hover{
+  background:var(--hover)!important;
+}
+.newsroom-header-site-trigger .newsroom-site-wordmark img{
+  max-width:104px!important;
+}
+.newsroom-header-site-trigger>svg{
+  margin-left:auto!important;
+}
+
+/* Collapsed controls: remove the top border to avoid a double line with the header. */
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-search-row{
+  border-top:0!important;
+  border-bottom:1px solid var(--border)!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-drawer{
+  border-top:0!important;
+}
+
+/* Keep collapsed header/breadcrumb relation correct at 64px. */
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left{
+  margin-right:0!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-breadcrumb{
+  padding-left:14px!important;
+  max-width:calc(100vw - var(--newsroom-shell-collapsed) - 520px)!important;
+}
+
+@media(max-width:1024px){
+  .newsroom-header-left{
+    margin-right:0!important;
+  }
+  .newsroom-breadcrumb{
+    padding-left:0!important;
+    max-width:none!important;
+  }
+  .newsroom-header-site-switcher,
+  .newsroom-header-site-trigger{
+    width:124px!important;
+    min-width:124px!important;
+    flex-basis:124px!important;
+  }
+}
+/* NEWSROOM_SHELL_REFINEMENT_V8_END */
+
+
 
 
 
