@@ -12948,6 +12948,108 @@ body.alt-editor-layout.cms-sidebar-collapsed .cms-nav-item{
 }
 /* NEWSROOM_SHELL_REFINEMENT_V6_END */
 
+/* NEWSROOM_SHELL_REFINEMENT_V7_START */
+/* Keep the visual group compact; pin the separator to the 248px sidebar boundary. */
+body.alt-editor-layout .topbar{
+  position:fixed!important;
+}
+.newsroom-header-left{
+  width:auto!important;
+  min-width:0!important;
+  flex:0 0 auto!important;
+  padding:0 0 0 10px!important;
+  gap:4px!important;
+}
+.newsroom-header-brand{
+  width:58px!important;
+  min-width:58px!important;
+}
+.newsroom-header-site-switcher{
+  width:126px!important;
+  min-width:126px!important;
+  flex:0 0 126px!important;
+}
+.newsroom-header-site-trigger{
+  width:126px!important;
+  min-width:126px!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+  padding:0 6px!important;
+}
+.newsroom-header-site-trigger .newsroom-site-wordmark{
+  flex:0 1 auto!important;
+  width:auto!important;
+  min-width:0!important;
+}
+.newsroom-header-site-trigger .newsroom-site-wordmark img{
+  max-width:94px!important;
+  height:19px!important;
+  max-height:19px!important;
+}
+.newsroom-header-site-trigger>svg{
+  width:12px!important;
+  height:12px!important;
+  flex:0 0 12px!important;
+  margin:0!important;
+}
+
+/* Separator is independent from content width and sits exactly on the sidebar edge. */
+.newsroom-header-left + .newsroom-header-separator{
+  position:absolute!important;
+  left:var(--newsroom-shell-sidebar)!important;
+  top:50%!important;
+  transform:translateY(-50%)!important;
+  margin:0!important;
+  width:1px!important;
+  height:30px!important;
+  background:var(--border)!important;
+}
+.newsroom-breadcrumb{
+  margin-left:22px!important;
+}
+
+/* Collapsed shell: separator follows the 64px sidebar edge, compact group shows only KLY. */
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left{
+  width:var(--newsroom-shell-collapsed)!important;
+  min-width:var(--newsroom-shell-collapsed)!important;
+  padding:0!important;
+  justify-content:center!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left + .newsroom-header-separator{
+  left:var(--newsroom-shell-collapsed)!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed .newsroom-breadcrumb{
+  margin-left:22px!important;
+}
+
+/* Mobile/tablet no fixed 248px alignment: fall back to natural compact flow. */
+@media(max-width:1024px){
+  .newsroom-header-left{
+    width:auto!important;
+    min-width:0!important;
+    padding-left:0!important;
+  }
+  .newsroom-header-site-switcher,
+  .newsroom-header-site-trigger{
+    width:118px!important;
+    min-width:118px!important;
+    flex-basis:118px!important;
+  }
+  .newsroom-header-left + .newsroom-header-separator{
+    position:static!important;
+    left:auto!important;
+    top:auto!important;
+    transform:none!important;
+    margin:0 8px!important;
+    height:26px!important;
+  }
+  .newsroom-breadcrumb{
+    margin-left:0!important;
+  }
+}
+/* NEWSROOM_SHELL_REFINEMENT_V7_END */
+
+
 
 
 
