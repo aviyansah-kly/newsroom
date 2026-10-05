@@ -72,6 +72,13 @@
   --ds-control-md: 38px;
   --ds-control-lg: 40px;
   --ds-panel-inline-padding: 20px;
+
+  /* AppHeader brand/site group — locked desktop spacing (2026-10-05). */
+  --ds-header-brand-group-pad-inline: 16px;
+  --ds-header-brand-site-gap: 12px;
+  --ds-header-brand-divider-gap: 16px;
+  --ds-header-site-switcher-width: 146px;
+
   --ds-cluster-block-padding: 16px;
   --ds-cluster-separator: 1px solid var(--ds-color-border);
 
