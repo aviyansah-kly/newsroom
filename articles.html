@@ -1457,6 +1457,41 @@ body.articles-page .article-meta + .article-setting-chips{
 /* ARTICLE_INDEX_PRIMARY_ACTION_V9_END */
 </style>
 
+
+<style>
+/* ARTICLE_INDEX_ACTION_SIMPLIFY_V10_START */
+/* Status is informational. Remove duplicated status-specific CTA from the Action column. */
+.article-primary-action{display:none!important}
+body.articles-page .article-actions-cell{
+  gap:6px!important;
+}
+body.articles-page .article-preview-btn{
+  width:36px!important;
+  min-width:36px!important;
+  height:36px!important;
+}
+body.articles-page .article-action-menu-btn{
+  min-width:92px!important;
+  height:36px!important;
+}
+body.articles-page .article-status-pill{
+  cursor:default!important;
+}
+
+/* Headline is the primary entry point into the article workflow. */
+body.articles-page .article-title a{
+  display:block;
+  color:inherit;
+}
+body.articles-page .article-title a:hover{
+  color:var(--nr-blue)!important;
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:2px;
+}
+/* ARTICLE_INDEX_ACTION_SIMPLIFY_V10_END */
+</style>
+
 </head>
 <body class="nr-app articles-page">
 
@@ -2654,6 +2689,35 @@ body.articles-page .article-meta + .article-setting-chips{
     btn.setAttribute('aria-label',cfg.label+' article');
     btn.setAttribute('title',cfg.label+' article');
   });
+  lucide.createIcons();
+})();
+</script>
+
+
+<script>
+(function(){
+  const actionHead=document.querySelector('.article-list-head span:last-child');
+  if(actionHead) actionHead.textContent='Tools';
+
+  document.querySelectorAll('.article-row').forEach(row=>{
+    const primary=row.querySelector('.article-primary-action');
+    if(primary) primary.remove();
+
+    const titleLink=row.querySelector('.article-title a');
+    if(titleLink){
+      const status=row.dataset.status||'draft';
+      const labelMap={
+        draft:'Edit article',
+        review:'Review article',
+        scheduled:'Manage scheduled article',
+        published:'Open article'
+      };
+      const label=labelMap[status]||'Open article';
+      titleLink.setAttribute('title',label);
+      titleLink.setAttribute('aria-label',label+': '+titleLink.textContent.trim());
+    }
+  });
+
   lucide.createIcons();
 })();
 </script>
