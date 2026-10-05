@@ -27,6 +27,12 @@
   --nr-sidebar-w:236px;
   --nr-sidebar-collapsed:64px;
   --nr-control-h:40px;
+
+  /* AppHeader brand/site spacing — canonical design-system values. */
+  --nr-header-brand-group-pad-inline:16px;
+  --nr-header-brand-site-gap:12px;
+  --nr-header-brand-divider-gap:16px;
+  --nr-header-site-switcher-width:146px;
 }
 
 *{box-sizing:border-box}
