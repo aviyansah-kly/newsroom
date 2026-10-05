@@ -1197,6 +1197,106 @@ body.articles-page .article-filter-btn{
 /* ARTICLE_INDEX_REFINEMENT_V6_END */
 </style>
 
+
+<style>
+/* ARTICLE_INDEX_REFINEMENT_V7_START */
+/* Keep menus/submenus fully visible outside their row and open secondary menus inward. */
+body.articles-page .article-shell,
+body.articles-page .article-list,
+body.articles-page .article-row,
+body.articles-page .article-actions-cell,
+body.articles-page .article-more{
+  overflow:visible!important;
+}
+body.articles-page .article-row{position:relative!important;align-items:start!important}
+body.articles-page .article-row:has(.article-more.open){z-index:120!important}
+body.articles-page .article-more.open{z-index:130!important}
+body.articles-page .article-row-menu{z-index:140!important}
+body.articles-page .article-action-submenu{
+  left:auto!important;
+  right:calc(100% + 6px)!important;
+  z-index:150!important;
+}
+
+/* Article information hierarchy: title first, supporting labels below it. */
+body.articles-page .article-main{align-items:start!important}
+body.articles-page .article-copy{padding-top:0!important}
+body.articles-page .article-title{
+  margin:0 0 6px!important;
+  line-height:20px!important;
+}
+body.articles-page .article-kicker{
+  order:2!important;
+  margin:0 0 5px!important;
+  color:var(--nr-muted)!important;
+  line-height:18px!important;
+}
+body.articles-page .article-description{
+  margin:0 0 5px!important;
+  line-height:18px!important;
+}
+body.articles-page .article-meta{
+  margin-top:0!important;
+  line-height:18px!important;
+}
+body.articles-page .article-setting-chips{margin-top:6px!important}
+
+/* Top-align all adjacent information columns for faster horizontal scanning. */
+.article-select-cell,
+.article-updated-cell,
+.article-reporter-cell,
+body.articles-page .article-status,
+.article-actions-cell{
+  align-self:start!important;
+  padding-top:2px!important;
+}
+.article-select-cell{padding-top:8px!important}
+body.articles-page .article-status{justify-self:start!important}
+.article-actions-cell{align-items:flex-start!important}
+
+/* Preview is a persistent icon-only utility, not a hover-only label. */
+.article-preview-btn{
+  width:36px!important;
+  min-width:36px!important;
+  height:36px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  border:1px solid var(--nr-border)!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:var(--nr-muted)!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  transform:none!important;
+}
+.article-preview-btn span{display:none!important}
+.article-preview-btn svg{width:16px!important;height:16px!important}
+.article-preview-btn:hover{
+  border-color:#bfdbfe!important;
+  background:var(--nr-blue-soft)!important;
+  color:var(--nr-blue)!important;
+}
+
+/* Give rows enough vertical breathing room after moving metadata below the title. */
+body.articles-page .article-row{
+  min-height:122px!important;
+  padding-top:16px!important;
+  padding-bottom:16px!important;
+}
+@media(max-width:760px){
+  body.articles-page .article-action-submenu{
+    position:fixed!important;
+    left:12px!important;
+    right:12px!important;
+    bottom:12px!important;
+    top:auto!important;
+    width:auto!important;
+  }
+}
+/* ARTICLE_INDEX_REFINEMENT_V7_END */
+</style>
+
 </head>
 <body class="nr-app articles-page">
 
@@ -2232,6 +2332,41 @@ body.articles-page .article-filter-btn{
   /* Keep status labels strictly one line. */
   document.querySelectorAll('.article-status-pill').forEach(pill=>{
     pill.style.whiteSpace='nowrap';
+  });
+
+  lucide.createIcons();
+})();
+</script>
+
+
+<script>
+(function(){
+  /* V7: title is the primary scan target; move section/category context below it. */
+  document.querySelectorAll('.article-copy').forEach(copy=>{
+    const title=copy.querySelector('.article-title');
+    const kicker=copy.querySelector('.article-kicker');
+    if(title&&kicker&&title.nextElementSibling!==kicker){
+      title.insertAdjacentElement('afterend',kicker);
+    }
+  });
+
+  /* Preview stays visible as icon-only. */
+  document.querySelectorAll('.article-preview-btn').forEach(btn=>{
+    btn.setAttribute('title','Preview article');
+    btn.setAttribute('aria-label','Preview article');
+    const span=btn.querySelector('span');
+    if(span) span.textContent='';
+  });
+
+  /* Close sibling submenus before opening another one. */
+  document.querySelectorAll('.article-action-sub-trigger').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const current=btn.closest('.article-action-sub');
+      const menu=btn.closest('.article-row-menu');
+      menu?.querySelectorAll('.article-action-sub.open').forEach(sub=>{
+        if(sub!==current) sub.classList.remove('open');
+      });
+    });
   });
 
   lucide.createIcons();
