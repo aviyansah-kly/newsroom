@@ -13127,6 +13127,27 @@ body.alt-editor-layout.cms-sidebar-collapsed .newsroom-breadcrumb{
 }
 /* NEWSROOM_SHELL_REFINEMENT_V8_END */
 
+/* NEWSROOM_SHELL_REFINEMENT_V9_START */
+/* Balance the KLY + vertical/site selector group inside the 248px sidebar header. */
+@media(min-width:1025px){
+  body.alt-editor-layout:not(.cms-sidebar-collapsed) .newsroom-header-left{
+    padding:0 0 0 16px!important;
+    gap:12px!important;
+    margin-right:16px!important;
+  }
+  body.alt-editor-layout:not(.cms-sidebar-collapsed) .newsroom-header-brand{
+    width:58px!important;
+    min-width:58px!important;
+  }
+  body.alt-editor-layout:not(.cms-sidebar-collapsed) .newsroom-header-site-switcher,
+  body.alt-editor-layout:not(.cms-sidebar-collapsed) .newsroom-header-site-trigger{
+    width:146px!important;
+    min-width:146px!important;
+    flex-basis:146px!important;
+  }
+}
+/* NEWSROOM_SHELL_REFINEMENT_V9_END */
+
 
 
 
