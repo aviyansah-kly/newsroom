@@ -4,7 +4,7 @@ Komponen di bawah adalah kandidat kontrak reusable untuk implementasi Frontend. 
 
 ## Application shell
 
-- `AppHeader` — shell header di seluruh CMS: logo, konteks halaman, dan status/aksi pekerjaan yang relevan. Standard pages menggunakan `.nr-topbar`, `.nr-brand`, `.nr-header-context`; Editor mempertahankan `.topbar` dengan status autosave dan action kontekstual karena layout menulis yang sudah disetujui. Jangan menaruh identitas login duplikat di header. Keduanya wajib mengikuti [Shared shell contract](../../docs/SHARED-HEADER-SIDEBAR-DESIGN-SYSTEM.md).
+- `AppHeader` — shell header di seluruh CMS: logo, konteks halaman, dan status/aksi pekerjaan yang relevan. Standard pages menggunakan `.nr-topbar`, `.nr-brand`, `.nr-header-context`; Editor mempertahankan `.topbar` dengan status autosave dan action kontekstual karena layout menulis yang sudah disetujui. Jangan menaruh identitas login duplikat di header. Keduanya wajib mengikuti [Shared shell contract](../../docs/SHARED-HEADER-SIDEBAR-DESIGN-SYSTEM.md). **Locked desktop rule:** brand/site group memakai 16px outer spacing, 12px gap antara KLY dan site selector, 16px gap menuju divider, dengan selector 146px. Gunakan token `--ds-header-brand-*` / `--ds-header-site-switcher-width`; jangan membuat margin khusus per brand.
 - `AppSidebar` — navigation utama CMS, termasuk user account permanen di kiri bawah. Gunakan stylesheet `styles/newsroom-shell.css` dan controller `scripts/newsroom-shell.js` bersama pada Editor, Dashboard dan Tags; nav per halaman hanya berbeda pada active item atau cluster terbuka.
 - `SidebarGroup` — cluster menu yang dapat expand/collapse.
 - `SidebarItem` — navigation item dengan icon, label, active, hover, focus, dan collapsed tooltip state.
