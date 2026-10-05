@@ -423,6 +423,104 @@ body.articles-page .article-tab-count{font-size:12px!important}
 }
 /* ARTICLE_INDEX_QUICK_ACTIONS_V2_END */
 
+
+/* ARTICLE_INDEX_REFINEMENT_V3_START */
+body.articles-page main,body.articles-page main button,body.articles-page main input,body.articles-page main select{font-size:14px!important}
+body.articles-page .nr-page-head h1{font-size:28px!important;line-height:36px!important}
+body.articles-page .nr-page-head p{font-size:14px!important;line-height:20px!important}
+body.articles-page .article-title{font-size:14px!important;line-height:20px!important}
+body.articles-page .article-description{font-size:14px!important;line-height:20px!important}
+body.articles-page .article-kicker,
+body.articles-page .article-meta,
+body.articles-page .article-status-pill,
+body.articles-page .article-owner span,
+body.articles-page .article-results,
+body.articles-page .article-list-head,
+body.articles-page .article-filter-field label,
+body.articles-page .article-tab-count{font-size:12px!important}
+body.articles-page .article-owner strong,
+body.articles-page .article-tab,
+body.articles-page .article-search input,
+body.articles-page .nr-select,
+body.articles-page .article-filter-btn{font-size:14px!important}
+
+/* Cleaner control hierarchy */
+body.articles-page .article-toolbar{
+  margin:0!important;padding:12px!important;border-bottom:1px solid var(--nr-border)!important;
+  grid-template-columns:minmax(320px,1fr) auto!important;gap:10px!important
+}
+body.articles-page .article-search input{height:42px!important}
+body.articles-page .article-toolbar-actions{gap:8px!important}
+body.articles-page #sortSelect{height:42px!important;min-width:140px!important}
+body.articles-page .article-filter-btn{height:42px!important}
+body.articles-page .article-tabs{
+  min-height:50px!important;gap:26px!important;padding:0 14px!important;border-bottom:1px solid var(--nr-border)!important
+}
+body.articles-page .article-tab{
+  min-height:50px!important;padding:0!important;background:transparent!important;border:0!important;position:relative!important
+}
+body.articles-page .article-tab.active{color:var(--nr-blue)!important}
+body.articles-page .article-tab.active:after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--nr-blue)
+}
+body.articles-page .article-tab-count{
+  min-width:auto!important;height:auto!important;padding:0!important;border-radius:0!important;background:transparent!important;color:inherit!important
+}
+body.articles-page .article-tab-count:before{content:"("}
+body.articles-page .article-tab-count:after{content:")"}
+
+/* Filter becomes compact popover instead of pushing the list */
+body.articles-page .article-filter-panel{
+  position:absolute!important;right:12px!important;top:58px!important;z-index:90!important;width:360px!important;
+  margin:0!important;padding:14px!important;background:#fff!important;box-shadow:var(--nr-shadow-md)!important
+}
+body.articles-page .article-filter-grid{grid-template-columns:1fr 1fr!important;gap:10px!important}
+
+/* Stable rows: hover never changes row height */
+body.articles-page .article-row{min-height:126px!important}
+body.articles-page .article-copy{position:relative!important;padding-right:116px!important}
+body.articles-page .article-quick-actions{
+  position:absolute!important;right:0!important;bottom:0!important;margin:0!important;min-height:32px!important;
+  opacity:0!important;pointer-events:none!important;transform:translateY(2px)!important
+}
+body.articles-page .article-row:hover .article-quick-actions,
+body.articles-page .article-row:focus-within .article-quick-actions{
+  opacity:1!important;pointer-events:auto!important;transform:none!important
+}
+body.articles-page .article-quick-divider,
+body.articles-page .article-quick-wrap,
+body.articles-page .article-quick-btn[data-action="distribute"],
+body.articles-page .article-quick-btn[data-action="curated"],
+body.articles-page .article-quick-btn[data-action="exclude"],
+body.articles-page .article-quick-btn[data-action="adult"],
+body.articles-page .article-quick-btn[data-action="feedback"],
+body.articles-page .article-quick-btn[data-action="varnish"],
+body.articles-page .article-quick-btn[data-action="google-test"]{display:none!important}
+body.articles-page .article-quick-actions-scroll{gap:4px!important;overflow:visible!important}
+body.articles-page .article-quick-btn{width:32px!important;height:32px!important}
+body.articles-page .article-quick-btn svg{width:16px!important;height:16px!important}
+
+/* More menu: grouped, readable actions rather than icon memory test */
+body.articles-page .article-row-menu{width:260px!important;padding:6px!important}
+body.articles-page .article-menu-section-label{
+  padding:8px 9px 5px;color:var(--nr-muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em
+}
+body.articles-page .article-menu-separator{height:1px;margin:5px 3px;background:#eef2f7}
+body.articles-page .article-menu-action{
+  width:100%;min-height:38px;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:0 9px;border:0;border-radius:7px;background:#fff;color:var(--nr-text-2);font-size:14px;text-align:left
+}
+body.articles-page .article-menu-action:hover{background:var(--nr-hover);color:var(--nr-text)}
+body.articles-page .article-menu-action>span{display:flex;align-items:center;gap:8px}
+body.articles-page .article-menu-action svg{width:16px;height:16px}
+body.articles-page .article-menu-action.is-active{color:var(--nr-blue);background:var(--nr-blue-soft)}
+@media(max-width:760px){
+ body.articles-page .article-copy{padding-right:0!important}
+ body.articles-page .article-quick-actions{position:static!important;margin-top:8px!important;opacity:1!important;pointer-events:auto!important;transform:none!important}
+ body.articles-page .article-filter-panel{left:12px!important;right:12px!important;width:auto!important}
+}
+/* ARTICLE_INDEX_REFINEMENT_V3_END */
+
 </style>
 </head>
 <body class="nr-app articles-page">
@@ -1205,6 +1303,38 @@ body.articles-page .article-tab-count{font-size:12px!important}
     showActionFeedback(option.dataset.choice+' '+(option.classList.contains('is-active')?'aktif':'nonaktif'));
   }));
 
+
+
+  /* ARTICLE_INDEX_REFINEMENT_V3: replace technical row menus with grouped editorial actions */
+  document.querySelectorAll('.article-row').forEach(row=>{
+    const menu=row.querySelector('.article-row-menu');
+    if(!menu)return;
+    menu.innerHTML=
+      '<div class="article-menu-section-label">Editorial</div>'+
+      '<button class="article-menu-action" data-setting="curated"><span><i data-lucide="badge-check"></i>Curated</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="headline-home"><span><i data-lucide="panel-top"></i>Headline · Home</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="headline-tv"><span><i data-lucide="tv"></i>Headline · TV</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="pin-home"><span><i data-lucide="pin"></i>Pin Article · Home</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="pin-tv"><span><i data-lucide="pin"></i>Pin Article · TV</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="exclude"><span><i data-lucide="ban"></i>Exclude</span><i data-lucide="check"></i></button>'+
+      '<div class="article-menu-separator"></div>'+
+      '<div class="article-menu-section-label">Distribution</div>'+
+      '<button class="article-menu-action" data-setting="distribute"><span><i data-lucide="send"></i>Distribute</span><i data-lucide="check"></i></button>'+
+      '<div class="article-menu-separator"></div>'+
+      '<div class="article-menu-section-label">Monetization</div>'+
+      '<button class="article-menu-action" data-setting="adult"><span><i data-lucide="shield-alert"></i>Adult Content</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="ads-desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="ads-mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><i data-lucide="check"></i></button>'+
+      '<div class="article-menu-separator"></div>'+
+      '<div class="article-menu-section-label">Technical</div>'+
+      '<button class="article-menu-action" data-setting="feedback"><span><i data-lucide="message-square"></i>Feedback</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action" data-setting="varnish"><span><i data-lucide="refresh-cw-off"></i>Bypass Varnish</span><i data-lucide="check"></i></button>'+
+      '<button class="article-menu-action"><span><i data-lucide="flask-conical"></i>Google Testing Tools</span><i data-lucide="external-link"></i></button>';
+  });
+  document.querySelectorAll('.article-menu-action[data-setting]').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    btn.classList.toggle('is-active');
+  }));
 
   lucide.createIcons();apply();
 })();
