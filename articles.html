@@ -196,9 +196,236 @@
   .article-description{display:none}
   .article-meta{margin-top:5px}
 }
+
+/* ARTICLE_INDEX_QUICK_ACTIONS_V2_START */
+/* Article index typography contract: 12px minimum; subsequent UI sizes use even values. */
+body.articles-page main,
+body.articles-page main button,
+body.articles-page main input,
+body.articles-page main select{font-size:12px}
+body.articles-page .nr-page-head h1{font-size:26px;line-height:34px}
+body.articles-page .nr-page-head p,
+body.articles-page .article-title{font-size:14px}
+body.articles-page .article-title{line-height:20px}
+body.articles-page .article-new-option strong,
+body.articles-page .article-new-option span,
+body.articles-page .article-filter-field label,
+body.articles-page .article-list-head,
+body.articles-page .article-kicker,
+body.articles-page .article-description,
+body.articles-page .article-meta,
+body.articles-page .article-status-pill,
+body.articles-page .article-owner strong,
+body.articles-page .article-owner span,
+body.articles-page .article-results,
+body.articles-page .article-page-btn,
+body.articles-page .article-tab-count{font-size:12px!important}
+
+/* Quick editorial/distribution actions appear only when a row is being worked with. */
+.article-quick-actions{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  max-width:100%;
+  margin-top:8px;
+  min-height:32px;
+  opacity:0;
+  transform:translateY(2px);
+  pointer-events:none;
+  transition:opacity .14s ease,transform .14s ease;
+}
+.article-row:hover .article-quick-actions,
+.article-row:focus-within .article-quick-actions{
+  opacity:1;
+  transform:none;
+  pointer-events:auto;
+}
+.article-quick-actions-scroll{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  min-width:0;
+  max-width:100%;
+  overflow-x:auto;
+  overflow-y:visible;
+  padding:2px 1px 4px;
+  scrollbar-width:none;
+}
+.article-quick-actions-scroll::-webkit-scrollbar{display:none}
+.article-quick-divider{
+  flex:0 0 1px;
+  width:1px;
+  height:18px;
+  margin:0 2px;
+  background:var(--nr-border);
+}
+.article-quick-wrap{position:relative;flex:none}
+.article-quick-btn{
+  position:relative;
+  width:30px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  flex:none;
+  padding:0;
+  border:1px solid transparent;
+  border-radius:8px;
+  background:transparent;
+  color:var(--nr-muted);
+}
+.article-quick-btn:hover{
+  border-color:var(--nr-border);
+  background:#fff;
+  color:var(--nr-text);
+}
+.article-quick-btn:focus-visible{
+  outline:0;
+  border-color:#93c5fd;
+  box-shadow:var(--nr-focus-ring,0 0 0 3px rgba(37,99,235,.10));
+}
+.article-quick-btn svg{width:16px;height:16px}
+.article-quick-btn.is-active{
+  border-color:#bfdbfe;
+  background:var(--nr-blue-soft);
+  color:var(--nr-blue);
+}
+.article-quick-btn.is-active::after{
+  content:"";
+  position:absolute;
+  right:3px;
+  top:3px;
+  width:5px;
+  height:5px;
+  border:1px solid #fff;
+  border-radius:50%;
+  background:var(--nr-blue);
+}
+.article-quick-btn.utility-active{
+  border-color:#dbe4ee;
+  background:#fff;
+  color:var(--nr-text);
+}
+.article-quick-btn[data-tooltip]::before{
+  content:attr(data-tooltip);
+  position:absolute;
+  left:50%;
+  bottom:calc(100% + 7px);
+  z-index:80;
+  width:max-content;
+  max-width:220px;
+  transform:translate(-50%,3px);
+  padding:6px 8px;
+  border-radius:6px;
+  background:#0f172a;
+  color:#fff;
+  font-size:12px;
+  line-height:16px;
+  font-weight:500;
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .12s ease,transform .12s ease;
+  box-shadow:0 6px 18px rgba(15,23,42,.18);
+}
+.article-quick-btn[data-tooltip]:hover::before,
+.article-quick-btn[data-tooltip]:focus-visible::before{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+.article-feature-menu{
+  position:absolute;
+  left:0;
+  top:calc(100% + 5px);
+  z-index:90;
+  width:190px;
+  display:none;
+  padding:5px;
+  border:1px solid var(--nr-border);
+  border-radius:9px;
+  background:#fff;
+  box-shadow:var(--nr-shadow-md);
+}
+.article-quick-wrap.open .article-feature-menu{display:grid;gap:2px}
+.article-feature-option{
+  width:100%;
+  min-height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:0 9px;
+  border:0;
+  border-radius:7px;
+  background:#fff;
+  color:var(--nr-text-2);
+  text-align:left;
+  font-size:12px;
+}
+.article-feature-option:hover{background:var(--nr-hover);color:var(--nr-text)}
+.article-feature-option>span{display:flex;align-items:center;gap:8px}
+.article-feature-option svg{width:14px;height:14px}
+.article-feature-check{
+  width:16px;
+  height:16px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--nr-border);
+  border-radius:5px;
+  color:transparent;
+}
+.article-feature-option.is-active .article-feature-check{
+  border-color:var(--nr-blue);
+  background:var(--nr-blue);
+  color:#fff;
+}
+.article-feature-option.is-active .article-feature-check svg{width:11px;height:11px}
+.article-quick-btn[data-action="published"].is-active{
+  border-color:#bbf7d0;
+  background:var(--nr-green-soft);
+  color:#166534;
+}
+.article-quick-btn[data-action="published"].is-active::after{background:#16a34a}
+.article-action-feedback{
+  position:fixed;
+  left:50%;
+  bottom:22px;
+  z-index:200;
+  transform:translate(-50%,12px);
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 12px;
+  border:1px solid var(--nr-border);
+  border-radius:9px;
+  background:#fff;
+  color:var(--nr-text);
+  font-size:12px;
+  font-weight:600;
+  box-shadow:var(--nr-shadow-md);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .16s ease,transform .16s ease;
+}
+.article-action-feedback.show{opacity:1;transform:translate(-50%,0)}
+.article-action-feedback svg{width:16px;height:16px;color:var(--nr-blue)}
+
+@media(max-width:760px){
+  .article-quick-actions{
+    opacity:1;
+    transform:none;
+    pointer-events:auto;
+    margin-left:0;
+  }
+  .article-feature-menu{position:fixed;left:12px;right:12px;top:auto;bottom:12px;width:auto}
+  .article-quick-btn[data-tooltip]::before{display:none}
+}
+/* ARTICLE_INDEX_QUICK_ACTIONS_V2_END */
+
 </style>
 </head>
-<body class="nr-app">
+<body class="nr-app articles-page">
 
 <header class="nr-topbar">
   <button class="nr-mobile-menu" id="mobileMenu" type="button" aria-label="Open menu"><i data-lucide="menu"></i></button>
@@ -346,51 +573,461 @@
           </div>
           <div class="article-status"><span class="article-status-pill published">Published</span></div>
           <div class="article-owner"><strong>Radien Trisula Hatta</strong><span>Editor · Saya QA</span></div>
-          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button><button type="button"><i data-lucide="copy"></i>Duplicate</button></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div>
         </article>
 
         <article class="article-row" data-status="review" data-category="Health" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:26:00" data-title="Cara Membuat Sambal Matah Anti Langu, Simak 8 Langkah Ini untuk Hasil Wangi dan Segar Maksimal">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Kesehatan · Herbal</span><time>05 Oct 2026 · 07:26</time></div><h2 class="article-title"><a href="index.html">Cara Membuat Sambal Matah Anti Langu, Simak 8 Langkah Ini untuk Hasil Wangi dan Segar Maksimal</a></h2><p class="article-description">Ingin sambal buatanmu wangi, segar, dan bebas bau langu? Temukan cara membuat sambal matah anti langu.</p><div class="article-meta"><span><i data-lucide="tag"></i>Resep</span><span><i data-lucide="circle-check"></i>6/6 ready</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Kesehatan · Herbal</span><time>05 Oct 2026 · 07:26</time></div><h2 class="article-title"><a href="index.html">Cara Membuat Sambal Matah Anti Langu, Simak 8 Langkah Ini untuk Hasil Wangi dan Segar Maksimal</a></h2><p class="article-description">Ingin sambal buatanmu wangi, segar, dan bebas bau langu? Temukan cara membuat sambal matah anti langu.</p><div class="article-meta"><span><i data-lucide="tag"></i>Resep</span><span><i data-lucide="circle-check"></i>6/6 ready</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill review">Ready to Review</span></div><div class="article-owner"><strong>Mohamad Teguh</strong><span>Editor · Saya</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Review article</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
         </article>
 
         <article class="article-row" data-status="draft" data-category="Sports" data-owner="team" data-site="Bola.com" data-updated="2026-10-05T07:26:00" data-title="Membayangkan Susunan Pemain Lokal dan Blasteran di Timnas Indonesia U-19, Berkualitas dan Tangguh">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Berita · Politik</span><time>05 Oct 2026 · 07:26</time></div><h2 class="article-title"><a href="index.html">Membayangkan Susunan Pemain Lokal dan Blasteran di Timnas Indonesia U-19, Berkualitas dan Tangguh</a></h2><p class="article-description">Pelatih Timnas Indonesia U-19 memiliki sumber daya pemain yang melimpah dan berkualitas.</p><div class="article-meta"><span><i data-lucide="tag"></i>Indonesia</span><span><i data-lucide="save"></i>Saved 4m ago</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Berita · Politik</span><time>05 Oct 2026 · 07:26</time></div><h2 class="article-title"><a href="index.html">Membayangkan Susunan Pemain Lokal dan Blasteran di Timnas Indonesia U-19, Berkualitas dan Tangguh</a></h2><p class="article-description">Pelatih Timnas Indonesia U-19 memiliki sumber daya pemain yang melimpah dan berkualitas.</p><div class="article-meta"><span><i data-lucide="tag"></i>Indonesia</span><span><i data-lucide="save"></i>Saved 4m ago</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill draft">Draft</span></div><div class="article-owner"><strong>Thomas</strong><span>Editor · Mohamad Teguh</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Continue editing</a><button type="button"><i data-lucide="copy"></i>Duplicate</button><button class="danger" type="button"><i data-lucide="trash-2"></i>Move to trash</button></div></div>
         </article>
 
         <article class="article-row" data-status="scheduled" data-category="News" data-owner="me" data-site="Merdeka.com" data-updated="2026-10-05T07:25:00" data-title="Makin Banyak Kerja, Makin Cepat Pikun">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>News · Zona MPR RI</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Makin Banyak Kerja, Makin Cepat Pikun</a></h2><p class="article-description">Semakin Anda gila kerja dengan target pencapaian karir yang tinggi, semakin tinggi juga risiko mengalami pikun di usia muda.</p><div class="article-meta"><span><i data-lucide="calendar-clock"></i>Publish · 13:00</span><span><i data-lucide="tag"></i>Buku Harian Seorang Istri</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>News · Zona MPR RI</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Makin Banyak Kerja, Makin Cepat Pikun</a></h2><p class="article-description">Semakin Anda gila kerja dengan target pencapaian karir yang tinggi, semakin tinggi juga risiko mengalami pikun di usia muda.</p><div class="article-meta"><span><i data-lucide="calendar-clock"></i>Publish · 13:00</span><span><i data-lucide="tag"></i>Buku Harian Seorang Istri</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill scheduled">Scheduled</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit schedule</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
         </article>
 
         <article class="article-row" data-status="published" data-category="Health" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="15 Langkah Lebih Sehat, Awet Muda, & Panjang Umur">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Health · Drugs & Diseases</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">15 Langkah Lebih Sehat, Awet Muda, &amp; Panjang Umur</a></h2><p class="article-description">Menjalani hidup yang lebih sehat adalah investasi jangka panjang Anda.</p><div class="article-meta"><span><i data-lucide="tag"></i>Kesehatan Umum</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Health · Drugs & Diseases</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">15 Langkah Lebih Sehat, Awet Muda, &amp; Panjang Umur</a></h2><p class="article-description">Menjalani hidup yang lebih sehat adalah investasi jangka panjang Anda.</p><div class="article-meta"><span><i data-lucide="tag"></i>Kesehatan Umum</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill published">Published</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button></div></div>
         </article>
 
         <article class="article-row" data-status="draft" data-category="Regional" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="8 Hal Yang Mempengaruhi Kesuburan Wanita">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1542884748-2b87b36c6b90?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Regional · Sumatera</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">8 Hal Yang Mempengaruhi Kesuburan Wanita</a></h2><p class="article-description">1 dari 8 wanita mengalami masalah sulit hamil atau tidak subur.</p><div class="article-meta"><span><i data-lucide="tag"></i>Hubungan Seks Saat Hamil</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1542884748-2b87b36c6b90?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Regional · Sumatera</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">8 Hal Yang Mempengaruhi Kesuburan Wanita</a></h2><p class="article-description">1 dari 8 wanita mengalami masalah sulit hamil atau tidak subur.</p><div class="article-meta"><span><i data-lucide="tag"></i>Hubungan Seks Saat Hamil</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill draft">Draft</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Continue editing</a><button class="danger" type="button"><i data-lucide="trash-2"></i>Move to trash</button></div></div>
         </article>
 
         <article class="article-row" data-status="scheduled" data-category="Lifestyle" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Ice Honey Chocolate">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Regional · Jawa Barat</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Ice Honey Chocolate</a></h2><p class="article-description">Berdasarkan kegemaran banyak orang yang menyukai cokelat, berikut tips membuat minuman berbahan dasar cokelat.</p><div class="article-meta"><span><i data-lucide="calendar-clock"></i>Publish · 15:30</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Regional · Jawa Barat</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Ice Honey Chocolate</a></h2><p class="article-description">Berdasarkan kegemaran banyak orang yang menyukai cokelat, berikut tips membuat minuman berbahan dasar cokelat.</p><div class="article-meta"><span><i data-lucide="calendar-clock"></i>Publish · 15:30</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill scheduled">Scheduled</span></div><div class="article-owner"><strong>Ramadan</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit schedule</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
         </article>
 
         <article class="article-row" data-status="review" data-category="Lifestyle" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Kelezatan Cappuccino Crème Brulee dan Hazelnut, Mau Coba?">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Lifestyle · Travel</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Kelezatan Cappuccino Crème Brulee dan Hazelnut, Mau Coba?</a></h2><p class="article-description">Bosan dengan rasa cappuccino yang biasa? Kini saat yang tepat menikmati varian baru.</p><div class="article-meta"><span><i data-lucide="circle-check"></i>6/6 ready</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Lifestyle · Travel</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Kelezatan Cappuccino Crème Brulee dan Hazelnut, Mau Coba?</a></h2><p class="article-description">Bosan dengan rasa cappuccino yang biasa? Kini saat yang tepat menikmati varian baru.</p><div class="article-meta"><span><i data-lucide="circle-check"></i>6/6 ready</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill review">Ready to Review</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Review article</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
         </article>
 
         <article class="article-row" data-status="published" data-category="Lifestyle" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Cokelat Bikin Jerawatan, Benarkah?">
-          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1575377427642-087cf684f29d?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Lifestyle · Shopping</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Cokelat Bikin Jerawatan, Benarkah?</a></h2><p class="article-description">Setumpuk cokelat Valentine masih utuh di dalam kotaknya.</p><div class="article-meta"><span><i data-lucide="tag"></i>Valentine · Kesehatan Kulit</span></div></div></div>
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1575377427642-087cf684f29d?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Lifestyle · Shopping</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Cokelat Bikin Jerawatan, Benarkah?</a></h2><p class="article-description">Setumpuk cokelat Valentine masih utuh di dalam kotaknya.</p><div class="article-meta"><span><i data-lucide="tag"></i>Valentine · Kesehatan Kulit</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill published">Published</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button></div></div>
         </article>
 
         <article class="article-row" data-status="draft" data-category="Health" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Kenali Nutrisi Esensial Dalam Suplemen">
-          <div class="article-main"><div class="article-thumb placeholder"><i data-lucide="image"></i></div><div class="article-copy"><div class="article-kicker"><span>Surabaya · Health</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Kenali Nutrisi Esensial Dalam Suplemen</a></h2><p class="article-description">Suplemen juga diperlukan ketika tubuh tidak mendapat cukup nutrisi dari makanan sehari-hari.</p><div class="article-meta"><span><i data-lucide="save"></i>Saved 8m ago</span></div></div></div>
+          <div class="article-main"><div class="article-thumb placeholder"><i data-lucide="image"></i></div><div class="article-copy"><div class="article-kicker"><span>Surabaya · Health</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Kenali Nutrisi Esensial Dalam Suplemen</a></h2><p class="article-description">Suplemen juga diperlukan ketika tubuh tidak mendapat cukup nutrisi dari makanan sehari-hari.</p><div class="article-meta"><span><i data-lucide="save"></i>Saved 8m ago</span></div>
+<div class="article-quick-actions" aria-label="Quick article actions">
+  <div class="article-quick-actions-scroll">
+    <button class="article-quick-btn article-utility-action" type="button" data-action="preview" data-tooltip="Preview App" aria-label="Preview App"><i data-lucide="eye"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="url" data-tooltip="Open URL" aria-label="Open URL"><i data-lucide="link-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="distribute" data-tooltip="CTA Distribusi" aria-label="CTA Distribusi" aria-pressed="false"><i data-lucide="send"></i></button>
+    <span class="article-quick-divider" aria-hidden="true"></span>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="published" data-tooltip="Published / Unpublished" aria-label="Published / Unpublished" aria-pressed="false"><i data-lucide="globe-2"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="curated" data-tooltip="Curated" aria-label="Curated" aria-pressed="false"><i data-lucide="badge-check"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="headline" data-tooltip="Headline" aria-label="Headline: Home atau TV" aria-expanded="false"><i data-lucide="panel-top"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Headline placement">
+        <button class="article-feature-option" type="button" data-choice="Headline · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Headline · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="pin" data-tooltip="Pin Article" aria-label="Pin Article: Home atau TV" aria-expanded="false"><i data-lucide="pin"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Pin placement">
+        <button class="article-feature-option" type="button" data-choice="Pin Article · Home"><span><i data-lucide="house"></i>Home</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Pin Article · TV"><span><i data-lucide="tv"></i>TV</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="exclude" data-tooltip="Exclude" aria-label="Exclude" aria-pressed="false"><i data-lucide="ban"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="adult" data-tooltip="Adult Content" aria-label="Adult Content" aria-pressed="false"><i data-lucide="shield-alert"></i></button>
+
+    <div class="article-quick-wrap">
+      <button class="article-quick-btn article-menu-trigger" type="button" data-action="ads" data-tooltip="Article Ads" aria-label="Article Ads: Desktop atau Mobile" aria-expanded="false"><i data-lucide="badge-dollar-sign"></i></button>
+      <div class="article-feature-menu" role="menu" aria-label="Article Ads placement">
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Desktop"><span><i data-lucide="monitor"></i>Ad Desktop Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+        <button class="article-feature-option" type="button" data-choice="Article Ads · Mobile"><span><i data-lucide="smartphone"></i>Ad Mobile Article</span><span class="article-feature-check"><i data-lucide="check"></i></span></button>
+      </div>
+    </div>
+
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="feedback" data-tooltip="Feedback" aria-label="Feedback" aria-pressed="false"><i data-lucide="message-square"></i></button>
+    <button class="article-quick-btn article-toggle-action" type="button" data-action="varnish" data-tooltip="Bypass Varnish" aria-label="Bypass Varnish" aria-pressed="false"><i data-lucide="refresh-cw-off"></i></button>
+    <button class="article-quick-btn article-utility-action" type="button" data-action="google-test" data-tooltip="Google Testing Tools" aria-label="Google Testing Tools"><i data-lucide="flask-conical"></i></button>
+  </div>
+</div></div></div>
           <div class="article-status"><span class="article-status-pill draft">Draft</span></div><div class="article-owner"><strong>Denny Santoso</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Continue editing</a><button class="danger" type="button"><i data-lucide="trash-2"></i>Move to trash</button></div></div>
         </article>
       </div>
@@ -413,6 +1050,7 @@
     </section>
   </div>
 </main>
+<div class="article-action-feedback" id="articleActionFeedback" role="status" aria-live="polite"><i data-lucide="check-circle-2"></i><span>Updated</span></div>
 
 <script>
 (function(){
@@ -485,7 +1123,88 @@
   document.querySelectorAll('.article-more-btn').forEach(btn=>btn.addEventListener('click',e=>{
     e.stopPropagation();const wrap=btn.closest('.article-more');document.querySelectorAll('.article-more.open').forEach(x=>{if(x!==wrap)x.classList.remove('open')});wrap.classList.toggle('open');
   }));
-  document.addEventListener('click',()=>{document.querySelectorAll('.article-more.open,.article-new-menu.open').forEach(x=>x.classList.remove('open'))});
+  document.addEventListener('click',()=>{document.querySelectorAll('.article-more.open,.article-new-menu.open,.article-quick-wrap.open').forEach(x=>{x.classList.remove('open');x.querySelector('.article-menu-trigger')?.setAttribute('aria-expanded','false')})});
+
+  /* Quick actions: direct toggles, utility actions, and placement menus. */
+  const actionFeedback=document.getElementById('articleActionFeedback');
+  let actionFeedbackTimer;
+  function showActionFeedback(message){
+    if(!actionFeedback)return;
+    actionFeedback.querySelector('span').textContent=message;
+    actionFeedback.classList.add('show');
+    clearTimeout(actionFeedbackTimer);
+    actionFeedbackTimer=setTimeout(()=>actionFeedback.classList.remove('show'),1600);
+  }
+  function syncMenuTrigger(wrap){
+    const trigger=wrap.querySelector('.article-menu-trigger');
+    const active=!!wrap.querySelector('.article-feature-option.is-active');
+    trigger.classList.toggle('is-active',active);
+    trigger.setAttribute('aria-pressed',active?'true':'false');
+  }
+
+  document.querySelectorAll('.article-row').forEach((row,rowIndex)=>{
+    const publishBtn=row.querySelector('[data-action="published"]');
+    if(publishBtn && row.dataset.status==='published'){
+      publishBtn.classList.add('is-active');
+      publishBtn.setAttribute('aria-pressed','true');
+    }
+    /* Demo current-state variety, so the prototype explains active states. */
+    if(rowIndex===0){
+      ['distribute','curated'].forEach(action=>{
+        const btn=row.querySelector('[data-action="'+action+'"]');
+        if(btn){btn.classList.add('is-active');btn.setAttribute('aria-pressed','true')}
+      });
+      row.querySelector('[data-choice="Headline · Home"]')?.classList.add('is-active');
+      row.querySelector('[data-choice="Article Ads · Desktop"]')?.classList.add('is-active');
+      row.querySelectorAll('.article-quick-wrap').forEach(syncMenuTrigger);
+    }
+  });
+
+  document.querySelectorAll('.article-toggle-action').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const active=!btn.classList.contains('is-active');
+    btn.classList.toggle('is-active',active);
+    btn.setAttribute('aria-pressed',active?'true':'false');
+    let label=btn.getAttribute('aria-label')||'Action';
+    if(btn.dataset.action==='published'){
+      label=active?'Published':'Unpublished';
+      const row=btn.closest('.article-row');
+      const status=row?.querySelector('.article-status-pill');
+      if(status){
+        status.className='article-status-pill '+(active?'published':'draft');
+        status.textContent=active?'Published':'Unpublished';
+      }
+    }
+    showActionFeedback(label+' '+(active?'aktif':'nonaktif'));
+  }));
+
+  document.querySelectorAll('.article-utility-action').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    btn.classList.add('utility-active');
+    setTimeout(()=>btn.classList.remove('utility-active'),500);
+    const labels={preview:'Preview App dibuka',url:'URL artikel dibuka','google-test':'Google Testing Tools dibuka'};
+    showActionFeedback(labels[btn.dataset.action]||'Action opened');
+  }));
+
+  document.querySelectorAll('.article-menu-trigger').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const wrap=btn.closest('.article-quick-wrap');
+    document.querySelectorAll('.article-quick-wrap.open').forEach(x=>{if(x!==wrap){x.classList.remove('open');x.querySelector('.article-menu-trigger')?.setAttribute('aria-expanded','false')}});
+    wrap.classList.toggle('open');
+    btn.setAttribute('aria-expanded',wrap.classList.contains('open')?'true':'false');
+  }));
+
+  document.querySelectorAll('.article-feature-option').forEach(option=>option.addEventListener('click',e=>{
+    e.stopPropagation();
+    option.classList.toggle('is-active');
+    const wrap=option.closest('.article-quick-wrap');
+    syncMenuTrigger(wrap);
+    const trigger=wrap.querySelector('.article-menu-trigger');
+    const activeChoices=[...wrap.querySelectorAll('.article-feature-option.is-active')].map(x=>x.dataset.choice);
+    trigger.setAttribute('data-tooltip',activeChoices.length?activeChoices.join(', '):(trigger.getAttribute('aria-label')||'Options'));
+    showActionFeedback(option.dataset.choice+' '+(option.classList.contains('is-active')?'aktif':'nonaktif'));
+  }));
+
 
   lucide.createIcons();apply();
 })();
