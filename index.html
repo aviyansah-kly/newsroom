@@ -13134,6 +13134,213 @@ body.alt-editor-layout.cms-sidebar-collapsed .newsroom-breadcrumb{
 
 
 </style>
+<style>
+/* NEWSROOM_HEADLINE_AI_SUGGESTIONS_START */
+body.alt-editor-layout .alt-field-card.ai-writing-field{
+  position:relative!important;
+  gap:7px!important;
+}
+body.alt-editor-layout .ai-writing-field-head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+}
+body.alt-editor-layout .ai-writing-field-head>label{
+  margin:0!important;
+  color:#0f172a!important;
+  font-size:14px!important;
+  line-height:20px!important;
+  font-weight:600!important;
+}
+body.alt-editor-layout .ai-writing-trigger{
+  height:30px!important;
+  min-height:30px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  padding:0 9px!important;
+  border:1px solid #ddd6fe!important;
+  border-radius:7px!important;
+  background:#faf5ff!important;
+  color:#7c3aed!important;
+  font-size:12px!important;
+  line-height:16px!important;
+  font-weight:600!important;
+  white-space:nowrap!important;
+}
+body.alt-editor-layout .ai-writing-trigger:hover{
+  border-color:#c4b5fd!important;
+  background:#f5f3ff!important;
+  color:#6d28d9!important;
+}
+body.alt-editor-layout .ai-writing-trigger svg{
+  width:14px!important;
+  height:14px!important;
+}
+body.alt-editor-layout .ai-writing-panel{
+  display:none!important;
+  overflow:hidden!important;
+  margin-top:2px!important;
+  border:1px solid #ddd6fe!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:0 10px 28px rgba(76,29,149,.08)!important;
+}
+body.alt-editor-layout .ai-writing-panel.open{
+  display:block!important;
+}
+body.alt-editor-layout .ai-writing-panel-head{
+  min-height:42px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:10px!important;
+  padding:8px 10px 8px 12px!important;
+  border-bottom:1px solid #ede9fe!important;
+  background:#faf5ff!important;
+}
+body.alt-editor-layout .ai-writing-panel-head>div{
+  min-width:0!important;
+}
+body.alt-editor-layout .ai-writing-panel-head strong{
+  display:block!important;
+  color:#4c1d95!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  font-weight:650!important;
+}
+body.alt-editor-layout .ai-writing-panel-head span{
+  display:block!important;
+  margin-top:1px!important;
+  color:#7c3aed!important;
+  font-size:11px!important;
+  line-height:15px!important;
+}
+body.alt-editor-layout .ai-writing-panel-close{
+  width:28px!important;
+  height:28px!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:none!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:6px!important;
+  background:transparent!important;
+  color:#7c3aed!important;
+}
+body.alt-editor-layout .ai-writing-panel-close:hover{
+  background:#ede9fe!important;
+}
+body.alt-editor-layout .ai-writing-panel-close svg{
+  width:14px!important;
+  height:14px!important;
+}
+body.alt-editor-layout .ai-writing-list{
+  display:grid!important;
+  gap:0!important;
+  padding:4px!important;
+}
+body.alt-editor-layout .ai-writing-option{
+  width:100%!important;
+  min-height:50px!important;
+  display:grid!important;
+  grid-template-columns:24px minmax(0,1fr)!important;
+  align-items:start!important;
+  gap:8px!important;
+  padding:9px 10px!important;
+  border:0!important;
+  border-radius:7px!important;
+  background:#fff!important;
+  color:#334155!important;
+  text-align:left!important;
+}
+body.alt-editor-layout .ai-writing-option:hover{
+  background:#f8fafc!important;
+}
+body.alt-editor-layout .ai-writing-option-index{
+  width:22px!important;
+  height:22px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:6px!important;
+  background:#fff!important;
+  color:#64748b!important;
+  font-size:10px!important;
+  line-height:14px!important;
+  font-weight:700!important;
+}
+body.alt-editor-layout .ai-writing-option-copy{
+  min-width:0!important;
+  display:block!important;
+  color:#334155!important;
+  font-size:13px!important;
+  line-height:19px!important;
+  font-weight:400!important;
+}
+body.alt-editor-layout .ai-writing-option:hover .ai-writing-option-index{
+  border-color:#c4b5fd!important;
+  background:#f5f3ff!important;
+  color:#7c3aed!important;
+}
+body.alt-editor-layout .ai-writing-loading{
+  min-height:116px!important;
+  display:none!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  color:#64748b!important;
+  font-size:12px!important;
+}
+body.alt-editor-layout .ai-writing-panel.loading .ai-writing-list{display:none!important}
+body.alt-editor-layout .ai-writing-panel.loading .ai-writing-loading{display:flex!important}
+body.alt-editor-layout .ai-writing-loading svg{
+  width:15px!important;
+  height:15px!important;
+  animation:newsroomAiSpin .85s linear infinite!important;
+}
+@keyframes newsroomAiSpin{to{transform:rotate(360deg)}}
+body.alt-editor-layout .ai-writing-field.ai-applied>textarea{
+  border-color:#8b5cf6!important;
+  background:linear-gradient(135deg,#fff,#faf5ff)!important;
+  box-shadow:0 0 0 2px rgba(139,92,246,.08)!important;
+}
+body.alt-editor-layout .ai-writing-origin{
+  display:none!important;
+  align-items:center!important;
+  gap:4px!important;
+  width:max-content!important;
+  margin-top:-1px!important;
+  padding:2px 6px!important;
+  border:1px solid #ddd6fe!important;
+  border-radius:999px!important;
+  background:#faf5ff!important;
+  color:#7c3aed!important;
+  font-size:10px!important;
+  line-height:14px!important;
+  font-weight:600!important;
+}
+body.alt-editor-layout .ai-writing-field.ai-applied .ai-writing-origin{
+  display:inline-flex!important;
+}
+body.alt-editor-layout .ai-writing-origin svg{
+  width:11px!important;
+  height:11px!important;
+}
+@media(max-width:640px){
+  body.alt-editor-layout .ai-writing-field-head{
+    align-items:flex-start!important;
+  }
+  body.alt-editor-layout .ai-writing-trigger{
+    height:28px!important;
+    min-height:28px!important;
+    padding:0 7px!important;
+  }
+}
+/* NEWSROOM_HEADLINE_AI_SUGGESTIONS_END */
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -19981,5 +20188,138 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   else init();
 })();
 // NEWSROOM_COLLAPSED_NAV_INTERACTION_END
+</script>
+<script>
+// NEWSROOM_HEADLINE_AI_SUGGESTIONS_JS_START
+(function(){
+  function escapeHtml(v){
+    return String(v||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function clean(v){
+    return String(v||'').replace(/\s+/g,' ').trim();
+  }
+
+  function titleSuggestions(value){
+    const current=clean(value);
+    const suggestions=[
+      'Basarnas: Pemilik Virgo Transport Bertanggung Jawab Angkat Bangkai Kapal',
+      'Pemilik Virgo Transport Wajib Angkat Bangkai Kapal, Ini Penjelasan Basarnas',
+      'Basarnas Tegaskan Tanggung Jawab Pemilik Kapal untuk Evakuasi Bangkai Virgo Transport'
+    ];
+    if(current && current.length<115 && !suggestions.includes(current)){
+      suggestions[2]=current;
+    }
+    return suggestions;
+  }
+
+  function descSuggestions(value){
+    const current=clean(value);
+    const suggestions=[
+      'Basarnas menegaskan pemilik Virgo Transport bertanggung jawab memindahkan atau mengangkat bangkai kapal sesuai ketentuan Undang-Undang Pelayaran.',
+      'Pemilik kapal wajib bertanggung jawab atas proses pengangkatan bangkai kapal. Basarnas memastikan kewajiban tersebut berlaku sesuai aturan pelayaran.',
+      'Basarnas menjelaskan tanggung jawab pemilik Virgo Transport dalam proses evakuasi dan pengangkatan bangkai kapal kecelakaan.'
+    ];
+    if(current && current.length<=190 && !suggestions.includes(current)){
+      suggestions[2]=current;
+    }
+    return suggestions;
+  }
+
+  function makeField(fieldId,type){
+    const input=document.getElementById(fieldId);
+    if(!input)return;
+    const card=input.closest('.alt-field-card');
+    const label=card?.querySelector('label[for="'+fieldId+'"]');
+    if(!card||!label||card.dataset.aiWritingReady==='1')return;
+    card.dataset.aiWritingReady='1';
+    card.classList.add('ai-writing-field');
+
+    const head=document.createElement('div');
+    head.className='ai-writing-field-head';
+    label.parentElement.insertBefore(head,label);
+    head.appendChild(label);
+
+    const trigger=document.createElement('button');
+    trigger.type='button';
+    trigger.className='ai-writing-trigger';
+    trigger.innerHTML='<i data-lucide="sparkles"></i><span>AI Suggestions</span>';
+    head.appendChild(trigger);
+
+    const origin=document.createElement('div');
+    origin.className='ai-writing-origin';
+    origin.innerHTML='<i data-lucide="sparkles"></i><span>AI suggestion applied</span>';
+    const counter=card.querySelector('.alt-compact-count');
+    if(counter)counter.insertAdjacentElement('beforebegin',origin);
+    else input.insertAdjacentElement('afterend',origin);
+
+    const panel=document.createElement('div');
+    panel.className='ai-writing-panel';
+    panel.innerHTML=
+      '<div class="ai-writing-panel-head">'+
+        '<div><strong>'+(type==='title'?'Saran Judul Artikel':'Saran Short Desc')+'</strong><span>Pilih salah satu untuk mengganti isi field.</span></div>'+
+        '<button type="button" class="ai-writing-panel-close" aria-label="Tutup AI Suggestions"><i data-lucide="x"></i></button>'+
+      '</div>'+
+      '<div class="ai-writing-loading"><i data-lucide="loader-circle"></i><span>Membuat suggestions…</span></div>'+
+      '<div class="ai-writing-list"></div>';
+    card.appendChild(panel);
+
+    const list=panel.querySelector('.ai-writing-list');
+    const close=()=>{panel.classList.remove('open','loading');trigger.setAttribute('aria-expanded','false')};
+
+    function render(){
+      const values=type==='title'?titleSuggestions(input.value):descSuggestions(input.value);
+      list.innerHTML=values.map((value,index)=>
+        '<button type="button" class="ai-writing-option" data-value="'+escapeHtml(value)+'">'+
+          '<span class="ai-writing-option-index">'+(index+1)+'</span>'+
+          '<span class="ai-writing-option-copy">'+escapeHtml(value)+'</span>'+
+        '</button>'
+      ).join('');
+      list.querySelectorAll('.ai-writing-option').forEach(option=>{
+        option.addEventListener('click',()=>{
+          input.value=option.dataset.value||'';
+          input.dispatchEvent(new Event('input',{bubbles:true}));
+          input.dispatchEvent(new Event('change',{bubbles:true}));
+          card.classList.add('ai-applied');
+          close();
+          input.focus();
+        });
+      });
+    }
+
+    trigger.setAttribute('aria-expanded','false');
+    trigger.addEventListener('click',()=>{
+      const opening=!panel.classList.contains('open');
+      document.querySelectorAll('.ai-writing-panel.open').forEach(x=>{
+        if(x!==panel)x.classList.remove('open','loading');
+      });
+      if(!opening){close();return}
+      panel.classList.add('open','loading');
+      trigger.setAttribute('aria-expanded','true');
+      if(window.lucide)window.lucide.createIcons();
+      setTimeout(()=>{
+        render();
+        panel.classList.remove('loading');
+        if(window.lucide)window.lucide.createIcons();
+      },520);
+    });
+
+    panel.querySelector('.ai-writing-panel-close').addEventListener('click',close);
+    input.addEventListener('input',e=>{
+      if(e.isTrusted && card.classList.contains('ai-applied'))card.classList.remove('ai-applied');
+    });
+
+    if(window.lucide)window.lucide.createIcons();
+  }
+
+  function init(){
+    makeField('title','title');
+    makeField('dek','desc');
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,420),{once:true});
+  else setTimeout(init,420);
+})();
+// NEWSROOM_HEADLINE_AI_SUGGESTIONS_JS_END
 </script>
 </body></html>
