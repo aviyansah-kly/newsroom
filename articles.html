@@ -1405,6 +1405,58 @@ body.articles-page .article-meta + .article-setting-chips{
 /* ARTICLE_INDEX_REFINEMENT_V8_END */
 </style>
 
+
+<style>
+/* ARTICLE_INDEX_PRIMARY_ACTION_V9_START */
+.article-primary-action{
+  min-width:78px!important;
+  height:36px!important;
+  min-height:36px!important;
+  border-radius:8px!important;
+  font-size:12px!important;
+  font-weight:700!important;
+  transition:background .12s ease,border-color .12s ease,color .12s ease!important;
+}
+.article-primary-action.action-edit{
+  border-color:#cbd5e1!important;
+  background:#fff!important;
+  color:#334155!important;
+}
+.article-primary-action.action-edit:hover{
+  background:#f8fafc!important;
+  border-color:#94a3b8!important;
+  color:#0f172a!important;
+}
+.article-primary-action.action-review{
+  border-color:#93c5fd!important;
+  background:#eff6ff!important;
+  color:#1d4ed8!important;
+}
+.article-primary-action.action-review:hover{
+  background:#dbeafe!important;
+  border-color:#60a5fa!important;
+}
+.article-primary-action.action-schedule{
+  border-color:#fdba74!important;
+  background:#fff7ed!important;
+  color:#c2410c!important;
+}
+.article-primary-action.action-schedule:hover{
+  background:#ffedd5!important;
+  border-color:#fb923c!important;
+}
+.article-primary-action.action-view{
+  border-color:#bbf7d0!important;
+  background:#ecfdf3!important;
+  color:#166534!important;
+}
+.article-primary-action.action-view:hover{
+  background:#dcfce7!important;
+  border-color:#86efac!important;
+}
+/* ARTICLE_INDEX_PRIMARY_ACTION_V9_END */
+</style>
+
 </head>
 <body class="nr-app articles-page">
 
@@ -2578,6 +2630,30 @@ body.articles-page .article-meta + .article-setting-chips{
     });
   });
 
+  lucide.createIcons();
+})();
+</script>
+
+
+<script>
+(function(){
+  document.querySelectorAll('.article-row').forEach(row=>{
+    const btn=row.querySelector('.article-primary-action');
+    if(!btn)return;
+    btn.classList.remove('review','action-edit','action-review','action-schedule','action-view');
+    const status=row.dataset.status||'draft';
+    const map={
+      draft:{label:'Edit',icon:'square-pen',cls:'action-edit'},
+      review:{label:'Review',icon:'circle-check-big',cls:'action-review'},
+      scheduled:{label:'Schedule',icon:'calendar-clock',cls:'action-schedule'},
+      published:{label:'View',icon:'eye',cls:'action-view'}
+    };
+    const cfg=map[status]||map.draft;
+    btn.classList.add(cfg.cls);
+    btn.innerHTML='<i data-lucide="'+cfg.icon+'"></i><span>'+cfg.label+'</span>';
+    btn.setAttribute('aria-label',cfg.label+' article');
+    btn.setAttribute('title',cfg.label+' article');
+  });
   lucide.createIcons();
 })();
 </script>
