@@ -11,6 +11,7 @@ Komponen di bawah adalah kandidat kontrak reusable untuk implementasi Frontend. 
 - `SidebarAccount` — avatar inisial, nama, role, expandable account info dan demo-state yang jelas; sama di semua halaman. Identity production disuplai `window.NEWSROOM_AUTH_USER` dari autentikasi CMS, bukan dari reporter/editor artikel. Sidebar collapsed hanya memperlihatkan avatar; tablet/mobile tetap memperlihatkan detail di drawer.
 - `ConnectivityStatus` — Offline / reconnect feedback.
 - `AutosaveStatus` — Saving / Saved / failure state.
+- `ArticleIndexQuickActions` — icon-only contextual actions pada row artikel. Hidden by default di desktop dan muncul pada hover/focus; mobile tampil langsung. Utility actions: Preview App, URL, Google Testing Tools. Toggle actions: Distribusi, Published/Unpublished, Curated, Exclude, Adult Content, Feedback, Bypass Varnish. Menu actions: Headline (Home/TV), Pin Article (Home/TV), Article Ads (Desktop/Mobile). Active state memakai blue selection system; Published memakai success state. Semua icon wajib punya tooltip/aria-label. Typography minimum 12px dan gunakan ukuran genap (12/14/16/...) untuk halaman index artikel.
 
 ## Editorial inputs
 
