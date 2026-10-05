@@ -13340,6 +13340,50 @@ body.alt-editor-layout .ai-writing-origin svg{
   }
 }
 /* NEWSROOM_HEADLINE_AI_SUGGESTIONS_END */
+
+/* NEWSROOM_HEADLINE_AI_STATUS_REFINEMENT_START */
+body.alt-editor-layout .newsroom-breadcrumb{
+  display:none!important;
+}
+body.alt-editor-layout .ai-writing-field .alt-compact-count{
+  margin:0!important;
+  min-height:20px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:5px!important;
+  color:#64748b!important;
+  font-size:11px!important;
+  line-height:16px!important;
+}
+body.alt-editor-layout .ai-writing-field-status{
+  min-height:22px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  margin-top:0!important;
+}
+body.alt-editor-layout .ai-writing-field-status-left,
+body.alt-editor-layout .ai-writing-field-status-right{
+  min-width:0!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+}
+body.alt-editor-layout .ai-writing-field-status-right{
+  margin-left:auto!important;
+  justify-content:flex-end!important;
+}
+body.alt-editor-layout .ai-writing-origin{
+  margin:0!important;
+  transition:opacity .22s ease,transform .22s ease!important;
+}
+body.alt-editor-layout .ai-writing-origin.is-hiding{
+  opacity:0!important;
+  transform:translateY(-2px)!important;
+}
+/* NEWSROOM_HEADLINE_AI_STATUS_REFINEMENT_END */
+
 </style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
@@ -20249,9 +20293,17 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     const origin=document.createElement('div');
     origin.className='ai-writing-origin';
     origin.innerHTML='<i data-lucide="sparkles"></i><span>AI suggestion applied</span>';
+
     const counter=card.querySelector('.alt-compact-count');
-    if(counter)counter.insertAdjacentElement('beforebegin',origin);
-    else input.insertAdjacentElement('afterend',origin);
+    let statusRow=card.querySelector('.ai-writing-field-status');
+    if(!statusRow){
+      statusRow=document.createElement('div');
+      statusRow.className='ai-writing-field-status';
+      statusRow.innerHTML='<div class="ai-writing-field-status-left"></div><div class="ai-writing-field-status-right"></div>';
+      input.insertAdjacentElement('afterend',statusRow);
+    }
+    statusRow.querySelector('.ai-writing-field-status-left').appendChild(origin);
+    if(counter)statusRow.querySelector('.ai-writing-field-status-right').appendChild(counter);
 
     const panel=document.createElement('div');
     panel.className='ai-writing-panel';
@@ -20281,6 +20333,15 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
           input.dispatchEvent(new Event('input',{bubbles:true}));
           input.dispatchEvent(new Event('change',{bubbles:true}));
           card.classList.add('ai-applied');
+          origin.classList.remove('is-hiding');
+          clearTimeout(card._aiAppliedTimer);
+          card._aiAppliedTimer=setTimeout(()=>{
+            origin.classList.add('is-hiding');
+            setTimeout(()=>{
+              card.classList.remove('ai-applied');
+              origin.classList.remove('is-hiding');
+            },240);
+          },2600);
           close();
           input.focus();
         });
@@ -20306,7 +20367,11 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 
     panel.querySelector('.ai-writing-panel-close').addEventListener('click',close);
     input.addEventListener('input',e=>{
-      if(e.isTrusted && card.classList.contains('ai-applied'))card.classList.remove('ai-applied');
+      if(e.isTrusted){
+        clearTimeout(card._aiAppliedTimer);
+        card.classList.remove('ai-applied');
+        origin.classList.remove('is-hiding');
+      }
     });
 
     if(window.lucide)window.lucide.createIcons();
