@@ -1297,6 +1297,114 @@ body.articles-page .article-row{
 /* ARTICLE_INDEX_REFINEMENT_V7_END */
 </style>
 
+
+<style>
+/* ARTICLE_INDEX_REFINEMENT_V8_START */
+/* Consistent action heights */
+.article-preview-btn,
+.article-primary-action,
+.article-action-menu-btn{
+  height:36px!important;
+  min-height:36px!important;
+  border-radius:8px!important;
+}
+.article-preview-btn{width:36px!important;min-width:36px!important}
+.article-primary-action{min-width:76px!important}
+.article-action-menu-btn{min-width:92px!important}
+
+/* Last update: relative label first, exact time second. */
+.article-updated-cell{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:2px!important;
+}
+.article-updated-cell strong{
+  font-size:14px!important;
+  line-height:20px!important;
+  font-weight:650!important;
+  color:var(--nr-text)!important;
+}
+.article-updated-cell span{
+  margin:0!important;
+  font-size:12px!important;
+  line-height:18px!important;
+  color:var(--nr-muted)!important;
+}
+
+/* Active article settings: compact icon cluster only. */
+.article-setting-chips{
+  display:flex!important;
+  align-items:center!important;
+  gap:4px!important;
+  flex-wrap:wrap!important;
+  margin-top:7px!important;
+}
+.article-setting-chip{
+  width:26px!important;
+  min-width:26px!important;
+  height:26px!important;
+  min-height:26px!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:0!important;
+  border:1px solid #dbe4ee!important;
+  border-radius:7px!important;
+  background:#f8fafc!important;
+  color:#64748b!important;
+  font-size:0!important;
+}
+.article-setting-chip svg{
+  width:14px!important;
+  height:14px!important;
+}
+.article-setting-chip:hover{
+  border-color:#bfdbfe!important;
+  background:var(--nr-blue-soft)!important;
+  color:var(--nr-blue)!important;
+}
+
+/* Settings popup: every action has breathing room and equal height. */
+body.articles-page .article-row-menu{
+  display:none;
+  gap:4px!important;
+  padding:8px!important;
+}
+body.articles-page .article-more.open .article-row-menu{
+  display:grid!important;
+}
+.article-action-item,
+.article-action-choice{
+  min-height:40px!important;
+  height:40px!important;
+  border-radius:8px!important;
+  padding:0 10px!important;
+}
+.article-action-group-label{
+  padding:9px 10px 4px!important;
+}
+.article-action-sep{
+  margin:3px 4px!important;
+}
+.article-action-submenu{
+  gap:4px!important;
+  padding:8px!important;
+}
+.article-action-sub.open>.article-action-submenu{
+  display:grid!important;
+}
+
+/* Strong separator between article rows and pagination. */
+body.articles-page .article-footer{
+  border-top:1px solid var(--nr-border)!important;
+}
+
+/* Keep the active setting icons visually attached to article metadata, not title. */
+body.articles-page .article-meta + .article-setting-chips{
+  margin-top:7px!important;
+}
+/* ARTICLE_INDEX_REFINEMENT_V8_END */
+</style>
+
 </head>
 <body class="nr-app articles-page">
 
@@ -2365,6 +2473,107 @@ body.articles-page .article-row{
       const menu=btn.closest('.article-row-menu');
       menu?.querySelectorAll('.article-action-sub.open').forEach(sub=>{
         if(sub!==current) sub.classList.remove('open');
+      });
+    });
+  });
+
+  lucide.createIcons();
+})();
+</script>
+
+
+<script>
+(function(){
+  const iconMap={
+    curated:'badge-check',
+    distribute:'send',
+    headline:'panel-top',
+    pin:'pin',
+    exclude:'ban',
+    adult:'shield-alert',
+    ads:'badge-dollar-sign',
+    feedback:'message-square',
+    varnish:'refresh-cw-off'
+  };
+
+  function exactUpdateParts(cell){
+    if(!cell)return;
+    const strong=cell.querySelector('strong');
+    const sub=cell.querySelector('span');
+    if(!strong||!sub)return;
+    const exactDate=strong.textContent.trim();
+    const time=sub.textContent.trim();
+    strong.dataset.exactDate=exactDate;
+    strong.textContent='Today';
+    cell.setAttribute('title', exactDate+(time?' · '+time:''));
+  }
+  document.querySelectorAll('.article-updated-cell').forEach(exactUpdateParts);
+
+  function settingKeyFromText(text){
+    const t=(text||'').toLowerCase();
+    if(t.includes('curated')) return 'curated';
+    if(t.includes('distribution')) return 'distribute';
+    if(t.includes('headline')) return 'headline';
+    if(t.includes('pin article')) return 'pin';
+    if(t.includes('exclude')) return 'exclude';
+    if(t.includes('adult content')) return 'adult';
+    if(t.includes('ad desktop')||t.includes('ad mobile')||t.includes('ads')) return 'ads';
+    if(t.includes('feedback')) return 'feedback';
+    if(t.includes('varnish')) return 'varnish';
+    return '';
+  }
+
+  function rebuildSettingIcons(row){
+    const meta=row.querySelector('.article-meta');
+    if(!meta)return;
+    let wrap=row.querySelector('.article-setting-chips');
+    if(!wrap){
+      wrap=document.createElement('div');
+      wrap.className='article-setting-chips';
+      meta.after(wrap);
+    }
+    wrap.innerHTML='';
+
+    const active=[];
+    row.querySelectorAll('.article-action-item.is-active[data-setting-toggle], .article-action-choice.is-active').forEach(el=>{
+      const key=settingKeyFromText(el.textContent);
+      if(key && !active.includes(key)) active.push(key);
+    });
+
+    active.forEach(key=>{
+      const chip=document.createElement('span');
+      chip.className='article-setting-chip';
+      chip.title=key==='distribute'?'Distribution':key.charAt(0).toUpperCase()+key.slice(1);
+      chip.setAttribute('aria-label',chip.title+' active');
+      chip.innerHTML='<i data-lucide="'+(iconMap[key]||'check')+'"></i>';
+      wrap.appendChild(chip);
+    });
+
+    if(!wrap.children.length) wrap.remove();
+    lucide.createIcons();
+  }
+
+  /* Convert any existing read-only chips to icon-only clusters. */
+  document.querySelectorAll('.article-row').forEach(row=>{
+    const old=row.querySelector('.article-setting-chips');
+    if(old){
+      [...old.children].forEach(chip=>{
+        const label=chip.textContent.trim();
+        const key=settingKeyFromText(label);
+        if(key){
+          chip.title=label;
+          chip.setAttribute('aria-label',label+' active');
+          chip.innerHTML='<i data-lucide="'+(iconMap[key]||'check')+'"></i>';
+        }
+      });
+    }
+  });
+
+  /* When a Settings option changes, mirror the active state as an icon in the row. */
+  document.querySelectorAll('.article-row').forEach(row=>{
+    row.querySelectorAll('[data-setting-toggle], .article-action-choice').forEach(control=>{
+      control.addEventListener('click',()=>{
+        setTimeout(()=>rebuildSettingIcons(row),0);
       });
     });
   });
