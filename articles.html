@@ -729,6 +729,241 @@ body.articles-page .article-footer{
 /* ARTICLE_INDEX_EDITORIAL_TABLE_V4_END */
 </style>
 
+
+<style>
+/* ARTICLE_INDEX_REFINEMENT_V5_START
+   Goal: consistent rhythm, richer but scannable rows, explicit actions. */
+body.articles-page{
+  --article-pad-x:16px;
+  --article-pad-y:14px;
+}
+body.articles-page .article-page-head{
+  margin-bottom:20px!important;
+}
+body.articles-page .article-page-head h1{
+  font-size:28px!important;
+  line-height:36px!important;
+}
+body.articles-page .article-page-head p{
+  margin-top:4px!important;
+  font-size:14px!important;
+  line-height:20px!important;
+}
+
+/* One spacing rhythm for every list section */
+body.articles-page .article-toolbar{
+  padding:12px var(--article-pad-x)!important;
+  margin:0 0 12px!important;
+}
+body.articles-page .article-tabs{
+  padding:0 var(--article-pad-x)!important;
+  gap:24px!important;
+}
+body.articles-page .article-list-head{
+  grid-template-columns:36px minmax(430px,1fr) 124px 154px 124px 190px!important;
+  gap:16px!important;
+  padding:12px var(--article-pad-x)!important;
+}
+body.articles-page .article-row{
+  grid-template-columns:36px minmax(430px,1fr) 124px 154px 124px 190px!important;
+  gap:16px!important;
+  min-height:108px!important;
+  padding:var(--article-pad-y) var(--article-pad-x)!important;
+}
+body.articles-page .article-footer{
+  min-height:62px!important;
+  padding:12px var(--article-pad-x)!important;
+}
+
+/* Article content gets enough breathing room to understand context at a glance */
+body.articles-page .article-main{
+  grid-template-columns:96px minmax(0,1fr)!important;
+  gap:14px!important;
+}
+body.articles-page .article-thumb{
+  width:96px!important;
+  height:60px!important;
+  border-radius:8px!important;
+}
+body.articles-page .article-kicker{
+  margin-bottom:2px!important;
+  font-size:12px!important;
+  line-height:18px!important;
+}
+body.articles-page .article-title{
+  font-size:14px!important;
+  line-height:20px!important;
+  font-weight:700!important;
+}
+body.articles-page .article-description{
+  display:block!important;
+  margin:3px 0 0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  color:var(--nr-muted)!important;
+  font-size:12px!important;
+  line-height:18px!important;
+}
+body.articles-page .article-meta{
+  margin-top:4px!important;
+  gap:12px!important;
+  font-size:12px!important;
+  line-height:18px!important;
+}
+.article-updated-cell strong,
+.article-reporter-cell strong{font-size:14px!important;line-height:20px!important}
+.article-updated-cell span,
+.article-reporter-cell span{font-size:12px!important;line-height:18px!important}
+
+/* Explicit action hierarchy replaces ambiguous ellipsis-only control */
+.article-actions-cell{
+  display:flex!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.article-primary-action{
+  height:36px;
+  min-width:82px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:0 12px;
+  border:1px solid var(--nr-border);
+  border-radius:8px;
+  background:#fff;
+  color:var(--nr-text);
+  font-size:12px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.article-primary-action:hover{
+  border-color:#bfdbfe;
+  background:var(--nr-blue-soft);
+  color:var(--nr-blue);
+}
+.article-primary-action svg{width:15px;height:15px}
+.article-primary-action.review{
+  border-color:#bfdbfe;
+  background:var(--nr-blue-soft);
+  color:var(--nr-blue);
+}
+.article-action-menu-btn{
+  height:36px!important;
+  width:auto!important;
+  min-width:84px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  padding:0 10px!important;
+  border:1px solid var(--nr-border)!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:var(--nr-text-2)!important;
+  font-size:12px!important;
+  font-weight:600!important;
+}
+.article-action-menu-btn:hover{
+  background:var(--nr-hover)!important;
+  color:var(--nr-text)!important;
+}
+.article-action-menu-btn svg{width:14px!important;height:14px!important}
+
+/* Secondary actions are grouped by mental model, not by system internals */
+body.articles-page .article-row-menu{
+  width:250px!important;
+  padding:6px!important;
+}
+.article-action-group-label{
+  padding:8px 10px 5px;
+  color:var(--nr-muted);
+  font-size:12px;
+  line-height:16px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.article-action-item{
+  width:100%;
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:0 10px;
+  border:0;
+  border-radius:7px;
+  background:#fff;
+  color:var(--nr-text-2);
+  font-size:14px;
+  text-align:left;
+}
+.article-action-item:hover{background:var(--nr-hover);color:var(--nr-text)}
+.article-action-item>span{display:flex;align-items:center;gap:8px}
+.article-action-item svg{width:16px;height:16px}
+.article-action-item.is-active{background:var(--nr-blue-soft);color:var(--nr-blue)}
+.article-action-sep{height:1px;margin:5px 4px;background:#eef2f7}
+.article-action-sub{position:relative}
+.article-action-submenu{
+  position:absolute;
+  left:calc(100% + 6px);
+  top:-6px;
+  width:220px;
+  display:none;
+  padding:6px;
+  border:1px solid var(--nr-border);
+  border-radius:10px;
+  background:#fff;
+  box-shadow:var(--nr-shadow-md);
+}
+.article-action-sub.open>.article-action-submenu{display:block}
+.article-action-choice{
+  width:100%;
+  min-height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  border:0;
+  border-radius:7px;
+  background:#fff;
+  color:var(--nr-text-2);
+  font-size:14px;
+  text-align:left;
+}
+.article-action-choice:hover{background:var(--nr-hover)}
+.article-action-choice.is-active{background:var(--nr-blue-soft);color:var(--nr-blue)}
+
+/* Make header language shorter and easier to scan */
+body.articles-page .article-list-head{font-size:12px!important}
+body.articles-page .article-results{font-size:12px!important}
+
+@media(max-width:1180px){
+  body.articles-page .article-list-head,
+  body.articles-page .article-row{
+    grid-template-columns:36px minmax(380px,1fr) 120px 122px 176px!important;
+  }
+  body.articles-page .article-list-head .article-col-reporter,
+  body.articles-page .article-reporter-cell{display:none!important}
+}
+@media(max-width:760px){
+  body.articles-page .article-row{
+    grid-template-columns:28px minmax(0,1fr) 96px!important;
+    min-height:116px!important;
+  }
+  body.articles-page .article-main{grid-template-columns:80px minmax(0,1fr)!important}
+  body.articles-page .article-thumb{width:80px!important;height:50px!important}
+  .article-actions-cell{align-self:start!important}
+  .article-primary-action{min-width:72px;padding:0 9px}
+  .article-action-menu-btn{min-width:36px!important;width:36px!important;padding:0!important}
+  .article-action-menu-btn span{display:none}
+}
+/* ARTICLE_INDEX_REFINEMENT_V5_END */
+</style>
+
 </head>
 <body class="nr-app articles-page">
 
@@ -1635,6 +1870,88 @@ body.articles-page .article-footer{
       b.addEventListener('click',()=>{tabs.forEach(t=>t.classList.remove('active'));b.classList.add('active')});
     }
   }
+
+  lucide.createIcons();
+})();
+</script>
+
+
+<script>
+(function(){
+  const head=document.querySelector('.article-list-head');
+  if(head){
+    head.innerHTML='<span></span><span>Article</span><span>Last Update</span><span class="article-col-reporter">Reporter / Editor</span><span>Status</span><span>Action</span>';
+  }
+
+  document.querySelectorAll('.article-row').forEach(row=>{
+    const actions=row.querySelector('.article-actions-cell');
+    const more=row.querySelector('.article-more');
+    if(!actions||!more||actions.dataset.v5Ready==='1')return;
+    actions.dataset.v5Ready='1';
+
+    const status=row.dataset.status||'draft';
+    const primary=document.createElement('button');
+    primary.type='button';
+    primary.className='article-primary-action'+(status==='review'?' review':'');
+    const primaryMap={
+      draft:['square-pen','Continue'],
+      review:['circle-check-big','Review'],
+      scheduled:['calendar-clock','Manage'],
+      published:['eye','View']
+    };
+    const p=primaryMap[status]||primaryMap.draft;
+    primary.innerHTML='<i data-lucide="'+p[0]+'"></i><span>'+p[1]+'</span>';
+
+    const menuBtn=more.querySelector('.article-more-btn');
+    if(menuBtn){
+      menuBtn.classList.add('article-action-menu-btn');
+      menuBtn.innerHTML='<span>Actions</span><i data-lucide="chevron-down"></i>';
+      menuBtn.setAttribute('aria-label','Article actions');
+    }
+
+    actions.insertBefore(primary,more);
+
+    const menu=more.querySelector('.article-row-menu');
+    if(menu){
+      const isPublished=status==='published';
+      menu.innerHTML=
+        '<button class="article-action-item"><span><i data-lucide="link-2"></i>Open URL</span><i data-lucide="external-link"></i></button>'+
+        '<button class="article-action-item '+(isPublished?'is-active':'')+'" data-publish-toggle><span><i data-lucide="globe-2"></i>'+(isPublished?'Unpublish':'Publish')+'</span></button>'+
+        '<button class="article-action-item" data-setting-toggle><span><i data-lucide="send"></i>Distribution</span><i data-lucide="check"></i></button>'+
+        '<div class="article-action-sep"></div>'+
+        '<div class="article-action-group-label">Placement</div>'+
+        '<div class="article-action-sub"><button class="article-action-item article-action-sub-trigger"><span><i data-lucide="panel-top"></i>Headline</span><i data-lucide="chevron-right"></i></button><div class="article-action-submenu"><button class="article-action-choice">Home</button><button class="article-action-choice">TV</button></div></div>'+
+        '<div class="article-action-sub"><button class="article-action-item article-action-sub-trigger"><span><i data-lucide="pin"></i>Pin Article</span><i data-lucide="chevron-right"></i></button><div class="article-action-submenu"><button class="article-action-choice">Home</button><button class="article-action-choice">TV</button></div></div>'+
+        '<button class="article-action-item" data-setting-toggle><span><i data-lucide="badge-check"></i>Curated</span><i data-lucide="check"></i></button>'+
+        '<button class="article-action-item" data-setting-toggle><span><i data-lucide="ban"></i>Exclude</span><i data-lucide="check"></i></button>'+
+        '<div class="article-action-sep"></div>'+
+        '<div class="article-action-sub"><button class="article-action-item article-action-sub-trigger"><span><i data-lucide="badge-dollar-sign"></i>Ads & Content</span><i data-lucide="chevron-right"></i></button><div class="article-action-submenu"><button class="article-action-choice">Adult Content</button><button class="article-action-choice">Ad Desktop</button><button class="article-action-choice">Ad Mobile</button></div></div>'+
+        '<div class="article-action-sub"><button class="article-action-item article-action-sub-trigger"><span><i data-lucide="wrench"></i>Technical</span><i data-lucide="chevron-right"></i></button><div class="article-action-submenu"><button class="article-action-choice">Feedback</button><button class="article-action-choice">Bypass Varnish</button><button class="article-action-choice">Google Testing Tools</button></div></div>';
+    }
+  });
+
+  document.querySelectorAll('.article-action-sub-trigger').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    const sub=btn.closest('.article-action-sub');
+    document.querySelectorAll('.article-action-sub.open').forEach(x=>{if(x!==sub)x.classList.remove('open')});
+    sub.classList.toggle('open');
+  }));
+  document.querySelectorAll('[data-setting-toggle],.article-action-choice').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    btn.classList.toggle('is-active');
+  }));
+  document.querySelectorAll('[data-publish-toggle]').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();
+    btn.classList.toggle('is-active');
+    const active=btn.classList.contains('is-active');
+    btn.querySelector('span').innerHTML='<i data-lucide="globe-2"></i>'+(active?'Unpublish':'Publish');
+    lucide.createIcons();
+  }));
+
+  const search=document.getElementById('articleSearch');
+  if(search) search.placeholder='Search title, reporter, editor, or category…';
+  const subtitle=document.querySelector('.article-page-head p');
+  if(subtitle) subtitle.textContent='Kelola dan lanjutkan pekerjaan artikel editorial.';
 
   lucide.createIcons();
 })();
