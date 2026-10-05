@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Articles · Liputan6 Newsroom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/newsroom-design-system.css">
+<link rel="stylesheet" href="styles/newsroom-shell.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* Article index — intentionally page-specific. Shared shell/tokens live in the Newsroom design system. */
+.article-page-head{align-items:center}
+.article-head-actions{display:flex;align-items:center;gap:8px}
+.article-new-menu{position:relative}
+.article-new-popover{
+  position:absolute;right:0;top:calc(100% + 7px);z-index:40;width:236px;
+  display:none;padding:6px;border:1px solid var(--nr-border);border-radius:10px;
+  background:#fff;box-shadow:var(--nr-shadow-md)
+}
+.article-new-menu.open .article-new-popover{display:grid;gap:2px}
+.article-new-option{
+  min-height:44px;display:grid;grid-template-columns:30px minmax(0,1fr);gap:8px;align-items:center;
+  padding:6px 8px;border:0;border-radius:8px;background:#fff;color:var(--nr-text);text-align:left
+}
+.article-new-option:hover{background:var(--nr-hover)}
+.article-new-option svg{width:16px;height:16px;color:var(--nr-muted)}
+.article-new-option strong{display:block;font-size:12px}
+.article-new-option span{display:block;margin-top:1px;font-size:11px;color:var(--nr-muted)}
+
+.article-toolbar{
+  margin-bottom:14px;padding:12px;display:grid;
+  grid-template-columns:minmax(240px,1fr) auto;gap:10px;align-items:center
+}
+.article-search{position:relative;min-width:0}
+.article-search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:#94a3b8}
+.article-search input{
+  width:100%;height:40px;padding:0 12px 0 38px;border:1px solid var(--nr-input);
+  border-radius:var(--nr-radius-md);background:#fff;color:var(--nr-text);outline:0
+}
+.article-search input:focus{border-color:#94a3b8;box-shadow:0 0 0 2px rgba(148,163,184,.12)}
+.article-toolbar-actions{display:flex;align-items:center;gap:8px}
+.article-filter-btn.active{background:var(--nr-blue-soft);border-color:#bfdbfe;color:var(--nr-blue)}
+.article-filter-count{
+  min-width:18px;height:18px;display:inline-grid;place-items:center;padding:0 5px;border-radius:999px;
+  background:var(--nr-blue);color:#fff;font-size:10px;font-weight:700
+}
+.article-filter-count[hidden]{display:none}
+
+.article-tabs{
+  display:flex;align-items:center;gap:4px;padding:0 12px;border-bottom:1px solid var(--nr-border);
+  overflow:auto;scrollbar-width:none
+}
+.article-tabs::-webkit-scrollbar{display:none}
+.article-tab{
+  min-height:45px;display:inline-flex;align-items:center;gap:6px;padding:0 10px;
+  border:0;border-bottom:2px solid transparent;background:transparent;color:var(--nr-muted);
+  font-weight:600;white-space:nowrap
+}
+.article-tab:hover{color:var(--nr-text)}
+.article-tab.active{color:var(--nr-blue);border-bottom-color:var(--nr-blue)}
+.article-tab-count{
+  min-width:22px;height:20px;display:inline-grid;place-items:center;padding:0 6px;border-radius:999px;
+  background:var(--nr-soft);color:var(--nr-muted);font-size:10px
+}
+.article-tab.active .article-tab-count{background:var(--nr-blue-soft);color:var(--nr-blue)}
+
+.article-filter-panel{
+  display:none;margin:0 12px 12px;padding:12px;border:1px solid var(--nr-border);
+  border-radius:10px;background:var(--nr-soft)
+}
+.article-filter-panel.open{display:block}
+.article-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.article-filter-field label{display:block;margin-bottom:5px;font-size:11px;font-weight:600;color:var(--nr-text-2)}
+.article-filter-field .nr-select{width:100%;min-width:0;height:38px}
+.article-filter-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:10px}
+
+.article-list-head{
+  display:grid;grid-template-columns:minmax(0,1fr) 132px 148px 42px;gap:12px;
+  padding:10px 14px;background:var(--nr-soft);border-bottom:1px solid var(--nr-border);
+  color:var(--nr-muted);font-size:11px;font-weight:650;text-transform:uppercase;letter-spacing:.035em
+}
+.article-list{display:grid}
+.article-row{
+  display:grid;grid-template-columns:minmax(0,1fr) 132px 148px 42px;gap:12px;
+  align-items:center;min-height:112px;padding:13px 14px;border-bottom:1px solid #eef2f7;background:#fff
+}
+.article-row:last-child{border-bottom:0}
+.article-row:hover{background:#fbfdff}
+.article-main{display:grid;grid-template-columns:112px minmax(0,1fr);gap:12px;align-items:center;min-width:0}
+.article-thumb{
+  width:112px;aspect-ratio:16/9;overflow:hidden;border-radius:8px;background:#e2e8f0;position:relative
+}
+.article-thumb img{width:100%;height:100%;display:block;object-fit:cover}
+.article-thumb.placeholder{display:grid;place-items:center;color:#94a3b8}
+.article-thumb.placeholder svg{width:20px;height:20px}
+.article-copy{min-width:0}
+.article-kicker{display:flex;align-items:center;gap:6px;margin-bottom:5px;min-width:0;color:var(--nr-muted);font-size:11px}
+.article-kicker span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.article-kicker time{flex:none;color:var(--nr-blue)}
+.article-title{
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
+  margin:0;color:var(--nr-text);font-size:14px;line-height:20px;font-weight:650
+}
+.article-title a:hover{color:var(--nr-blue)}
+.article-description{
+  margin:4px 0 0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden;
+  color:var(--nr-muted);font-size:11px;line-height:17px
+}
+.article-meta{display:flex;flex-wrap:wrap;gap:5px 10px;margin-top:6px;color:var(--nr-muted);font-size:10px}
+.article-meta span{display:inline-flex;align-items:center;gap:4px}
+.article-meta svg{width:11px;height:11px}
+
+.article-status{justify-self:start}
+.article-status-pill{
+  min-height:28px;display:inline-flex;align-items:center;gap:6px;padding:0 9px;border-radius:999px;
+  border:1px solid var(--nr-border);background:#fff;color:var(--nr-text-2);font-size:11px;font-weight:650
+}
+.article-status-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:#94a3b8}
+.article-status-pill.published{background:var(--nr-green-soft);border-color:#bbf7d0;color:#166534}
+.article-status-pill.published::before{background:#16a34a}
+.article-status-pill.review{background:var(--nr-blue-soft);border-color:#bfdbfe;color:#1d4ed8}
+.article-status-pill.review::before{background:#2563eb}
+.article-status-pill.scheduled{background:#fff7ed;border-color:#fed7aa;color:#9a3412}
+.article-status-pill.scheduled::before{background:#f97316}
+.article-status-pill.draft::before{background:#64748b}
+
+.article-owner{min-width:0}
+.article-owner strong,.article-owner span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.article-owner strong{font-size:11px;line-height:16px}
+.article-owner span{margin-top:2px;font-size:10px;color:var(--nr-muted)}
+.article-more{position:relative;justify-self:end}
+.article-more-btn{width:34px;height:34px;display:grid;place-items:center;padding:0}
+.article-more-btn svg{width:16px;height:16px}
+.article-row-menu{
+  position:absolute;right:0;top:calc(100% + 5px);z-index:30;width:180px;display:none;padding:5px;
+  border:1px solid var(--nr-border);border-radius:9px;background:#fff;box-shadow:var(--nr-shadow-md)
+}
+.article-more.open .article-row-menu{display:grid}
+.article-row-menu a,.article-row-menu button{
+  min-height:36px;display:flex;align-items:center;gap:8px;padding:0 9px;border:0;border-radius:7px;
+  background:#fff;color:var(--nr-text-2);font-size:12px;text-align:left
+}
+.article-row-menu a:hover,.article-row-menu button:hover{background:var(--nr-hover);color:var(--nr-text)}
+.article-row-menu svg{width:14px;height:14px}
+.article-row-menu .danger{color:var(--nr-red)}
+
+.article-empty{display:none;padding:50px 20px;text-align:center}
+.article-empty.show{display:block}
+.article-empty-icon{width:42px;height:42px;display:grid;place-items:center;margin:0 auto 10px;border-radius:12px;background:var(--nr-soft);color:var(--nr-muted)}
+.article-empty-icon svg{width:19px;height:19px}
+.article-empty strong{display:block;font-size:13px}
+.article-empty span{display:block;margin-top:4px;color:var(--nr-muted);font-size:12px}
+
+.article-footer{
+  min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:10px 14px;border-top:1px solid var(--nr-border)
+}
+.article-results{font-size:11px;color:var(--nr-muted)}
+.article-pagination{display:flex;align-items:center;gap:4px}
+.article-page-btn{
+  min-width:34px;height:34px;display:grid;place-items:center;padding:0 8px;border:1px solid var(--nr-border);
+  border-radius:7px;background:#fff;color:var(--nr-text-2);font-size:11px
+}
+.article-page-btn:hover{background:var(--nr-hover)}
+.article-page-btn.active{background:var(--nr-blue);border-color:var(--nr-blue);color:#fff}
+.article-page-btn svg{width:14px;height:14px}
+
+@media(max-width:1180px){
+  .article-list-head,.article-row{grid-template-columns:minmax(0,1fr) 120px 42px}
+  .article-list-head>span:nth-child(3),.article-owner{display:none}
+}
+@media(max-width:1024px){
+  .article-page-head{align-items:flex-start}
+}
+@media(max-width:760px){
+  .article-page-head{flex-direction:column}
+  .article-head-actions{width:100%}
+  .article-head-actions .nr-btn{flex:1}
+  .article-toolbar{grid-template-columns:1fr}
+  .article-toolbar-actions{justify-content:space-between}
+  .article-filter-grid{grid-template-columns:1fr 1fr}
+  .article-list-head{display:none}
+  .article-row{grid-template-columns:minmax(0,1fr) 34px;min-height:0;align-items:start}
+  .article-status{grid-column:1;justify-self:start;margin-left:124px;margin-top:-4px}
+  .article-main{grid-template-columns:112px minmax(0,1fr)}
+  .article-footer{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:560px){
+  .article-filter-grid{grid-template-columns:1fr}
+  .article-main{grid-template-columns:88px minmax(0,1fr)}
+  .article-thumb{width:88px}
+  .article-status{margin-left:100px}
+  .article-description{display:none}
+  .article-meta{margin-top:5px}
+}
+</style>
+</head>
+<body class="nr-app">
+
+<header class="nr-topbar">
+  <button class="nr-mobile-menu" id="mobileMenu" type="button" aria-label="Open menu"><i data-lucide="menu"></i></button>
+  <a class="nr-brand" href="dashboard.html" aria-label="Liputan6 Newsroom"><img src="assets/liputan6-logo.svg" alt="Liputan6"></a>
+  <div class="nr-header-context"><strong>Newsroom</strong><span>Content Production / Articles</span></div>
+  <div class="nr-spacer"></div>
+</header>
+
+<div class="nr-sidebar-backdrop" id="sidebarBackdrop"></div>
+<aside class="nr-sidebar" id="sidebar">
+  <div class="nr-sidebar-head">
+    <div><strong>CMS Menu</strong><span>Editorial and distribution tools.</span></div>
+    <button type="button" id="sidebarToggle" aria-label="Collapse sidebar"><i data-lucide="panel-left-close"></i></button>
+  </div>
+  <div class="nr-sidebar-search"><i data-lucide="search"></i><input id="sidebarSearch" type="search" placeholder="Search CMS menu…"></div>
+  <div class="nr-sidebar-scroll">
+    <div class="nr-nav-cluster open" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="file-pen-line"></i><strong>Content Production</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <a class="nr-nav-item" href="dashboard.html" data-item="Dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+        <a class="nr-nav-item active" href="articles.html" data-item="Articles"><i data-lucide="newspaper"></i><span>Articles</span></a>
+        <button class="nr-nav-item" type="button" data-item="Autopilot Articles"><i data-lucide="bot"></i><span>Autopilot Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Rewrite Articles"><i data-lucide="wand-sparkles"></i><span>Rewrite Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Distributed Articles"><i data-lucide="send"></i><span>Distributed Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Live Reports"><i data-lucide="radio"></i><span>Live Reports</span></button>
+        <button class="nr-nav-item" type="button" data-item="Static Contents"><i data-lucide="file-text"></i><span>Static Contents</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="images"></i><strong>Media & Live</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Images"><i data-lucide="image"></i><span>Images</span></button>
+        <button class="nr-nav-item" type="button" data-item="Photo Galleries"><i data-lucide="gallery-horizontal"></i><span>Photo Galleries</span></button>
+        <button class="nr-nav-item" type="button" data-item="Video Galleries"><i data-lucide="clapperboard"></i><span>Video Galleries</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="sparkles"></i><strong>AI & Intelligence</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Persona"><i data-lucide="user-round-cog"></i><span>Persona</span></button>
+        <button class="nr-nav-item" type="button" data-item="SEO Recommendation"><i data-lucide="search-check"></i><span>SEO Recommendation</span></button>
+        <button class="nr-nav-item" type="button" data-item="Topical Hub"><i data-lucide="network"></i><span>Topical Hub</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="tags"></i><strong>Taxonomy & Reference</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Figures"><i data-lucide="users"></i><span>Figures</span></button>
+        <button class="nr-nav-item" type="button" data-item="Football"><i data-lucide="trophy"></i><span>Football</span></button>
+        <a class="nr-nav-item" href="tags.html" data-item="Tags"><i data-lucide="tag"></i><span>Tags</span></a>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="shield-check"></i><strong>Editorial Governance</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="CG Articles"><i data-lucide="shield-alert"></i><span>CG Articles</span></button>
+        <button class="nr-nav-item" type="button" data-item="Comments"><i data-lucide="message-square"></i><span>Comments</span></button>
+      </div>
+    </div>
+    <div class="nr-nav-cluster" data-cluster>
+      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="megaphone"></i><strong>Distribution & Promotion</strong></span><i data-lucide="chevron-down"></i></button>
+      <div class="nr-nav-items">
+        <button class="nr-nav-item" type="button" data-item="Headlines"><i data-lucide="panel-top"></i><span>Headlines</span></button>
+        <button class="nr-nav-item" type="button" data-item="Push Notification"><i data-lucide="bell-ring"></i><span>Push Notification</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="nr-sidebar-bottom"></div>
+</aside>
+
+<main class="nr-page">
+  <div class="nr-container">
+    <div class="nr-page-head article-page-head">
+      <div>
+        <h1>Articles</h1>
+        <p>Temukan, pantau, dan lanjutkan pekerjaan artikel editorial.</p>
+      </div>
+      <div class="article-head-actions">
+        <div class="article-new-menu" id="newArticleMenu">
+          <button class="nr-btn nr-btn-primary" id="newArticleBtn" type="button" aria-expanded="false">
+            <i data-lucide="plus"></i><span>New Article</span><i data-lucide="chevron-down"></i>
+          </button>
+          <div class="article-new-popover" role="menu">
+            <a class="article-new-option" href="index.html"><i data-lucide="file-plus-2"></i><span><strong>Regular Article</strong><span>Mulai artikel editorial baru</span></span></a>
+            <button class="article-new-option" type="button"><i data-lucide="users-round"></i><span><strong>Collaboration Article</strong><span>Tulis bersama editor lain</span></span></button>
+            <button class="article-new-option" type="button"><i data-lucide="sparkles"></i><span><strong>Article with AI</strong><span>Mulai dengan bantuan AI</span></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="nr-panel" aria-label="Article index">
+      <div class="article-toolbar">
+        <div class="article-search">
+          <i data-lucide="search"></i>
+          <input id="articleSearch" type="search" placeholder="Search title, reporter, editor, category…">
+        </div>
+        <div class="article-toolbar-actions">
+          <select class="nr-select" id="sortSelect" aria-label="Urutkan artikel">
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="title">Title A–Z</option>
+          </select>
+          <button class="nr-btn article-filter-btn" id="filterBtn" type="button" aria-expanded="false">
+            <i data-lucide="sliders-horizontal"></i><span>Filter</span><span class="article-filter-count" id="filterCount" hidden>0</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="article-tabs" role="tablist" aria-label="Status artikel">
+        <button class="article-tab active" type="button" data-status="all">All <span class="article-tab-count">10</span></button>
+        <button class="article-tab" type="button" data-status="draft">Draft <span class="article-tab-count">3</span></button>
+        <button class="article-tab" type="button" data-status="review">Ready to Review <span class="article-tab-count">2</span></button>
+        <button class="article-tab" type="button" data-status="scheduled">Scheduled <span class="article-tab-count">2</span></button>
+        <button class="article-tab" type="button" data-status="published">Published <span class="article-tab-count">3</span></button>
+      </div>
+
+      <div class="article-filter-panel" id="filterPanel">
+        <div class="article-filter-grid">
+          <div class="article-filter-field"><label>Site</label><select class="nr-select" id="siteFilter"><option value="">All sites</option><option>Liputan6</option><option>Bola.com</option><option>Merdeka.com</option></select></div>
+          <div class="article-filter-field"><label>Category</label><select class="nr-select" id="categoryFilter"><option value="">All categories</option><option>News</option><option>Sports</option><option>Health</option><option>Lifestyle</option><option>Regional</option></select></div>
+          <div class="article-filter-field"><label>Ownership</label><select class="nr-select" id="ownerFilter"><option value="">All articles</option><option value="me">My articles</option><option value="team">Team articles</option></select></div>
+          <div class="article-filter-field"><label>Updated</label><select class="nr-select" id="dateFilter"><option value="">Any time</option><option value="today">Today</option><option value="7days">Last 7 days</option><option value="30days">Last 30 days</option></select></div>
+        </div>
+        <div class="article-filter-footer">
+          <button class="nr-btn" id="resetFilters" type="button">Reset</button>
+          <button class="nr-btn" id="applyFilters" type="button"><i data-lucide="check"></i>Apply Filter</button>
+        </div>
+      </div>
+
+      <div class="article-list-head" aria-hidden="true">
+        <span>Article</span><span>Status</span><span>Reporter / Editor</span><span></span>
+      </div>
+
+      <div class="article-list" id="articleList">
+        <article class="article-row" data-status="published" data-category="News" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T09:20:00" data-title="Reporter dan Kamerawan TV Meksiko Ditabrak Mobil saat Sedang Siaran Langsung">
+          <div class="article-main">
+            <div class="article-thumb"><img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=320&q=70" alt=""></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>TV · Liputan6 Pagi</span><time>05 Oct 2026 · 09:20</time></div>
+              <h2 class="article-title"><a href="index.html">Reporter dan Kamerawan TV Meksiko Ditabrak Mobil saat Sedang Siaran Langsung</a></h2>
+              <p class="article-description">Reporter dan kamerawan dari stasiun televisi lokal Meksiko terluka usai ditabrak sebuah mobil saat sedang siaran langsung.</p>
+              <div class="article-meta"><span><i data-lucide="tag"></i>Video · Kecelakaan Fatal</span><span><i data-lucide="link-2"></i>3 internal links</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill published">Published</span></div>
+          <div class="article-owner"><strong>Radien Trisula Hatta</strong><span>Editor · Saya QA</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="review" data-category="Health" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:26:00" data-title="Cara Membuat Sambal Matah Anti Langu, Simak 8 Langkah Ini untuk Hasil Wangi dan Segar Maksimal">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Kesehatan · Herbal</span><time>05 Oct 2026 · 07:26</time></div><h2 class="article-title"><a href="index.html">Cara Membuat Sambal Matah Anti Langu, Simak 8 Langkah Ini untuk Hasil Wangi dan Segar Maksimal</a></h2><p class="article-description">Ingin sambal buatanmu wangi, segar, dan bebas bau langu? Temukan cara membuat sambal matah anti langu.</p><div class="article-meta"><span><i data-lucide="tag"></i>Resep</span><span><i data-lucide="circle-check"></i>6/6 ready</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill review">Ready to Review</span></div><div class="article-owner"><strong>Mohamad Teguh</strong><span>Editor · Saya</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Review article</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="draft" data-category="Sports" data-owner="team" data-site="Bola.com" data-updated="2026-10-05T07:26:00" data-title="Membayangkan Susunan Pemain Lokal dan Blasteran di Timnas Indonesia U-19, Berkualitas dan Tangguh">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Berita · Politik</span><time>05 Oct 2026 · 07:26</time></div><h2 class="article-title"><a href="index.html">Membayangkan Susunan Pemain Lokal dan Blasteran di Timnas Indonesia U-19, Berkualitas dan Tangguh</a></h2><p class="article-description">Pelatih Timnas Indonesia U-19 memiliki sumber daya pemain yang melimpah dan berkualitas.</p><div class="article-meta"><span><i data-lucide="tag"></i>Indonesia</span><span><i data-lucide="save"></i>Saved 4m ago</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div><div class="article-owner"><strong>Thomas</strong><span>Editor · Mohamad Teguh</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Continue editing</a><button type="button"><i data-lucide="copy"></i>Duplicate</button><button class="danger" type="button"><i data-lucide="trash-2"></i>Move to trash</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="scheduled" data-category="News" data-owner="me" data-site="Merdeka.com" data-updated="2026-10-05T07:25:00" data-title="Makin Banyak Kerja, Makin Cepat Pikun">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>News · Zona MPR RI</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Makin Banyak Kerja, Makin Cepat Pikun</a></h2><p class="article-description">Semakin Anda gila kerja dengan target pencapaian karir yang tinggi, semakin tinggi juga risiko mengalami pikun di usia muda.</p><div class="article-meta"><span><i data-lucide="calendar-clock"></i>Publish · 13:00</span><span><i data-lucide="tag"></i>Buku Harian Seorang Istri</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill scheduled">Scheduled</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit schedule</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="published" data-category="Health" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="15 Langkah Lebih Sehat, Awet Muda, & Panjang Umur">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Health · Drugs & Diseases</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">15 Langkah Lebih Sehat, Awet Muda, &amp; Panjang Umur</a></h2><p class="article-description">Menjalani hidup yang lebih sehat adalah investasi jangka panjang Anda.</p><div class="article-meta"><span><i data-lucide="tag"></i>Kesehatan Umum</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill published">Published</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="draft" data-category="Regional" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="8 Hal Yang Mempengaruhi Kesuburan Wanita">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1542884748-2b87b36c6b90?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Regional · Sumatera</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">8 Hal Yang Mempengaruhi Kesuburan Wanita</a></h2><p class="article-description">1 dari 8 wanita mengalami masalah sulit hamil atau tidak subur.</p><div class="article-meta"><span><i data-lucide="tag"></i>Hubungan Seks Saat Hamil</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Continue editing</a><button class="danger" type="button"><i data-lucide="trash-2"></i>Move to trash</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="scheduled" data-category="Lifestyle" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Ice Honey Chocolate">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Regional · Jawa Barat</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Ice Honey Chocolate</a></h2><p class="article-description">Berdasarkan kegemaran banyak orang yang menyukai cokelat, berikut tips membuat minuman berbahan dasar cokelat.</p><div class="article-meta"><span><i data-lucide="calendar-clock"></i>Publish · 15:30</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill scheduled">Scheduled</span></div><div class="article-owner"><strong>Ramadan</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit schedule</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="review" data-category="Lifestyle" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Kelezatan Cappuccino Crème Brulee dan Hazelnut, Mau Coba?">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Lifestyle · Travel</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Kelezatan Cappuccino Crème Brulee dan Hazelnut, Mau Coba?</a></h2><p class="article-description">Bosan dengan rasa cappuccino yang biasa? Kini saat yang tepat menikmati varian baru.</p><div class="article-meta"><span><i data-lucide="circle-check"></i>6/6 ready</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill review">Ready to Review</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Review article</a><button type="button"><i data-lucide="copy"></i>Duplicate</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="published" data-category="Lifestyle" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Cokelat Bikin Jerawatan, Benarkah?">
+          <div class="article-main"><div class="article-thumb"><img src="https://images.unsplash.com/photo-1575377427642-087cf684f29d?auto=format&fit=crop&w=320&q=70" alt=""></div><div class="article-copy"><div class="article-kicker"><span>Lifestyle · Shopping</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Cokelat Bikin Jerawatan, Benarkah?</a></h2><p class="article-description">Setumpuk cokelat Valentine masih utuh di dalam kotaknya.</p><div class="article-meta"><span><i data-lucide="tag"></i>Valentine · Kesehatan Kulit</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill published">Published</span></div><div class="article-owner"><strong>Saya QA</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Edit article</a><button type="button"><i data-lucide="external-link"></i>Open published</button></div></div>
+        </article>
+
+        <article class="article-row" data-status="draft" data-category="Health" data-owner="me" data-site="Liputan6" data-updated="2026-10-05T07:25:00" data-title="Kenali Nutrisi Esensial Dalam Suplemen">
+          <div class="article-main"><div class="article-thumb placeholder"><i data-lucide="image"></i></div><div class="article-copy"><div class="article-kicker"><span>Surabaya · Health</span><time>05 Oct 2026 · 07:25</time></div><h2 class="article-title"><a href="index.html">Kenali Nutrisi Esensial Dalam Suplemen</a></h2><p class="article-description">Suplemen juga diperlukan ketika tubuh tidak mendapat cukup nutrisi dari makanan sehari-hari.</p><div class="article-meta"><span><i data-lucide="save"></i>Saved 8m ago</span></div></div></div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div><div class="article-owner"><strong>Denny Santoso</strong><span>Editor · Rosmayanti</span></div><div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"><a href="index.html"><i data-lucide="square-pen"></i>Continue editing</a><button class="danger" type="button"><i data-lucide="trash-2"></i>Move to trash</button></div></div>
+        </article>
+      </div>
+
+      <div class="article-empty" id="articleEmpty">
+        <span class="article-empty-icon"><i data-lucide="search-x"></i></span>
+        <strong>No articles found</strong><span>Coba ubah keyword atau filter yang digunakan.</span>
+      </div>
+
+      <div class="article-footer">
+        <span class="article-results" id="articleResults">Showing 10 articles</span>
+        <div class="article-pagination" aria-label="Pagination">
+          <button class="article-page-btn" type="button" aria-label="Previous page"><i data-lucide="chevron-left"></i></button>
+          <button class="article-page-btn active" type="button">1</button>
+          <button class="article-page-btn" type="button">2</button>
+          <button class="article-page-btn" type="button">3</button>
+          <button class="article-page-btn" type="button" aria-label="Next page"><i data-lucide="chevron-right"></i></button>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+(function(){
+  const body=document.body;
+  const toggle=document.getElementById('sidebarToggle');
+  const mobileMenu=document.getElementById('mobileMenu');
+  const backdrop=document.getElementById('sidebarBackdrop');
+  const sidebarSearch=document.getElementById('sidebarSearch');
+  const articleSearch=document.getElementById('articleSearch');
+  const filterBtn=document.getElementById('filterBtn');
+  const filterPanel=document.getElementById('filterPanel');
+  const filterCount=document.getElementById('filterCount');
+  const rows=[...document.querySelectorAll('.article-row')];
+  const empty=document.getElementById('articleEmpty');
+  const results=document.getElementById('articleResults');
+  let activeStatus='all';
+
+  function mobile(){return window.matchMedia('(max-width:1024px)').matches}
+  function closeMobile(){body.classList.remove('nr-mobile-sidebar-open')}
+  toggle?.addEventListener('click',()=>{
+    if(mobile()){closeMobile();return}
+    body.classList.toggle('nr-sidebar-collapsed');
+    try{localStorage.setItem('newsroom:sidebar-collapsed',body.classList.contains('nr-sidebar-collapsed')?'1':'0')}catch(e){}
+    toggle.innerHTML='<i data-lucide="'+(body.classList.contains('nr-sidebar-collapsed')?'panel-left-open':'panel-left-close')+'"></i>';lucide.createIcons();
+  });
+  mobileMenu?.addEventListener('click',()=>body.classList.add('nr-mobile-sidebar-open'));
+  backdrop?.addEventListener('click',closeMobile);
+  document.querySelectorAll('[data-cluster]>.nr-nav-cluster-head').forEach(btn=>btn.addEventListener('click',()=>btn.parentElement.classList.toggle('open')));
+  sidebarSearch?.addEventListener('input',()=>{
+    const q=sidebarSearch.value.trim().toLowerCase();
+    document.querySelectorAll('[data-cluster]').forEach(cluster=>{
+      let matches=0;cluster.querySelectorAll('[data-item]').forEach(item=>{const visible=!q||(item.dataset.item||'').toLowerCase().includes(q);item.hidden=!visible;if(visible)matches++});
+      cluster.hidden=matches===0;if(q&&matches)cluster.classList.add('open');
+    });
+  });
+  if(!mobile()){try{if(localStorage.getItem('newsroom:sidebar-collapsed')==='1'){body.classList.add('nr-sidebar-collapsed');toggle.innerHTML='<i data-lucide="panel-left-open"></i>'}}catch(e){}}
+  window.addEventListener('resize',()=>{if(!mobile())closeMobile()});
+
+  document.getElementById('newArticleBtn')?.addEventListener('click',e=>{e.stopPropagation();const wrap=document.getElementById('newArticleMenu');wrap.classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',wrap.classList.contains('open')?'true':'false')});
+  filterBtn?.addEventListener('click',()=>{filterPanel.classList.toggle('open');filterBtn.classList.toggle('active');filterBtn.setAttribute('aria-expanded',filterPanel.classList.contains('open')?'true':'false')});
+
+  function apply(){
+    const q=(articleSearch.value||'').trim().toLowerCase();
+    const site=document.getElementById('siteFilter').value;
+    const category=document.getElementById('categoryFilter').value;
+    const owner=document.getElementById('ownerFilter').value;
+    let shown=0;
+    rows.forEach(row=>{
+      const hay=(row.dataset.title+' '+row.textContent).toLowerCase();
+      const ok=(!q||hay.includes(q))&&(activeStatus==='all'||row.dataset.status===activeStatus)&&(!site||row.dataset.site===site)&&(!category||row.dataset.category===category)&&(!owner||row.dataset.owner===owner);
+      row.hidden=!ok;if(ok)shown++;
+    });
+    empty.classList.toggle('show',shown===0);
+    results.textContent='Showing '+shown+' article'+(shown===1?'':'s');
+  }
+  articleSearch?.addEventListener('input',apply);
+  document.querySelectorAll('.article-tab').forEach(tab=>tab.addEventListener('click',()=>{
+    document.querySelectorAll('.article-tab').forEach(x=>x.classList.remove('active'));tab.classList.add('active');activeStatus=tab.dataset.status;apply();
+  }));
+  document.getElementById('applyFilters')?.addEventListener('click',()=>{
+    const ids=['siteFilter','categoryFilter','ownerFilter','dateFilter'];
+    const count=ids.filter(id=>document.getElementById(id).value).length;
+    filterCount.hidden=count===0;filterCount.textContent=count;apply();filterPanel.classList.remove('open');filterBtn.classList.toggle('active',count>0);filterBtn.setAttribute('aria-expanded','false');
+  });
+  document.getElementById('resetFilters')?.addEventListener('click',()=>{
+    ['siteFilter','categoryFilter','ownerFilter','dateFilter'].forEach(id=>document.getElementById(id).value='');
+    filterCount.hidden=true;filterBtn.classList.remove('active');apply();
+  });
+
+  document.querySelectorAll('.article-more-btn').forEach(btn=>btn.addEventListener('click',e=>{
+    e.stopPropagation();const wrap=btn.closest('.article-more');document.querySelectorAll('.article-more.open').forEach(x=>{if(x!==wrap)x.classList.remove('open')});wrap.classList.toggle('open');
+  }));
+  document.addEventListener('click',()=>{document.querySelectorAll('.article-more.open,.article-new-menu.open').forEach(x=>x.classList.remove('open'))});
+
+  lucide.createIcons();apply();
+})();
+</script>
+<script src="scripts/newsroom-shell.js" defer></script>
+</body>
+</html>
