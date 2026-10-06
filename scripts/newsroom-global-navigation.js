@@ -7,6 +7,26 @@
   const routes={'Articles':'articles.html','Tags':'tags.html'};
   const leaf=(window.location.pathname.split('/').pop()||'index.html');
   const page=leaf==='dashboard.html'?'Dashboard':leaf==='tags.html'?'Tags':'Articles';
+  if(document.body.classList.contains('alt-editor-layout')){
+    // Render the same canonical brand/site selector and navigation in Editor.
+    // Executed immediately after Editor shell markup, before its interaction scripts.
+    const existingBrand=document.querySelector('.newsroom-header-left');
+    if(existingBrand){
+      const holder=document.createElement('div');
+      holder.innerHTML=editorBrand;
+      const canonical=holder.firstElementChild;
+      if(canonical)existingBrand.replaceWith(canonical);
+    }
+    const existingNavigation=document.querySelector('#cmsNavDrawer > .cms-nav-scroll');
+    if(existingNavigation){
+      const holder=document.createElement('div');
+      holder.innerHTML=editorNavigation;
+      const canonical=holder.firstElementChild;
+      if(canonical)existingNavigation.replaceWith(canonical);
+    }
+    if(window.lucide?.createIcons)window.lucide.createIcons();
+    return;
+  }
   if(!document.body.classList.contains('nr-app'))return;
   const header=document.querySelector('.nr-topbar');
   const sidebar=document.querySelector('.nr-sidebar');
