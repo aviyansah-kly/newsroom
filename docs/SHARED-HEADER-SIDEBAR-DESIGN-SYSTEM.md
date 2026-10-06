@@ -54,3 +54,9 @@ Jangan membaca identitas login dari `Reporter`, `Editor` yang ditugaskan di arti
 - **Active navigation:** hanya menu aktif sesuai halaman yang berbeda. Menu Tags menuju `tags.html`, Articles menuju `articles.html`, klik KLY pada halaman standar menuju Dashboard.
 - **Pengecualian:** `login.html` adalah halaman autentikasi sebelum aplikasi dibuka dan tidak menampilkan menu editorial/header workspace.
 - **QA wajib:** periksa header site switcher, sidebar search, expand/collapse desktop, drawer mobile, account footer, zoom 125%/150%, navigation and autosave di Editor; pastikan menu terlihat sama di Editor, Articles, Dashboard, Tags.
+
+## UI parity correction (6 October 2026)
+- Shared standard-page CSS uses the approved Editor shell measurements: 68px topbar, 248px sidebar, 64px collapsed sidebar; 58px KLY mark, 146px selector, and aligned header separator.
+- Standard-page sidebar now matches Editor's 38px group headers, 36px navigation items, 14px icons, row padding, search row and collapsed 48px icon grid. Changes are centralized in `styles/newsroom-global-navigation.css`.
+- `index.html` keeps Editor's existing detailed header autosave controls and editable workspace. Standard pages intentionally use page breadcrumb on the right of the shared brand. This is an intentional content difference, not a shell-style discrepancy.
+- Update shell visual rules centrally and verify all four pages at common desktop widths and mobile; live screenshot QA has not been run in this change.
