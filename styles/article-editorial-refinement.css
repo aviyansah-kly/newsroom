@@ -140,7 +140,7 @@ body.articles-page .nr-editorial-menu .nr-menu-button:disabled:hover{background:
   margin:0 0 4px!important;
   border-left:2px solid #e2e8f0!important;
 }
-.nr-menu-options.open{display:grid!important;gap:4px!important}
+body.articles-page .nr-editorial-menu .nr-menu-options.open{display:grid!important;gap:4px!important}
 .nr-menu-options .nr-menu-button{
   min-height:38px!important;
   margin:0!important;
@@ -160,3 +160,4 @@ body.articles-page .nr-editorial-menu .nr-menu-button:disabled:hover{background:
  body.articles-page .article-title{white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2!important;-webkit-box-orient:vertical!important}
  body.articles-page .article-row-menu.nr-editorial-menu{max-width:calc(100vw - 24px)!important}
 }
+body.articles-page .article-setting-chips[hidden]{display:none!important}
