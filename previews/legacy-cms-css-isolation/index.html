@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Newsroom × Legacy CMS | CSS Isolation Experiment</title>
+<style>
+/* ONLY the host preview is styled here. Neither application's CSS is imported. */
+:root { color-scheme: light; font-family: Inter,system-ui,-apple-system,sans-serif; color:#14213a;background:#eef2f7 }
+*{box-sizing:border-box}
+body{margin:0}
+button,select{font:inherit}
+.topbar{background:#fff;border-bottom:1px solid #d8e0eb;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px}
+.topbar h1{margin:0;font-size:16px;flex:1;min-width:215px}
+.badge{color:#216342;background:#e8f7ef;border-radius:999px;padding:5px 9px;font-size:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button,.link{padding:9px 12px;border:1px solid #cdd8e6;border-radius:8px;background:#fff;color:#253951;cursor:pointer;text-decoration:none;font-size:13px}
+.tabs button[aria-pressed="true"]{background:#18263f;color:#fff;border-color:#18263f}
+.info{padding:10px 18px;background:#fff8ea;color:#6a5118;font-size:12px;border-bottom:1px solid #eedfbf}
+.stage{height:calc(100dvh - 125px);min-height:520px;display:flex;overflow:hidden;padding:12px;gap:12px}
+.pane{border:1px solid #d4dce8;border-radius:10px;background:#fff;overflow:hidden;position:relative;min-width:0}
+.pane header{height:37px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #e3e9f2;font-size:11px;font-weight:700;background:#f8faff;position:relative;z-index:1}
+.framebox{position:relative;height:calc(100% - 37px);overflow:hidden}
+iframe{border:0;background:#fff;display:block}
+.legacy{width:160px;flex:none}
+.legacy iframe{position:absolute;width:max(1440px,100vw);height:calc(100% + 10px);top:0;left:0}
+.modern{flex:1}
+.modern iframe{position:absolute;width:calc(100% + 250px);height:calc(100% + 56px);left:-250px;top:-56px}
+.compare .legacy,.compare .modern{width:50%;flex:1}
+.compare .legacy iframe,.compare .modern iframe{left:0;top:0;width:100%;height:100%}
+.full-old .modern,.full-new .legacy{display:none}
+.full-old .legacy,.full-new .modern{width:100%;flex:1}
+.full-old .legacy iframe,.full-new .modern iframe{left:0;top:0;width:100%;height:100%}
+.note{font-size:11px;color:#61718e;background:#fff;padding:10px 18px;border-top:1px solid #dbe3ee}
+@media(max-width:760px){.stage{padding:7px;gap:7px}.legacy{width:77px}.modern iframe{left:-250px;width:calc(100% + 250px)}.topbar{padding:9px}.badge{display:none}}
+</style>
+</head>
+<body>
+<div class="topbar"><h1>CMS Liputan6 × Newsroom <span class="badge">Isolated experiment</span></h1>
+<div class="tabs" role="group" aria-label="View mode">
+<button aria-pressed="true" data-mode="composite">Hybrid concept</button>
+<button aria-pressed="false" data-mode="compare">Side by side</button>
+<button aria-pressed="false" data-mode="full-old">CMS Lama</button>
+<button aria-pressed="false" data-mode="full-new">Newsroom Baru</button>
+</div>
+<a class="link" href="https://cms-liputan6.netlify.app/" target="_blank" rel="noopener">Buka CMS Lama ↗</a>
+<a class="link" href="https://newsroom.avi-yansah.workers.dev/" target="_blank" rel="noopener">Buka Newsroom ↗</a></div>
+<div class="info"><strong>Eksperimen isolasi CSS, bukan integrasi production.</strong> Dua URL live dijalankan di iframe masing-masing. Mode Hybrid melakukan crop visual, bukan menggabungkan DOM atau routing. Jika salah satu website menolak iframe, buka melalui link di atas. Tidak ada stylesheet, design token, atau script Newsroom yang diubah.</div>
+<div class="stage" id="stage">
+<section class="pane legacy"><header><span>Existing CMS / legacy shell</span><span>Own CSS</span></header><div class="framebox"><iframe title="CMS lama" src="https://cms-liputan6.netlify.app/" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></section>
+<section class="pane modern"><header><span>Newsroom / new UI</span><span>Locked design system, untouched</span></header><div class="framebox"><iframe title="Newsroom baru" src="https://newsroom.avi-yansah.workers.dev/" loading="eager" referrerpolicy="strict-origin-when-cross-origin"></iframe></div></section>
+</div>
+<div class="note">Catatan: session, navigasi lintas aplikasi, sticky toolbar, responsive behavior dan tinggi layout perlu diverifikasi langsung di lingkungan IT. Untuk implementasi nyata disarankan server-side routing atau micro-frontend dengan autentikasi bersama; jangan mengandalkan crop iframe sebagai solusi akhir.</div>
+<script>
+const stage=document.getElementById("stage");
+document.querySelectorAll("[data-mode]").forEach(button=>{
+button.addEventListener("click",()=>{
+stage.className="stage "+(button.dataset.mode==="composite"?"":button.dataset.mode);
+document.querySelectorAll("[data-mode]").forEach(x=>x.setAttribute("aria-pressed",String(x===button)));
+});
+});
+</script>
+</body></html>
