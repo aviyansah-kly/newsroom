@@ -44,3 +44,13 @@ Jangan membaca identitas login dari `Reporter`, `Editor` yang ditugaskan di arti
 6. Dropdown berisi Profil Saya, Pengaturan Akun, dan Logout; ketiga aksi belum berfungsi pada preview dan tidak membuat klaim logout berhasil. Integrasi login membutuhkan data autentikasi yang benar.
 
 **Perubahan UX header/sidebar selanjutnya wajib mengikuti kontrak ini di seluruh halaman**, bukan hanya halaman Editor.
+
+## Single source of truth untuk shell halaman (6 Oktober 2026)
+- **Reference visual/IA:** Editor `index.html` di `/`. Logo KLY, site selector (Liputan6 / KapanLagi / Bola.com / Merdeka.com), urutan/cluster menu lengkap dan spacing diambil dari baseline Editor yang sudah disetujui.
+- **Shared runtime:** `scripts/newsroom-global-navigation.js` menjadi sumber **tunggal** header kiri + navigation menu untuk semua halaman CMS standar: `articles.html`, `dashboard.html`, `tags.html`. Ini menggantikan sidebar/menu berbeda yang sebelumnya ditulis manual pada masing-masing halaman saat render.
+- **Shared styling:** `styles/newsroom-global-navigation.css`; standard pages tidak boleh membuat header/site switcher/daftar menu baru sendiri.
+- **Editor compatibility:** Editor tetap mempertahankan markup dan styling existing sebagai referensi karena JS/editor layout, autosave, dan sticky-toolbar sangat bergantung pada DOM Editor. Penyatuan render Editor ke shared runtime belum dilakukan; perubahan berikutnya pada baseline Editor harus disinkronkan ke komponen bersama sampai refactor tersebut aman.
+- **Footer akun:** `scripts/newsroom-shell.js` dan `styles/newsroom-shell.css` dipakai semua halaman workspace.
+- **Active navigation:** hanya menu aktif sesuai halaman yang berbeda. Menu Tags menuju `tags.html`, Articles menuju `articles.html`, klik KLY pada halaman standar menuju Dashboard.
+- **Pengecualian:** `login.html` adalah halaman autentikasi sebelum aplikasi dibuka dan tidak menampilkan menu editorial/header workspace.
+- **QA wajib:** periksa header site switcher, sidebar search, expand/collapse desktop, drawer mobile, account footer, zoom 125%/150%, navigation and autosave di Editor; pastikan menu terlihat sama di Editor, Articles, Dashboard, Tags.
