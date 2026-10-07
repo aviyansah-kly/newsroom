@@ -5557,7 +5557,7 @@ body.alt-editor-layout .alt-writing-context{
   display:none!important;
 }
 
-/* Page Breaker card only asks for the next-page H2. */
+/* Page Break card only asks for the next-page H2. */
 body.alt-editor-layout .alt-page-card .alt-page-separator{
   display:none!important;
 }
@@ -14385,7 +14385,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         <button type="button" data-alt-add="image"><span class="alt-add-icon"><i data-lucide="image"></i></span><span><strong>Image</strong><small>Tambah gambar ke artikel</small></span></button>
         <button type="button" data-alt-add="embed"><span class="alt-add-icon"><i data-lucide="code-2"></i></span><span><strong>Embed</strong><small>YouTube, Vidio, social, iframe</small></span></button>
         <button type="button" data-alt-add="standings"><span class="alt-add-icon"><i data-lucide="trophy"></i></span><span><strong>Klasemen</strong><small>Embed klasemen berdasarkan liga</small></span></button>
-        <button type="button" data-alt-add="page"><span class="alt-add-icon"><i data-lucide="files"></i></span><span><strong>Page Breaker</strong><small>Mulai halaman artikel berikutnya</small></span></button>
+        <button type="button" data-alt-add="page"><span class="alt-add-icon"><i data-lucide="files"></i></span><span><strong>Page Break</strong><small>Mulai halaman artikel berikutnya</small></span></button>
       </div>`;
       section.append(addWrap);
       const addBtn=addWrap.querySelector('.alt-add-content'),menu=addWrap.querySelector('.alt-add-menu');
@@ -15285,7 +15285,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 // SIXDESK_ALTERNATIVE_V14_JS_START
 (function(){
   const icons={text:'type',video:'video',image:'image',embed:'code-2',standings:'trophy',page:'files'};
-  const labels={text:'Text',video:'Video',image:'Image',embed:'Embed',standings:'Klasemen',page:'Page Breaker'};
+  const labels={text:'Text',video:'Video',image:'Image',embed:'Embed',standings:'Klasemen',page:'Page Break'};
   let seq=0, primaryTextUsed=false;
 
   function words(v){const t=(v||'').replace(/<[^>]+>/g,' ').trim();return t?t.split(/\s+/).filter(Boolean).length:0}
@@ -15382,7 +15382,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
           '<div class="alt-card-field"><label>Video URL <span style="font-weight:500;color:#64748b">(Vidio.com)</span></label><input class="alt-video-url" type="url" inputmode="url" placeholder="https://www.vidio.com/watch/..." aria-describedby="altVideoUrlHelp"><span id="altVideoUrlHelp" style="display:block;margin-top:6px;color:#64748b;font-size:12px;line-height:18px">Hanya mendukung URL dari vidio.com.</span></div>'+
           '<div class="alt-card-field"><label>Judul Video</label><input class="alt-video-title" placeholder="Judul video"></div>'+
           '<div class="alt-card-field"><label>Short Description</label><textarea class="alt-video-desc" placeholder="Deskripsi singkat…"></textarea></div>'+
-          '<div class="alt-media-card-actions"><button type="button" class="alt-save-preview" data-save-video><i data-lucide="play-circle"></i><span>Save & Preview</span></button></div>'+
         '</div>'+
         '<div class="alt-inline-media-preview alt-media-side-preview" data-video-preview><div class="alt-preview-empty-state"><i data-lucide="play-circle"></i><span>Preview video tampil di sini</span></div></div>'+
       '</div>';
@@ -15405,25 +15404,34 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       url.setAttribute('aria-invalid',String(!valid));
       return valid;
     }
-    url.addEventListener('input',validateVidioUrl);
-    url.addEventListener('blur',validateVidioUrl);
-    body.querySelector('[data-save-video]').onclick=()=>{
+    function syncVideo(){
       const value=url.value.trim();
-      if(!value){url.focus();status.textContent='Masukkan URL Vidio.com';return}
+      const title=body.querySelector('.alt-video-title').value.trim();
+      meta.textContent=title||'Video';
+      if(!value){
+        preview.dataset.savedUrl='';
+        preview.innerHTML='<div class="alt-preview-empty-state"><i data-lucide="play-circle"></i><span>Preview video tampil di sini</span></div>';
+        status.textContent='Masukkan URL Vidio.com';
+        if(window.lucide)window.lucide.createIcons();
+        return;
+      }
       if(!validateVidioUrl()){
+        preview.dataset.savedUrl='';
+        preview.innerHTML='<div class="alt-media-preview-error"><i data-lucide="alert-circle"></i><span>Gunakan URL dari Vidio.com.</span></div>';
         status.textContent='URL harus dari Vidio.com';
-        url.reportValidity();
-        url.focus();
+        if(window.lucide)window.lucide.createIcons();
         return;
       }
       preview.dataset.savedUrl=value;
       preview.dataset.previewType='link';
       preview.innerHTML='<div class="alt-media-preview-card"><i data-lucide="play-circle"></i><div><strong>Video Vidio siap</strong><span>'+value.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))+'</span></div><a href="'+value.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">Buka di Vidio</a></div>';
       status.textContent='Video ready';
-      meta.textContent=body.querySelector('.alt-video-title').value.trim()||'Video';
       if(window.lucide)window.lucide.createIcons();
-    };
-    meta.textContent='Video';
+    }
+    url.addEventListener('input',()=>{validateVidioUrl();syncVideo()});
+    url.addEventListener('blur',()=>{validateVidioUrl();syncVideo()});
+    body.querySelector('.alt-video-title').addEventListener('input',syncVideo);
+    syncVideo();
   }
 
   function buildEmbed(card){
@@ -15432,8 +15440,6 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       '<div class="alt-media-compact-grid">'+
         '<div class="alt-media-form">'+
           '<div class="alt-card-field"><label>Embed URL / iframe</label><textarea class="alt-embed-value" placeholder="URL HTTPS atau iframe…"></textarea></div>'+
-          '<div class="alt-card-field"><label>Keterangan</label><input class="alt-embed-caption" placeholder="Opsional"></div>'+
-          '<div class="alt-media-card-actions"><button type="button" class="alt-save-preview" data-save-embed><i data-lucide="eye"></i><span>Save & Preview</span></button></div>'+
         '</div>'+
         '<div class="alt-inline-media-preview alt-media-side-preview" data-embed-preview><div class="alt-preview-empty-state"><i data-lucide="code-2"></i><span>Preview embed tampil di sini</span></div></div>'+
       '</div>';
@@ -15446,18 +15452,30 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const m=value.match(/<iframe[^>]+src=["']([^"']+)["']/i);
       return m&&/^https:\/\//i.test(m[1])?m[1]:'';
     }
-    body.querySelector('[data-save-embed]').onclick=()=>{
+    function syncEmbed(){
       const value=input.value.trim(),src=iframeSrc(value);
-      if(!value||!src){
+      meta.textContent='Embed';
+      if(!value){
+        preview.dataset.savedUrl='';
+        preview.innerHTML='<div class="alt-preview-empty-state"><i data-lucide="code-2"></i><span>Preview embed tampil di sini</span></div>';
+        status.textContent='Masukkan Embed URL / iframe';
+        if(window.lucide)window.lucide.createIcons();
+        return;
+      }
+      if(!src){
+        preview.dataset.savedUrl='';
         preview.innerHTML='<div class="alt-media-preview-error"><i data-lucide="alert-circle"></i><span>Gunakan URL HTTPS atau iframe yang valid.</span></div>';
-        status.textContent='Periksa embed'; if(window.lucide)window.lucide.createIcons(); return;
+        status.textContent='Periksa embed';
+        if(window.lucide)window.lucide.createIcons();
+        return;
       }
       preview.dataset.savedUrl=src;
       preview.innerHTML='<iframe src="'+src.replace(/"/g,'&quot;')+'" title="Embed preview" loading="lazy"></iframe>';
       status.textContent='Embed ready';
-      meta.textContent=body.querySelector('.alt-embed-caption').value.trim()||'Embed';
-    };
-    meta.textContent='Embed';
+    }
+    input.addEventListener('input',syncEmbed);
+    input.addEventListener('blur',syncEmbed);
+    syncEmbed();
   }
 
   function buildStandings(card){
@@ -15577,14 +15595,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       '<div class="alt-page-subtitle">'+
         '<label>Judul Page Berikutnya <span class="alt-required">*</span></label>'+
         '<input type="text" class="alt-page-title-input" placeholder="Contoh: Dampak Kenaikan Harga Minyak terhadap APBN" aria-label="Judul halaman berikutnya" required>'+
-        '<div class="alt-page-help">Judul ini akan tampil sebagai H2 di awal halaman berikutnya.</div>'+
       '</div>';
     const foot=card.querySelector('.alt-content-card-foot');
     if(foot)foot.style.display='';
     const status=card.querySelector('.alt-block-status');
     const meta=card.querySelector('.alt-block-meta');
     if(status)status.textContent='Judul halaman berikutnya wajib diisi';
-    if(meta)meta.textContent='Page Breaker · H2';
+    if(meta)meta.textContent='Page Break · H2';
   }
 
   function addBlock(type,list,reservoir){
@@ -16455,7 +16472,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const status=card.querySelector('.alt-block-status');
     const meta=card.querySelector('.alt-block-meta');
     if(status)status.textContent=value?'H2 halaman berikutnya ready':'Judul halaman berikutnya wajib diisi';
-    if(meta)meta.textContent=value?'Page Breaker · '+value:'Page Breaker · H2';
+    if(meta)meta.textContent=value?'Page Break · '+value:'Page Break · H2';
   }
   function init(){
     document.querySelectorAll('.alt-content-card[data-type="page"] .alt-page-title-input').forEach(update);
