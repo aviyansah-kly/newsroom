@@ -168,3 +168,42 @@ body.nr-app .nr-sidebar-bottom{padding:8px!important}
  body.nr-app.nr-sidebar-collapsed .nr-nav-cluster-head strong,body.nr-app.nr-sidebar-collapsed .nr-nav-cluster-head>svg:last-child,body.nr-app.nr-sidebar-collapsed .nr-nav-item span{display:block!important}
  body.nr-app.nr-sidebar-collapsed .nr-nav-item{display:grid!important;grid-template-columns:26px minmax(0,1fr)!important;width:100%!important;padding:0 8px!important}
 }
+
+/* BALANCED PAGE GUTTER V3
+   Sidebar owns its own width. Main content uses identical left/right gutters. */
+@media(min-width:1025px){
+  body.nr-app .nr-page{
+    box-sizing:border-box!important;
+    margin-left:248px!important;
+    width:calc(100% - 248px)!important;
+    padding-left:24px!important;
+    padding-right:24px!important;
+  }
+  body.nr-app.nr-sidebar-collapsed .nr-page{
+    margin-left:64px!important;
+    width:calc(100% - 64px)!important;
+    padding-left:24px!important;
+    padding-right:24px!important;
+  }
+  body.nr-app .nr-container{
+    box-sizing:border-box!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+@media(max-width:1024px){
+  body.nr-app .nr-page,
+  body.nr-app.nr-sidebar-collapsed .nr-page{
+    margin-left:0!important;
+    width:100%!important;
+    padding-left:20px!important;
+    padding-right:20px!important;
+  }
+}
+@media(max-width:560px){
+  body.nr-app .nr-page,
+  body.nr-app.nr-sidebar-collapsed .nr-page{
+    padding-left:16px!important;
+    padding-right:16px!important;
+  }
+}
