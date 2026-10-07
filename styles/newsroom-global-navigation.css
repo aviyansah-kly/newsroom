@@ -207,3 +207,53 @@ body.nr-app .nr-sidebar-bottom{padding:8px!important}
     padding-right:16px!important;
   }
 }
+
+/* SIDEBAR TYPOGRAPHY PARITY V4
+   Locked to Editor baseline so page-level styles cannot alter nav typography. */
+body.nr-app .nr-sidebar,
+body.nr-app .nr-sidebar button,
+body.nr-app .nr-sidebar a,
+body.nr-app .nr-sidebar input,
+body.nr-app .nr-sidebar .nr-nav-item,
+body.nr-app .nr-sidebar .nr-nav-item span,
+body.nr-app .nr-sidebar .nr-nav-cluster-head,
+body.nr-app .nr-sidebar .nr-nav-cluster-head strong{
+  font-family:Inter,system-ui,sans-serif!important;
+  font-style:normal!important;
+  font-synthesis:none!important;
+  letter-spacing:normal!important;
+}
+body.nr-app .nr-sidebar .nr-nav-item,
+body.nr-app .nr-sidebar .nr-nav-item span{
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:400!important;
+}
+body.nr-app .nr-sidebar .nr-nav-item.active,
+body.nr-app .nr-sidebar .nr-nav-item.active span{
+  font-weight:600!important;
+}
+body.nr-app .nr-sidebar .nr-nav-cluster-head,
+body.nr-app .nr-sidebar .nr-nav-cluster-head strong{
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:600!important;
+}
+body.nr-app .nr-sidebar .nr-global-search input{
+  font-family:Inter,system-ui,sans-serif!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:400!important;
+}
+body.nr-app .nr-sidebar .nr-account-name{
+  font-family:Inter,system-ui,sans-serif!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:650!important;
+}
+body.nr-app .nr-sidebar .nr-account-role{
+  font-family:Inter,system-ui,sans-serif!important;
+  font-size:12px!important;
+  line-height:16px!important;
+  font-weight:400!important;
+}
