@@ -60,3 +60,11 @@ Jangan membaca identitas login dari `Reporter`, `Editor` yang ditugaskan di arti
 - Standard-page sidebar now matches Editor's 38px group headers, 36px navigation items, 14px icons, row padding, search row and collapsed 48px icon grid. Changes are centralized in `styles/newsroom-global-navigation.css`.
 - `index.html` keeps Editor's existing detailed header autosave controls and editable workspace. Standard pages intentionally use page breadcrumb on the right of the shared brand. This is an intentional content difference, not a shell-style discrepancy.
 - Update shell visual rules centrally and verify all four pages at common desktop widths and mobile; live screenshot QA has not been run in this change.
+
+## Legacy CMS menu order for migration (7 October 2026)
+For first-use editorial adoption, the **visual design and interaction of the latest Newsroom sidebar remain locked**, while the menu information architecture follows the existing CMS order so editors do not need to relearn menu locations during migration.
+
+Canonical order:
+Articles → Embedded Contents → Images → Livestreamings → Photo Galleries → Video Galleries → Autopilot Articles → Rewrite Articles → Distributed Articles → Persona → N A I S → Topical Hub → SEO Recommendation → Earthquake News → Live Reports → Figures → [separator] → Football → [separator] → CG Keywords → CG Articles → CG Settings → [separator] → Video Distributions → [separator] → Badwords → Photo Sources → Content Promotions → Special Contents → Headlines → Newstickers → Selected Tags → Comments → Push Notification → Promo Redaksi → Boost Video → Playlist Boost Video → Native Videos → [separator] → RSS Builders → Static Contents → [separator] → Tags.
+
+This sequence is owned by `scripts/newsroom-global-navigation.js` and must remain identical on Editor, Articles, Dashboard, Tags, and future Newsroom workspace pages. Page-specific files must not reorder, add, or remove sidebar items independently. A future Newsroom IA can replace only the menu configuration without redesigning the sidebar component.
