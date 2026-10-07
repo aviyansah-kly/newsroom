@@ -15379,7 +15379,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     body.innerHTML=
       '<div class="alt-media-compact-grid">'+
         '<div class="alt-media-form">'+
-          '<div class="alt-card-field"><label>Video URL</label><input class="alt-video-url" type="url" placeholder="YouTube atau Vidio URL…"></div>'+
+          '<div class="alt-card-field"><label>Video URL <span style="font-weight:500;color:#64748b">(Vidio.com)</span></label><input class="alt-video-url" type="url" inputmode="url" placeholder="https://www.vidio.com/watch/..." aria-describedby="altVideoUrlHelp"><span id="altVideoUrlHelp" style="display:block;margin-top:6px;color:#64748b;font-size:12px;line-height:18px">Hanya mendukung URL dari vidio.com.</span></div>'+
           '<div class="alt-card-field"><label>Judul Video</label><input class="alt-video-title" placeholder="Judul video"></div>'+
           '<div class="alt-card-field"><label>Short Description</label><textarea class="alt-video-desc" placeholder="Deskripsi singkat…"></textarea></div>'+
           '<div class="alt-media-card-actions"><button type="button" class="alt-save-preview" data-save-video><i data-lucide="play-circle"></i><span>Save & Preview</span></button></div>'+
@@ -15390,23 +15390,35 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const preview=body.querySelector('[data-video-preview]');
     const status=card.querySelector('.alt-block-status');
     const meta=card.querySelector('.alt-block-meta');
-    function youtubeEmbed(value){
+    function isVidioUrl(value){
       try{
-        const u=new URL(value); let id='';
-        if(u.hostname.includes('youtu.be'))id=u.pathname.slice(1);
-        else if(u.hostname.includes('youtube.com'))id=u.searchParams.get('v')||u.pathname.split('/').filter(Boolean).pop();
-        return id?'https://www.youtube.com/embed/'+id:'';
-      }catch(e){return ''}
+        const u=new URL(value);
+        const host=u.hostname.toLowerCase().replace(/^www\./,'');
+        return u.protocol==='https:' && (host==='vidio.com' || host.endsWith('.vidio.com'));
+      }catch(e){return false}
     }
+    function validateVidioUrl(){
+      const value=url.value.trim();
+      const valid=!value || isVidioUrl(value);
+      url.setCustomValidity(valid?'':'Gunakan URL dari vidio.com');
+      url.style.borderColor=valid?'':'#ef4444';
+      url.setAttribute('aria-invalid',String(!valid));
+      return valid;
+    }
+    url.addEventListener('input',validateVidioUrl);
+    url.addEventListener('blur',validateVidioUrl);
     body.querySelector('[data-save-video]').onclick=()=>{
       const value=url.value.trim();
-      if(!value){url.focus();status.textContent='Masukkan Video URL';return}
-      const yt=youtubeEmbed(value);
+      if(!value){url.focus();status.textContent='Masukkan URL Vidio.com';return}
+      if(!validateVidioUrl()){
+        status.textContent='URL harus dari Vidio.com';
+        url.reportValidity();
+        url.focus();
+        return;
+      }
       preview.dataset.savedUrl=value;
-      preview.dataset.previewType=yt?'iframe':'link';
-      preview.innerHTML=yt
-        ? '<iframe src="'+yt+'" title="Video preview" allowfullscreen></iframe>'
-        : '<div class="alt-media-preview-card"><i data-lucide="play-circle"></i><div><strong>Video tersimpan</strong><span>'+value.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))+'</span></div><a href="'+value.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">Buka</a></div>';
+      preview.dataset.previewType='link';
+      preview.innerHTML='<div class="alt-media-preview-card"><i data-lucide="play-circle"></i><div><strong>Video Vidio siap</strong><span>'+value.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))+'</span></div><a href="'+value.replace(/"/g,'&quot;')+'" target="_blank" rel="noopener">Buka di Vidio</a></div>';
       status.textContent='Video ready';
       meta.textContent=body.querySelector('.alt-video-title').value.trim()||'Video';
       if(window.lucide)window.lucide.createIcons();
