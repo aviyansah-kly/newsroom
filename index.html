@@ -13539,6 +13539,75 @@ body.alt-editor-layout .alt-content-card[data-type="image"] .v34-image-detail-bt
 /* IMAGE DETAIL INLINE V64 END */
 </style>
 
+
+<style>
+/* VALIDATION_IN_REVIEW_MODAL_V68_START */
+/* Right panel intentionally exposes only Editorial + SEO. */
+body.alt-editor-layout .context>.panel>.tabs.article-tabs-promoted{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+}
+body.alt-editor-layout .context>.panel>.tabs.article-tabs-promoted [data-tab="guardian"],
+body.alt-editor-layout .context>.panel>.tabs.article-tabs-promoted [data-tab="validation"]{
+  display:none!important;
+}
+
+/* The live validation pane is moved into Review & Publish and remains fully functional there. */
+#altValidationModal .nr-review-validation-section{
+  margin:0 0 18px!important;
+  padding:14px!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px!important;
+  background:#f8fafc!important;
+}
+#altValidationModal .nr-review-validation-head{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  margin-bottom:10px!important;
+}
+#altValidationModal .nr-review-validation-head strong{
+  display:block!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:700!important;
+  color:var(--text)!important;
+}
+#altValidationModal .nr-review-validation-head span{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  color:var(--muted)!important;
+}
+#altValidationModal #guardianPane{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+}
+#altValidationModal #guardianPane .spell-status{
+  margin:0 0 10px!important;
+}
+#altValidationModal #guardianPane .guardian-summary{
+  margin:0 0 10px!important;
+}
+#altValidationModal #guardianPane .guardian-list{
+  display:grid!important;
+  gap:8px!important;
+}
+#altValidationModal #guardianPane .guardian-item,
+#altValidationModal #guardianPane .validation-item,
+#altValidationModal #guardianPane .guardian-card,
+#altValidationModal #guardianPane .validation-card{
+  margin:0!important;
+}
+@media(max-width:560px){
+  #altValidationModal .nr-review-validation-section{padding:12px!important}
+}
+/* VALIDATION_IN_REVIEW_MODAL_V68_END */
+</style>
+
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -13642,6 +13711,65 @@ body.alt-editor-layout .alt-content-card[data-type="image"] .v34-image-detail-bt
     </div>
   </div>
 </aside>
+
+
+<script>
+// VALIDATION_IN_REVIEW_MODAL_V68_JS_START
+(function(){
+  function mountValidationIntoReview(){
+    const tabs=document.querySelector('.context>.panel>.tabs.article-tabs-promoted');
+    if(tabs){
+      const guardianTab=tabs.querySelector('[data-tab="guardian"],[data-tab="validation"]');
+      if(guardianTab?.classList.contains('active')){
+        guardianTab.classList.remove('active');
+        const editorial=tabs.querySelector('[data-tab="info"]');
+        editorial?.classList.add('active');
+        editorial?.setAttribute('aria-selected','true');
+      }
+    }
+
+    const modal=document.getElementById('altValidationModal');
+    const pane=document.getElementById('guardianPane');
+    if(!modal||!pane)return false;
+
+    const body=modal.querySelector('.modal-body');
+    const summary=modal.querySelector('.alt-validation-summary');
+    if(!body||!summary)return false;
+
+    let section=document.getElementById('nrReviewValidationSection');
+    if(!section){
+      section=document.createElement('section');
+      section.id='nrReviewValidationSection';
+      section.className='nr-review-validation-section';
+      section.innerHTML='<div class="nr-review-validation-head"><div><strong>Validasi Editorial</strong><span>Checks dijalankan sebelum artikel dipublish.</span></div></div>';
+      summary.insertAdjacentElement('afterend',section);
+    }
+
+    if(!section.contains(pane)){
+      pane.classList.remove('active');
+      pane.removeAttribute('hidden');
+      pane.setAttribute('aria-label','Validasi Editorial');
+      section.appendChild(pane);
+    }
+
+    if(window.lucide?.createIcons)window.lucide.createIcons();
+    return true;
+  }
+
+  function init(){
+    if(mountValidationIntoReview())return;
+    let attempts=0;
+    const timer=setInterval(()=>{
+      attempts++;
+      if(mountValidationIntoReview()||attempts>80)clearInterval(timer);
+    },50);
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+// VALIDATION_IN_REVIEW_MODAL_V68_JS_END
+</script>
 
 <script src="scripts/newsroom-global-navigation.js"></script>
 <main class="workspace"><section><article class="paper"><div class="story-row"><div class="story-meta-left"><span class="kicker" id="storyKicker">Bisnis · Draft</span><div class="article-type-control"><span>Type</span><select id="contentType" aria-label="Article type"><option value="Text" selected>Text</option><option value="Photo">Photo</option><option value="Video">Video</option></select></div></div><div class="story-meta-right"><span class="word-count-chip" title="Jumlah words artikel"><i data-lucide="whole-word"></i><span id="wordCountTop">0 words</span></span><span class="presence-chip" id="presenceChip" title="Status editor yang sedang menangani artikel"><span class="presence-dot"></span><span>Editing</span><strong class="presence-name" id="presenceName">Bima Pratama</strong></span><span class="story-id">ID 6D-2026-0811-003</span></div></div><label class="editor-field-name" for="title">Judul Artikel</label><textarea id="title" class="title" aria-label="Judul artikel" placeholder="Tulis judul artikel…">Minyak Dunia Tembus US$ 100, Purbaya Pastikan Harga BBM Subsidi Tak Naik</textarea><label class="editor-field-name editor-field-name-dek" for="dek">Ringkasan / Dek</label><textarea id="dek" class="dek" aria-label="Ringkasan artikel" placeholder="Tulis ringkasan singkat artikel (dek)…">Pemerintah memastikan harga BBM subsidi tetap dijaga meski harga minyak dunia melonjak, sementara tambahan beban subsidi diarahkan ditutup dari peningkatan penerimaan migas.</textarea><div class="byline"><span class="avatar">AR</span><strong>Arief Rahman H</strong><span>Reporter</span><span>·</span><span id="wordCount">0 words</span><span>·</span><span id="updatedAt">Draft lokal</span><span id="sourceChip" class="source-chip" hidden></span></div>
