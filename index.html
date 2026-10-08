@@ -13814,6 +13814,47 @@ body.alt-editor-layout .field.nr-validation-attention{
 /* REVIEW_PUBLISH_FOCUSED_V70_END */
 </style>
 
+
+<style>
+/* REVIEW_MODAL_STABILITY_AND_TOOLBAR_SEAM_V71_START */
+/* All Text editor toolbars meet the 68px header with no visible gap. */
+:root{
+  --newsroom-editor-header-height:68px;
+  --newsroom-text-toolbar-top:var(--newsroom-editor-header-height);
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar:not(.v46-fixed),
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar,
+body.alt-editor-layout #classicToolbar.newsroom-primary-stuck{
+  top:var(--newsroom-editor-header-height)!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed{
+  top:var(--newsroom-editor-header-height)!important;
+}
+body.alt-editor-layout #classicToolbar.newsroom-primary-stuck,
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed{
+  margin-top:0!important;
+}
+
+/* Keep review modal usable even if a validation section is empty while recalculating. */
+#altValidationModal.open{
+  display:flex!important;
+}
+#altValidationModal.open .alt-validation-card{
+  visibility:visible!important;
+  opacity:1!important;
+}
+#altValidationModal .modal-body:empty:before{
+  content:'Memeriksa artikel…';
+  display:block;
+  padding:20px;
+  color:#64748b;
+  font-size:13px;
+}
+/* REVIEW_MODAL_STABILITY_AND_TOOLBAR_SEAM_V71_END */
+</style>
+
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -14113,9 +14154,12 @@ body.alt-editor-layout .field.nr-validation-attention{
         clearInterval(timer);
 
         const modal=$('#altValidationModal');
+        let wasOpen=modal.classList.contains('open');
         new MutationObserver(()=>{
-          if(modal.classList.contains('open'))queueMicrotask(postRender);
-        }).observe(modal,{attributes:true,attributeFilter:['class'],subtree:true,childList:true});
+          const isOpen=modal.classList.contains('open');
+          if(isOpen&&!wasOpen)requestAnimationFrame(postRender);
+          wasOpen=isOpen;
+        }).observe(modal,{attributes:true,attributeFilter:['class']});
       }else if(tries>100)clearInterval(timer);
     },50);
 
@@ -17298,7 +17342,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(window.lucide)window.lucide.createIcons();
   }
 
-  const TOP=67; // Shared top offset: 68px Newsroom header minus 1px seam.
+  const TOP=68; // Flush directly below the 68px Newsroom header.
   let ticking=false;
 
   function getToolbarRecords(){
@@ -19958,7 +20002,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 // NEWSROOM_PRIMARY_TEXT_TOOLBAR_STICKY_JS_START
 (function(){
   // Only #classicToolbar: preserve V46 controller for subsequent text blocks.
-  const TOP_GAP=-1;
+  const TOP_GAP=0;
   let toolbar=null,card=null,placeholder=null,ticking=false;
 
   function reset(){
