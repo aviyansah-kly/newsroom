@@ -9215,10 +9215,11 @@ body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar .alt-
 .newsroom-photo-details-head span{display:block;margin-top:3px;font-size:12px;line-height:17px;color:var(--muted)}
 .newsroom-photo-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
 .newsroom-photo-field>span{font-size:12px;font-weight:600;color:var(--text2)}
-.newsroom-photo-field input,.newsroom-photo-field textarea{width:100%;border:1px solid var(--input);border-radius:8px;background:#fff;color:var(--text);outline:0;font:inherit}
-.newsroom-photo-field input{height:40px;padding:0 12px}
+.newsroom-photo-field input,.newsroom-photo-field textarea,.newsroom-photo-field select{width:100%;border:1px solid var(--input);border-radius:8px;background:#fff;color:var(--text);outline:0;font:inherit}
+.newsroom-photo-field input,.newsroom-photo-field select{height:40px;padding:0 12px}
+.newsroom-photo-field select{padding-right:34px}
 .newsroom-photo-field textarea{min-height:96px;padding:10px 12px;resize:vertical}
-.newsroom-photo-field input:focus,.newsroom-photo-field textarea:focus{border-color:#60a5fa;box-shadow:var(--focus)}
+.newsroom-photo-field input:focus,.newsroom-photo-field textarea:focus,.newsroom-photo-field select:focus{border-color:#60a5fa;box-shadow:var(--focus)}
 #cropModal .newsroom-image-editor-foot{position:sticky!important;bottom:0!important;flex:0 0 auto!important;background:#fff!important;z-index:2!important}
 body.alt-editor-layout .newsroom-schedule-inline{margin:0 0 18px!important;padding:14px 0!important;border-top:1px solid var(--border)!important;border-bottom:1px solid var(--border)!important}
 body.alt-editor-layout .newsroom-schedule-inline .settings-section-head{margin-bottom:10px!important}
@@ -18677,6 +18678,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
             <div class="newsroom-existing-file-row"><div><span>File</span><strong id="newsroomUnifiedFileName">Image terpilih</strong></div><button class="btn sm" id="newsroomUnifiedReplace" type="button"><i data-lucide="upload"></i><span>Ganti File</span></button></div>
             <label class="newsroom-photo-field"><span>Title</span><input id="newsroomUnifiedTitle" type="text" placeholder="Tulis title image…"></label>
             <label class="newsroom-photo-field"><span>Photographer</span><select id="newsroomUnifiedPhotographer"><option value="">Pilih photographer</option><option value="Liputan6.com">Liputan6.com</option><option value="Reporter / Internal">Reporter / Internal</option><option value="External / Contributor">External / Contributor</option></select></label>
+            <label class="newsroom-photo-field"><span>Photo Source</span><select id="newsroomUnifiedPhotoSource"><option value="">Pilih photo source</option><option value="AP">AP</option><option value="AFP">AFP</option><option value="Unsplash">Unsplash</option><option value="Shutterstock">Shutterstock</option><option value="Getty Images">Getty Images</option></select></label>
             <div class="newsroom-image-meta-pair">
               <label class="newsroom-photo-field"><span>Orientasi</span><select id="newsroomUnifiedOrientation"><option value="Landscape">Landscape</option><option value="Vertical">Vertical</option><option value="Square">Square</option></select></label>
               <label class="newsroom-photo-field"><span>Category / Kanal</span><select id="newsroomUnifiedChannel"><option value="">Pilih kategori / kanal</option><option>News</option><option>Bisnis</option><option>Bola</option><option>Showbiz</option><option>Tekno</option><option>Lifestyle</option><option>Health</option><option>Regional</option></select></label>
@@ -18768,6 +18770,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     modal.querySelector('#newsroomUnifiedFileName').textContent=item.fileName||item.title||'Image terpilih';
     modal.querySelector('#newsroomUnifiedTitle').value=item.title||'';
     modal.querySelector('#newsroomUnifiedPhotographer').value=item.photographer||item.copyright||'';
+    modal.querySelector('#newsroomUnifiedPhotoSource').value=item.photoSource||item.photo_source||((item.meta||'').includes('Unsplash')?'Unsplash':'');
     modal.querySelector('#newsroomUnifiedOrientation').value=item.orientation||'Landscape';
     modal.querySelector('#newsroomUnifiedChannel').value=item.channel||item.category||'';
     modal.querySelector('#newsroomUnifiedSiteOnly').checked=!!item.thisSiteOnly;
@@ -18807,6 +18810,8 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     }
     currentItem.title=modal.querySelector('#newsroomUnifiedTitle').value.trim()||currentItem.title||'Image';
     currentItem.photographer=modal.querySelector('#newsroomUnifiedPhotographer').value;
+    currentItem.photoSource=modal.querySelector('#newsroomUnifiedPhotoSource').value;
+    currentItem.photo_source=currentItem.photoSource;
     currentItem.orientation=modal.querySelector('#newsroomUnifiedOrientation').value||'Landscape';
     currentItem.channel=modal.querySelector('#newsroomUnifiedChannel').value;
     currentItem.category=currentItem.channel;
@@ -18817,7 +18822,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     /* Backward-compatible aliases used elsewhere in the prototype. */
     currentItem.description=currentItem.shortDesc;
     currentItem.copyright=currentItem.photographer;
-    currentItem.meta=[currentItem.shortDesc,currentItem.photographer].filter(Boolean).join(' · ');
+    currentItem.meta=[currentItem.shortDesc,currentItem.photoSource,currentItem.photographer].filter(Boolean).join(' · ');
     if(!Array.isArray(window.MEDIA_LIBRARY))window.MEDIA_LIBRARY=[];
     const idx=window.MEDIA_LIBRARY.findIndex(x=>x&&x.id===currentItem.id);
     if(idx>=0)window.MEDIA_LIBRARY[idx]={...window.MEDIA_LIBRARY[idx],...currentItem};
@@ -18851,7 +18856,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       if(!/^image\/(jpeg|png|webp)$/i.test(file.type)){alert('Format image harus JPG, PNG, atau WEBP.');return}
       if(file.size>10*1024*1024){alert('Ukuran file maximum 10 MB.');return}
       const reader=new FileReader();
-      reader.onload=()=>openEditor({id:'upload-'+Date.now(),source:'upload',fileName:file.name,title:file.name.replace(/\.[^.]+$/,''),photographer:'',thisSiteOnly:false,specialInstructions:false,watermark:'none',shortDesc:'',description:'',copyright:'',meta:'',url:String(reader.result||'')},pendingTarget);
+      reader.onload=()=>openEditor({id:'upload-'+Date.now(),source:'upload',fileName:file.name,title:file.name.replace(/\.[^.]+$/,''),photographer:'',photoSource:'',photo_source:'',thisSiteOnly:false,specialInstructions:false,watermark:'none',shortDesc:'',description:'',copyright:'',meta:'',url:String(reader.result||'')},pendingTarget);
       reader.readAsDataURL(file);
     });
     document.body.appendChild(input);
