@@ -13407,6 +13407,138 @@ body.alt-editor-layout .ai-writing-origin.is-hiding{
 /* NEWSROOM_HEADLINE_AI_STATUS_REFINEMENT_END */
 
 </style>
+
+<style>
+/* IMAGE DETAIL INLINE V64
+   Detail is always visible on the left; media preview stays on the right. */
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-selected{
+  display:grid!important;
+  grid-template-columns:minmax(280px,42%) minmax(0,1fr)!important;
+  grid-template-rows:auto!important;
+  gap:14px!important;
+  align-items:stretch!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details{
+  grid-column:1!important;
+  grid-row:1!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  gap:12px!important;
+  width:100%!important;
+  margin:0!important;
+  padding:14px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:10px!important;
+  background:#f8fafc!important;
+  align-content:start!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details-head{
+  grid-column:1/-1!important;
+  padding-bottom:10px!important;
+  border-bottom:1px solid #e2e8f0!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details-head strong{
+  display:block!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:700!important;
+  color:#0f172a!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details-head span{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  color:#64748b!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details .full{
+  grid-column:1/-1!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details label{
+  display:block!important;
+  margin-bottom:6px!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  font-weight:600!important;
+  color:#334155!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details input,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details select,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details textarea{
+  box-sizing:border-box!important;
+  width:100%!important;
+  border:1px solid #cbd5e1!important;
+  border-radius:8px!important;
+  background:#fff!important;
+  color:#0f172a!important;
+  font-size:13px!important;
+  outline:0!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details input,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details select{
+  height:40px!important;
+  padding:0 10px!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details textarea{
+  min-height:78px!important;
+  padding:9px 10px!important;
+  resize:vertical!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details input:focus,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details select:focus,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details textarea:focus{
+  border-color:#3b82f6!important;
+  box-shadow:0 0 0 3px rgba(59,130,246,.10)!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-preview{
+  grid-column:2!important;
+  grid-row:1!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:280px!important;
+  aspect-ratio:auto!important;
+  border-radius:10px!important;
+  overflow:hidden!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-preview img{
+  width:100%!important;
+  height:100%!important;
+  min-height:280px!important;
+  object-fit:cover!important;
+  display:block!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="image"] .v34-image-summary,
+body.alt-editor-layout .alt-content-card[data-type="image"] .v34-image-detail-btn{
+  display:none!important;
+}
+@media(max-width:900px){
+  body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-selected{
+    grid-template-columns:1fr!important;
+  }
+  body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details{
+    grid-column:1!important;
+    grid-row:1!important;
+  }
+  body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-preview{
+    grid-column:1!important;
+    grid-row:2!important;
+    min-height:220px!important;
+  }
+  body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-preview img{
+    min-height:220px!important;
+  }
+}
+@media(max-width:560px){
+  body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details{
+    grid-template-columns:1fr!important;
+  }
+  body.alt-editor-layout .alt-content-card[data-type="image"] .v64-image-details .full{
+    grid-column:1!important;
+  }
+}
+/* IMAGE DETAIL INLINE V64 END */
+</style>
+
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -16338,7 +16470,50 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='none';
     if(window.lucide)window.lucide.createIcons()
   }
-  function imageCard(c,i){const body=c.querySelector('.alt-content-card-body');if(!body)return;const foot=c.querySelector('.alt-content-card-foot');if(foot)foot.style.display='';const sn=i.source==='bank'?'Image Bank Liputan6':i.source==='upload'?'Upload Sendiri':'Article Gallery';body.innerHTML='<div class="v34-image-selected"><div class="v34-image-preview"><img src="'+esc(src(i))+'"><div class="v34-image-actions"><button type="button" data-v34-change>Ganti</button><button type="button" data-v34-remove>Hapus</button></div></div><div class="v34-image-summary"><div><strong>'+esc(i.title)+'</strong><span>'+esc(sn)+'</span></div><button type="button" class="v34-image-detail-btn" data-v34-detail>Detail Image</button></div><div class="v34-image-details" data-v34-details><div class="full"><label>Title</label><input value="'+esc(i.title)+'"></div><div><label>Photographer</label><input placeholder="Nama fotografer"></div><div><label>Source</label><select><option>'+esc(sn)+'</option><option>Liputan6.com</option><option>External</option></select></div><div class="full"><label>Short Desc</label><textarea>'+esc(i.meta||'')+'</textarea></div></div></div>';safeImg(body.querySelector('img'),i);body.querySelector('[data-v34-change]').onclick=()=>open({type:'card',card:c});body.querySelector('[data-v34-remove]').onclick=()=>emptyCard(c);body.querySelector('[data-v34-detail]').onclick=e=>{const d=body.querySelector('[data-v34-details]');const on=d.classList.toggle('open');e.currentTarget.textContent=on?'Close Detail':'Detail Image'};c.querySelector('.alt-block-status').textContent='Image ready';c.querySelector('.alt-block-meta').textContent=i.title}
+  function imageCard(c,i){
+    const body=c.querySelector('.alt-content-card-body');
+    if(!body)return;
+    const foot=c.querySelector('.alt-content-card-foot');
+    if(foot)foot.style.display='';
+
+    const imageUrl=src(i);
+    const defaultSource=(imageUrl||'').toLowerCase().includes('unsplash')?'Unsplash':'';
+    const sourceOptions=['AP','AFP','Unsplash','Shutterstock','Getty Images'];
+
+    body.innerHTML=
+      '<div class="v34-image-selected v64-image-selected">'+
+        '<div class="v34-image-details v64-image-details">'+
+          '<div class="v64-image-details-head"><div><strong>Detail Image</strong><span>Informasi image yang digunakan pada artikel.</span></div></div>'+
+          '<div class="full"><label>Title</label><input class="v64-image-title" value="'+esc(i.title||'')+'" placeholder="Judul image"></div>'+
+          '<div><label>Photographer</label><input class="v64-image-photographer" value="'+esc(i.photographer||'')+'" placeholder="Nama fotografer"></div>'+
+          '<div><label>Foto Source</label><select class="v64-image-source"><option value="">Pilih Foto Source</option>'+sourceOptions.map(s=>'<option value="'+s+'"'+(s===defaultSource?' selected':'')+'>'+s+'</option>').join('')+'</select></div>'+
+          '<div class="full"><label>Short Description</label><textarea class="v64-image-desc" placeholder="Deskripsi singkat image">'+esc(i.shortDesc||i.meta||'')+'</textarea></div>'+
+        '</div>'+
+        '<div class="v34-image-preview v64-image-preview"><img src="'+esc(imageUrl)+'"><div class="v34-image-actions"><button type="button" data-v34-change>Ganti</button><button type="button" data-v34-remove>Hapus</button></div></div>'+
+      '</div>';
+
+    safeImg(body.querySelector('img'),i);
+    body.querySelector('[data-v34-change]').onclick=()=>open({type:'card',card:c});
+    body.querySelector('[data-v34-remove]').onclick=()=>emptyCard(c);
+
+    const titleInput=body.querySelector('.v64-image-title');
+    const photographerInput=body.querySelector('.v64-image-photographer');
+    const sourceSelect=body.querySelector('.v64-image-source');
+    const descInput=body.querySelector('.v64-image-desc');
+
+    const sync=()=>{
+      i.title=titleInput.value.trim();
+      i.photographer=photographerInput.value.trim();
+      i.photoSource=sourceSelect.value;
+      i.shortDesc=descInput.value.trim();
+      c.querySelector('.alt-block-status').textContent='Image ready';
+      c.querySelector('.alt-block-meta').textContent=i.title||'Image';
+    };
+    [titleInput,photographerInput,sourceSelect,descInput].forEach(el=>{
+      el.addEventListener(el.tagName==='SELECT'?'change':'input',sync);
+    });
+    sync();
+  }
 
   function applyTarget(i,t){
     if(!i||!t)return false;
