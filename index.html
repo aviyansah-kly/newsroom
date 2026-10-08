@@ -13855,6 +13855,313 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
 /* REVIEW_MODAL_STABILITY_AND_TOOLBAR_SEAM_V71_END */
 </style>
 
+
+<style>
+/* REVIEW_PUBLISH_LAYOUT_V72_START */
+
+/* Remove the old full Validation pane from the modal.
+   The focused review checklist below is now the single validation surface. */
+#altValidationModal #nrReviewValidationSection{
+  display:none!important;
+}
+
+/* Modal shell */
+#altValidationModal{
+  padding:20px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  background:rgba(15,23,42,.46)!important;
+  backdrop-filter:blur(2px);
+}
+#altValidationModal .alt-validation-card{
+  width:min(680px,calc(100vw - 32px))!important;
+  max-width:680px!important;
+  max-height:min(86vh,820px)!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  border:1px solid #dbe4ee!important;
+  border-radius:14px!important;
+  background:#fff!important;
+  box-shadow:0 24px 70px rgba(15,23,42,.22)!important;
+}
+#altValidationModal .modal-head{
+  min-height:62px!important;
+  flex:0 0 auto!important;
+  padding:14px 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  border-bottom:1px solid #e2e8f0!important;
+  background:#fff!important;
+}
+#altValidationModal .modal-head strong{
+  font-size:16px!important;
+  line-height:22px!important;
+  font-weight:700!important;
+  color:#0f172a!important;
+}
+#altValidationModal .modal-body{
+  min-height:0!important;
+  flex:1 1 auto!important;
+  overflow-y:auto!important;
+  padding:18px!important;
+  background:#fff!important;
+}
+#altValidationModal .modal-foot{
+  min-height:64px!important;
+  flex:0 0 auto!important;
+  padding:12px 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  border-top:1px solid #e2e8f0!important;
+  background:#fff!important;
+}
+
+/* Review summary */
+#altValidationModal .alt-validation-summary{
+  min-height:72px!important;
+  margin:0 0 18px!important;
+  padding:14px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:10px!important;
+  background:#f8fafc!important;
+}
+#altValidationModal.has-issues .alt-validation-summary{
+  border-color:#fed7aa!important;
+  background:#fffaf5!important;
+}
+#altValidationModal .alt-validation-summary>div{
+  min-width:0!important;
+}
+#altValidationModal .alt-validation-summary strong{
+  display:block!important;
+  font-size:14px!important;
+  line-height:20px!important;
+  font-weight:700!important;
+  color:#0f172a!important;
+}
+#altValidationModal .alt-validation-summary span#altValidationSub{
+  display:block!important;
+  margin-top:3px!important;
+  font-size:12px!important;
+  line-height:18px!important;
+  color:#64748b!important;
+}
+#altValidationModal .publish-readiness-badge{
+  flex:none!important;
+  min-width:72px!important;
+  height:28px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:0 9px!important;
+  border-radius:999px!important;
+  background:#fff!important;
+  border:1px solid #dbe4ee!important;
+  color:#475569!important;
+  font-size:11px!important;
+  font-weight:700!important;
+}
+
+/* Needs-attention section */
+#altValidationModal .alt-validation-issues{
+  margin:0 0 18px!important;
+}
+#altValidationModal .alt-validation-group-title{
+  min-height:24px!important;
+  margin:0 0 8px!important;
+  padding:0!important;
+  font-size:12px!important;
+  line-height:18px!important;
+  font-weight:700!important;
+  color:#9a3412!important;
+}
+#altValidationModal .alt-validation-list{
+  display:grid!important;
+  gap:8px!important;
+  overflow:visible!important;
+}
+#altValidationModal .alt-validation-row{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-height:54px!important;
+  display:grid!important;
+  grid-template-columns:32px minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:10px!important;
+  padding:10px 12px!important;
+  margin:0!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:9px!important;
+  background:#fff!important;
+}
+#altValidationModal .alt-validation-row.warn{
+  min-height:60px!important;
+  border-color:#fed7aa!important;
+  background:#fffaf5!important;
+}
+#altValidationModal .alt-validation-row .icon{
+  width:30px!important;
+  height:30px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:8px!important;
+  background:#f1f5f9!important;
+  color:#64748b!important;
+}
+#altValidationModal .alt-validation-row.warn .icon{
+  background:#ffedd5!important;
+  color:#c2410c!important;
+}
+#altValidationModal .alt-validation-row .icon svg{
+  width:15px!important;
+  height:15px!important;
+}
+#altValidationModal .alt-validation-row-copy{
+  min-width:0!important;
+}
+#altValidationModal .alt-validation-row-copy strong{
+  display:block!important;
+  font-size:13px!important;
+  line-height:18px!important;
+  font-weight:650!important;
+  color:#0f172a!important;
+}
+#altValidationModal .alt-validation-row-copy span{
+  display:block!important;
+  margin-top:2px!important;
+  font-size:12px!important;
+  line-height:17px!important;
+  color:#64748b!important;
+}
+#altValidationModal .alt-validation-row .btn{
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 10px!important;
+  border-radius:7px!important;
+  font-size:12px!important;
+  font-weight:600!important;
+  white-space:nowrap!important;
+}
+
+/* Completed checks: compact disclosure instead of a large second validation block. */
+#altValidationModal .alt-validation-ready{
+  margin:0 0 18px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:9px!important;
+  overflow:hidden!important;
+  background:#fff!important;
+}
+#altValidationModal .alt-validation-ready-toggle{
+  min-height:42px!important;
+  width:100%!important;
+  padding:0 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  border:0!important;
+  background:#fff!important;
+  color:#475569!important;
+}
+#altValidationModal .alt-validation-ready-toggle:hover{
+  background:#f8fafc!important;
+}
+#altValidationModal .alt-validation-ready-toggle>span{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+}
+#altValidationModal .alt-validation-ready-toggle svg{
+  width:15px!important;
+  height:15px!important;
+  color:#16a34a!important;
+}
+#altValidationModal .alt-validation-ready-toggle strong{
+  font-size:12px!important;
+  line-height:18px!important;
+  font-weight:650!important;
+}
+#altValidationModal .alt-validation-ready-panel{
+  padding:0 8px 8px!important;
+  border-top:1px solid #eef2f7!important;
+}
+#altValidationModal .alt-validation-ready-panel .alt-validation-row{
+  min-height:42px!important;
+  grid-template-columns:28px minmax(0,1fr)!important;
+  border:0!important;
+  border-radius:7px!important;
+  padding:7px 8px!important;
+}
+
+/* Schedule is visually separate from validation. */
+#altValidationModal .nr-review-schedule{
+  margin:0!important;
+  padding:14px!important;
+  border:1px solid #e2e8f0!important;
+  border-radius:10px!important;
+  background:#fff!important;
+}
+#altValidationModal .nr-review-schedule-head{
+  margin:0 0 12px!important;
+  padding:0 0 12px!important;
+  border-bottom:1px solid #eef2f7!important;
+}
+#altValidationModal .nr-review-schedule .flag-row{
+  min-height:44px!important;
+  padding:0!important;
+}
+#altValidationModal .nr-review-schedule .schedule-fields.show{
+  margin-top:12px!important;
+  padding-top:12px!important;
+}
+#altValidationModal .nr-review-schedule .schedule-summary{
+  margin-top:8px!important;
+  font-size:12px!important;
+  color:#64748b!important;
+}
+
+/* Redpel notice only when it is actually needed. */
+#altValidationModal .alt-redpel-box{
+  margin-top:14px!important;
+  border-radius:9px!important;
+}
+
+/* Sticky text toolbar: shell header is currently 56px, not 68px. */
+:root{
+  --newsroom-text-toolbar-top:var(--newsroom-shell-header,56px);
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar:not(.v46-fixed),
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar,
+body.alt-editor-layout #classicToolbar.newsroom-primary-stuck,
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed{
+  top:var(--newsroom-shell-header,56px)!important;
+  margin-top:0!important;
+}
+
+@media(max-width:620px){
+  #altValidationModal{padding:10px!important}
+  #altValidationModal .alt-validation-card{width:100%!important;max-height:94vh!important}
+  #altValidationModal .modal-body{padding:14px!important}
+  #altValidationModal .alt-validation-summary{align-items:flex-start!important}
+  #altValidationModal .alt-validation-row{
+    grid-template-columns:30px minmax(0,1fr)!important;
+  }
+  #altValidationModal .alt-validation-row .btn{
+    grid-column:2!important;
+    justify-self:start!important;
+  }
+}
+/* REVIEW_PUBLISH_LAYOUT_V72_END */
+</style>
+
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -17342,7 +17649,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(window.lucide)window.lucide.createIcons();
   }
 
-  const TOP=68; // Flush directly below the 68px Newsroom header.
+  const TOP=56; // Current Newsroom shell header height; keep toolbar flush to header.
   let ticking=false;
 
   function getToolbarRecords(){
