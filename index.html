@@ -13680,6 +13680,140 @@ body.alt-editor-layout .article-lifecycle-pill.published .article-lifecycle-copy
 /* ARTICLE_LIFECYCLE_HEADER_STATE_V69_END */
 </style>
 
+
+<style>
+/* REVIEW_PUBLISH_FOCUSED_V70_START */
+#altValidationModal .nr-validation-inline{display:none!important}
+
+/* Validation is the primary content of Review & Publish. */
+#altValidationModal .alt-validation-summary{
+  margin-bottom:14px!important;
+  padding:14px 16px!important;
+}
+#altValidationModal .alt-validation-issues{
+  margin:0 0 16px!important;
+}
+#altValidationModal .alt-validation-group-title{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  margin:0 0 8px!important;
+  color:#92400e!important;
+  font-size:12px!important;
+  line-height:18px!important;
+  text-transform:none!important;
+  letter-spacing:0!important;
+}
+#altValidationModal .alt-validation-group-title:before{
+  content:'';
+  width:8px;height:8px;flex:none;border-radius:999px;background:#f59e0b;
+}
+#altValidationModal .alt-validation-list{
+  overflow:hidden!important;
+}
+#altValidationModal .alt-validation-row.warn{
+  min-height:62px!important;
+  background:#fffaf2!important;
+}
+#altValidationModal .alt-validation-row.warn .icon{
+  background:#ffedd5!important;
+  color:#c2410c!important;
+}
+#altValidationModal .alt-validation-row.warn button{
+  height:34px!important;
+  border-color:#fdba74!important;
+  background:#fff!important;
+  color:#9a3412!important;
+}
+#altValidationModal .alt-validation-row.warn button:hover{
+  background:#fff7ed!important;
+}
+#altValidationModal .alt-validation-ready{
+  margin-bottom:16px!important;
+}
+
+/* Schedule is part of the final publish decision, not a sidebar tab. */
+#altValidationModal .nr-review-schedule{
+  margin:0 0 18px!important;
+  padding:14px!important;
+  border:1px solid var(--border)!important;
+  border-radius:10px!important;
+  background:#fff!important;
+}
+#altValidationModal .nr-review-schedule-head{
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;
+}
+#altValidationModal .nr-review-schedule-icon{
+  width:30px;height:30px;display:grid;place-items:center;flex:none;
+  border-radius:8px;background:#eff6ff;color:#2563eb;
+}
+#altValidationModal .nr-review-schedule-icon svg{width:15px;height:15px}
+#altValidationModal .nr-review-schedule-head strong{
+  display:block;font-size:13px;line-height:18px;font-weight:700;color:var(--text);
+}
+#altValidationModal .nr-review-schedule-head span{
+  display:block;margin-top:2px;font-size:12px;line-height:17px;color:var(--muted);
+}
+#altValidationModal .nr-review-schedule .settings-section-head{display:none!important}
+#altValidationModal .nr-review-schedule .publish-timing{
+  margin:0!important;padding:0!important;border:0!important;background:transparent!important;
+}
+#altValidationModal .nr-review-schedule .publish-schedule-toggle{
+  margin:0!important;
+}
+#altValidationModal .nr-review-schedule .flag-row{
+  min-height:46px!important;
+  padding:0 2px!important;
+}
+#altValidationModal .nr-review-schedule .schedule-fields.show{
+  margin-top:12px!important;
+  padding-top:12px!important;
+  border-top:1px solid #e2e8f0!important;
+}
+#altValidationModal .nr-review-schedule .schedule-grid{
+  gap:10px!important;
+}
+#altValidationModal .nr-review-schedule .schedule-control label{
+  font-size:12px!important;font-weight:600!important;
+}
+#altValidationModal .nr-review-schedule .schedule-control input{
+  height:40px!important;border-radius:8px!important;
+}
+
+/* Fields requiring attention remain visibly marked after jumping back to editor. */
+body.alt-editor-layout .nr-validation-attention{
+  position:relative!important;
+  border-color:#f59e0b!important;
+  box-shadow:0 0 0 3px rgba(245,158,11,.11)!important;
+  border-radius:10px!important;
+  transition:border-color .15s,box-shadow .15s,background .15s!important;
+}
+body.alt-editor-layout .nr-validation-attention:after{
+  content:'Perlu diperbaiki';
+  position:absolute!important;
+  top:8px!important;right:8px!important;z-index:5;
+  min-height:22px;display:inline-flex;align-items:center;
+  padding:0 7px;border:1px solid #fdba74;border-radius:999px;
+  background:#fff7ed;color:#9a3412;
+  font-size:10px;font-weight:700;line-height:1;
+  pointer-events:none;
+}
+body.alt-editor-layout .nr-validation-attention.nr-validation-flash{
+  background:#fffaf2!important;
+}
+body.alt-editor-layout .alt-field-card.nr-validation-attention,
+body.alt-editor-layout .alt-editor-section.nr-validation-attention,
+body.alt-editor-layout .headline.nr-validation-attention,
+body.alt-editor-layout .field.nr-validation-attention{
+  padding:12px!important;
+}
+@media(max-width:560px){
+  #altValidationModal .nr-review-schedule{padding:12px!important}
+  #altValidationModal .nr-review-schedule .schedule-grid{grid-template-columns:1fr!important}
+}
+/* REVIEW_PUBLISH_FOCUSED_V70_END */
+</style>
+
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -13841,6 +13975,165 @@ body.alt-editor-layout .article-lifecycle-pill.published .article-lifecycle-copy
   else init();
 })();
 // VALIDATION_IN_REVIEW_MODAL_V68_JS_END
+</script>
+
+
+<script>
+// REVIEW_PUBLISH_FOCUSED_V70_JS_START
+(function(){
+  const $=(q,r=document)=>r.querySelector(q);
+
+  const validators={
+    title:{
+      target:()=>$('#title'),
+      wrap:()=>$('#title')?.closest('.alt-field-card')||$('#title')?.parentElement,
+      ok:()=>!!$('#title')?.value.trim()
+    },
+    dek:{
+      target:()=>$('#dek'),
+      wrap:()=>$('#dek')?.closest('.alt-field-card')||$('#dek')?.parentElement,
+      ok:()=>!!$('#dek')?.value.trim()
+    },
+    content:{
+      target:()=>$('#tiptap-editor .ProseMirror')||$('#tiptap-editor'),
+      wrap:()=>$('#tiptap-editor')?.closest('.alt-editor-section')||$('#tiptap-editor'),
+      ok:()=>!!($('#tiptap-editor .ProseMirror')?.innerText||'').trim()
+    },
+    reporter:{
+      target:()=>$('#reporter'),
+      wrap:()=>$('#reporter')?.closest('.field')||$('#reporter')?.closest('.alt-entity-picker')||$('#reporter')?.parentElement,
+      ok:()=>!!$('#reporter')?.value.trim()
+    },
+    headline:{
+      target:()=>$('#chooseHeadline')||$('.headline-drop'),
+      wrap:()=>$('.headline')||$('.headline-drop'),
+      ok:()=>!!($('#headlineImg')&&!$('#headlineImg').hidden&&$('#headlineImg').getAttribute('src'))
+    },
+    seo:{
+      target:()=>$('#seoKeyword'),
+      wrap:()=>$('#seoKeyword')?.closest('.seo-field')||$('#seoKeyword')?.closest('.field')||$('#seoKeyword')?.parentElement,
+      ok:()=>!!$('#seoKeyword')?.value.trim()
+    }
+  };
+
+  function syncFieldWarnings(){
+    Object.values(validators).forEach(v=>{
+      const wrap=v.wrap();
+      if(!wrap)return;
+      const needs=!v.ok();
+      wrap.classList.toggle('nr-validation-attention',needs);
+      if(!needs)wrap.classList.remove('nr-validation-flash');
+    });
+  }
+
+  function mountSchedule(){
+    const modal=$('#altValidationModal');
+    const timing=$('#publishPane .publish-timing')||$('.publish-timing');
+    if(!modal||!timing)return false;
+    const body=modal.querySelector('.modal-body');
+    const redpel=$('#altRedpelBox');
+    if(!body)return false;
+
+    let host=$('#nrReviewSchedule');
+    if(!host){
+      host=document.createElement('section');
+      host.id='nrReviewSchedule';
+      host.className='nr-review-schedule';
+      host.innerHTML='<div class="nr-review-schedule-head"><span class="nr-review-schedule-icon"><i data-lucide="calendar-clock"></i></span><div><strong>Schedule Publish</strong><span>Publish sekarang atau tentukan waktu tayang artikel.</span></div></div><div class="nr-review-schedule-content"></div>';
+      if(redpel)redpel.insertAdjacentElement('beforebegin',host);
+      else body.appendChild(host);
+    }
+    const content=host.querySelector('.nr-review-schedule-content');
+    if(timing.parentElement!==content)content.appendChild(timing);
+    if(window.lucide?.createIcons)window.lucide.createIcons();
+    return true;
+  }
+
+  function removeOldInlineFields(){
+    $('#nrValidationInline')?.remove();
+  }
+
+  function focusIssue(key){
+    const v=validators[key];
+    if(!v)return;
+    const wrap=v.wrap();
+    const target=v.target();
+    if(wrap){
+      wrap.classList.add('nr-validation-attention','nr-validation-flash');
+      setTimeout(()=>wrap.classList.remove('nr-validation-flash'),1600);
+    }
+    setTimeout(()=>{
+      target?.scrollIntoView?.({behavior:'smooth',block:'center'});
+      setTimeout(()=>target?.focus?.({preventScroll:true}),180);
+    },80);
+  }
+
+  function bindIssueButtons(){
+    const list=$('#altValidationList');
+    if(!list)return;
+    [...list.querySelectorAll('.alt-validation-row.warn')].forEach(row=>{
+      const label=(row.querySelector('strong')?.textContent||'').trim().toLowerCase();
+      const key=
+        label.includes('judul')?'title':
+        label.includes('ringkasan')||label.includes('dek')?'dek':
+        label.includes('konten')?'content':
+        label.includes('reporter')?'reporter':
+        label.includes('headline')?'headline':
+        label.includes('seo')?'seo':'';
+      const btn=row.querySelector('button');
+      if(btn&&key&&!btn.dataset.v70){
+        btn.dataset.v70='1';
+        btn.addEventListener('click',()=>{
+          setTimeout(()=>focusIssue(key),120);
+        });
+      }
+    });
+  }
+
+  function postRender(){
+    removeOldInlineFields();
+    mountSchedule();
+    syncFieldWarnings();
+    bindIssueButtons();
+
+    const title=$('#altValidationIssues .alt-validation-group-title');
+    if(title)title.textContent='Perlu perhatian';
+
+    const sub=$('#altValidationSub');
+    const missing=Number($('#altValidationModal')?.dataset.missing||0);
+    if(sub)sub.textContent=missing?'Klik item untuk menuju field yang perlu diperbaiki.':'Semua validasi utama sudah siap.';
+  }
+
+  function init(){
+    let tries=0;
+    const timer=setInterval(()=>{
+      tries++;
+      if($('#altValidationModal')){
+        postRender();
+        clearInterval(timer);
+
+        const modal=$('#altValidationModal');
+        new MutationObserver(()=>{
+          if(modal.classList.contains('open'))queueMicrotask(postRender);
+        }).observe(modal,{attributes:true,attributeFilter:['class'],subtree:true,childList:true});
+      }else if(tries>100)clearInterval(timer);
+    },50);
+
+    document.addEventListener('input',()=>syncFieldWarnings(),true);
+    document.addEventListener('change',()=>syncFieldWarnings(),true);
+
+    // Re-run after media selection or programmatic field changes.
+    document.addEventListener('click',e=>{
+      if(e.target.closest('#publishBtn,[data-v34-image-select],[data-v34-image-upload],#chooseHeadline,#removeHeadline')){
+        setTimeout(syncFieldWarnings,180);
+      }
+    },true);
+  }
+
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
+// REVIEW_PUBLISH_FOCUSED_V70_JS_END
 </script>
 
 <script src="scripts/newsroom-global-navigation.js"></script>
@@ -15283,7 +15576,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     function openTarget(key){
       closeValidation();
-      const map={title:title,dek:dek,content:editor,headline:$('#chooseHeadline'),reporter:$('#reporter'),seo:$('#seoKeyword')};
+      const map={title:title,dek:dek,content:$('#tiptap-editor .ProseMirror')||$('#tiptap-editor'),headline:$('#chooseHeadline')||$('.headline-drop'),reporter:$('#reporter'),seo:$('#seoKeyword')};
       const el=map[key]; if(!el) return;
       if(el.closest('.pane')){
         const pane=el.closest('.pane'); const tab=$('[data-tab="'+pane.id.replace('Pane','')+'"]'); tab?.click();
@@ -15294,10 +15587,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     // Validation and inline correction share the original editorial field state.
     // This is a prototype: the existing autosave remains the persistence contract.
     let validationSubmitted=false;
-    const validationFields=[
-      {key:'contentType',label:'Content Type',source:'contentType',help:'Wajib dipilih.'},
-      {key:'contentInitiative',label:'Content Initiative',source:'contentInitiative',help:'Wajib dipilih.'}
-    ];
+    const validationFields=[];
     function ensureInlineCorrection(){
       const summary=$('#altValidationModal .alt-validation-summary');
       if(!summary)return;
@@ -15388,9 +15678,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         {key:'content',label:'Konten Artikel',ok:!!pm?.innerText.trim(),help:'Minimal satu section Text harus berisi.'},
         {key:'reporter',label:'Reporter',ok:!!$('#reporter')?.value.trim(),help:'Reporter wajib diisi.'},
         {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Lengkapi gambar utama artikel.'},
-        {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'Minimal satu keyword SEO.'},
-        {key:'contentType',label:'Content Type',ok:!!contentType,help:'Pilih format artikel.'},
-        {key:'contentInitiative',label:'Content Initiative',ok:!!initiative,help:'Pilih inisiatif atau Konten reguler.'}
+        {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'Minimal satu keyword SEO.'}
       ];
       const issues=$('#altValidationList'),ready=$('#altValidationReadyList');
       issues.replaceChildren();ready.replaceChildren();
