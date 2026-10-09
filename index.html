@@ -14319,6 +14319,102 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
 /* TEXT_BLOCK_AND_REVIEW_POLISH_V73_END */
 </style>
 
+
+<style id="newsroom-text-review-v74">
+/* V74: protect article grid geometry when adding blocks or validation warnings. */
+body.alt-editor-layout .alt-writing-card,
+body.alt-editor-layout .alt-writing-card .alt-editor-section,
+body.alt-editor-layout .alt-writing-card .alt-block-list,
+body.alt-editor-layout .alt-writing-card .alt-block-list > .alt-content-card[data-type="text"],
+body.alt-editor-layout .alt-writing-card .alt-content-card[data-type="text"] > .alt-content-card-body {
+  min-width:0!important;
+  width:100%!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+body.alt-editor-layout .alt-writing-card .alt-editor-section.nr-validation-attention,
+body.alt-editor-layout .alt-writing-card .alt-block-list.nr-validation-attention {
+  padding:0!important;
+  border-width:0!important;
+  outline-offset:-1px!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar,
+body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar,
+body.alt-editor-layout #classicToolbar.newsroom-primary-stuck {
+  top:var(--newsroom-sticky-toolbar-top,56px)!important;
+  margin-top:0!important;
+}
+body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
+body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed {
+  top:var(--newsroom-sticky-toolbar-top,56px)!important;
+}
+/* One outer border for the full set of validation issues. Avoid outlined rows inside another outlined box. */
+#altValidationModal #altValidationIssues #altValidationList {
+  display:grid!important;
+  gap:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  border:1px solid #fed7aa!important;
+  border-radius:10px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+#altValidationModal #altValidationIssues #altValidationList .alt-validation-row,
+#altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn {
+  margin:0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:#fff!important;
+}
+#altValidationModal #altValidationIssues #altValidationList .alt-validation-row + .alt-validation-row {
+  border-top:1px solid #ffedd5!important;
+}
+#altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn:hover {
+  background:#fffaf3!important;
+}
+/* Schedule header and content have consistent inset from box edges. */
+#altValidationModal #nrReviewSchedule {
+  padding:18px!important;
+  box-sizing:border-box!important;
+}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-head {
+  display:grid!important;
+  grid-template-columns:36px minmax(0,1fr)!important;
+  align-items:center!important;
+  gap:12px!important;
+  padding:0 0 14px!important;
+  margin:0 0 14px!important;
+}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-icon {
+  width:36px!important;
+  height:36px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:0!important;
+}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-icon svg {
+  display:block!important;
+  width:16px!important;
+  height:16px!important;
+  margin:0!important;
+}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-head > div {min-width:0!important;padding:0!important}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-content {padding:0!important}
+#altValidationModal #nrReviewSchedule .publish-schedule-toggle .flag-row {
+  padding:12px!important;
+  min-height:60px!important;
+}
+@media(max-width:560px){
+  #altValidationModal #nrReviewSchedule{padding:14px!important}
+}
+/* V74 END */
+</style>
+
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
