@@ -8,7 +8,7 @@ One field-highlight component for AI Suggestions and Review & Publish validation
 - Variant: `data-highlight-variant="ai" | "warning"`
 - AI: purple (`#8b5cf6`), triggered after applying an AI suggestion.
 - Warning: orange (`#f59e0b`), triggered after choosing **Perbaiki** in Review & Publish.
-- Motion: shared `nrSharedFieldHighlightPulse`, 650ms x 4 cycles, ~2.6 seconds.
+- Motion: exact source-of-truth `newsroomAiFieldReviewRing`, 2.2s ease-in-out infinite while the highlight is active. Warning shares the same keyframes and differs only through orange CSS color tokens. The Review & Publish navigation currently removes highlight after ~2.6 seconds.
 - Reduced motion: static outline and shadow instead of animation.
 - Geometry: use outline and box shadow; do not change field dimensions/padding or the parent section border.
 
