@@ -14604,6 +14604,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
   const $=(q,r=document)=>r.querySelector(q);
 
   let validationActivated=false;
+  const dismissedIssues=new Set();
   const validators={
     title:{
       target:()=>$('#title'),
@@ -14641,7 +14642,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     Object.values(validators).forEach(v=>{
       const wrap=v.wrap();
       if(!wrap)return;
-      const needs=validationActivated&&!v.ok();
+      const needs=validationActivated&&!v.ok()&&!dismissedIssues.has(Object.keys(validators).find(k=>validators[k]===v));
       wrap.classList.toggle('nr-validation-attention',needs);
       if(!needs)wrap.removeAttribute('aria-invalid');
       else wrap.setAttribute('aria-invalid','true');
@@ -14681,14 +14682,19 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     if(!v)return;
     const wrap=v.wrap();
     const target=v.target();
-    if(wrap){
-      wrap.classList.add('nr-validation-attention','nr-validation-flash');
-      setTimeout(()=>wrap.classList.remove('nr-validation-flash'),1600);
+    if(!target)return;
+    const pane=target.closest('.pane');
+    if(pane){
+      const tab=$('[data-tab="'+pane.id.replace('Pane','')+'"]');
+      tab?.click();
     }
+    const focusable=target.matches('input,textarea,select,button,[contenteditable="true"]')?target:target.querySelector('input,textarea,select,button,[contenteditable="true"]');
     setTimeout(()=>{
-      target?.scrollIntoView?.({behavior:'smooth',block:'center'});
-      setTimeout(()=>target?.focus?.({preventScroll:true}),180);
-    },80);
+      target.scrollIntoView({behavior:'smooth',block:'center'});
+      focusable?.focus?.({preventScroll:true});
+      wrap?.classList.add('nr-validation-attention','nr-validation-flash');
+      setTimeout(()=>{wrap?.classList.remove('nr-validation-attention','nr-validation-flash');dismissedIssues.add(key)},1250);
+    },180);
   }
 
   function bindIssueButtons(){
@@ -14714,7 +14720,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
   }
 
   function postRender(){
-    if($('#altValidationModal')?.classList.contains('open'))validationActivated=true;
+    if($('#altValidationModal')?.classList.contains('open')){validationActivated=true;dismissedIssues.clear();}
     removeOldInlineFields();
     mountSchedule();
     syncFieldWarnings();
@@ -14746,8 +14752,24 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
       }else if(tries>100)clearInterval(timer);
     },50);
 
-    document.addEventListener('input',()=>syncFieldWarnings(),true);
-    document.addEventListener('change',()=>syncFieldWarnings(),true);
+    function dismissEditedIssue(e){
+      for(const [key,v] of Object.entries(validators)){
+        const target=v.target(),wrap=v.wrap();
+        if(target&&(target===e.target||target.contains?.(e.target)||wrap===e.target||wrap?.contains?.(e.target))){
+          dismissedIssues.add(key);
+          wrap?.classList.remove('nr-validation-attention','nr-validation-flash');
+        }
+      }
+      syncFieldWarnings();
+    }
+    document.addEventListener('input',dismissEditedIssue,true);
+    document.addEventListener('change',dismissEditedIssue,true);
+    document.addEventListener('click',e=>{
+      for(const [key,v] of Object.entries(validators)){
+        const target=v.target(),wrap=v.wrap();
+        if(target&&(target===e.target||target.contains?.(e.target))){dismissedIssues.add(key);wrap?.classList.remove('nr-validation-attention','nr-validation-flash');}
+      }
+    },true);
 
     // Re-run after media selection or programmatic field changes.
     document.addEventListener('click',e=>{
@@ -21753,5 +21775,36 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
   else setTimeout(init,420);
 })();
 // NEWSROOM_HEADLINE_AI_SUGGESTIONS_JS_END
+</script>
+<style>
+/* NEWSROOM_REVIEW_SPACING_AND_DRAFT_REMOVAL_V75 */
+#altValidationModal .nr-review-schedule .schedule-fields.show{
+ box-sizing:border-box!important;
+ padding:14px 14px 12px!important;
+}
+#altValidationModal .nr-review-schedule .schedule-grid,
+#altValidationModal .nr-review-schedule .schedule-summary{
+ box-sizing:border-box!important;
+ min-width:0!important;
+}
+body.alt-editor-layout .topbar #saveDraftBtn{display:none!important}
+body.alt-editor-layout .nr-validation-flash{
+ animation:nrFieldWarningPulseV75 .65s ease-in-out 2!important;
+}
+@keyframes nrFieldWarningPulseV75{
+ 0%,100%{box-shadow:0 0 0 2px rgba(245,158,11,.10)}
+ 50%{box-shadow:0 0 0 5px rgba(245,158,11,.28)}
+}
+@media(max-width:560px){
+ #altValidationModal .nr-review-schedule .schedule-fields.show{padding:12px!important}
+}
+</style>
+<script>
+/* Remove the legacy manual-draft action after legacy listeners attach; retain autosave. */
+(function(){
+  function removeDraftAction(){document.getElementById('saveDraftBtn')?.remove()}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(removeDraftAction,0),{once:true});
+  else setTimeout(removeDraftAction,0);
+})();
 </script>
 </body></html>
