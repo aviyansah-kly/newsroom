@@ -19132,14 +19132,12 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     fieldHost(key)?.querySelector('.nr-ai-field-suggestion')?.remove();
   }
   function suggestField(key){
-    if(!hasRequiredSource()){
-      const note=$('#altAnalyzeArticle .nr-ai-input-note');
-      if(note){
-        const t=getArticleText();
-        const missing=[!t.title&&'Title',!t.dek&&'Short Description',!t.body&&'Article Body'].filter(Boolean);
-        note.hidden=false;
-        note.textContent='Complete '+missing.join(', ')+' before using AI Suggestions.';
-      }
+    // Per-field suggestions can use an existing headline or Short Desc before
+    // the article body is complete. Full-article generation retains its own rules.
+    const source=getArticleText();
+    if(!(source.title||'').trim()&&!(source.dek||'').trim()&&!(source.body||'').trim()){
+      const button=document.querySelector('[data-nr-ai-field="'+key+'"]');
+      if(button){button.title='Isi Judul Artikel atau Short Desc terlebih dahulu.';button.setAttribute('aria-description',button.title);}
       return false;
     }
     closeFieldSuggestion(key);
@@ -19147,6 +19145,10 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(!value||(Array.isArray(value)&&!value.length))return false;
     // Field-level AI Suggestions is a direct in-field action in this UI demo.
     const applied=applyField(key,value,{replace:true});
+    if(!applied){
+      const button=document.querySelector('[data-nr-ai-field="'+key+'"]');
+      if(button)button.title='Belum ada saran yang sesuai untuk field ini.';
+    }
     if(applied){
       const note=$('#altAnalyzeArticle .nr-ai-input-note');
       if(note)note.hidden=true;
