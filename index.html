@@ -14674,10 +14674,18 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     const header=host.querySelector('.nr-review-schedule-head');
     const switchContainer=timing.querySelector('.publish-schedule-toggle')||host.querySelector('.publish-schedule-toggle');
     if(header&&switchContainer){
+      header.style.setProperty('display','grid','important');
+      header.style.setProperty('grid-template-columns','30px minmax(0,1fr) auto','important');
+      header.style.setProperty('align-items','center','important');
       switchContainer.hidden=false;
       const copy=switchContainer.querySelector('.flag-copy');
       if(copy)copy.hidden=true;
       if(switchContainer.parentElement!==header)header.appendChild(switchContainer);
+      switchContainer.style.setProperty('grid-column','3','important');
+      switchContainer.style.setProperty('grid-row','1','important');
+      switchContainer.style.setProperty('justify-self','end','important');
+      const headingCopy=header.querySelector('div:not(.publish-schedule-toggle)');
+      if(headingCopy){headingCopy.style.setProperty('grid-column','2','important');headingCopy.style.setProperty('min-width','0','important')}
     }
     if(window.lucide?.createIcons)window.lucide.createIcons();
     return true;
@@ -14703,7 +14711,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
       target.scrollIntoView({behavior:'smooth',block:'center'});
       focusable?.focus?.({preventScroll:true});
       wrap?.classList.add('nr-validation-attention','nr-validation-flash');
-      setTimeout(()=>{wrap?.classList.remove('nr-validation-attention','nr-validation-flash');dismissedIssues.add(key)},2200);
+      setTimeout(()=>{wrap?.classList.remove('nr-validation-attention','nr-validation-flash');dismissedIssues.add(key)},3000);
     },180);
   }
 
@@ -21804,11 +21812,11 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 }
 body.alt-editor-layout .topbar #saveDraftBtn{display:none!important}
 body.alt-editor-layout .nr-validation-flash{
- animation:nrFieldWarningPulseV75 .7s ease-in-out 3!important;
+ animation:nrFieldWarningPulseV75 .75s ease-in-out 4!important;
 }
 @keyframes nrFieldWarningPulseV75{
  0%,100%{box-shadow:0 0 0 2px rgba(245,158,11,.10)}
- 50%{box-shadow:0 0 0 5px rgba(245,158,11,.28)}
+ 50%{outline:2px solid #ea580c;outline-offset:2px;box-shadow:0 0 0 8px rgba(245,158,11,.32);background-color:#fff7ed}
 }
 @media(max-width:560px){
  #altValidationModal .nr-review-schedule .schedule-fields.show{padding:12px!important}
@@ -21825,15 +21833,15 @@ body.alt-editor-layout .nr-validation-flash{
 <style>
 /* NEWSROOM_SINGLE_SCHEDULE_HEADER_V76 */
 #altValidationModal .nr-review-schedule-head{
- display:flex!important;align-items:center!important;gap:12px!important;margin:0!important;
+ display:grid!important;grid-template-columns:30px minmax(0,1fr) auto!important;align-items:center!important;gap:12px!important;margin:0!important;
  padding-bottom:0!important;border:0!important;
 }
-#altValidationModal .nr-review-schedule-head>div{flex:1;min-width:0}
+#altValidationModal .nr-review-schedule-head>div:not(.publish-schedule-toggle){min-width:0;grid-column:2;grid-row:1}
 #altValidationModal .nr-review-schedule-head>.switch{margin-left:auto!important;align-self:center!important;flex:none!important}
 #altValidationModal .nr-review-schedule-head .publish-schedule-toggle{
  display:block!important;position:static!important;margin:0 0 0 auto!important;
  padding:0!important;border:0!important;background:transparent!important;
- width:auto!important;flex:none!important;overflow:visible!important;
+ width:auto!important;flex:none!important;overflow:visible!important;grid-column:3!important;grid-row:1!important;justify-self:end!important;
 }
 #altValidationModal .nr-review-schedule-head .publish-schedule-toggle .flag-row{
  display:flex!important;align-items:center!important;min-height:26px!important;
