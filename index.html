@@ -14719,8 +14719,9 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
       void pulseElement.offsetWidth;
       dismissedIssues.add(key);
       syncFieldWarnings();
+      // Keep the AI review ring active until the editor actually changes this field.
+      // No auto-dismiss timer; moving focus here is not an edit.
       clearTimeout(pulseElement._nrIssuePulseTimer);
-      pulseElement._nrIssuePulseTimer=setTimeout(()=>{pulseElement.classList.remove('nr-field-highlight');delete pulseElement.dataset.highlightVariant},2600);
     },180);
   }
 
@@ -14785,22 +14786,33 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     },50);
 
     function dismissEditedIssue(e){
+      // Like AI Suggestions: a user edit, not focus or a programmatic click,
+      // ends the field review ring. Validation stays invalid until resolved.
+      if(!e.isTrusted)return;
       for(const [key,v] of Object.entries(validators)){
         const target=v.target(),wrap=v.wrap();
         if(target&&(target===e.target||target.contains?.(e.target)||wrap===e.target||wrap?.contains?.(e.target))){
           dismissedIssues.add(key);
-          wrap?.classList.remove('nr-validation-attention','nr-validation-flash');
+          const highlight=(key==='headline'?document.querySelector('.headline-drop'):null)||wrap||target;
+          highlight?.classList.remove('nr-field-highlight','nr-validation-attention','nr-validation-flash');
+          if(highlight?.dataset)delete highlight.dataset.highlightVariant;
         }
       }
       syncFieldWarnings();
     }
     document.addEventListener('input',dismissEditedIssue,true);
     document.addEventListener('change',dismissEditedIssue,true);
+    // Media pickers may set values programmatically; clear only when valid.
     document.addEventListener('click',e=>{
-      for(const [key,v] of Object.entries(validators)){
-        const target=v.target(),wrap=v.wrap();
-        if(target&&(target===e.target||target.contains?.(e.target))){dismissedIssues.add(key);wrap?.classList.remove('nr-validation-attention','nr-validation-flash');}
-      }
+      if(!e.target.closest('#chooseHeadline,#removeHeadline,[data-v34-image-select],[data-v34-image-upload]'))return;
+      setTimeout(()=>{
+        const v=validators.headline;
+        if(!v.ok())return;
+        dismissedIssues.add('headline');
+        const highlight=document.querySelector('.headline-drop')||v.wrap();
+        highlight?.classList.remove('nr-field-highlight','nr-validation-attention','nr-validation-flash');
+        if(highlight?.dataset)delete highlight.dataset.highlightVariant;
+      },240);
     },true);
 
     // Re-run after media selection or programmatic field changes.
