@@ -18880,7 +18880,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const wrap=document.createElement('div');
     wrap.id='v58CategoryEditorial';
     wrap.className='v58-category-editorial';
-    wrap.innerHTML='<label>Article Category</label>';
+    wrap.innerHTML='<label>Kategori Artikel</label>';
     wrap.appendChild(picker);
 
     const body=targetSection.querySelector('.field')?.parentElement||targetSection;
@@ -18976,7 +18976,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     tags:'#tagInput',seoKeyword:'#seoKeyword',seoTitle:'#seoTitle',
     meta:'#metaDesc',slug:'#altCustomSlug'
   };
-  const aiNames={category:'Category',articleType:'Article Type',figure:'Figure',
+  const aiNames={category:'Kategori Artikel',articleType:'Article Type',figure:'Figure',
     tags:'Tags',seoKeyword:'SEO Keyword',seoTitle:'SEO Title',
     meta:'Meta Description',slug:'Custom Slug'};
   const aiPending=new Set(),aiReviewed=new Set(),manualEdited=new Set();
@@ -19134,6 +19134,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(key==='category'){
       const label=$('#v58CategoryEditorial .alt-category-trigger-copy strong');
       if(label)label.textContent=clean;
+      const picker=$('#v58CategoryEditorial .alt-category-picker');
+      picker?.classList.remove('open');
+      // Keep the custom category picker display in sync with its underlying select.
+      picker?.querySelectorAll('.alt-category-option').forEach(option=>{
+        const selected=(option.dataset.value||option.dataset.category||option.textContent||'').trim()===clean;
+        option.classList.toggle('active',selected);
+        option.setAttribute('aria-selected',String(selected));
+      });
     }
     markField(el,key);
     return true;
@@ -19248,6 +19256,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         lastAiResults=deriveSuggestions();
         let filled=0,protectedCount=0;
         const keys=['category','articleType','tags','figure','seoKeyword','seoTitle','meta','slug'];
+        let editorialFilled=0;
         keys.forEach(key=>{
           const proposal=lastAiResults[key];
           if(!proposal||(Array.isArray(proposal)&&!proposal.length))return;
@@ -19259,13 +19268,10 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
             return;
           }
           if(key==='tags'){
-            const previewed=typeof renderAiTagPreview==='function'&&renderAiTagPreview(proposal);
-            if(previewed){
-              markField(fieldElement(key),key);
-              filled++;
-            }else if(tagsOnScreen().length){
-              markField(fieldElement(key),key);
-            }
+            // Generate Attributes is a one-click prototype: actually add editorial tags,
+            // rather than opening a preview requiring another manual selection.
+            if(applyField('tags',proposal,{replace:true}))filled++;
+            else if(tagsOnScreen().length)markField(fieldElement('tags'),'tags');
             return;
           }
           const el=fieldElement(key);
@@ -19273,17 +19279,28 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
           if(String(proposal).trim()===valueOf(key)){
             markField(el,key);
             filled++;
+            if(['category','articleType','figure'].includes(key))editorialFilled++;
           }else if(applyField(key,proposal,{replace:true})){
             filled++;
+            if(['category','articleType','figure'].includes(key))editorialFilled++;
           }
         });
+        if(filled){
+          // Reveal the Editorial tab immediately to demonstrate generated attributes.
+          const editorialTab=document.querySelector('.article-tabs-promoted [data-tab="info"],.context [data-tab="info"]');
+          if(editorialTab)editorialTab.click();
+          const tagsBox=$('#altEditorialTagsSection .alt-ai-tag-suggestions');
+          if(tagsBox?.classList.contains('is-generated-preview')){
+            tagsBox.classList.remove('is-generated-preview','open');tagsBox.innerHTML='';
+          }
+        }
         note.hidden=false;
         note.textContent=filled
           ?filled+' field berhasil diisi dengan saran AI demo. Tinjau highlight ungu.'
             +(protectedCount?' '+protectedCount+' manually edited '+(protectedCount===1?'field was':'fields were')+' kept unchanged.':'')
           : 'Tidak ada field yang berubah. Periksa field yang telah diubah secara manual.';
         updateAiProgress();
-        window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:{applied,protectedCount}}));
+        window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:{applied:filled,editorialApplied:editorialFilled,protectedCount}}));
       }catch(err){
         console.error('Generate Attributes failed:',err);
         note.hidden=false;note.textContent='Gagal membuat atribut. Silakan coba lagi.';
