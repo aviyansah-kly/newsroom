@@ -21,3 +21,8 @@ Target preview hostname: `newsroom.avi-yansah.workers.dev`.
 ## Handoff principle
 
 Navigation menggunakan link/URL, action menggunakan button, toggle menggunakan button dengan state yang eksplisit. Prototype-only patches, versioned refinement scripts, dummy backend behavior, dan histori eksperimen tidak dianggap sebagai production contract.
+
+## Approved Design System interaction patterns
+
+- [Field Validation Warning](design-system/field-validation-warning.md) — canonical reusable attention rules for all editorial fields; orange warning uses the existing AI field-review ring animation with different color tokens.
+- [Field Highlight handoff](docs/field-highlight-contract.md) — implementation notes for frontend engineers.
