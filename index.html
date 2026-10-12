@@ -14454,6 +14454,40 @@ body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary>sv
 body.alt-editor-layout .nr-additional-label-title{font-size:13px;font-weight:700;color:#0f172a;margin:18px 0 10px;border-top:1px solid #e2e8f0;padding-top:16px}
 body.alt-editor-layout .nr-branded-content-type{margin-top:12px}
 </style>
+
+<style id="nr-right-panel-compact-tabs-v77">
+/* Editorial / SEO and collapse action share a single compact header row. */
+body.alt-editor-layout:not(.nr-right-collapsed) .context{position:relative!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-control{
+ position:absolute!important;right:9px!important;top:0!important;left:auto!important;
+ z-index:110!important;width:42px!important;height:52px!important;min-height:52px!important;
+ padding:6px 0!important;margin:0!important;display:flex!important;
+ align-items:center!important;justify-content:center!important;background:transparent!important;
+}
+body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-title{display:none!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-toggle{
+ display:grid!important;place-items:center!important;width:38px!important;height:38px!important;
+ min-width:38px!important;min-height:38px!important;flex:0 0 38px!important;
+ border:1px solid #e2e8f0!important;border-radius:8px!important;background:#fff!important;
+ color:#475569!important;padding:0!important;cursor:pointer!important;
+}
+body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-toggle:hover{background:#f8fafc!important;border-color:#94a3b8!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.panel-head{display:none!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.tabs.article-tabs-promoted{
+ box-sizing:border-box!important;width:100%!important;min-height:52px!important;
+ margin:0!important;padding:6px 57px 6px 12px!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ align-items:center!important;gap:4px!important;
+}
+body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.tabs.article-tabs-promoted .tab{
+ min-height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important;
+}
+body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control{position:relative!important}
+body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-title{display:none!important}
+@media(max-width:1024px){
+ body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-control{top:0!important}
+}
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -20931,8 +20965,8 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       const backdrop=document.getElementById('settingsDrawerBackdrop');
       if(backdrop)backdrop.setAttribute('aria-hidden','true');
       toggle.setAttribute('aria-expanded',String(!next));
-      toggle.setAttribute('aria-label',next?'Buka Article Settings':'Minimize Article Settings');
-      toggle.title=next?'Buka Article Settings':'Minimize Article Settings';
+      toggle.setAttribute('aria-label',next?'Tampilkan Panel':'Sembunyikan Panel');
+      toggle.title=next?'Tampilkan Panel':'Sembunyikan Panel';
       // Keep label inside the button, so the whole 56px rail is one hit target.
       toggle.innerHTML=window.lucide?svg(next):fallback(next);
       toggle.append(railLabel);
