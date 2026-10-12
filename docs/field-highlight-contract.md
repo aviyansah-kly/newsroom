@@ -15,7 +15,7 @@ One field-highlight component for AI Suggestions and Review & Publish validation
 ## Behavior
 1. The **Perbaiki** action closes the modal, opens the relevant Editorial or SEO pane, scrolls to and focuses the actual field, then highlights that field only.
 2. If the field cannot receive focus (e.g., image chooser area), focus its accessible button and apply the warning highlight to the specific chooser surface.
-3. Clear visual warning only after an actual field edit or valid media selection, not on focus, navigation, or elapsed time. The review check itself remains invalid until data meets validation requirements.
+3. Clear visual warning on a real user click/tap inside the highlighted field, an actual field edit, or a valid media selection. Programmatic focus, navigation, and elapsed time must not dismiss it. The review check itself remains invalid until data meets validation requirements.
 4. Opening the workspace does not mark blank fields as errors. Review & Publish triggers comprehensive validation.
 5. Re-triggering a highlight removes and re-adds the shared class to restart motion.
 6. The active field receives only one variant at a time; AI and warning variants must not fight for styling.
