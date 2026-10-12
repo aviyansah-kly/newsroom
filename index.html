@@ -18027,6 +18027,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     updateContext(selected);
     render('');
+    // External AI generation updates the native select; synchronize the visible custom picker.
+    category.addEventListener('change',()=>{
+      const match=CATEGORIES.find(item=>item.label===category.value);
+      if(!match)return;
+      updateContext(match);
+      render(input.value||'');
+    });
     if(window.lucide)window.lucide.createIcons();
   }
 
@@ -18960,6 +18967,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     else if(/purbaya/.test(t.all))figure='Purbaya Yudhi Sadewa';
     else if(/timnas indonesia/.test(t.all))figure='Timnas Indonesia';
     if(figure&&!tags.includes(figure))tags.push(figure);
+    // The editorial prototype always offers exactly five relevant, unique demo tags.
+    const fallbackTags=category==='Sports'?
+      ['Olahraga','Pertandingan','Sepak Bola Indonesia','Kompetisi','Berita Olahraga']:
+      category==='Bisnis'?['Ekonomi Indonesia','Kebijakan Pemerintah','Perdagangan','Industri','Berita Ekonomi']:
+      category==='Nasional'?['Berita Nasional','Indonesia','Peristiwa','Kebijakan Publik','Pemerintahan']:
+      ['Berita Terkini','Indonesia','Peristiwa','Informasi Publik','Liputan6'];
+    tags=[...new Set([...tags,...fallbackTags])].slice(0,5);
     const words=(t.title||t.dek).replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).filter(x=>x.length>3);
     const keyword=(words.slice(0,5).join(' ')||category).slice(0,90);
     const seoTitle=(t.title||'Liputan6 News').slice(0,68);
@@ -19136,6 +19150,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       if(label)label.textContent=clean;
       const picker=$('#v58CategoryEditorial .alt-category-picker');
       picker?.classList.remove('open');
+      picker?.querySelector('.alt-category-trigger')?.setAttribute('aria-expanded','false');
       // Keep the custom category picker display in sync with its underlying select.
       picker?.querySelectorAll('.alt-category-option').forEach(option=>{
         const selected=(option.dataset.value||option.dataset.category||option.textContent||'').trim()===clean;
@@ -19271,8 +19286,9 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
           if(key==='tags'){
             // Generate Attributes is a one-click prototype: actually add editorial tags,
             // rather than opening a preview requiring another manual selection.
-            if(applyField('tags',proposal,{replace:true}))filled++;
-            else if(tagsOnScreen().length)markField(fieldElement('tags'),'tags');
+            if(applyField('tags',proposal,{replace:true})){
+              filled++;editorialFilled++;
+            }else if(tagsOnScreen().length)markField(fieldElement('tags'),'tags');
             return;
           }
           const el=fieldElement(key);
