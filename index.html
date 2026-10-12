@@ -14713,13 +14713,14 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
       // Dedicated visual treatment, independent from the persistent validation class.
       // Apply after field focus so click/change handlers cannot cancel the pulse.
       const pulseElement=(key==='headline'?document.querySelector('.headline-drop'):null)||wrap||target;
-      pulseElement.classList.remove('nr-issue-pulse-v77');
+      pulseElement.classList.remove('nr-field-highlight');
+      pulseElement.classList.add('nr-field-highlight');
+      pulseElement.dataset.highlightVariant='warning';
       void pulseElement.offsetWidth;
-      pulseElement.classList.add('nr-issue-pulse-v77');
       dismissedIssues.add(key);
       syncFieldWarnings();
       clearTimeout(pulseElement._nrIssuePulseTimer);
-      pulseElement._nrIssuePulseTimer=setTimeout(()=>pulseElement.classList.remove('nr-issue-pulse-v77'),2600);
+      pulseElement._nrIssuePulseTimer=setTimeout(()=>{pulseElement.classList.remove('nr-field-highlight');delete pulseElement.dataset.highlightVariant},2600);
     },180);
   }
 
@@ -21753,12 +21754,18 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
           input.dispatchEvent(new Event('input',{bubbles:true}));
           input.dispatchEvent(new Event('change',{bubbles:true}));
           card.classList.add('ai-applied');
+          input.dataset.highlightVariant='ai';
+          input.classList.remove('nr-field-highlight');
+          void input.offsetWidth;
+          input.classList.add('nr-field-highlight');
           origin.classList.remove('is-hiding');
           clearTimeout(card._aiAppliedTimer);
           card._aiAppliedTimer=setTimeout(()=>{
             origin.classList.add('is-hiding');
             setTimeout(()=>{
               card.classList.remove('ai-applied');
+              input.classList.remove('nr-field-highlight');
+              delete input.dataset.highlightVariant;
               origin.classList.remove('is-hiding');
             },240);
           },2600);
@@ -21790,6 +21797,8 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       if(e.isTrusted){
         clearTimeout(card._aiAppliedTimer);
         card.classList.remove('ai-applied');
+        input.classList.remove('nr-field-highlight');
+        delete input.dataset.highlightVariant;
         origin.classList.remove('is-hiding');
       }
     });
@@ -21876,22 +21885,28 @@ body.alt-editor-layout .nr-validation-flash{
 #altValidationModal #nrReviewSchedule .schedule-fields.show{
  margin-top:10px!important;padding:12px 12px 10px!important;
 }
-/* Same emphasis as AI applied fields, with orange warning hue.
-   Dedicated class avoids older nr-validation-attention overrides. */
-body.alt-editor-layout .nr-issue-pulse-v77,
-body.alt-editor-layout .headline-drop.nr-issue-pulse-v77,
-body.alt-editor-layout .ProseMirror.nr-issue-pulse-v77,
-body.alt-editor-layout input.nr-issue-pulse-v77,
-body.alt-editor-layout textarea.nr-issue-pulse-v77{
- border:2px solid #f59e0b!important;
+/* SHARED FIELD HIGHLIGHT CONTRACT V78: AI and review warning use one motion rule. */
+body.alt-editor-layout .nr-field-highlight{
+ --nr-highlight-rgb:139,92,246;
+ --nr-highlight-color:#8b5cf6;
+ --nr-highlight-bg:#faf5ff;
+ outline:2px solid var(--nr-highlight-color)!important;
+ outline-offset:0!important;
  border-radius:8px!important;
- background-color:#fff7ed!important;
- outline:2px solid transparent!important;
- animation:newsroomIssueAttentionV77 .65s ease-in-out 4!important;
+ background-color:var(--nr-highlight-bg)!important;
+ animation:nrSharedFieldHighlightPulse 650ms ease-in-out 4!important;
 }
-@keyframes newsroomIssueAttentionV77{
- 0%,100%{box-shadow:0 0 0 2px rgba(245,158,11,.10);outline-color:rgba(245,158,11,.25)}
- 50%{box-shadow:0 0 0 6px rgba(245,158,11,.27);outline-color:#f59e0b}
+body.alt-editor-layout .nr-field-highlight[data-highlight-variant="warning"]{
+ --nr-highlight-rgb:245,158,11;
+ --nr-highlight-color:#f59e0b;
+ --nr-highlight-bg:#fff7ed;
+}
+@keyframes nrSharedFieldHighlightPulse{
+ 0%,100%{box-shadow:0 0 0 2px rgba(var(--nr-highlight-rgb),.10)}
+ 50%{box-shadow:0 0 0 6px rgba(var(--nr-highlight-rgb),.28)}
+}
+@media(prefers-reduced-motion:reduce){
+ body.alt-editor-layout .nr-field-highlight{animation:none!important;box-shadow:0 0 0 3px rgba(var(--nr-highlight-rgb),.20)!important}
 }
 @media(max-width:560px){
  #altValidationModal #nrReviewSchedule{padding:12px!important}
