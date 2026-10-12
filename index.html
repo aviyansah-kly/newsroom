@@ -129,7 +129,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,
 /* SIXDESK_UT_END */
 /* SIXDESK_EDITOR_GUIDANCE_START */
 .title::placeholder{color:#94a3b8;font-weight:500}.dek::placeholder{color:#a1aab8}.headline-fields input::placeholder,.field input::placeholder,.field textarea::placeholder,.import-textarea::placeholder,.popup input::placeholder,.popup textarea::placeholder,.agent-composer textarea::placeholder{color:#94a3b8;opacity:1}.tiptap-editor p.is-editor-empty:first-child:before{color:#94a3b8;font-style:normal;font-weight:400}.blank-start{border-style:solid;border-color:#dbe4ee;background:#f8fafc}.blank-start strong{font-size:14px}.blank-start p{max-width:620px}.field:has(input:placeholder-shown) label,.field:has(textarea:placeholder-shown) label{color:#334155}.headline-fields input:placeholder-shown{background:#fbfdff}.title:placeholder-shown,.dek:placeholder-shown{background:linear-gradient(90deg,#f8fafc 0,#fff 70%);border-radius:8px;padding-left:10px;margin-left:-10px}.title:focus,.dek:focus{background:#fff}
-.editor-field-name{display:block;margin:0 0 7px;font-size:14px;line-height:16px;font-weight:700;letter-spacing:.035em;text-transform:uppercase;color:#64748b}.editor-field-name-dek{margin-top:12px}.editor-content-head{max-width:760px;margin:22px auto 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.editor-content-head strong{display:block;font-size:14px;line-height:18px;color:#0f172a}.editor-content-head span{display:block;margin-top:2px;font-size:14px;line-height:16px;color:#94a3b8}.title:placeholder-shown{min-height:72px}.dek:placeholder-shown{min-height:50px}.blank-start.show + .tiptap-insertbar{}
+.editor-field-name{display:block;margin:0 0 7px;font-size:14px;line-height:16px;font-weight:700;letter-spacing:0;text-transform:none;color:#64748b}.editor-field-name-dek{margin-top:12px}.editor-content-head{max-width:760px;margin:22px auto 8px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.editor-content-head strong{display:block;font-size:14px;line-height:18px;color:#0f172a}.editor-content-head span{display:block;margin-top:2px;font-size:14px;line-height:16px;color:#94a3b8}.title:placeholder-shown{min-height:72px}.dek:placeholder-shown{min-height:50px}.blank-start.show + .tiptap-insertbar{}
 /* SIXDESK_EDITOR_GUIDANCE_END */
 
 /* SIXDESK_HEADER_REFRESH_START */
@@ -14434,6 +14434,17 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
 /* V74 END */
 </style>
 
+
+<style id="newsroom-title-case-contract-v72">
+/* Visible labels share one Title Case design-system treatment. */
+body.alt-editor-layout .editor-field-name,
+body.alt-editor-layout .alt-field-card .ai-writing-field-head>label,
+body.alt-editor-layout .nr-ai-field-head>label,
+body.alt-editor-layout .alt-field-card>label,
+body.alt-editor-layout .v58-category-label{
+ text-transform:none!important;letter-spacing:0!important;
+}
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -19083,7 +19094,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
   }
   function hasRequiredSource(){
     const t=getArticleText();
-    return Boolean(t.title.trim()&&t.dek.trim()&&t.body.trim());
+    return Boolean(t.title.trim()&&t.dek.trim());
   }
   function canFill(key){
     if(key==='tags')return true;
@@ -19143,7 +19154,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const value=deriveSuggestions()[key];
     if(!value||(Array.isArray(value)&&!value.length))return false;
     // Field-level AI Suggestions is a direct in-field action in this UI demo.
-    const applied=applyField(key,value,{replace:true});
+    const applied=applyField(key,value,{replace:true}) || (key==='tags'&&Array.isArray(value)&&value.every(tag=>tagsOnScreen().includes(tag)));
     if(!applied){
       const button=document.querySelector('[data-nr-ai-field="'+key+'"]');
       if(button)button.title='Belum ada saran yang sesuai untuk field ini.';
@@ -19167,6 +19178,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         return;
       }
       if(host.querySelector('[data-nr-ai-field="'+key+'"]'))return;
+      // Remove obsolete duplicate sparkle actions after their canonical controller is ready.
+      host.querySelectorAll('.alt-ai-hint').forEach(x=>x.remove());
       const button=document.createElement('button');
       button.type='button';button.className='nr-ai-field-action';
       button.dataset.nrAiField=key;
@@ -19216,7 +19229,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const wrap=document.createElement('div');
     wrap.className='alt-ai-analyze-wrap';
     wrap.id='altAnalyzeArticle';
-    wrap.innerHTML='<div class="alt-ai-analyze-copy"><strong>Finished writing?</strong><span>Preview AI-assisted attributes using demo suggestions based on your article. Review the purple fields.</span><small class="nr-ai-input-note" hidden></small></div>'
+    wrap.innerHTML='<div class="alt-ai-analyze-copy"><strong>Sudah Selesai Menulis?</strong><span>Generate atribut berdasarkan Judul Artikel dan Short Desc. Tinjau field dengan highlight ungu.</span><small class="nr-ai-input-note" hidden></small></div>'
       +'<button type="button" class="alt-ai-analyze-btn"><i data-lucide="wand-sparkles"></i><span>Generate Attributes</span></button>';
     section.insertAdjacentElement('afterend',wrap);
     const button=wrap.querySelector('.alt-ai-analyze-btn');
@@ -19224,9 +19237,9 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const note=wrap.querySelector('.nr-ai-input-note');
       if(!hasRequiredSource()){
         const source=getArticleText();
-        const missing=[!source.title&&'Title',!source.dek&&'Short Description',!source.body&&'Article Body'].filter(Boolean);
+        const missing=[!source.title&&'Judul Artikel',!source.dek&&'Short Desc'].filter(Boolean);
         note.hidden=false;
-        note.textContent='Complete '+missing.join(', ')+' before generating attributes.';
+        note.textContent='Lengkapi '+missing.join(' dan ')+' sebelum Generate Attributes.';
         return;
       }
       note.hidden=true;
@@ -19266,14 +19279,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         });
         note.hidden=false;
         note.textContent=filled
-          ?filled+' fields filled with demo AI suggestions. Review the purple outlines.'
+          ?filled+' field berhasil diisi dengan saran AI demo. Tinjau highlight ungu.'
             +(protectedCount?' '+protectedCount+' manually edited '+(protectedCount===1?'field was':'fields were')+' kept unchanged.':'')
-          :'No fields changed. Check the article content and manually edited fields.';
+          : 'Tidak ada field yang berubah. Periksa field yang telah diubah secara manual.';
         updateAiProgress();
         window.dispatchEvent(new CustomEvent('newsroom:attributes-generated',{detail:{applied,protectedCount}}));
       }catch(err){
         console.error('Generate Attributes failed:',err);
-        note.hidden=false;note.textContent='Unable to generate attributes. Please try again.';
+        note.hidden=false;note.textContent='Gagal membuat atribut. Silakan coba lagi.';
       }finally{
         button.disabled=false;button.querySelector('span').textContent='Generate Attributes';
       }
