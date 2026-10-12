@@ -15708,7 +15708,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     if(editor&&toolbar&&!document.querySelector('.alt-editor-section')){
       const section=document.createElement('section');section.className='alt-editor-section';
       const head=document.createElement('div');head.className='alt-editor-section-head';
-      head.innerHTML='<div><strong>Artikel</strong><span>Tulis artikel secara klasik. Gunakan + untuk menambah tipe konten atau memulai halaman baru.</span></div>';
+      head.innerHTML='<div><strong>Konten Artikel</strong><span>Tulis artikel secara klasik. Gunakan + untuk menambah tipe konten atau memulai halaman baru.</span></div>';
       toolbar.parentElement.insertBefore(section,toolbar);
       section.append(head,toolbar,editor);
 
@@ -16097,8 +16097,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         row.querySelector('button').setAttribute('title','AI Suggestions unavailable for this field');
       });
     }
-    addAIHint('#dek','Short Desc');
-    addAIHint('#tagInput','Tags');
+    // Legacy hint buttons removed: canonical AI controls are installed by their field controllers.
     // Primary Keyword uses the shared per-field AI Suggestions control.
 
     const editor=$('#tiptap-editor');
@@ -16613,7 +16612,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     sync();
 
     const articleHead=document.querySelector('.alt-editor-section-head strong');
-    if(articleHead) articleHead.textContent='Artikel';
+    if(articleHead) articleHead.textContent='Konten Artikel';
 
     if(window.lucide)window.lucide.createIcons();
   }
@@ -18967,7 +18966,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     meta:'#metaDesc',slug:'#altCustomSlug'
   };
   const aiNames={category:'Category',articleType:'Article Type',figure:'Figure',
-    tags:'Tags',seoKeyword:'Primary Keyword',seoTitle:'SEO Title',
+    tags:'Tags',seoKeyword:'SEO Keyword',seoTitle:'SEO Title',
     meta:'Meta Description',slug:'Custom Slug'};
   const aiPending=new Set(),aiReviewed=new Set(),manualEdited=new Set();
   const initialValues={};
@@ -21972,6 +21971,7 @@ body.alt-editor-layout .nr-ai-field-head>label {
 }
 body.alt-editor-layout .alt-writing-card .ai-writing-field-head>label {
  font-size:14px!important;line-height:20px!important;font-weight:600!important;
+ text-transform:none!important;letter-spacing:0!important;
 }
 /* Old AI hint is obsolete when the canonical button is available. */
 body.alt-editor-layout .alt-field-card.ai-writing-field .alt-ai-hint{display:none!important}
@@ -21999,4 +21999,14 @@ body.alt-editor-layout .alt-field-card.ai-writing-field .alt-ai-hint{display:non
   else setTimeout(reconcile,700);
 })();
 </script>
-</body></html>
+<style>
+/* NEWSROOM_FIELD_LABEL_CONSISTENCY_V80 */
+body.alt-editor-layout .alt-writing-card .editor-field-name,
+body.alt-editor-layout .alt-writing-card .ai-writing-field-head label,
+body.alt-editor-layout .alt-writing-card .alt-field-card label,
+body.alt-editor-layout .alt-editor-section-head strong,
+body.alt-editor-layout .context .field label,
+body.alt-editor-layout .context .nr-ai-field-head label{
+ text-transform:none!important;letter-spacing:0!important;
+}
+</style></body></html>
