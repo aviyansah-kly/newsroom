@@ -8,14 +8,14 @@ One field-highlight component for AI Suggestions and Review & Publish validation
 - Variant: `data-highlight-variant="ai" | "warning"`
 - AI: purple (`#8b5cf6`), triggered after applying an AI suggestion.
 - Warning: orange (`#f59e0b`), triggered after choosing **Perbaiki** in Review & Publish.
-- Motion: exact source-of-truth `newsroomAiFieldReviewRing`, 2.2s ease-in-out infinite while the highlight is active. Warning shares the same keyframes and differs only through orange CSS color tokens. The Review & Publish navigation currently removes highlight after ~2.6 seconds.
+- Motion: exact source-of-truth `newsroomAiFieldReviewRing`, 2.2s ease-in-out infinite while the highlight is active. Warning shares the same keyframes and differs only through orange CSS color tokens. The Review & Publish warning stays highlighted until the editor makes a user-initiated change to the corresponding field (or its input becomes valid). Focus/navigation alone does not dismiss it; no time-based auto-dismiss.
 - Reduced motion: static outline and shadow instead of animation.
 - Geometry: use outline and box shadow; do not change field dimensions/padding or the parent section border.
 
 ## Behavior
 1. The **Perbaiki** action closes the modal, opens the relevant Editorial or SEO pane, scrolls to and focuses the actual field, then highlights that field only.
 2. If the field cannot receive focus (e.g., image chooser area), focus its accessible button and apply the warning highlight to the specific chooser surface.
-3. Clear visual warning on edit/interaction or after the pulse finishes. The review check itself remains invalid until data meets validation requirements.
+3. Clear visual warning only after an actual field edit or valid media selection, not on focus, navigation, or elapsed time. The review check itself remains invalid until data meets validation requirements.
 4. Opening the workspace does not mark blank fields as errors. Review & Publish triggers comprehensive validation.
 5. Re-triggering a highlight removes and re-adds the shared class to restart motion.
 6. The active field receives only one variant at a time; AI and warning variants must not fight for styling.
