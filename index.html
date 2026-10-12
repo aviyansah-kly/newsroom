@@ -14710,8 +14710,16 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     setTimeout(()=>{
       target.scrollIntoView({behavior:'smooth',block:'center'});
       focusable?.focus?.({preventScroll:true});
-      wrap?.classList.add('nr-validation-attention','nr-validation-flash');
-      setTimeout(()=>{wrap?.classList.remove('nr-validation-attention','nr-validation-flash');dismissedIssues.add(key)},3000);
+      // Dedicated visual treatment, independent from the persistent validation class.
+      // Apply after field focus so click/change handlers cannot cancel the pulse.
+      const pulseElement=(key==='headline'?document.querySelector('.headline-drop'):null)||wrap||target;
+      pulseElement.classList.remove('nr-issue-pulse-v77');
+      void pulseElement.offsetWidth;
+      pulseElement.classList.add('nr-issue-pulse-v77');
+      dismissedIssues.add(key);
+      syncFieldWarnings();
+      clearTimeout(pulseElement._nrIssuePulseTimer);
+      pulseElement._nrIssuePulseTimer=setTimeout(()=>pulseElement.classList.remove('nr-issue-pulse-v77'),2600);
     },180);
   }
 
@@ -21854,5 +21862,38 @@ body.alt-editor-layout .nr-validation-flash{
 #altValidationModal .nr-review-schedule .schedule-fields:not(.show){display:none!important}
 @media(max-width:560px){
  #altValidationModal .nr-review-schedule .schedule-fields.show{padding:14px 12px 12px!important}
+}
+</style>
+<style>
+/* NEWSROOM_REVIEW_VALIDATION_VISUAL_V77 */
+/* Compact schedule header without unused top/bottom spacing. */
+#altValidationModal #nrReviewSchedule{padding:12px 14px!important}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-head{
+ min-height:32px!important;gap:10px!important;padding:0!important;margin:0!important;
+}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-head strong{margin:0!important}
+#altValidationModal #nrReviewSchedule .nr-review-schedule-head span{margin-top:1px!important}
+#altValidationModal #nrReviewSchedule .schedule-fields.show{
+ margin-top:10px!important;padding:12px 12px 10px!important;
+}
+/* Same emphasis as AI applied fields, with orange warning hue.
+   Dedicated class avoids older nr-validation-attention overrides. */
+body.alt-editor-layout .nr-issue-pulse-v77,
+body.alt-editor-layout .headline-drop.nr-issue-pulse-v77,
+body.alt-editor-layout .ProseMirror.nr-issue-pulse-v77,
+body.alt-editor-layout input.nr-issue-pulse-v77,
+body.alt-editor-layout textarea.nr-issue-pulse-v77{
+ border:2px solid #f59e0b!important;
+ border-radius:8px!important;
+ background-color:#fff7ed!important;
+ outline:2px solid transparent!important;
+ animation:newsroomIssueAttentionV77 .65s ease-in-out 4!important;
+}
+@keyframes newsroomIssueAttentionV77{
+ 0%,100%{box-shadow:0 0 0 2px rgba(245,158,11,.10);outline-color:rgba(245,158,11,.25)}
+ 50%{box-shadow:0 0 0 6px rgba(245,158,11,.27);outline-color:#f59e0b}
+}
+@media(max-width:560px){
+ #altValidationModal #nrReviewSchedule{padding:12px!important}
 }
 </style></body></html>
