@@ -16082,7 +16082,20 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const field=el.closest('.field,.seo-field'); if(!field || field.querySelector('.alt-ai-hint')) return;
       const row=document.createElement('div'); row.className='alt-ai-hint'; row.innerHTML='<button type="button" class="ai-btn"><i data-lucide="sparkles"></i> AI Suggestions '+label+'</button>';
       field.appendChild(row);
-      row.querySelector('button').addEventListener('click',()=>{ row.querySelector('button').textContent='AI Suggestions ready direview'; });
+      row.querySelector('button').addEventListener('click',()=>{
+        // Delegate legacy helper to the canonical field AI Suggestions action.
+        const key=fieldId==='#tagInput'?'tags':fieldId==='#dek'?'dek':null;
+        if(key==='tags'){
+          const canonical=document.querySelector('.alt-tag-ai,[data-nr-ai-field="tags"]');
+          if(canonical){canonical.click();return}
+        }
+        if(key==='dek'){
+          const canonical=document.querySelector('.ai-writing-field .ai-writing-trigger');
+          if(canonical){canonical.click();return}
+        }
+        row.querySelector('button').disabled=true;
+        row.querySelector('button').setAttribute('title','AI Suggestions unavailable for this field');
+      });
     }
     addAIHint('#dek','Short Desc');
     addAIHint('#tagInput','Tags');
@@ -21945,4 +21958,43 @@ body.alt-editor-layout .nr-field-highlight[data-highlight-variant="warning"]{
 @media(max-width:560px){
  #altValidationModal #nrReviewSchedule{padding:12px!important}
 }
-</style></body></html>
+</style><style>
+/* NEWSROOM_FIELD_TITLE_CASE_AND_AI_ACTIONS_V79 */
+body.alt-editor-layout .editor-field-name,
+body.alt-editor-layout .alt-writing-card label,
+body.alt-editor-layout .ai-writing-field-head>label,
+body.alt-editor-layout .alt-editor-section-head strong,
+body.alt-editor-layout .field>label,
+body.alt-editor-layout .nr-ai-field-head>label {
+ text-transform:none!important;letter-spacing:0!important;
+}
+body.alt-editor-layout .alt-writing-card .ai-writing-field-head>label {
+ font-size:14px!important;line-height:20px!important;font-weight:600!important;
+}
+/* Old AI hint is obsolete when the canonical button is available. */
+body.alt-editor-layout .alt-field-card.ai-writing-field .alt-ai-hint{display:none!important}
+</style>
+<script>
+/* Safely remove legacy AI hint duplicates when a working field action exists. */
+(function(){
+  function reconcile(){
+    const dek=document.getElementById('dek');
+    if(dek?.closest('.ai-writing-field')?.querySelector('.ai-writing-trigger')){
+      dek.closest('.alt-field-card')?.querySelectorAll('.alt-ai-hint').forEach(el=>el.remove());
+    }
+    const tags=document.getElementById('tagInput');
+    const host=tags?.closest('.field,.seo-field');
+    if(host?.querySelector('.alt-tag-ai,[data-nr-ai-field="tags"]')){
+      host.querySelectorAll('.alt-ai-hint').forEach(el=>el.remove());
+    }
+    // Retain the canonical category AI Suggestions only (avoid double sparkle controls).
+    document.querySelectorAll('.nr-ai-field-head').forEach(head=>{
+      const buttons=[...head.querySelectorAll('[data-nr-ai-field]')];
+      buttons.slice(1).forEach(btn=>btn.remove());
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(reconcile,700),{once:true});
+  else setTimeout(reconcile,700);
+})();
+</script>
+</body></html>
