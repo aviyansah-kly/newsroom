@@ -14672,14 +14672,12 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     // Keep a single schedule description. Move the existing functional switch
     // into the review header instead of cloning the control.
     const header=host.querySelector('.nr-review-schedule-head');
-    const toggleRow=timing.querySelector('.publish-schedule-toggle .flag-row');
-    const switchControl=toggleRow?.querySelector('.switch');
-    if(header&&switchControl){
-      if(switchControl.parentElement!==header)header.appendChild(switchControl);
-      const copy=toggleRow.querySelector('.flag-copy');
+    const switchContainer=timing.querySelector('.publish-schedule-toggle')||host.querySelector('.publish-schedule-toggle');
+    if(header&&switchContainer){
+      switchContainer.hidden=false;
+      const copy=switchContainer.querySelector('.flag-copy');
       if(copy)copy.hidden=true;
-      const redundant=timing.querySelector('.publish-schedule-toggle');
-      if(redundant)redundant.hidden=true;
+      if(switchContainer.parentElement!==header)header.appendChild(switchContainer);
     }
     if(window.lucide?.createIcons)window.lucide.createIcons();
     return true;
@@ -14705,7 +14703,7 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
       target.scrollIntoView({behavior:'smooth',block:'center'});
       focusable?.focus?.({preventScroll:true});
       wrap?.classList.add('nr-validation-attention','nr-validation-flash');
-      setTimeout(()=>{wrap?.classList.remove('nr-validation-attention','nr-validation-flash');dismissedIssues.add(key)},1250);
+      setTimeout(()=>{wrap?.classList.remove('nr-validation-attention','nr-validation-flash');dismissedIssues.add(key)},2200);
     },180);
   }
 
@@ -14724,8 +14722,13 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
       const btn=row.querySelector('button');
       if(btn&&key&&!btn.dataset.v70){
         btn.dataset.v70='1';
-        btn.addEventListener('click',()=>{
-          setTimeout(()=>focusIssue(key),120);
+        // Replace the legacy inline handler: exactly one navigation per click.
+        btn.onclick=null;
+        btn.addEventListener('click',e=>{
+          e.preventDefault();
+          e.stopPropagation();
+          $('#altValidationClose')?.click();
+          setTimeout(()=>focusIssue(key),240);
         });
       }
     });
@@ -21801,7 +21804,7 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
 }
 body.alt-editor-layout .topbar #saveDraftBtn{display:none!important}
 body.alt-editor-layout .nr-validation-flash{
- animation:nrFieldWarningPulseV75 .65s ease-in-out 2!important;
+ animation:nrFieldWarningPulseV75 .7s ease-in-out 3!important;
 }
 @keyframes nrFieldWarningPulseV75{
  0%,100%{box-shadow:0 0 0 2px rgba(245,158,11,.10)}
@@ -21827,7 +21830,18 @@ body.alt-editor-layout .nr-validation-flash{
 }
 #altValidationModal .nr-review-schedule-head>div{flex:1;min-width:0}
 #altValidationModal .nr-review-schedule-head>.switch{margin-left:auto!important;align-self:center!important;flex:none!important}
-#altValidationModal .nr-review-schedule .publish-schedule-toggle{display:none!important}
+#altValidationModal .nr-review-schedule-head .publish-schedule-toggle{
+ display:block!important;position:static!important;margin:0 0 0 auto!important;
+ padding:0!important;border:0!important;background:transparent!important;
+ width:auto!important;flex:none!important;overflow:visible!important;
+}
+#altValidationModal .nr-review-schedule-head .publish-schedule-toggle .flag-row{
+ display:flex!important;align-items:center!important;min-height:26px!important;
+ padding:0!important;margin:0!important;border:0!important;cursor:pointer!important;
+}
+#altValidationModal .nr-review-schedule-head .publish-schedule-toggle .flag-copy{display:none!important}
+#altValidationModal .nr-review-schedule-head .publish-schedule-toggle .switch{display:inline-flex!important;position:relative!important;flex:none!important}
+#altValidationModal .nr-review-schedule .nr-review-schedule-content>.publish-schedule-toggle{display:none!important}
 #altValidationModal .nr-review-schedule .schedule-fields.show{margin-top:16px!important;padding:16px 14px 12px!important;border-top:1px solid #e2e8f0!important}
 #altValidationModal .nr-review-schedule .schedule-fields:not(.show){display:none!important}
 @media(max-width:560px){
