@@ -14455,42 +14455,41 @@ body.alt-editor-layout .nr-additional-label-title{font-size:13px;font-weight:700
 body.alt-editor-layout .nr-branded-content-type{margin-top:12px}
 </style>
 
-<style id="nr-right-panel-compact-tabs-v77">
-/* Editorial / SEO and collapse action share a single compact header row. */
-/* Position must remain docked at the right edge, never join the writing-flow column. */
+<style id="nr-right-panel-compact-tabs-v78">
+/* Docking contract: right panel is fixed; toolbar controls share a single row. */
 body.alt-editor-layout .context{position:fixed!important;right:0!important;left:auto!important;bottom:0!important;top:var(--newsroom-shell-header,68px)!important;height:calc(100vh - var(--newsroom-shell-header,68px))!important;align-self:auto!important;z-index:80!important}
 body.alt-editor-layout:not(.nr-right-collapsed) .context{width:var(--nr-right-expanded,366px)!important;max-width:calc(100vw - 24px)!important}
 body.alt-editor-layout.nr-right-collapsed .context{width:var(--nr-right-collapsed,56px)!important}
-
-body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-control{
- position:absolute!important;right:9px!important;top:0!important;left:auto!important;
- z-index:110!important;width:42px!important;height:52px!important;min-height:52px!important;
- padding:6px 0!important;margin:0!important;display:flex!important;
- align-items:center!important;justify-content:center!important;background:transparent!important;
+body.alt-editor-layout .context>.panel:first-of-type>.panel-head{display:none!important}
+body.alt-editor-layout .context .nr-right-panel-title{display:none!important}
+body.alt-editor-layout .context .article-tabs-promoted [data-tab="guardian"],
+body.alt-editor-layout .context .article-tabs-promoted [data-tab="validation"],
+body.alt-editor-layout .context #guardianPane{display:none!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.tabs.article-tabs-promoted{
+ display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 40px!important;
+ gap:6px!important;width:100%!important;min-height:54px!important;
+ box-sizing:border-box!important;padding:7px 10px!important;margin:0!important;
+ align-items:center!important;overflow:visible!important;
 }
-body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-title{display:none!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.tabs.article-tabs-promoted>.tab{
+ min-width:0!important;min-height:38px!important;height:38px!important;
+ display:flex!important;justify-content:center!important;align-items:center!important;
+}
+body.alt-editor-layout:not(.nr-right-collapsed) .context .tabs.article-tabs-promoted>.nr-right-panel-control{
+ position:static!important;grid-column:3!important;grid-row:1!important;
+ width:40px!important;height:40px!important;min-height:40px!important;
+ margin:0!important;padding:0!important;background:transparent!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ z-index:auto!important;
+}
 body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-toggle{
- display:grid!important;place-items:center!important;width:38px!important;height:38px!important;
- min-width:38px!important;min-height:38px!important;flex:0 0 38px!important;
- border:1px solid #e2e8f0!important;border-radius:8px!important;background:#fff!important;
- color:#475569!important;padding:0!important;cursor:pointer!important;
+ display:grid!important;place-items:center!important;width:40px!important;height:40px!important;
+ min-width:40px!important;min-height:40px!important;
+ padding:0!important;margin:0!important;border:1px solid #e2e8f0!important;
+ border-radius:8px!important;background:#fff!important;color:#475569!important;cursor:pointer!important;
 }
 body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-toggle:hover{background:#f8fafc!important;border-color:#94a3b8!important}
-body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.panel-head{display:none!important}
-body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.tabs.article-tabs-promoted{
- box-sizing:border-box!important;width:100%!important;min-height:52px!important;
- margin:0!important;padding:6px 57px 6px 12px!important;
- grid-template-columns:repeat(2,minmax(0,1fr))!important;
- align-items:center!important;gap:4px!important;
-}
-body.alt-editor-layout:not(.nr-right-collapsed) .context>.panel:first-of-type>.tabs.article-tabs-promoted .tab{
- min-height:38px!important;display:flex!important;align-items:center!important;justify-content:center!important;
-}
-body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control{position:relative!important}
-body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-title{display:none!important}
-@media(max-width:1024px){
- body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-control{top:0!important}
-}
+body.alt-editor-layout.nr-right-collapsed .context>.nr-right-panel-control{position:relative!important}
 </style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
@@ -20971,6 +20970,13 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       toggle.setAttribute('aria-expanded',String(!next));
       toggle.setAttribute('aria-label',next?'Tampilkan Panel':'Sembunyikan Panel');
       toggle.title=next?'Tampilkan Panel':'Sembunyikan Panel';
+      // Keep the toggle in the SAME toolbar row as Editorial and SEO.
+      // When collapsed, return it to the side rail so users can reopen the panel.
+      const tabs=panel.querySelector(':scope > .panel > .tabs.article-tabs-promoted');
+      tabs?.querySelector('[data-tab="guardian"]')?.remove();
+      tabs?.querySelector('[data-tab="validation"]')?.remove();
+      if(next){panel.prepend(control)}
+      else if(tabs){tabs.appendChild(control)}
       // Keep label inside the button, so the whole 56px rail is one hit target.
       toggle.innerHTML=window.lucide?svg(next):fallback(next);
       toggle.append(railLabel);
