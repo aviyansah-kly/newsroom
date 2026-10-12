@@ -22099,4 +22099,48 @@ body.alt-editor-layout .context .field label,
 body.alt-editor-layout .context .nr-ai-field-head label{
  text-transform:none!important;letter-spacing:0!important;
 }
-</style></body></html>
+</style>
+<style id="newsroom-preview-device-header-v76">
+body.alt-editor-layout .topbar .nr-preview-device-group{display:inline-flex!important;align-items:center!important;flex:none!important;gap:0!important;padding:3px!important;height:40px!important;border:1px solid #cbd5e1!important;border-radius:9px!important;background:#fff!important;box-sizing:border-box!important}
+body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device{width:36px!important;min-width:36px!important;height:32px!important;min-height:32px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;padding:0!important;border:0!important;border-radius:6px!important;background:transparent!important;color:#475569!important;cursor:pointer!important}
+body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device:hover{background:#f1f5f9!important;color:#1e293b!important}
+body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device:focus-visible{outline:2px solid #2563eb!important;outline-offset:2px!important}
+body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-divider{height:19px;width:1px;background:#e2e8f0;flex:none}
+body.alt-editor-layout .topbar .nr-preview-device-group svg{width:18px!important;height:18px!important;flex:0 0 18px!important}
+body.alt-editor-layout .topbar #previewBtn{display:none!important}
+@media(max-width:620px){body.alt-editor-layout .topbar .nr-preview-device-group{height:36px!important;padding:2px!important}body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device{width:32px!important;min-width:32px!important;height:30px!important;min-height:30px!important}}
+</style>
+<script id="newsroom-preview-device-header-script-v76">
+(function(){
+ function init(){
+  const original=document.getElementById('previewBtn');
+  if(!original||document.getElementById('nrPreviewDeviceGroup'))return;
+  const group=document.createElement('div');
+  group.id='nrPreviewDeviceGroup';
+  group.className='nr-preview-device-group';
+  group.setAttribute('role','group');
+  group.setAttribute('aria-label','Preview Artikel');
+  group.innerHTML='<button type="button" class="nr-preview-device" data-device="desktop" aria-label="Preview Desktop" title="Preview Desktop"><i data-lucide="monitor"></i></button><span class="nr-preview-divider" aria-hidden="true"></span><button type="button" class="nr-preview-device" data-device="mobile" aria-label="Preview Mobile" title="Preview Mobile"><i data-lucide="smartphone"></i></button>';
+  original.insertAdjacentElement('afterend',group);
+  group.querySelectorAll('[data-device]').forEach(button=>{
+   button.addEventListener('click',()=>{
+    const mode=button.dataset.device;
+    // Existing preview controller owns serialization, modal and scroll behavior.
+    original.click();
+    const modal=document.getElementById('altPreviewModal');
+    if(!modal?.classList.contains('open'))return;
+    const deviceButton=modal.querySelector('.alt-preview-switch [data-view="'+mode+'"]');
+    if(deviceButton)deviceButton.click();
+    else{
+     const frame=modal.querySelector('#altPreviewFrame');
+     if(frame)frame.className='alt-preview-frame '+mode;
+    }
+   });
+  });
+  if(window.lucide)window.lucide.createIcons({nodes:[group]});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+ else init();
+})();
+</script>
+</body></html>
