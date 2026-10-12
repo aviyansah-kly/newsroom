@@ -14445,6 +14445,15 @@ body.alt-editor-layout .v58-category-label{
  text-transform:none!important;letter-spacing:0!important;
 }
 </style>
+
+<style id="nr-distribution-layout-v75">
+body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing{display:block!important}
+body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary{cursor:default;list-style:none}
+body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary::-webkit-details-marker{display:none}
+body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary>svg{display:none!important}
+body.alt-editor-layout .nr-additional-label-title{font-size:13px;font-weight:700;color:#0f172a;margin:18px 0 10px;border-top:1px solid #e2e8f0;padding-top:16px}
+body.alt-editor-layout .nr-branded-content-type{margin-top:12px}
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -16136,7 +16145,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     const publishPane=$('#publishPane');
     if(publishPane && !$('#altAdvancedPublishing')){
-      const adv=document.createElement('details'); adv.id='altAdvancedPublishing'; adv.className='alt-advanced-publish';
+      const adv=document.createElement('details'); adv.id='altAdvancedPublishing'; adv.className='alt-advanced-publish'; adv.open=true;
       adv.innerHTML='<summary><i data-lucide="settings-2"></i><span>Advanced Publishing</span></summary><div class="alt-advanced-publish-body"></div>';
       publishPane.appendChild(adv);
       const body=adv.querySelector('.alt-advanced-publish-body');
@@ -18417,7 +18426,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const info=$('#infoPane'),publish=$('#publishPane');
     if(!info||!publish||$('#altEditorialPublishing'))return;
 
-    const cluster=createCluster('Publishing','Set publication timing and distribution options.','alt-editorial-publishing');
+    const cluster=createCluster('Distribusi & Label','','alt-editorial-publishing');
     cluster.id='altEditorialPublishing';
     const body=cluster.querySelector('.alt-editorial-cluster-body');
 
@@ -18426,8 +18435,40 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     const advanced=publish.querySelector('#altAdvancedPublishing');
     if(advanced){
-      advanced.querySelector('summary span') && (advanced.querySelector('summary span').textContent='Distribusi & Label');
+      advanced.open=true;
+      advanced.querySelector('summary span') && (advanced.querySelector('summary span').textContent='Distribusi & Label (Posisi)');
       body.appendChild(advanced);
+      // Flatten additional labels so all distribution controls are visible without nested accordions.
+      const extra=advanced.querySelector('#additionalPublishLabels');
+      if(extra){
+        extra.open=true;
+        const content=extra.querySelector('.publish-advanced-body');
+        const branded=content?.querySelector('#flagBranded')?.closest('.flag-row');
+        const typeField=info.querySelector('#articleType')?.closest('.field');
+        if(branded&&typeField){
+          branded.classList.add('nr-branded-content-type');
+          typeField.appendChild(branded);
+        }
+        const inner=advanced.querySelector('.alt-advanced-publish-body');
+        if(content&&inner){
+          content.querySelector('.auto-setting')?.remove();
+          const title=document.createElement('div');
+          title.className='nr-additional-label-title';
+          title.textContent='Label Tambahan';
+          inner.appendChild(title);
+          while(content.firstChild)inner.appendChild(content.firstChild);
+        }
+        extra.closest('.publish-advanced')?.remove();
+      }
+      advanced.querySelector('#flagSearchIndex')?.closest('.flag-row')?.remove();
+      const featured=advanced.querySelector('#flagFeatured')?.closest('.flag-row strong');
+      if(featured)featured.textContent='Pin Artikel';
+      const categoryHeadline=advanced.querySelector('#flagCategoryHeadline')?.closest('.flag-row strong');
+      if(categoryHeadline)categoryHeadline.textContent='Headline Kategori';
+      const curated=advanced.querySelector('#flagCurated')?.closest('.flag-row strong');
+      if(curated)curated.textContent='Tampilkan di Feed';
+      const aiLabel=advanced.querySelector('#flagAI')?.closest('.flag-row .flag-copy span');
+      if(aiLabel)aiLabel.textContent='Tandai artikel yang dibuat dengan bantuan AI.';
     }
 
     // Anything still left in Publishing becomes an expandable "Opsi lainnya".
@@ -18440,6 +18481,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     }
 
     info.appendChild(cluster);
+    // The section title and helper above distribution are redundant.
+    cluster.querySelector(':scope > .alt-editorial-cluster-head')?.remove();
     publish.style.display='none';
   }
 
