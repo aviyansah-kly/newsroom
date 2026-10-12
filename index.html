@@ -14457,7 +14457,11 @@ body.alt-editor-layout .nr-branded-content-type{margin-top:12px}
 
 <style id="nr-right-panel-compact-tabs-v77">
 /* Editorial / SEO and collapse action share a single compact header row. */
-body.alt-editor-layout:not(.nr-right-collapsed) .context{position:relative!important}
+/* Position must remain docked at the right edge, never join the writing-flow column. */
+body.alt-editor-layout .context{position:fixed!important;right:0!important;left:auto!important;bottom:0!important;top:var(--newsroom-shell-header,68px)!important;height:calc(100vh - var(--newsroom-shell-header,68px))!important;align-self:auto!important;z-index:80!important}
+body.alt-editor-layout:not(.nr-right-collapsed) .context{width:var(--nr-right-expanded,366px)!important;max-width:calc(100vw - 24px)!important}
+body.alt-editor-layout.nr-right-collapsed .context{width:var(--nr-right-collapsed,56px)!important}
+
 body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-panel-control{
  position:absolute!important;right:9px!important;top:0!important;left:auto!important;
  z-index:110!important;width:42px!important;height:52px!important;min-height:52px!important;
