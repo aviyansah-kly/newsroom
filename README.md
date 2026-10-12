@@ -28,3 +28,5 @@ Navigation menggunakan link/URL, action menggunakan button, toggle menggunakan b
 - [Field Highlight handoff](docs/field-highlight-contract.md) — implementation notes for frontend engineers.
 
 - [Field Label Title Case](design-system/field-label-title-case.md) — standard capitalization for form labels across Newsroom.
+
+- [UI Terminology Glossary](design-system/ui-terminology-glossary.md) — canonical naming across fields, modals, validation and pages.
