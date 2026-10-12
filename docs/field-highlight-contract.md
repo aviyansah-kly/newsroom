@@ -1,3 +1,5 @@
+> Canonical approved warning specification: [Field Validation Warning](../design-system/field-validation-warning.md). The document below provides implementation background.
+
 # Newsroom — Shared Field Highlight Contract
 
 ## Scope
@@ -8,7 +10,7 @@ One field-highlight component for AI Suggestions and Review & Publish validation
 - Variant: `data-highlight-variant="ai" | "warning"`
 - AI: purple (`#8b5cf6`), triggered after applying an AI suggestion.
 - Warning: orange (`#f59e0b`), triggered after choosing **Perbaiki** in Review & Publish.
-- Motion: exact source-of-truth `newsroomAiFieldReviewRing`, 2.2s ease-in-out infinite while the highlight is active. Warning shares the same keyframes and differs only through orange CSS color tokens. The Review & Publish warning stays highlighted until the editor makes a user-initiated change to the corresponding field (or its input becomes valid). Focus/navigation alone does not dismiss it; no time-based auto-dismiss.
+- Motion: exact source-of-truth `newsroomAiFieldReviewRing`, 2.2s ease-in-out infinite while the highlight is active. Warning shares the same keyframes and differs only through orange CSS color tokens. The Review & Publish warning remains until a **real user click/tap within the target field** or an edit/valid selection. Programmatic navigation/focus and elapsed time must not dismiss it.
 - Reduced motion: static outline and shadow instead of animation.
 - Geometry: use outline and box shadow; do not change field dimensions/padding or the parent section border.
 
@@ -26,7 +28,7 @@ Use a shared `FieldHighlight({variant,active,children})` wrapper or hook such as
 ## QA
 - Apply AI to title/short description: purple pulse, no layout shift.
 - Review missing headline image, reporter and SEO: correct pane/field focus, orange pulse.
-- Typing/choosing image removes visual warning, but only valid data clears validation errors.
+- Clicking the target field, typing, or choosing an image removes the visual warning, but only valid data clears validation errors.
 - On repeat Review & Publish, missing fields are listed again.
 - Desktop/mobile with expanded or collapsed panels; sticky toolbar unaffected.
 - Check `prefers-reduced-motion: reduce`.
