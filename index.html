@@ -14802,6 +14802,22 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     }
     document.addEventListener('input',dismissEditedIssue,true);
     document.addEventListener('change',dismissEditedIssue,true);
+    // A genuine user click/tap inside the highlighted field also acknowledges it.
+    // Focus triggered by the Perbaiki navigation is programmatic and does not dismiss.
+    document.addEventListener('pointerdown',e=>{
+      if(!e.isTrusted)return;
+      for(const [key,v] of Object.entries(validators)){
+        const target=v.target(),wrap=v.wrap();
+        const highlight=(key==='headline'?document.querySelector('.headline-drop'):null)||wrap||target;
+        if(!highlight?.classList.contains('nr-field-highlight'))continue;
+        if(target&&(target===e.target||target.contains?.(e.target)||highlight===e.target||highlight.contains?.(e.target))){
+          dismissedIssues.add(key);
+          highlight.classList.remove('nr-field-highlight','nr-validation-attention','nr-validation-flash');
+          delete highlight.dataset.highlightVariant;
+        }
+      }
+      syncFieldWarnings();
+    },true);
     // Media pickers may set values programmatically; clear only when valid.
     document.addEventListener('click',e=>{
       if(!e.target.closest('#chooseHeadline,#removeHeadline,[data-v34-image-select],[data-v34-image-upload]'))return;
