@@ -8949,20 +8949,20 @@ body.alt-editor-layout .ai-origin-badge svg{width:12px!important;height:12px!imp
 /* Reusable AI field review state. Purple is reserved for AI-filled fields awaiting editor review. */
 @keyframes newsroomAiFieldReviewRing{
   0%,100%{
-    border-color:#7c3aed;
-    box-shadow:0 0 0 2px rgba(124,58,237,.16),0 0 10px rgba(124,58,237,.08);
+    border-color:var(--nr-ring-strong,#7c3aed);
+    box-shadow:0 0 0 2px rgba(var(--nr-ring-strong-rgb,124,58,237),.16),0 0 10px rgba(var(--nr-ring-strong-rgb,124,58,237),.08);
   }
   25%{
-    border-color:#6366f1;
-    box-shadow:0 0 0 4px rgba(99,102,241,.18),0 0 18px rgba(99,102,241,.12);
+    border-color:var(--nr-ring-secondary,#6366f1);
+    box-shadow:0 0 0 4px rgba(var(--nr-ring-secondary-rgb,99,102,241),.18),0 0 18px rgba(var(--nr-ring-secondary-rgb,99,102,241),.12);
   }
   50%{
-    border-color:#a855f7;
-    box-shadow:0 0 0 3px rgba(168,85,247,.20),0 0 16px rgba(168,85,247,.10);
+    border-color:var(--nr-ring-light,#a855f7);
+    box-shadow:0 0 0 3px rgba(var(--nr-ring-light-rgb,168,85,247),.20),0 0 16px rgba(var(--nr-ring-light-rgb,168,85,247),.10);
   }
   75%{
-    border-color:#8b5cf6;
-    box-shadow:0 0 0 4px rgba(139,92,246,.16),0 0 20px rgba(139,92,246,.10);
+    border-color:var(--nr-ring-main,#8b5cf6);
+    box-shadow:0 0 0 4px rgba(var(--nr-ring-main-rgb,139,92,246),.16),0 0 20px rgba(var(--nr-ring-main-rgb,139,92,246),.10);
   }
 }
 body.alt-editor-layout .ai-suggested-field>input,
@@ -21886,24 +21886,30 @@ body.alt-editor-layout .nr-validation-flash{
  margin-top:10px!important;padding:12px 12px 10px!important;
 }
 /* SHARED FIELD HIGHLIGHT CONTRACT V78: AI and review warning use one motion rule. */
+/* AI Suggested Field is the source of truth: identical keyframes and timing. */
 body.alt-editor-layout .nr-field-highlight{
- --nr-highlight-rgb:139,92,246;
- --nr-highlight-color:#8b5cf6;
- --nr-highlight-bg:#faf5ff;
- outline:2px solid var(--nr-highlight-color)!important;
- outline-offset:0!important;
- border-radius:8px!important;
- background-color:var(--nr-highlight-bg)!important;
- animation:nrSharedFieldHighlightPulse 650ms ease-in-out 4!important;
+ --nr-ring-main:#8b5cf6;
+ --nr-ring-strong:#7c3aed;
+ --nr-ring-secondary:#6366f1;
+ --nr-ring-light:#a855f7;
+ --nr-ring-main-rgb:139,92,246;
+ --nr-ring-strong-rgb:124,58,237;
+ --nr-ring-secondary-rgb:99,102,241;
+ --nr-ring-light-rgb:168,85,247;
+ border-color:var(--nr-ring-main)!important;
+ background:linear-gradient(135deg,rgba(250,245,255,.96),rgba(245,243,255,.82),rgba(239,246,255,.92))!important;
+ animation:newsroomAiFieldReviewRing 2.2s ease-in-out infinite!important;
 }
 body.alt-editor-layout .nr-field-highlight[data-highlight-variant="warning"]{
- --nr-highlight-rgb:245,158,11;
- --nr-highlight-color:#f59e0b;
- --nr-highlight-bg:#fff7ed;
-}
-@keyframes nrSharedFieldHighlightPulse{
- 0%,100%{box-shadow:0 0 0 2px rgba(var(--nr-highlight-rgb),.10)}
- 50%{box-shadow:0 0 0 6px rgba(var(--nr-highlight-rgb),.28)}
+ --nr-ring-main:#f59e0b;
+ --nr-ring-strong:#c2410c;
+ --nr-ring-secondary:#ea580c;
+ --nr-ring-light:#fb923c;
+ --nr-ring-main-rgb:245,158,11;
+ --nr-ring-strong-rgb:194,65,12;
+ --nr-ring-secondary-rgb:234,88,12;
+ --nr-ring-light-rgb:251,146,60;
+ background:linear-gradient(135deg,rgba(255,247,237,.96),rgba(255,237,213,.82),rgba(255,251,235,.92))!important;
 }
 @media(prefers-reduced-motion:reduce){
  body.alt-editor-layout .nr-field-highlight{animation:none!important;box-shadow:0 0 0 3px rgba(var(--nr-highlight-rgb),.20)!important}
