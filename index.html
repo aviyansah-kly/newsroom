@@ -14669,6 +14669,18 @@ body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46
     }
     const content=host.querySelector('.nr-review-schedule-content');
     if(timing.parentElement!==content)content.appendChild(timing);
+    // Keep a single schedule description. Move the existing functional switch
+    // into the review header instead of cloning the control.
+    const header=host.querySelector('.nr-review-schedule-head');
+    const toggleRow=timing.querySelector('.publish-schedule-toggle .flag-row');
+    const switchControl=toggleRow?.querySelector('.switch');
+    if(header&&switchControl){
+      if(switchControl.parentElement!==header)header.appendChild(switchControl);
+      const copy=toggleRow.querySelector('.flag-copy');
+      if(copy)copy.hidden=true;
+      const redundant=timing.querySelector('.publish-schedule-toggle');
+      if(redundant)redundant.hidden=true;
+    }
     if(window.lucide?.createIcons)window.lucide.createIcons();
     return true;
   }
@@ -21807,4 +21819,18 @@ body.alt-editor-layout .nr-validation-flash{
   else setTimeout(removeDraftAction,0);
 })();
 </script>
-</body></html>
+<style>
+/* NEWSROOM_SINGLE_SCHEDULE_HEADER_V76 */
+#altValidationModal .nr-review-schedule-head{
+ display:flex!important;align-items:center!important;gap:12px!important;margin:0!important;
+ padding-bottom:0!important;border:0!important;
+}
+#altValidationModal .nr-review-schedule-head>div{flex:1;min-width:0}
+#altValidationModal .nr-review-schedule-head>.switch{margin-left:auto!important;align-self:center!important;flex:none!important}
+#altValidationModal .nr-review-schedule .publish-schedule-toggle{display:none!important}
+#altValidationModal .nr-review-schedule .schedule-fields.show{margin-top:16px!important;padding:16px 14px 12px!important;border-top:1px solid #e2e8f0!important}
+#altValidationModal .nr-review-schedule .schedule-fields:not(.show){display:none!important}
+@media(max-width:560px){
+ #altValidationModal .nr-review-schedule .schedule-fields.show{padding:14px 12px 12px!important}
+}
+</style></body></html>
