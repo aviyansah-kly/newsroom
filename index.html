@@ -23011,4 +23011,122 @@ body.alt-editor-layout .context #seoPane .seo-auto-head{
  margin-bottom:9px!important;
 }
 </style>
+
+<style id="nr-editorial-refinement-v92">
+body.alt-editor-layout #nrPublicationStatusPreview dl{
+ display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:12px!important;margin:10px 0 0!important;align-items:start!important;
+}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta{
+ min-width:0!important;display:flex!important;flex-direction:column!important;gap:3px!important;
+ border-top:0!important;padding:0!important;
+}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{
+ border-top:0!important;border-left:1px solid #e2e8f0!important;padding-left:12px!important;
+}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta dt{
+ line-height:17px!important;font-size:12px!important;white-space:normal!important;
+}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta dd{
+ line-height:18px!important;font-size:12px!important;overflow-wrap:anywhere!important;
+}
+body.alt-editor-layout .context #infoPane .settings-section-head strong,
+body.alt-editor-layout .context #infoPane .alt-editorial-cluster-head strong,
+body.alt-editor-layout .context #infoPane .nr-pub-head strong,
+body.alt-editor-layout .context #infoPane .alt-tag-head>strong,
+body.alt-editor-layout .context #infoPane .headline .section-head strong,
+body.alt-editor-layout .context #infoPane #altAdvancedPublishing>summary span,
+body.alt-editor-layout .context #seoPane .seo-section-label strong{
+ font-weight:700!important;
+}
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-add{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;flex:none;
+ min-height:32px;padding:0 10px;border:1px solid #cbd5e1;border-radius:7px;
+ background:#fff;color:#334155;font-size:12px;font-weight:600;cursor:pointer;
+}
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-add:hover{background:#eff6ff;border-color:#93c5fd}
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-add:disabled{opacity:.45;cursor:not-allowed}
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-add svg{height:14px;width:14px}
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-feedback{
+ font-size:12px;line-height:17px;color:#64748b;margin-top:4px;
+}
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-feedback.is-warning{color:#d97706}
+@media(max-width:430px){
+ body.alt-editor-layout #nrPublicationStatusPreview dl{gap:8px!important}
+ body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{padding-left:8px!important}
+}
+</style>
+<script id="nr-editorial-refinement-script-v92">
+(function(){
+ function init(){
+  const branded=document.getElementById('flagBranded')?.closest('.flag-row');
+  if(branded)branded.remove();
+  const section=document.getElementById('altEditorialTagsSection');
+  const input=document.getElementById('tagInput');
+  const list=document.getElementById('tagList');
+  if(!section||!input||!list||section.dataset.nrTagsV92==='1')return;
+  section.dataset.nrTagsV92='1';
+  const wrapper=input.closest('.tag-wrap')||input.parentElement;
+  const add=document.createElement('button');
+  add.type='button';add.className='nr-tag-add';add.innerHTML='<i data-lucide="plus"></i><span>Add Tag</span>';
+  add.setAttribute('aria-label','Add Tag');
+  const feedback=document.createElement('div');
+  feedback.className='nr-tag-feedback';feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
+  wrapper.appendChild(add);wrapper.insertAdjacentElement('afterend',feedback);
+  const labels=()=>[...list.querySelectorAll('.tag-chip')].map(chip=>{
+   const copy=chip.cloneNode(true);copy.querySelector('button')?.remove();
+   return (copy.textContent||'').trim();
+  }).filter(Boolean);
+  function status(message,warning=false){
+   feedback.textContent=message;feedback.classList.toggle('is-warning',warning);
+   add.disabled=labels().length>=5;
+  }
+  function appendTag(tag){
+   const text=String(tag||'').trim();
+   if(!text){status('Enter a tag to add.',true);return}
+   if(labels().some(x=>x.toLowerCase()===text.toLowerCase())){status('This tag has already been added.',true);return}
+   if(labels().length>=5){status('Maximum 5 tags allowed.',true);return}
+   window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:text,source:'manual'}}));
+   input.value='';
+   input.dispatchEvent(new Event('input',{bubbles:true}));
+   status(labels().length+' of 5 tags added.');
+  }
+  add.addEventListener('click',()=>appendTag(input.value));
+  input.addEventListener('keydown',e=>{
+   if(e.key!=='Enter')return;
+   e.preventDefault();e.stopImmediatePropagation();
+   const first=document.querySelector('#tagSuggestions [data-add]');
+   appendTag(first?.dataset.add||input.value);
+  },true);
+  input.addEventListener('input',()=>status(labels().length+' of 5 tags added.'));
+  list.addEventListener('click',()=>setTimeout(()=>status(labels().length+' of 5 tags added.'),0));
+  window.addEventListener('newsroom:add-existing-tag',()=>setTimeout(()=>status(labels().length+' of 5 tags added.'),0));
+  // Keep the canonical per-field AI Suggestions action working on the actual tag chips.
+  const ai=section.querySelector('.alt-tag-ai');
+  if(ai){
+   ai.onclick=e=>{
+    e.preventDefault();
+    const title=document.getElementById('title')?.value||'';
+    const description=document.getElementById('dek')?.value||'';
+    const words=(title+' '+description).replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).filter(w=>w.length>3);
+    const candidates=[...new Set([...words.slice(0,5).map(w=>w.charAt(0).toUpperCase()+w.slice(1)), 'Berita Terkini','Indonesia','Liputan6','Informasi Publik','Peristiwa'])];
+    let added=0;
+    candidates.forEach(word=>{
+     if(labels().length>=5)return;
+     if(!labels().some(x=>x.toLowerCase()===word.toLowerCase())){
+      window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{detail:{tag:word,source:'ai'}}));added++;
+     }
+    });
+    status(added?'AI suggested '+added+' new tags. Review the added tags.':'No new tags available.');
+    section.classList.add('ai-suggested-field');
+    setTimeout(()=>section.classList.remove('ai-suggested-field'),1500);
+   };
+  }
+  status(labels().length+' of 5 tags added.');
+  if(window.lucide)window.lucide.createIcons({nodes:[add]});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,1800));
+ else setTimeout(init,1800);
+})();
+</script>
 </body></html>
