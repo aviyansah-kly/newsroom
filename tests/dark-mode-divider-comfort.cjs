@@ -61,6 +61,31 @@ const expected={
  // Validate the two publication timestamps are divided by a passive hairline.
  if(find('Published/Modified divider').exists)
    assert.equal(find('Published/Modified divider').borderLeft,expected.subtle,'Publication divider softened');
+
+ // A newly added Text Block can be absent in the initial dummy article.
+ // Mount synthetic markup to verify CSS for the real DOM shape without mutating drafts.
+ const insertedBlock=await page.evaluate(()=>{
+   const root=document.querySelector('.alt-writing-card')||document.body;
+   const block=document.createElement('div');
+   block.className='alt-content-card';block.dataset.type='text';
+   block.innerHTML='<div class="alt-content-card-head">Content</div><div class="alt-mini-toolbar"><button type="button">Bold</button></div><div class="alt-mini-editor" contenteditable="true">Contoh paragraf editorial</div><div class="alt-content-card-foot">Metadata</div>';
+   root.appendChild(block);
+   const read=sel=>{
+     const st=getComputedStyle(block.querySelector(sel));
+     return {background:st.backgroundColor,color:st.color,borderBottom:st.borderBottomColor};
+   };
+   const result={card:getComputedStyle(block).backgroundColor,head:read('.alt-content-card-head'),toolbar:read('.alt-mini-toolbar'),editor:read('.alt-mini-editor'),foot:read('.alt-content-card-foot')};
+   block.remove();return result;
+ });
+ console.log('DYNAMIC TEXT BLOCK COMFORT',JSON.stringify(insertedBlock));
+ assert.equal(insertedBlock.card,expected.canvas,'Inserted text block must not be white');
+ assert.equal(insertedBlock.editor.background,expected.canvas,'Inserted editable area must not be white');
+ assert.equal(insertedBlock.editor.color,'rgb(232, 235, 239)','Editable text must retain readable contrast');
+ for(const part of ['head','toolbar','foot']){
+   assert.equal(insertedBlock[part].background,'rgb(43, 48, 55)',part+' has neutral graphite surface');
+   assert.equal(insertedBlock[part].borderBottom,expected.subtle,part+' separator has reduced contrast');
+ }
+
  // Control boundaries remain >=3:1 while low-emphasis hairlines remain quiet.
  const title=page.locator('#title');
  const before=await title.inputValue();
