@@ -247,3 +247,34 @@ html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-anal
 html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-rail span {
   color:#A4AEBB!important;
 }
+
+/* Final contrast fixes grounded in text-node WCAG audit and actual DOM ancestry. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane #nrPublicationStatusPreview .nr-pub-head strong {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane #nrPublicationStatusPreview .nr-pub-meta dt {
+  color:#A4AEBB!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .flag-row {
+  background:#303740!important;border-color:#414852!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .flag-row .flag-copy strong {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .headline-drop .headline-empty strong {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail :is(.active,[aria-current="page"]) {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .ai-writing-field-status-right .alt-compact-count span {
+  color:#BBC3CD!important;
+}
+/* Three IDs required to beat legacy v33 validation-row !important selector. */
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn {
+  background:#3D3022!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn:hover {
+  background:#493923!important;
+}
