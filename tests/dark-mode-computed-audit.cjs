@@ -100,7 +100,7 @@ const contrast=await page.evaluate(()=>{
    const a=light(fg),b=light(bg),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
    if(ratio>=4.5)return;
    const cls=typeof el.className==='string'?el.className.split(' ').slice(0,3).join('.'):'';
-   out.push({root,id:el.id,tag:el.tagName.toLowerCase(),cls,text:ownText.slice(0,42),fg:c.color,bg:bg.join(','),ratio:Number(ratio.toFixed(2))});
+   out.push({root,id:el.id,tag:el.tagName.toLowerCase(),cls,text:ownText.slice(0,42),fg:c.color,bg:bg.join(','),ratio:Number(ratio.toFixed(2)),parents:[el.parentElement&&el.parentElement.className,el.parentElement&&el.parentElement.parentElement&&el.parentElement.parentElement.className]});
   });
  });
  return out.sort((a,b)=>a.ratio-b.ratio).slice(0,75);
