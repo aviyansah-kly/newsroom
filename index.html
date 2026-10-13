@@ -22758,4 +22758,97 @@ body.alt-editor-layout .headline-drop.nr-inline-validation-error{border:1px soli
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
+
+<style id="nr-media-required-validation-v90">
+body.alt-editor-layout .nr-media-required-error{border-color:#f59e0b!important;box-shadow:0 0 0 1px rgba(245,158,11,.20)!important;background-color:#fffaf2!important;animation:nr-media-warning-in .32s ease-out}
+body.alt-editor-layout .v64-image-details .nr-media-required-error{outline:1px solid #f59e0b!important;outline-offset:0}
+body.alt-editor-layout .nr-media-required-message{display:block;margin-top:5px;color:#b45309;font-size:12px;line-height:18px;font-weight:500}
+body.alt-editor-layout .nr-media-required-message[hidden]{display:none!important}
+@keyframes nr-media-warning-in{from{box-shadow:0 0 0 5px rgba(245,158,11,.22)}to{box-shadow:0 0 0 1px rgba(245,158,11,.20)}}
+@media(prefers-reduced-motion:reduce){body.alt-editor-layout .nr-media-required-error{animation:none}}
+</style>
+<script id="nr-media-required-validation-script-v90">
+(function(){
+ const rules=[
+  ['.v64-image-title','Image title is required.'],
+  ['.v64-image-photographer','Photographer is required.'],
+  ['.v64-image-source','Photo source is required.'],
+  ['.v64-image-desc','Short description is required.'],
+  ['.alt-image-details input:not([type="checkbox"]):not([type="radio"])','This field is required.'],
+  ['.alt-image-details select','Please select an option.'],
+  ['.alt-image-details textarea','This field is required.']
+ ];
+ function mark(control,show){
+  if(!control||control.matches('[type="checkbox"],[type="radio"],[type="hidden"]'))return true;
+  const valid=!!String(control.value||'').trim();
+  let note=control.nextElementSibling;
+  if(!note?.classList.contains('nr-media-required-message')){
+   note=document.createElement('small');note.className='nr-media-required-message';
+   control.insertAdjacentElement('afterend',note);
+  }
+  const selector=rules.find(rule=>control.matches(rule[0]));
+  note.textContent=selector?.[1]||'This field is required.';
+  note.hidden=valid||!show;
+  control.classList.toggle('nr-media-required-error',!valid&&show);
+  if(!valid&&show){control.setAttribute('aria-invalid','true');}
+  else control.removeAttribute('aria-invalid');
+  return valid;
+ }
+ function fields(root){return [...root.querySelectorAll(rules.map(r=>r[0]).join(','))].filter(c=>!c.disabled&&!c.matches('[type="checkbox"],[type="radio"]'))}
+ function validate(root,focus=false){
+  const controls=fields(root);let first=null;
+  controls.forEach(c=>{if(!mark(c,true)&&!first)first=c});
+  if(focus&&first){first.scrollIntoView({behavior:'smooth',block:'center'});first.focus({preventScroll:true})}
+  return !first;
+ }
+ function hasHeadline(){
+  const img=document.getElementById('headlineImg');
+  return !!img&&!!(img.getAttribute('src')||'').trim()&&!img.hidden;
+ }
+ function checkHeadline(force=false){
+  const img=document.getElementById('headlineImg'),drop=img?.closest('.headline-drop');
+  if(!drop)return true;
+  const valid=hasHeadline();
+  let note=drop.querySelector('[data-nr-media-required-headline]');
+  if(!note){note=document.createElement('small');note.className='nr-media-required-message';note.dataset.nrMediaRequiredHeadline='1';drop.appendChild(note)}
+  note.textContent='Headline image is required.';
+  note.hidden=valid||!force;
+  // Remove legacy duplicate notes, keeping the canonical message.
+  drop.querySelectorAll('.nr-inline-validation-note').forEach(n=>{if(n!==note)n.hidden=true});
+  drop.classList.toggle('nr-media-required-error',!valid&&force);
+  if(valid){drop.classList.remove('nr-inline-validation-error','nr-validation-highlighted');drop.removeAttribute('aria-invalid')}
+  else if(force)drop.setAttribute('aria-invalid','true');
+  return valid;
+ }
+ document.addEventListener('focusout',e=>{
+  const c=e.target;
+  if(!(c instanceof Element)||!rules.some(r=>c.matches(r[0])))return;
+  mark(c,true);
+ },true);
+ document.addEventListener('input',e=>{
+  const c=e.target;if(c instanceof Element&&rules.some(r=>c.matches(r[0])))mark(c,c.classList.contains('nr-media-required-error')||c.getAttribute('aria-invalid')==='true');
+ },true);
+ document.addEventListener('change',e=>{
+  const c=e.target;if(c instanceof Element&&rules.some(r=>c.matches(r[0])))mark(c,true);
+ },true);
+ document.addEventListener('click',e=>{
+  const button=e.target?.closest?.('button');
+  if(!button)return;
+  if(button.id==='publishBtn')setTimeout(()=>{document.querySelectorAll('.alt-content-card[data-type="image"]').forEach(card=>validate(card));checkHeadline(true)},0);
+  const modal=button.closest('#imageLibraryPopup');
+  if(modal&&/insert|apply|save|confirm|use image|gunakan|pilih gambar/i.test((button.textContent||'')+' '+button.id)){
+   const selected=modal.querySelector('.v64-image-details,.alt-image-details');
+   if(selected&&!validate(selected,true)){e.preventDefault();e.stopImmediatePropagation()}
+  }
+ },true);
+ function init(){
+  const img=document.getElementById('headlineImg');
+  if(img)new MutationObserver(()=>checkHeadline(document.querySelector('.headline-drop')?.classList.contains('nr-media-required-error')||false)).observe(img,{attributes:true,attributeFilter:['src','hidden','style','class']});
+  document.querySelectorAll('.alt-content-card[data-type="image"]').forEach(card=>validate(card,false));
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+ else init();
+ window.newsroomValidateMedia=()=>({headline:checkHeadline(true),contentImages:[...document.querySelectorAll('.alt-content-card[data-type="image"]')].every(card=>validate(card,true))});
+})();
+</script>
 </body></html>
