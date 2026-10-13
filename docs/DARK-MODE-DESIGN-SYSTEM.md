@@ -163,6 +163,8 @@ To support long editorial writing sessions, **passive line separators must reced
 
 The writing canvas `#272C32`, text `#E8EBEF`, primary publish button `#D92B00` with white label, orange Liputan6 brand reference `#FF3300`, and existing typography/spacing remain unchanged. Validation states and AI provenance are unaffected.
 
+**Dynamic Text Blocks:** added paragraph/text cards must use canvas `#272C32` for the editable surface and `#2B3037` for toolbar, header and footer; internal strokes use subtle hairline `#343A42`. Keep the current font sizes/line heights, selection behavior, purple AI provenance, blue focus, and content images unchanged. Test with a newly inserted block as well as the initial editor state.
+
 **Implementation ownership:** `styles/newsroom-dark-mode.css` defines tokens; `styles/newsroom-dark-mode-editor.css` maps high-specificity Editor legacy separators. Both are scoped to `html[data-theme="dark"]`. Never change Light Mode tokens or perform a global search/replace of light border hex values in `index.html`.
 
 **Acceptance:** Verify actual computed background/stroke colors on Chromium, Firefox and WebKit, including responsive canvas/modal states; no loss of interactive input boundaries. Test: `tests/dark-mode-divider-comfort.cjs`. Light baseline comparison remains mandatory.
