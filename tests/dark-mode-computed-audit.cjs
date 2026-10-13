@@ -44,12 +44,12 @@ const white=await page.evaluate(()=>{
   document.querySelectorAll('body *').forEach(el=>{
     const c=getComputedStyle(el),rect=el.getBoundingClientRect();
     if(c.display==='none'||c.visibility==='hidden'||rect.width<65||rect.height<18||rect.top>1200||rect.bottom<0)return;
-    const match=c.backgroundColor.match(/^rgba?\\((\\d+), (\\d+), (\\d+)/);
+    const match=c.backgroundColor.match(/[0-9]+/g);
     if(!match)return;
-    const col=match.slice(1,4).map(Number);
+    const col=match.slice(0,3).map(Number);
     if(Math.min(...col)<220)return;
     const id=el.id?'#'+el.id:'';
-    const cls=typeof el.className==='string'?el.className.split(/\\s+/).slice(0,3).join('.'):'';
+    const cls=typeof el.className==='string'?el.className.split(' ').slice(0,3).join('.'):'';
     const key=el.tagName.toLowerCase()+id+(cls?'.'+cls:'');
     selectors.set(key,(selectors.get(key)||0)+1);
   });
