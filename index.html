@@ -16622,7 +16622,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         .map(el=>(el.innerText||'').trim()).filter(Boolean).join(' ');
       const checks=[
         {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Judul Artikel wajib diisi.'},
-        {key:'dek',label:'Short Desc',ok:!!dek?.value.trim(),help:'Short Desc wajib diisi.'},
+        {key:'dek',label:'Short Desc',ok:!!dek?.value.trim()&&dek.value.trim().split(/\s+/).length<=30,help:!dek?.value.trim()?'Short Desc wajib diisi.':'Short Desc maksimal 30 kata.'},
         {key:'content',label:'Konten Artikel',ok:!!(articleText||pm?.innerText||'').trim(),help:'Isi minimal satu blok teks artikel.'},
         {key:'reporter',label:'Reporter',ok:!!$('#reporter')?.value.trim(),help:'Reporter wajib diisi.'},
         {key:'editor',label:'Editor',ok:!!$('#editorName')?.value.trim(),help:'Editor wajib diisi.'},
@@ -22607,73 +22607,91 @@ body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-na
  document.addEventListener('change',()=>queueMicrotask(refresh),true);
 })();
 </script>
-<style id="nr-validation-status-fix-v86">
-/* Explicit two-column status row: warning left and counters right. */
+<style id="nr-validation-status-fix-v87">
+/* Place exactly one warning at the LEFT edge, counters at the RIGHT edge. */
+body.alt-editor-layout .alt-field-card .nr-validation-status-row,
 body.alt-editor-layout .ai-writing-field .nr-validation-status-row{
- display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
- align-items:center!important;column-gap:12px!important;width:100%!important;min-height:24px!important;
+ display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
+ align-items:center!important;justify-content:space-between!important;gap:12px!important;
+ width:100%!important;max-width:100%!important;min-width:0!important;
+ min-height:24px!important;margin:4px 0 0!important;padding:0!important;
+ float:none!important;position:relative!important;transform:none!important;
 }
-body.alt-editor-layout .ai-writing-field .nr-validation-status-row>.nr-inline-validation-note{
- grid-column:1!important;grid-row:1!important;justify-self:start!important;text-align:left!important;
- margin:0!important;padding:0!important;white-space:normal!important;position:static!important;
+body.alt-editor-layout .nr-validation-status-row>.nr-inline-validation-note{
+ display:block!important;flex:1 1 auto!important;min-width:0!important;
+ margin:0!important;padding:0!important;text-align:left!important;
+ white-space:normal!important;position:static!important;transform:none!important;
+ color:#c2410c!important;font-size:12px!important;line-height:18px!important;
+ order:0!important;
 }
-body.alt-editor-layout .ai-writing-field .nr-validation-status-row>.alt-compact-count{
- grid-column:2!important;grid-row:1!important;justify-self:end!important;
- width:auto!important;min-width:max-content!important;text-align:right!important;
- justify-content:flex-end!important;margin:0!important;
+body.alt-editor-layout .nr-validation-status-row>.nr-inline-validation-note[hidden]{display:none!important}
+body.alt-editor-layout .nr-validation-status-row>.alt-compact-count{
+ display:flex!important;flex:0 0 auto!important;align-items:center!important;
+ gap:5px!important;justify-content:flex-end!important;
+ margin:0 0 0 auto!important;padding:0!important;position:static!important;
+ transform:none!important;float:none!important;order:1!important;
+ width:auto!important;max-width:none!important;min-width:max-content!important;
+ white-space:nowrap!important;text-align:right!important;
 }
-body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error){
- border-bottom-color:transparent!important;box-shadow:none!important;
+body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-validation-status-row>.nr-inline-validation-note){
+ display:none!important;
 }
+body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error){border-bottom-color:transparent!important;box-shadow:none!important}
 body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error)>.nr-inline-validation-note{display:none!important}
 @media(max-width:560px){
- body.alt-editor-layout .ai-writing-field .nr-validation-status-row{grid-template-columns:minmax(0,1fr)!important}
- body.alt-editor-layout .ai-writing-field .nr-validation-status-row>.alt-compact-count{grid-column:1!important;grid-row:2!important}
+ body.alt-editor-layout .alt-field-card .nr-validation-status-row{flex-wrap:wrap!important}
+ body.alt-editor-layout .nr-validation-status-row>.alt-compact-count{margin-left:auto!important}
 }
 </style>
-<script id="nr-validation-status-fix-script-v86">
+<script id="nr-validation-status-fix-script-v87">
 (function(){
- const qs=s=>document.querySelector(s);
+ function words(value){return String(value||'').trim().split(/\s+/).filter(Boolean).length}
  function sync(){
-  const touched=!!window.nrReviewValidationTouched;
-  [['title','Judul Artikel wajib diisi.'],['dek','Short Desc wajib diisi.']].forEach(([key,message])=>{
+  const touched=Boolean(window.nrReviewValidationTouched);
+  [['title','Judul Artikel wajib diisi.'],['dek','Short Desc wajib diisi.']].forEach(([key,required])=>{
    const input=document.getElementById(key);
    const wrap=input?.closest('.ai-writing-field,.alt-field-card');
-   if(!wrap)return;
-   const count=wrap.querySelector('.alt-compact-count');
-   if(!count)return;
-   let status=count.closest('.nr-validation-status-row');
-   if(!status){
-    status=document.createElement('div');status.className='nr-validation-status-row';
-    count.parentNode.insertBefore(status,count);status.appendChild(count);
-   }
-   const all=[...wrap.querySelectorAll('.nr-inline-validation-note')].filter(n=>n.closest('.ai-writing-field,.alt-field-card')===wrap);
-   let note=all[0];
-   all.slice(1).forEach(n=>n.remove());
+   const count=wrap?.querySelector('.alt-compact-count');
+   if(!input||!wrap||!count)return;
+   let row=count.closest('.nr-validation-status-row');
+   if(!row){row=document.createElement('div');row.className='nr-validation-status-row';count.parentNode.insertBefore(row,count);row.appendChild(count)}
+   const notes=[...wrap.querySelectorAll('.nr-inline-validation-note')].filter(n=>n.closest('.ai-writing-field,.alt-field-card')===wrap);
+   let note=notes.find(n=>n.parentElement===row)||notes[0];
+   notes.filter(n=>n!==note).forEach(n=>n.remove());
    if(!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status')}
-   if(note.parentNode!==status)status.prepend(note);
-   const invalid=touched&&!input.value.trim();
-   note.textContent=message;note.hidden=!invalid;
+   if(note.parentElement!==row)row.prepend(note);
+   else if(row.firstElementChild!==note)row.prepend(note);
+   const empty=!input.value.trim();
+   const tooLong=key==='dek'&&words(input.value)>30;
+   const invalid=touched&&(empty||tooLong);
+   note.textContent=tooLong?'Short Desc maksimal 30 kata.':required;
+   note.hidden=!invalid;
    wrap.classList.toggle('nr-inline-validation-error',invalid);
    input.setAttribute('aria-invalid',String(invalid));
+   if(key==='dek'){
+    count.setAttribute('aria-label','Short Desc: '+words(input.value)+' dari maksimal 30 kata');
+    let meter=count.querySelector('[data-nr-word-limit]');
+    if(!meter){meter=document.createElement('span');meter.dataset.nrWordLimit='';count.appendChild(meter)}
+    meter.textContent=words(input.value)+'/30 kata';
+    meter.style.color=tooLong?'#c2410c':'';
+   }
   });
   [['reporter','reporter'],['editor','editorName']].forEach(([role,id])=>{
-   const group=qs('[data-team-role="'+role+'"]');
+   const group=document.querySelector('[data-team-role="'+role+'"]');
    if(!group)return;
-   const ok=!!document.getElementById(id)?.value.trim();
-   const invalid=touched&&!ok;
+   const invalid=touched&&!document.getElementById(id)?.value.trim();
    group.classList.toggle('nr-inline-validation-error',invalid);
    group.setAttribute('aria-invalid',String(invalid));
-   [...group.querySelectorAll('.nr-inline-validation-note')].forEach(n=>n.hidden=!invalid);
+   group.querySelectorAll('.nr-inline-validation-note').forEach(n=>n.hidden=!invalid);
   });
  }
- // After the prototype's existing validation listeners render, reconcile the visual state.
- function queue(){requestAnimationFrame(sync)}
+ let scheduled=false;
+ function queue(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;sync()})}
  document.addEventListener('input',queue,true);
  document.addEventListener('change',queue,true);
  document.addEventListener('click',queue,true);
  document.addEventListener('newsroom:attributes-generated',queue);
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});
  else queue();
 })();
 </script>
