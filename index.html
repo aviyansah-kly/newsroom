@@ -14551,7 +14551,20 @@ body.alt-editor-layout .nr-inline-validation-note{
  font-size:12px!important;line-height:18px!important;font-weight:500!important;
 }
 body.alt-editor-layout .nr-inline-validation-note[hidden]{display:none!important}
-</style></head><body class="alt-editor-layout">
+</style>
+<style id="nr-validation-ai-parity-v83">
+/* Validation uses the same field-outline animation language as AI suggestions, in amber. */
+body.alt-editor-layout .alt-field-card.nr-inline-validation-error textarea,
+body.alt-editor-layout .ai-writing-field.nr-inline-validation-error textarea{border-color:#f59e0b!important;box-shadow:0 0 0 1px rgba(245,158,11,.12)!important;transition:border-color .2s,box-shadow .2s!important}
+body.alt-editor-layout .nr-inline-validation-error.nr-validation-highlighted textarea,
+body.alt-editor-layout .nr-inline-validation-error.nr-validation-highlighted input:not([type="hidden"]){animation:nrValidationPulse 1.3s ease-out 1}
+@keyframes nrValidationPulse{0%{box-shadow:0 0 0 0 rgba(245,158,11,.36)}55%{box-shadow:0 0 0 5px rgba(245,158,11,.13)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}
+body.alt-editor-layout .alt-compact-count:has(>.nr-inline-validation-note){display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;flex-wrap:wrap!important}
+body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note{display:inline-flex!important;align-items:center!important;margin:0!important;padding:0!important;line-height:18px!important;white-space:normal!important;color:#b45309!important;font-size:12px!important;font-weight:500!important}
+body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){body.alt-editor-layout .nr-validation-highlighted textarea{animation:none!important}}
+</style>
+</head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
     <span class="newsroom-site-wordmark" id="newsroomSiteCurrent"><img src="assets/liputan6-logo.svg" alt="Liputan6"></span>
@@ -16562,6 +16575,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         target.setAttribute('aria-invalid',String(!!show));
         let note=wrap.querySelector(':scope > .nr-inline-validation-note');
         if(show&&!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status');wrap.appendChild(note);}
+        if(note&&(c.key==='title'||c.key==='dek')){
+          const counter=wrap.querySelector('.alt-compact-count');
+          if(counter&&note.parentElement!==counter)counter.prepend(note);
+        }
+        if(show&&!wrap.classList.contains('nr-validation-highlighted')){
+          wrap.classList.add('nr-validation-highlighted');
+          window.setTimeout(()=>wrap.classList.remove('nr-validation-highlighted'),1500);
+        }
         if(note){note.textContent=c.help;note.hidden=!show;}
       });
       const issues=$('#altValidationList'),ready=$('#altValidationReadyList');
