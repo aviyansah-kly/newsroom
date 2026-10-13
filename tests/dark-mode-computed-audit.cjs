@@ -1,6 +1,7 @@
-const {chromium}=require('playwright');
+const {chromium,firefox,webkit}=require('playwright');
 (async()=>{
-const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+const driver=process.env.NR_BROWSER||'chromium';
+ const browser=await ({chromium,firefox,webkit}[driver]||chromium).launch({headless:true,args:driver==='chromium'?['--no-sandbox']:[]});
 const page=await browser.newPage({viewport:{width:1440,height:950}});
 await page.addInitScript(()=>localStorage.setItem('newsroom:appearance','dark'));
 const names=[
