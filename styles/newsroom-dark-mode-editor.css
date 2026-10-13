@@ -278,3 +278,17 @@ html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidatio
 html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn:hover {
   background:#493923!important;
 }
+
+/* Correct last known AA contrast failures (Chromium text-node scan). */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button[aria-selected="true"] {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button[aria-selected="true"] span {
+  color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row-copy :is(strong,p,span) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row-copy :is(small,.alt-validation-detail) {
+  color:#BBC3CD!important;
+}
