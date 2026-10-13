@@ -3,6 +3,32 @@
    {name, role, email} before this script executes. Do not infer login from article owner. */
 (function(){
   'use strict';
+  /*
+   * Dark Mode is an opt-in stylesheet/controller. No existing Light CSS,
+   * layout behavior, text blocks, or backend/editor state is mutated here.
+   * The opt-in release must undergo Editor Workspace visual regression QA.
+   */
+  (function loadAppearance(){
+    const key='newsroom:appearance';
+    let preference='light';
+    try{const stored=localStorage.getItem(key);if(['light','dark','system'].includes(stored))preference=stored}catch(e){}
+    const matches=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme',preference==='system'?(matches?'dark':'light'):preference);
+    if(!document.querySelector('link[data-nr-theme]')){
+      const style=document.createElement('link');style.rel='stylesheet';
+      style.href='styles/newsroom-dark-mode.css';style.setAttribute('data-nr-theme','1');
+      document.head.appendChild(style);
+    }
+    if(!document.querySelector('link[data-nr-editor-theme]')){
+      const editorStyle=document.createElement('link');editorStyle.rel='stylesheet';
+      editorStyle.href='styles/newsroom-dark-mode-editor.css';editorStyle.setAttribute('data-nr-editor-theme','1');
+      document.head.appendChild(editorStyle);
+    }
+    if(!document.querySelector('script[data-nr-theme]')){
+      const controller=document.createElement('script');controller.src='scripts/newsroom-appearance.js';
+      controller.setAttribute('data-nr-theme','1');document.head.appendChild(controller);
+    }
+  })();
   function resolveUser(){
     const input=window.NEWSROOM_AUTH_USER;
     if(input&&typeof input.name==='string'&&input.name.trim()){

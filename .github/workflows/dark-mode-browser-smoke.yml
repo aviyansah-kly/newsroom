@@ -1,0 +1,37 @@
+name: Newsroom Dark Mode Browser Smoke
+on:
+  pull_request:
+    paths:
+      - 'styles/newsroom-dark-mode.css'
+      - 'scripts/newsroom-appearance.js'
+      - 'scripts/newsroom-shell.js'
+      - 'tests/dark-mode-smoke.cjs'
+      - 'tests/dark-mode-computed-audit.cjs'
+      - 'tests/dark-mode-editor-flow.cjs'
+      - '.github/workflows/dark-mode-browser-smoke.yml'
+  workflow_dispatch:
+jobs:
+  visual-function-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    env:
+      NR_BROWSER: ${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --ignore-scripts playwright@1.56.1
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Run browser theme smoke
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-theme-http.log 2>&1 &
+          sleep 2
+          node tests/dark-mode-smoke.cjs
+          node tests/dark-mode-computed-audit.cjs
+          node tests/dark-mode-editor-flow.cjs
+          if [ "$NR_BROWSER" = "chromium" ]; then node tests/editor-link-dialog-smoke.cjs; fi

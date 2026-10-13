@@ -1,0 +1,332 @@
+/*
+ * Newsroom Dark Mode V1 — opt-in overrides only.
+ * No layout/typography/spacing changes, no global inversion.
+ * The existing Light Mode and brand logo assets are intentionally untouched.
+ * Design reference: docs/DARK-MODE-DESIGN-SYSTEM.md
+ * Review against source file styles + 1.18 MB inline Editor CSS before merge.
+ */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --nr-bg:#17191D;
+  --nr-header-bg:#1C2025;
+  --nr-sidebar-bg:#1C2025;
+  --nr-surface:#22262C;
+  --nr-soft:#272C32;
+  --nr-hover:#303740;
+  --nr-writing-canvas:#272C32;
+  --nr-input-surface:#2B3037;
+  --nr-elevated:#303740;
+  --nr-text:#E8EBEF;
+  --nr-text-2:#BBC3CD;
+  --nr-muted:#A4AEBB;
+  --nr-border:#414852;
+  --nr-input:#566170;
+  --nr-input-boundary:#718096; /* >=3:1 contrast against input surface */
+  /* Existing Editor legacy variables must resolve in Dark Mode. */
+  --bg:#17191D; --surface:#22262C; --soft:#272C32;
+  --hover:#303740; --text:#E8EBEF; --text2:#BBC3CD;
+  --muted:#A4AEBB; --border:#414852; --input:#718096;
+  --orange:#D92B00; --orange2:#C12700; --orangeSoft:#3C2926;
+  --blue:#93C5FD; --blueSoft:#1B314B;
+  --green:#86EFAC; --greenSoft:#24372B;
+  --amber:#FBBF24; --amberSoft:#3D3022;
+  --purple:#C4B5FD; --purpleSoft:#2D2545;
+  --nr-brand-orange:#FF3300;
+  --nr-action-primary-bg:#D92B00;
+  --nr-action-primary-hover:#C12700;
+  --nr-action-primary-pressed:#B82500;
+  --nr-action-primary-on:#FFFFFF;
+  --nr-interactive:#93C5FD;
+  --nr-selection-bg:#1B314B;
+  --nr-success:#86EFAC;
+  --nr-success-soft:#24372B;
+  --nr-warning:#FBBF24;
+  --nr-warning-soft:#3D3022;
+  --nr-danger:#FCA5A5;
+  --nr-danger-soft:#42292E;
+  /* Legacy semantic aliases: ONLY overridden in dark scope. */
+  --nr-orange:#D92B00;
+  --nr-orange-hover:#C12700;
+  --nr-orange-soft:#3C2926;
+  --nr-blue:#93C5FD;
+  --nr-blue-soft:#1B314B;
+  --nr-green:#86EFAC;
+  --nr-green-soft:#24372B;
+  --nr-red:#FCA5A5;
+  --nr-red-soft:#42292E;
+  --ds-color-text:#E8EBEF;
+  --ds-color-text-muted:#A4AEBB;
+  --ds-color-border:#414852;
+  --ds-color-border-strong:#566170;
+  --ds-color-surface:#22262C;
+  --ds-color-surface-subtle:#272C32;
+  --ds-action-commit:#D92B00;
+  --ds-action-commit-hover:#C12700;
+  --ds-action-work:#93C5FD;
+  --ds-action-work-hover:#BFDBFE;
+  --ds-action-work-soft:#1B314B;
+  --ds-action-neutral-bg:#303740;
+  --ds-action-neutral-text:#E8EBEF;
+  --ds-action-neutral-border:#566170;
+  --ds-color-blue:#93C5FD;
+  --ds-color-blue-hover:#BFDBFE;
+  --ds-color-blue-soft:#1B314B;
+  --ds-color-orange:#D92B00;
+  --ds-color-orange-hover:#C12700;
+  --ds-color-orange-soft:#3C2926;
+  --ds-color-success:#86EFAC;
+  --ds-color-success-soft:#24372B;
+  --ds-color-warning:#FBBF24;
+  --ds-color-warning-soft:#3D3022;
+  --ds-color-danger:#FCA5A5;
+  --ds-color-danger-soft:#42292E;
+  /* Retain distinct purple AI review provenance. Do NOT conflate with AI action. */
+  --ds-ai-review:#C4B5FD;
+  --ds-ai-review-border:#A78BFA;
+  --ds-ai-review-soft:#2D2545;
+  --ds-ai-review-soft-2:#29243B;
+  --ds-ai-review-ring:rgba(167,139,250,.2);
+  --nr-shell-border:#414852;
+  --nr-shell-surface:#1C2025;
+  --nr-shell-text:#E8EBEF;
+  --nr-shell-muted:#BBC3CD;
+  --nr-shell-accent:#93C5FD;
+  --nr-shell-avatar:#1B314B;
+  --nr-shell-avatar-text:#93C5FD;
+}
+
+/* Standard application pages: Dashboard / Articles / Tags. */
+html[data-theme="dark"] body.nr-app {
+  background:var(--nr-bg);
+  color:var(--nr-text);
+}
+html[data-theme="dark"] body.nr-app .nr-topbar,
+html[data-theme="dark"] body.nr-app .nr-sidebar,
+html[data-theme="dark"] body.nr-app .nr-global-brand,
+html[data-theme="dark"] body.nr-app .nr-nav-cluster-head,
+html[data-theme="dark"] body.nr-app .nr-global-search-row,
+html[data-theme="dark"] body.nr-app .nr-sidebar-head,
+html[data-theme="dark"] body.nr-app .nr-sidebar-bottom {
+  background:var(--nr-header-bg);
+  border-color:var(--nr-border);
+  color:var(--nr-text);
+}
+html[data-theme="dark"] body.nr-app .nr-global-breadcrumb strong,
+html[data-theme="dark"] body.nr-app .nr-page-head h1,
+html[data-theme="dark"] body.nr-app .nr-panel,
+html[data-theme="dark"] body.nr-app .nr-card {
+  color:var(--nr-text);
+}
+html[data-theme="dark"] body.nr-app .nr-nav-item,
+html[data-theme="dark"] body.nr-app .nr-global-brand .newsroom-header-site-trigger,
+html[data-theme="dark"] body.nr-app .nr-global-brand .newsroom-site-option {
+  background:transparent;
+  color:var(--nr-text-2);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.nr-app .nr-nav-item:hover,
+html[data-theme="dark"] body.nr-app .nr-global-brand .newsroom-site-option:hover {background:var(--nr-hover);color:var(--nr-text)}
+html[data-theme="dark"] body.nr-app .nr-nav-item.active,
+html[data-theme="dark"] body.nr-app .nr-global-brand .newsroom-site-option.active {
+  background:var(--nr-selection-bg);
+  color:var(--nr-interactive);
+}
+html[data-theme="dark"] body.nr-app .nr-global-brand .newsroom-site-menu,
+html[data-theme="dark"] body.nr-app .nr-panel,
+html[data-theme="dark"] body.nr-app .nr-card {
+  background:var(--nr-surface);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.nr-app :is(.nr-select,.nr-sidebar-search input,.nr-global-search input,.nr-global-brand .newsroom-header-site-trigger),
+html[data-theme="dark"] body.nr-app :is(input,textarea,select):not([type="checkbox"]):not([type="radio"]) {
+  background-color:var(--nr-input-surface);
+  color:var(--nr-text);
+  border-color:var(--nr-input-boundary);
+}
+html[data-theme="dark"] body.nr-app :is(input,textarea,select)::placeholder {color:var(--nr-muted)}
+html[data-theme="dark"] body.nr-app :is(.nr-btn,.nr-pill) {
+  background:var(--nr-elevated);
+  border-color:var(--nr-input);
+  color:var(--nr-text);
+}
+html[data-theme="dark"] body.nr-app :is(.nr-btn-primary,.nr-btn-primary:hover) {
+  background:var(--nr-action-primary-bg);
+  color:var(--nr-action-primary-on);
+  border-color:var(--nr-action-primary-bg);
+}
+html[data-theme="dark"] body.nr-app .nr-btn-primary:hover {background:var(--nr-action-primary-hover);border-color:var(--nr-action-primary-hover)}
+html[data-theme="dark"] body.nr-app .nr-btn-primary:active {background:var(--nr-action-primary-pressed);border-color:var(--nr-action-primary-pressed)}
+html[data-theme="dark"] body.nr-app .nr-pill-success {background:var(--nr-success-soft);color:var(--nr-success);border-color:var(--nr-success)}
+html[data-theme="dark"] body.nr-app .nr-pill-danger {background:var(--nr-danger-soft);color:var(--nr-danger);border-color:var(--nr-danger)}
+
+/* Shared SidebarAccount (all pages, including Editor). */
+html[data-theme="dark"] .nr-sidebar-bottom,
+html[data-theme="dark"] body.alt-editor-layout .cms-nav-bottom {
+  background:var(--nr-shell-surface);
+  border-color:var(--nr-shell-border);
+}
+html[data-theme="dark"] .nr-account-trigger,
+html[data-theme="dark"] .nr-account-popover {
+  background:var(--nr-shell-surface);
+  border-color:var(--nr-shell-border);
+  color:var(--nr-shell-text);
+}
+html[data-theme="dark"] .nr-account-trigger:hover,
+html[data-theme="dark"] .nr-account-trigger[aria-expanded="true"] {background:var(--nr-elevated)}
+html[data-theme="dark"] .nr-account-popover span,
+html[data-theme="dark"] .nr-account-role {color:var(--nr-shell-muted)}
+html[data-theme="dark"] .nr-account-popover :is(.nr-account-menu,.nr-account-menu-danger) {border-color:var(--nr-border)}
+html[data-theme="dark"] .nr-account-menu-item {color:var(--nr-text)}
+html[data-theme="dark"] .nr-appearance-option .nr-appearance-label,
+html[data-theme="dark"] .nr-appearance-option .nr-appearance-check {color:inherit;font-size:13px}
+.nr-account-popover .nr-appearance-option .nr-appearance-label,
+.nr-account-popover .nr-appearance-option .nr-appearance-check {color:inherit;font-size:13px}
+.nr-appearance-check[hidden]{display:none!important}
+html[data-theme="dark"] .nr-account-menu-danger,
+html[data-theme="dark"] .nr-account-menu-danger svg {color:var(--nr-danger)}
+html[data-theme="dark"] .nr-account-avatar {background:var(--nr-shell-avatar);color:var(--nr-shell-avatar-text)}
+
+/* Account Appearance control: fully opt-in; no Light Mode color overrides. */
+.nr-appearance {margin-top:7px;padding:10px 0 3px;border-top:1px solid var(--nr-shell-border,#e2e8f0)}
+.nr-appearance-title {font:700 12px/18px Inter,system-ui,sans-serif;color:var(--nr-shell-muted,#64748b);margin:0 8px 6px}
+.nr-appearance-options {display:grid;gap:2px}
+.nr-appearance-option {
+  display:flex;align-items:center;gap:10px;width:100%;min-height:38px;
+  padding:8px 9px;border:0;border-radius:8px;text-align:left;cursor:pointer;
+  background:transparent;color:var(--nr-shell-text,#0f172a);
+  font:500 13px/18px Inter,system-ui,sans-serif;
+}
+.nr-appearance-option svg {width:17px;height:17px;flex:none}
+.nr-appearance-option[aria-checked="true"] {background:#eff6ff;color:#2563eb;font-weight:650}
+.nr-appearance-option:hover {background:#f1f5f9}
+.nr-appearance-option:focus-visible {outline:2px solid #2563eb;outline-offset:1px}
+.nr-appearance-option .nr-appearance-check {margin-left:auto}
+html[data-theme="dark"] .nr-appearance-option[aria-checked="true"] {background:var(--nr-selection-bg);color:var(--nr-interactive)}
+html[data-theme="dark"] .nr-appearance-option:hover {background:var(--nr-hover)}
+html[data-theme="dark"] .nr-appearance-option:focus-visible {outline-color:var(--nr-interactive)}
+
+/* Editor-specific surfaces: visual attributes only; NO geometry, fixed positions or z-indices. */
+html[data-theme="dark"] body.alt-editor-layout {
+  background:var(--nr-bg);
+  color:var(--nr-text);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.topbar,#cmsNavDrawer) {
+  background-color:var(--nr-header-bg);
+  color:var(--nr-text);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.workspace,.workspace > section) {background-color:var(--nr-bg)}
+html[data-theme="dark"] body.alt-editor-layout :is(.workspace > section > .paper,.workspace .alt-editor-section,.workspace .alt-content-card,.context .headline) {
+  background-color:var(--nr-writing-canvas);
+  color:var(--nr-text);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.context,#infoPane,#seoPane,.settings-section,.alt-editorial-cluster,#nrPublicationStatusPreview) {
+  background-color:var(--nr-surface);
+  color:var(--nr-text);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(input,textarea,select):not([type="checkbox"]):not([type="radio"]) {
+  background-color:var(--nr-input-surface);
+  color:var(--nr-text);
+  border-color:var(--nr-input-boundary);
+  caret-color:var(--nr-text);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(input,textarea)::placeholder {color:var(--nr-muted)}
+html[data-theme="dark"] body.alt-editor-layout :is([contenteditable="true"],[role="textbox"]):not(input):not(textarea) {
+  color:var(--nr-text);
+  caret-color:var(--nr-text);
+}
+/* Keep rich text inline emphasis, link colors, AI provenance and validation state classes intact. */
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editorial-cluster-head,.settings-section-head,.alt-tag-head,.section-head) {
+  color:var(--nr-text);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-tag-ai,.ai-suggestion-btn) {color:var(--nr-interactive)}
+html[data-theme="dark"] body.alt-editor-layout #nrPublicationStatusPreview :is(dt,dd) {color:var(--nr-text-2)}
+html[data-theme="dark"] body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-head strong {color:var(--nr-text)}
+/* Shared buttons only. Editor bespoke publish controls require component-level QA. */
+html[data-theme="dark"] body.alt-editor-layout .nr-btn-primary {
+  background:var(--nr-action-primary-bg);
+  border-color:var(--nr-action-primary-bg);
+  color:var(--nr-action-primary-on);
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-btn-primary:hover {background:var(--nr-action-primary-hover);border-color:var(--nr-action-primary-hover)}
+html[data-theme="dark"] body.alt-editor-layout .nr-btn-primary:active {background:var(--nr-action-primary-pressed);border-color:var(--nr-action-primary-pressed)}
+/* Editor content preview must retain its published-site styling. */
+html[data-theme="dark"] body.alt-editor-layout :is(.article-preview,.preview-canvas,[data-site-preview]) {color-scheme:light}
+
+
+/* Override known hardcoded !important declarations in the shared right panel. */
+html[data-theme="dark"] body.alt-editor-layout .context {
+  background-color:var(--nr-surface)!important;
+  color:var(--nr-text)!important;
+  border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .nr-right-panel-control {
+  background-color:var(--nr-surface)!important;
+  border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-right-toggle {
+  background:var(--nr-elevated)!important;color:var(--nr-text-2)!important;
+  border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-right-toggle:hover,
+html[data-theme="dark"] body.alt-editor-layout.nr-right-collapsed .nr-right-toggle {
+  background:var(--nr-selection-bg)!important;color:var(--nr-interactive)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-right-panel-title,
+html[data-theme="dark"] body.alt-editor-layout .nr-right-panel-rail-label {color:var(--nr-text-2)!important}
+/* Existing purple visual provenance stays purple, but darken its panels for legibility. */
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-suggestion,.nr-ai-progress) {
+  background:var(--ds-ai-review-soft)!important;
+  color:var(--nr-text)!important;
+  border-color:var(--ds-ai-review-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-suggestion strong,.nr-ai-progress strong) {
+  color:var(--ds-ai-review)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-action,.nr-ai-field-action:hover) {
+  background:var(--ds-ai-review-soft)!important;
+  color:var(--ds-ai-review)!important;
+  border-color:var(--ds-ai-review-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-ai-publish-warning {
+  background:var(--nr-warning-soft);color:var(--nr-warning);border-color:var(--nr-warning);
+}
+/* Link dialog: a portal mounted outside normal Editor sections, style it explicitly. */
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-dialog,.nr-link-foot,.nr-link-context,.nr-link-result,.nr-link-empty,.nr-link-quiet,.nr-link-action) {
+  background:var(--nr-surface);
+  color:var(--nr-text);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-tabs,.nr-link-result:hover,.nr-link-title-icon,.nr-link-context-icon) {
+  background:var(--nr-elevated);color:var(--nr-text-2);border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-top h2,.nr-link-result strong,.nr-link-field label) {color:var(--nr-text)}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-top p,.nr-link-context p,.nr-link-helper,.nr-link-foot-note,.nr-link-result small) {color:var(--nr-text-2)}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-field input,.nr-link-search input) {
+  background:var(--nr-input-surface);color:var(--nr-text);border-color:var(--nr-input-boundary);
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-link-primary {
+  background:var(--nr-action-primary-bg);color:var(--nr-action-primary-on);border-color:var(--nr-action-primary-bg);
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-link-primary:hover {background:var(--nr-action-primary-hover)}
+html[data-theme="dark"] body.alt-editor-layout .nr-link-result[aria-selected="true"] {
+  background:var(--nr-selection-bg);border-color:var(--nr-interactive);
+}
+/* Articles list: hardcoded popover/menu buttons from article-editorial-refinement.css. */
+html[data-theme="dark"] body.articles-page :is(.nr-editorial-menu,.nr-editorial-menu .nr-menu-button,.nr-menu-note) {
+  background:var(--nr-surface)!important;color:var(--nr-text-2)!important;border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.articles-page .nr-editorial-menu .nr-menu-button:hover {
+  background:var(--nr-hover)!important;color:var(--nr-text)!important;
+}
+
+/* Focus and accessibility (restricted to the CMS app, not site-preview iframe). */
+html[data-theme="dark"] :is(.nr-account-trigger,.nr-appearance-option,.nr-btn,.nr-select):focus-visible {
+  outline:2px solid var(--nr-interactive);outline-offset:2px;
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-theme="dark"] .nr-appearance-option {transition:none}
+}

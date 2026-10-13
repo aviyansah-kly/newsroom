@@ -1,0 +1,294 @@
+/* Night-only patches for hardcoded light Editor CSS.
+ * Derived from Playwright computed colors. Never edit geometry or Light Mode.
+ * Loaded after newsroom-dark-mode.css by the shared SidebarAccount shell.
+ */
+html[data-theme="dark"] body.alt-editor-layout .topbar {
+  background:#1C2025!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#cmsNavDrawer,.cms-nav-drawer) {
+  background:#1C2025!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-scroll,.cms-nav-group,.cms-nav-cluster,.cms-nav-heading,.cms-nav-item,.cms-nav-cluster-head,.cms-nav-search-row) {
+  background-color:transparent!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item:hover,.cms-nav-cluster-head:hover) {
+  background:#303740!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item.active,.cms-nav-item[aria-current="page"],.cms-nav-item.is-active) {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-writing-card,.headline) {
+  background:#272C32!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-field-card,.headline,.alt-editor-section) {
+  border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#title,#dek) {
+  background:transparent!important;color:#E8EBEF!important;border-color:#718096!important;caret-color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.editor-field-name,.alt-editor-section-head strong) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editor-section-head span,.section-head span) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .nr-right-panel-control .nr-right-toggle {
+  background:#303740!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .nr-right-panel-control .nr-right-toggle:hover,
+html[data-theme="dark"] body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control .nr-right-toggle {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn.primary:not(.alt-ai-analyze-btn) {
+  background:#D92B00!important;border-color:#D92B00!important;color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn.primary:not(.alt-ai-analyze-btn):hover {
+  background:#C12700!important;border-color:#C12700!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn.primary:not(.alt-ai-analyze-btn):active {
+  background:#B82500!important;border-color:#B82500!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-card,.alt-validation-card,.popup-card) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-card,.alt-validation-card) :is(.modal-head,.modal-body,.modal-foot) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-summary,.nr-review-validation-section,.alt-validation-issues,.alt-validation-group,.nr-validation-inline) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-summary.warn,.alt-validation-summary.is-warning,.nr-review-validation-section.is-warning) {
+  background:#3D3022!important;color:#FBBF24!important;border-color:#FBBF24!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-validation-card,.modal-card) :is(.modal-head strong,.modal-head h2,.modal-body strong,.modal-body label,.modal-body p) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn:not(.primary):not(.alt-ai-analyze-btn) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+/* Existing standard-page navigation has higher-specificity active-state CSS. */
+html[data-theme="dark"] body.nr-app .nr-nav-item.active {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.nr-app .nr-nav-cluster-head {
+  background:transparent!important;color:#BBC3CD!important;
+}
+
+/* High-specificity legacy selectors verified against real computed browser styles. */
+html[data-theme="dark"] body.alt-editor-layout .workspace .paper section.headline,
+html[data-theme="dark"] body.alt-editor-layout .workspace section.headline {
+  background:#272C32!important;
+  border-color:#414852!important;
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #publishBtn.btn.primary,
+html[data-theme="dark"] body.alt-editor-layout .topbar #publishBtn {
+  background:#D92B00!important;
+  border-color:#D92B00!important;
+  color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #publishBtn.btn.primary:hover {
+  background:#C12700!important;
+  border-color:#C12700!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-card {
+  background:#22262C!important;
+  color:#E8EBEF!important;
+  border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-card :is(.modal-head,.modal-body,.modal-foot) {
+  background:#22262C!important;
+  color:#E8EBEF!important;
+  border-color:#414852!important;
+}
+
+/* Editorial panel clusters use ID + child selector with !important. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane > :is(.headline,.headline.v56-headline-cluster,.settings-section,.alt-editorial-cluster),
+html[data-theme="dark"] body.alt-editor-layout #seoPane > :is(.seo-section,.seo-auto),
+html[data-theme="dark"] body.alt-editor-layout #guardianPane > :is(.spell-status,.guardian-summary,.guardian-list) {
+  background:#22262C!important;border-color:#414852!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar #newsroomSiteTrigger,
+html[data-theme="dark"] body.alt-editor-layout .topbar .newsroom-site-menu,
+html[data-theme="dark"] body.alt-editor-layout .topbar .newsroom-site-option {
+  background:#2B3037!important;border-color:#566170!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster,
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group {
+  background:#1C2025!important;border-color:#414852!important;color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster :is(.article-lifecycle-pill,#saveStatus),
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device {
+  background:#303740!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device:hover {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail,
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-account {
+  background:#1C2025!important;border-color:#414852!important;color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(button.cms-nav-item.active,a.cms-nav-item.active) {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-add-menu,.alt-add-menu.open) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button,
+html[data-theme="dark"] body.alt-editor-layout .alt-add-menu button {
+  background:#303740!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-add-menu button:hover {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-add-icon,.ai-writing-trigger) {
+  background:#303740!important;color:#93C5FD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#altAnalyzeArticle,.alt-ai-analyze-wrap,#agentDock,.agent-dock,#agentMessages,.agent-messages,.agent-composer,.agent-msg.assistant) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context :is(.panel,.tabs,.article-tabs-promoted) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.headline-drop,.headline-drop.v59-empty,.headline-drop.nr-inline-validation-error) {
+  background:#303740!important;border-color:#718096!important;color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #uploadHeadline.btn {
+  background:#303740!important;color:#E8EBEF!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-status {
+  background:#24372B!important;color:#86EFAC!important;border-color:#86EFAC!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .settings-section,
+html[data-theme="dark"] body.alt-editor-layout #infoPane .settings-section.newsroom-team-section {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-tree-trigger,select#articleType,.newsroom-tag-lookup .tag-wrap,#altEditorialTagsSection .tag-wrap,#tagInput) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#718096!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.tag-chip,.team-member.primary,.settings-section-badge) {
+  background:#303740!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(#altValidationBadge,#altValidationList,.alt-validation-list,.alt-validation-row,.alt-validation-ready,#altValidationReady,#altValidationReadyToggle,#nrReviewSchedule,.nr-review-schedule) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-row.warn {
+  background:#3D3022!important;color:#FBBF24!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.nr-review-schedule .schedule-summary,.alt-validation-ready.is-ready) {
+  background:#24372B!important;color:#86EFAC!important;border-color:#414852!important;
+}
+
+/* Final inspected white-island targets: exact node ancestry in Chromium audit. */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content .nr-nav-list button.cms-nav-item.active {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context > section.panel > .tabs.article-tabs-promoted {
+  background:#22262C!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .headline-drop .headline-empty-actions #uploadHeadline.btn {
+  background:#303740!important;color:#E8EBEF!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-context > span,
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-context #agentSelectionChip {
+  background:#303740!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-quick > button {
+  background:#303740!important;color:#BBC3CD!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-quick > button:hover {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationIssues #altValidationList {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationList .alt-validation-row.warn {
+  background:#3D3022!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationList .alt-validation-row.warn button.btn {
+  background:#303740!important;color:#FBBF24!important;border-color:#566170!important;
+}
+
+/* Readability: browser-measured text nodes below WCAG AA in early Dark prototype. */
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-copy strong,
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.team-role-head strong,.alt-tag-head strong,.settings-section strong,.alt-editorial-cluster strong,.nr-pub-head strong,.headline .section-head strong),
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.modal-head strong,#altValidationHeading,#altValidationTitle) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(label,.field-label,.alt-field-label,.settings-section label,.alt-tag-head strong) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.nr-pub-meta dt,.alt-tag-hint,.nr-tag-feedback) {
+  color:#A4AEBB!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .headline-drop :is(p,.headline-empty-copy) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .nr-media-required-message,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-group-title {
+  color:#FBBF24!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-add-trigger span {
+  color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-copy span,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationSub {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-btn {
+  background:#6D28D9!important;border-color:#6D28D9!important;color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-btn span {
+  color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-btn:hover {
+  background:#5B21B6!important;border-color:#5B21B6!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-rail span {
+  color:#A4AEBB!important;
+}
+
+/* Final contrast fixes grounded in text-node WCAG audit and actual DOM ancestry. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane #nrPublicationStatusPreview .nr-pub-head strong {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane #nrPublicationStatusPreview .nr-pub-meta dt {
+  color:#A4AEBB!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .flag-row {
+  background:#303740!important;border-color:#414852!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .flag-row .flag-copy strong {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .headline-drop .headline-empty strong {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail :is(.active,[aria-current="page"]) {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .ai-writing-field-status-right .alt-compact-count span {
+  color:#BBC3CD!important;
+}
+/* Three IDs required to beat legacy v33 validation-row !important selector. */
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn {
+  background:#3D3022!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row.warn:hover {
+  background:#493923!important;
+}
+
+/* Correct last known AA contrast failures (Chromium text-node scan). */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button[aria-selected="true"] {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button[aria-selected="true"] span {
+  color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row-copy :is(strong,p,span) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row-copy :is(small,.alt-validation-detail) {
+  color:#BBC3CD!important;
+}
