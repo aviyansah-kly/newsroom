@@ -16508,6 +16508,21 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         editor:document.querySelector('[data-team-role="editor"] [data-team-add]')||document.querySelector('[data-team-role="editor"] [data-team-search]'),
         seo:$('#seoKeyword')
       };
+
+      if(key.startsWith('imageField:')||key.startsWith('imageExtra:')){
+        const parts=key.split(':');
+        const card=document.querySelectorAll('.alt-content-card[data-type="image"]')[Number(parts[1])];
+        const field=key.startsWith('imageField:')
+          ?card?.querySelector(parts.slice(2).join(':'))
+          :[...(card?.querySelectorAll('.alt-image-details input,.alt-image-details select,.alt-image-details textarea')||[])][Number(parts[2])];
+        if(!field)return;
+        card.scrollIntoView({behavior:'smooth',block:'center'});
+        window.setTimeout(()=>{
+          field.focus({preventScroll:true});
+          field.dispatchEvent(new Event('focusout',{bubbles:true}));
+        },240);
+        return;
+      }
       const el=map[key];if(!el)return;
       const isRight=['reporter','editor','headline','seo'].includes(key);
       if(isRight&&document.body.classList.contains('nr-right-collapsed')){
@@ -16629,6 +16644,30 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Add a headline image.'},
         {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'SEO Keyword is required.'}
       ];
+
+      // Include each required image field in Review & Publish.
+      document.querySelectorAll('.alt-content-card[data-type="image"]').forEach((card,index)=>{
+        const selectors=[
+          ['.v64-image-title','Image Title','Image title is required.'],
+          ['.v64-image-photographer','Photographer','Photographer is required.'],
+          ['.v64-image-source','Photo Source','Photo source is required.'],
+          ['.v64-image-desc','Short Description','Short description is required.']
+        ];
+        const seen=new Set();
+        selectors.forEach(([selector,label,help])=>{
+          const el=card.querySelector(selector);if(!el||el.disabled)return;
+          seen.add(el);
+          checks.push({key:'imageField:'+index+':'+selector,label:'Image '+(index+1)+' — '+label,
+            ok:!!String(el.value||'').trim(),help});
+        });
+        const extras=[...card.querySelectorAll('.alt-image-details input,.alt-image-details select,.alt-image-details textarea')];
+        extras.forEach((el,extra)=>{
+          if(seen.has(el)||el.disabled||el.matches('[type="checkbox"],[type="radio"],[type="hidden"]'))return;
+          const label=(el.getAttribute('aria-label')||el.getAttribute('placeholder')||'Image Detail').trim();
+          checks.push({key:'imageExtra:'+index+':'+extra,label:'Image '+(index+1)+' — '+label,
+            ok:!!String(el.value||'').trim(),help:label+' is required.'});
+        });
+      });
       // Inline validation mirrors Review & Publish; only reveal warnings after review is requested.
       checks.forEach(c=>{
         const targetMap={
@@ -16681,6 +16720,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         }
         if(note){note.textContent=c.help;note.hidden=!show;}
       });
+      if(window.nrReviewValidationTouched&&typeof window.newsroomValidateMedia==='function')window.newsroomValidateMedia();
       const issues=$('#altValidationList'),ready=$('#altValidationReadyList');
       issues.replaceChildren();ready.replaceChildren();
       checks.forEach(c=>{
