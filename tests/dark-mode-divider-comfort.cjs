@@ -72,7 +72,7 @@ const expected={
    root.appendChild(block);
    const read=sel=>{
      const st=getComputedStyle(block.querySelector(sel));
-     return {background:st.backgroundColor,color:st.color,borderBottom:st.borderBottomColor};
+     return {background:st.backgroundColor,color:st.color,borderBottom:st.borderBottomColor,borderTop:st.borderTopColor};
    };
    const result={card:getComputedStyle(block).backgroundColor,head:read('.alt-content-card-head'),toolbar:read('.alt-mini-toolbar'),editor:read('.alt-mini-editor'),foot:read('.alt-content-card-foot')};
    block.remove();return result;
@@ -83,7 +83,7 @@ const expected={
  assert.equal(insertedBlock.editor.color,'rgb(232, 235, 239)','Editable text must retain readable contrast');
  for(const part of ['head','toolbar','foot']){
    assert.equal(insertedBlock[part].background,'rgb(43, 48, 55)',part+' has neutral graphite surface');
-   assert.equal(insertedBlock[part].borderBottom,expected.subtle,part+' separator has reduced contrast');
+   assert.equal(part==='foot'?insertedBlock[part].borderTop:insertedBlock[part].borderBottom,expected.subtle,part+' separator has reduced contrast');
  }
 
  // Control boundaries remain >=3:1 while low-emphasis hairlines remain quiet.
