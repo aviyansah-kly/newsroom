@@ -20978,8 +20978,14 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       if(!workspace)return;
       const mobile=window.matchMedia('(max-width:1024px)').matches;
       const narrow=window.matchMedia('(max-width:560px)').matches;
-      const left=mobile?(narrow?12:24):(body.classList.contains('cms-sidebar-collapsed')?66:274)+16;
-      const right=mobile?(narrow?62:68):(body.classList.contains('nr-right-collapsed')?56:366)+16;
+      // Measure actual fixed sidebar edges, not CSS assumptions, and reserve an equal gutter.
+      const gutter=16;
+      const leftSidebar=document.getElementById('cmsNavDrawer');
+      const rightSidebar=document.getElementById('nrArticleSettingsPanel')||document.querySelector('.context');
+      const leftEdge=leftSidebar?.getBoundingClientRect().right|| (body.classList.contains('cms-sidebar-collapsed')?66:274);
+      const rightWidth=rightSidebar?.getBoundingClientRect().width|| (body.classList.contains('nr-right-collapsed')?56:366);
+      const left=mobile?(narrow?12:24):Math.ceil(leftEdge)+gutter;
+      const right=mobile?(narrow?62:68):Math.ceil(rightWidth)+gutter;
       // Inline !important overrides the several legacy responsive CSS blocks.
       workspace.style.setProperty('padding-left',left+'px','important');
       workspace.style.setProperty('padding-right',right+'px','important');
