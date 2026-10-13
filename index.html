@@ -16614,7 +16614,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     function renderValidation(){
       ensureInlineCorrection();
       const pm=editor?.querySelector('.ProseMirror');
-      const hasHeadline=!!($('#headlineImg')&&!$('#headlineImg').hidden&&$('#headlineImg').getAttribute('src'));
+      const hasHeadline=!!($('#headlineImg')&&($('#headlineImg').getAttribute('src')||'').trim()&&!$('#headlineImg').hidden);
       const reviewOpen=$('#altValidationModal')?.classList.contains('open');
       const contentType=(reviewOpen?$('#nrValidation_contentType')?.value:'')||$('#contentType')?.value||'';
       const initiative=(reviewOpen?$('#nrValidation_contentInitiative')?.value:'')||$('#contentInitiative')?.value||'';
@@ -16646,6 +16646,24 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
           :target;
         if(!wrap)return;
         const show=window.nrReviewValidationTouched&&!c.ok;
+        if(c.key==='headline'){
+          // Only one validation message belongs to this single headline image control.
+          // Legacy renders may have produced duplicate notes, including inside #headlineEmpty.
+          const notes=[...wrap.querySelectorAll('.nr-inline-validation-note')];
+          let canonical=notes.find(note=>note.dataset.nrHeadlineWarning==='1')||notes[0];
+          notes.forEach(note=>{if(note!==canonical)note.remove();});
+          if(!canonical){canonical=document.createElement('small');canonical.className='nr-inline-validation-note';}
+          canonical.dataset.nrHeadlineWarning='1';
+          canonical.textContent=c.help;
+          canonical.hidden=!show;
+          if(canonical.parentNode!==wrap)wrap.appendChild(canonical);
+          wrap.classList.toggle('nr-inline-validation-error',!!show);
+          wrap.classList.toggle('nr-validation-highlighted',!!show&&!wrap.dataset.nrHeadlineWarned);
+          if(show)wrap.dataset.nrHeadlineWarned='1';
+          else{delete wrap.dataset.nrHeadlineWarned;wrap.classList.remove('nr-validation-highlighted');}
+          target.setAttribute('aria-invalid',String(!!show));
+          return;
+        }
         wrap.classList.toggle('nr-inline-validation-error',!!show);
         target.setAttribute('aria-invalid',String(!!show));
         const counter=(c.key==='title'||c.key==='dek')?wrap.querySelector('.alt-compact-count'):null;
@@ -22700,6 +22718,40 @@ body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-valida
  document.addEventListener('input',queue,true);document.addEventListener('change',queue,true);
  document.addEventListener('click',queue,true);document.addEventListener('newsroom:attributes-generated',queue);
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});else queue();
+})();
+</script>
+
+<style id="nr-headline-single-warning-v89">
+body.alt-editor-layout .headline-drop .nr-inline-validation-note[data-nr-headline-warning="1"]{
+ display:block!important;position:relative!important;left:auto!important;right:auto!important;
+ width:100%!important;margin:8px 0 0!important;text-align:center!important;
+ color:#b45309!important;font-size:12px!important;line-height:18px!important;
+ white-space:normal!important;
+}
+body.alt-editor-layout .headline-drop .nr-inline-validation-note[data-nr-headline-warning="1"][hidden]{display:none!important}
+body.alt-editor-layout .headline-drop:not(.nr-inline-validation-error){border-color:#cbd5e1!important;box-shadow:none!important}
+body.alt-editor-layout .headline-drop.nr-inline-validation-error{border:1px solid #f59e0b!important}
+</style>
+<script id="nr-headline-validation-sync-v89">
+(function(){
+ function init(){
+  const img=document.getElementById('headlineImg'),drop=img?.closest('.headline-drop');
+  if(!img||!drop)return;
+  function sync(){
+   const has=!!(img.getAttribute('src')||'').trim()&&!img.hidden;
+   if(has){
+    drop.classList.remove('nr-inline-validation-error','nr-validation-highlighted');
+    drop.querySelectorAll('.nr-inline-validation-note').forEach(note=>{note.hidden=true;});
+    drop.setAttribute('aria-invalid','false');
+   }
+  }
+  new MutationObserver(sync).observe(img,{attributes:true,attributeFilter:['src','hidden','style','class']});
+  document.getElementById('removeHeadline')?.addEventListener('click',()=>requestAnimationFrame(()=>{
+   document.getElementById('publishBtn')?.dispatchEvent(new Event('nr:headline-updated'));
+  }));
+  sync();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
 </script>
 </body></html>
