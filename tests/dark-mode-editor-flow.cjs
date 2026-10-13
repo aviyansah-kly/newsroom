@@ -1,9 +1,10 @@
 /* Editor interactions relevant to Dark Mode, aligned to current Editorial Workspace.
    Leaves saved article logic unchanged; browser session is disposable. */
-const {chromium}=require('playwright');
+const {chromium,firefox,webkit}=require('playwright');
 const assert=require('node:assert/strict');
 (async()=>{
- const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+ const driver=process.env.NR_BROWSER||'chromium';
+ const browser=await ({chromium,firefox,webkit}[driver]||chromium).launch({headless:true,args:driver==='chromium'?['--no-sandbox']:[]});
  const page=await browser.newPage({viewport:{width:1600,height:950}});
  await page.goto('http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded',timeout:45000});
  await page.locator('#nrRightPanelToggle').waitFor({state:'visible',timeout:25000});
