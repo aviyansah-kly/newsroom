@@ -14597,7 +14597,46 @@ body.alt-editor-layout [data-team-role]>.nr-inline-validation-note[hidden]{displ
  body.alt-editor-layout [data-team-role].nr-validation-highlighted{animation:none!important}
 }
 </style>
-</head><body class="alt-editor-layout">
+
+<style id="newsroom-validation-inline-refinement-v85">
+/* One left-aligned message, with both counters aligned to the right. */
+body.alt-editor-layout .alt-compact-count{
+ display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+ justify-content:flex-end!important;width:100%!important;min-height:22px!important;
+ gap:7px!important;text-align:right!important;
+}
+body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note:not([hidden]){
+ display:block!important;position:static!important;order:-1!important;
+ flex:1 1 0%!important;min-width:0!important;max-width:none!important;
+ margin:0!important;padding:0!important;text-align:left!important;
+ white-space:normal!important;font-size:12px!important;line-height:18px!important;
+}
+body.alt-editor-layout .alt-compact-count>:not(.nr-inline-validation-note){
+ flex:0 0 auto!important;margin-left:0!important;white-space:nowrap!important;
+}
+/* Editorial people use underline validation instead of an enclosing box. */
+body.alt-editor-layout [data-team-role].nr-inline-validation-error{
+ border:0!important;border-bottom:2px solid #f59e0b!important;
+ border-radius:0!important;box-shadow:none!important;outline:0!important;
+ background:transparent!important;padding-bottom:5px!important;
+}
+body.alt-editor-layout [data-team-role].nr-inline-validation-error .team-add-trigger{
+ border-color:transparent!important;box-shadow:none!important;
+}
+body.alt-editor-layout [data-team-role].nr-inline-validation-error.nr-validation-highlighted{
+ animation:nrTeamUnderlinePulseV85 1.3s ease-out 1!important;
+}
+@keyframes nrTeamUnderlinePulseV85{
+ 0%,100%{border-bottom-color:#f59e0b}
+ 45%{border-bottom-color:#ea580c;box-shadow:0 5px 0 -2px rgba(245,158,11,.22)}
+}
+body.alt-editor-layout [data-team-role]>.nr-inline-validation-note:not([hidden]){
+ margin:5px 0 5px!important;text-align:left!important;
+}
+@media(prefers-reduced-motion:reduce){
+ body.alt-editor-layout [data-team-role].nr-validation-highlighted{animation:none!important}
+}
+</style></head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
     <span class="newsroom-site-wordmark" id="newsroomSiteCurrent"><img src="assets/liputan6-logo.svg" alt="Liputan6"></span>
@@ -16609,11 +16648,14 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         const show=window.nrReviewValidationTouched&&!c.ok;
         wrap.classList.toggle('nr-inline-validation-error',!!show);
         target.setAttribute('aria-invalid',String(!!show));
-        let note=wrap.querySelector(':scope > .nr-inline-validation-note');
-        if(show&&!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status');wrap.appendChild(note);}
-        if(note&&(c.key==='title'||c.key==='dek')){
-          const counter=wrap.querySelector('.alt-compact-count');
+        const counter=(c.key==='title'||c.key==='dek')?wrap.querySelector('.alt-compact-count'):null;
+        let notes=[...wrap.querySelectorAll('.nr-inline-validation-note')].filter(el=>el.closest('.alt-field-card,.ai-writing-field,[data-team-role],.field,.seo-field')===wrap);
+        let note=notes.shift()||null;
+        notes.forEach(duplicate=>duplicate.remove());
+        if(show&&!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status');}
+        if(note){
           if(counter&&note.parentElement!==counter)counter.prepend(note);
+          else if(!counter&&note.parentElement!==wrap)wrap.appendChild(note);
         }
         if(show&&!wrap.classList.contains('nr-validation-highlighted')){
           wrap.classList.add('nr-validation-highlighted');
@@ -16767,7 +16809,9 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const render=()=>{
         const wc=words(el.value), cc=el.value.length;
         const cls=max?(cc>=max?'limit-max':cc>=Math.floor(max*.85)?'limit-near':''):'';
+        const warning=c.querySelector(':scope > .nr-inline-validation-note');
         c.innerHTML='<span>'+wc+' words</span><span class="dot">·</span><span class="'+cls+'">'+cc+(max?'/'+max:'')+' characters</span>';
+        if(warning)c.prepend(warning);
       };
       el.addEventListener('input',render);
       render();
