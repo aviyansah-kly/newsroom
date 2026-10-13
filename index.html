@@ -22928,4 +22928,87 @@ body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{bor
  else setTimeout(render,1500);
 })();
 </script>
+
+<style id="newsroom-right-panel-typography-v91">
+/* Single typography contract for Editorial & SEO, scoped to the right settings panel.
+   Section titles: 13/19, 700. Field titles: 13/18, 600. Help text: 12/17, 400.
+   Does not modify the workspace canvas, validation modal, or action buttons. */
+body.alt-editor-layout .context{
+ --nr-right-heading-size:13px;
+ --nr-right-field-size:13px;
+ --nr-right-helper-size:12px;
+ --nr-right-heading-color:#0f172a;
+ --nr-right-label-color:#334155;
+ --nr-right-help-color:#64748b;
+}
+body.alt-editor-layout .context #infoPane .settings-section-head strong,
+body.alt-editor-layout .context #infoPane .headline .section-head strong,
+body.alt-editor-layout .context #infoPane .alt-editorial-cluster-head strong,
+body.alt-editor-layout .context #seoPane .seo-section-label strong,
+body.alt-editor-layout .context #seoPane .seo-assistant-title strong,
+body.alt-editor-layout .context #seoPane .seo-auto-head strong,
+body.alt-editor-layout .context #seoPane .seo-readiness-main strong,
+body.alt-editor-layout .context #infoPane #nrPublicationStatusPreview .nr-pub-head strong{
+ font-family:Inter,system-ui,sans-serif!important;
+ font-size:var(--nr-right-heading-size)!important;
+ font-weight:700!important;
+ line-height:19px!important;
+ letter-spacing:0!important;
+ text-transform:none!important;
+ color:var(--nr-right-heading-color)!important;
+}
+body.alt-editor-layout .context #infoPane .field>label,
+body.alt-editor-layout .context #seoPane .field>label,
+body.alt-editor-layout .context #infoPane .nr-ai-field-head>label,
+body.alt-editor-layout .context #seoPane .nr-ai-field-head>label,
+body.alt-editor-layout .context #infoPane .nr-ai-field-head>.field-label,
+body.alt-editor-layout .context #seoPane .nr-ai-field-head>.field-label,
+body.alt-editor-layout .context #infoPane .alt-entity-picker-label,
+body.alt-editor-layout .context #infoPane .v58-category-editorial label,
+body.alt-editor-layout .context #infoPane .alt-tag-head>strong,
+body.alt-editor-layout .context #seoPane .alt-slug-head strong,
+body.alt-editor-layout .context #infoPane .flag-copy strong,
+body.alt-editor-layout .context #infoPane .alt-advanced-publish>summary span{
+ font-family:Inter,system-ui,sans-serif!important;
+ font-size:var(--nr-right-field-size)!important;
+ font-weight:600!important;
+ line-height:18px!important;
+ letter-spacing:0!important;
+ text-transform:none!important;
+ color:var(--nr-right-label-color)!important;
+}
+body.alt-editor-layout .context #infoPane .settings-section-head span,
+body.alt-editor-layout .context #infoPane .headline .section-head span,
+body.alt-editor-layout .context #infoPane .alt-editorial-cluster-head span,
+body.alt-editor-layout .context #infoPane .alt-tag-hint,
+body.alt-editor-layout .context #seoPane .seo-section-label>div>span,
+body.alt-editor-layout .context #seoPane .seo-assistant-title>div>span,
+body.alt-editor-layout .context #seoPane .seo-auto-head span,
+body.alt-editor-layout .context #seoPane .alt-slug-head>div>span,
+body.alt-editor-layout .context #infoPane #nrPublicationStatusPreview dt{
+ font-family:Inter,system-ui,sans-serif!important;
+ font-size:var(--nr-right-helper-size)!important;
+ font-weight:400!important;
+ line-height:17px!important;
+ letter-spacing:0!important;
+ text-transform:none!important;
+ color:var(--nr-right-help-color)!important;
+}
+/* Publication Status is a standard Editorial section, not a larger heading style. */
+body.alt-editor-layout .context #infoPane #nrPublicationStatusPreview .nr-pub-head{
+ margin-bottom:10px!important;
+}
+body.alt-editor-layout .context #infoPane #nrPublicationStatusPreview dd{
+ font-size:13px!important;
+ font-weight:600!important;
+ line-height:18px!important;
+}
+/* Consistent distance from section title to first field across both tabs. */
+body.alt-editor-layout .context #infoPane .settings-section-head,
+body.alt-editor-layout .context #infoPane .headline .section-head,
+body.alt-editor-layout .context #seoPane .seo-section-label,
+body.alt-editor-layout .context #seoPane .seo-auto-head{
+ margin-bottom:9px!important;
+}
+</style>
 </body></html>
