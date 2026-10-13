@@ -7,6 +7,8 @@ on:
       - 'scripts/newsroom-shell.js'
       - 'tests/dark-mode-smoke.cjs'
       - 'tests/dark-mode-computed-audit.cjs'
+      - 'tests/dark-mode-divider-comfort.cjs'
+      - 'styles/newsroom-dark-mode-editor.css'
       - 'tests/dark-mode-editor-flow.cjs'
       - '.github/workflows/dark-mode-browser-smoke.yml'
   workflow_dispatch:
@@ -33,5 +35,6 @@ jobs:
           sleep 2
           node tests/dark-mode-smoke.cjs
           node tests/dark-mode-computed-audit.cjs
+          node tests/dark-mode-divider-comfort.cjs
           node tests/dark-mode-editor-flow.cjs
           if [ "$NR_BROWSER" = "chromium" ]; then node tests/editor-link-dialog-smoke.cjs; fi

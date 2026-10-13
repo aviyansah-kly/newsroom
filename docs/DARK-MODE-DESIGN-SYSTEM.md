@@ -25,7 +25,11 @@
 | `--nr-writing-canvas` | `#272C32` | Article editing surface |
 | `--nr-input-surface` | `#2B3037` | Input, textarea, select, search |
 | `--nr-elevated` | `#303740` | Hover/elevated menus/popovers |
-| `--nr-border` | `#414852` | Dividers and outlines |
+| `--nr-border` | `#3C434D` | Surface/card structural boundary, lower emphasis |
+| `--nr-divider-subtle` | `#343A42` | Decorative line separators and hairlines |
+| `--nr-divider` | `#3A414A` | Distinct section separators and page breaks |
+| `--nr-canvas-border` | `#3C434D` | Writing card perimeter (not focus ring) |
+| `--nr-input-boundary` | `#718096` | **Meaningful** input boundary; preserve control contrast |
 | `--nr-input` | `#566170` | Form control border |
 | `--nr-text` | `#E8EBEF` | Main headings and article text |
 | `--nr-text-2` | `#BBC3CD` | Secondary text and field labels |
@@ -51,7 +55,7 @@
 | Component | Background | Foreground and accents |
 | --- | --- | --- |
 | App shell | `#17191D` | `#E8EBEF` |
-| Header and sidebar | `#1C2025` | Primary/secondary text; borders `#414852` |
+| Header and sidebar | `#1C2025` | Primary/secondary text; borders `#3C434D` |
 | Writing canvas, rich-text blocks | `#272C32` | `#E8EBEF` article text; avoid pure white |
 | Right Editorial and SEO panels | `#22262C` | Headings `#E8EBEF`; labels `#BBC3CD` |
 | Form inputs/dropdowns | `#2B3037` | Border `#566170`; focus `#93C5FD` |
@@ -97,7 +101,11 @@ html[data-theme="dark"] {
   --nr-text: #E8EBEF;
   --nr-text-2: #BBC3CD;
   --nr-muted: #A4AEBB;
-  --nr-border: #414852;
+  --nr-border: #3C434D;
+  --nr-divider-subtle: #343A42;
+  --nr-divider: #3A414A;
+  --nr-canvas-border: #3C434D;
+  --nr-input-boundary: #718096;
   --nr-input: #566170;
   --nr-header-bg: #1C2025;
   --nr-sidebar-bg: #1C2025;
@@ -140,3 +148,23 @@ html[data-theme="dark"] {
 ## 7. Audit and handover
 
 Implementation and browser QA originated in `feature/newsroom-dark-mode-v1`, with Light Mode baseline preserved. The release gates for actual CMS production are documented in [DARK-MODE-AUDIT-FRONTEND-HANDOFF.md](DARK-MODE-AUDIT-FRONTEND-HANDOFF.md). A merged Newsroom **prototype** does not constitute an IT production release.
+
+
+## 8. Dark Mode editorial comfort pass — soft dividers (October 2026)
+
+To support long editorial writing sessions, **passive line separators must recede into the interface**. Do not use one color token for every line.
+
+| Tier | Token | Color | Examples |
+| --- | --- | --- | --- |
+| Quiet hairline | `--nr-divider-subtle` | `#343A42` | Header separator, right editorial section boundaries, Publication Status two-column separator, toolbar group dividers |
+| Section separator | `--nr-divider` | `#3A414A` | Block/page-break separators and sidebar structural grouping |
+| Card perimeter | `--nr-canvas-border` | `#3C434D` | Writing canvas and passive card edges |
+| Input / focus | `--nr-input-boundary` and `--nr-interactive` | `#718096` and `#93C5FD` | Field boundaries and keyboard focus; **not** softened to decorative hairline level |
+
+The writing canvas `#272C32`, text `#E8EBEF`, primary publish button `#D92B00` with white label, orange Liputan6 brand reference `#FF3300`, and existing typography/spacing remain unchanged. Validation states and AI provenance are unaffected.
+
+**Dynamic Text Blocks:** added paragraph/text cards must use canvas `#272C32` for the editable surface and `#2B3037` for toolbar, header and footer; internal strokes use subtle hairline `#343A42`. Keep the current font sizes/line heights, selection behavior, purple AI provenance, blue focus, and content images unchanged. Test with a newly inserted block as well as the initial editor state.
+
+**Implementation ownership:** `styles/newsroom-dark-mode.css` defines tokens; `styles/newsroom-dark-mode-editor.css` maps high-specificity Editor legacy separators. Both are scoped to `html[data-theme="dark"]`. Never change Light Mode tokens or perform a global search/replace of light border hex values in `index.html`.
+
+**Acceptance:** Verify actual computed background/stroke colors on Chromium, Firefox and WebKit, including responsive canvas/modal states; no loss of interactive input boundaries. Test: `tests/dark-mode-divider-comfort.cjs`. Light baseline comparison remains mandatory.

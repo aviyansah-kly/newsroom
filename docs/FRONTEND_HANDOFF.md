@@ -54,3 +54,10 @@ Theme merupakan **semantic visual layer**, bukan alternative layout. Default exi
 - Validasi regresi otomatis: `scripts/check_theme_contract.py`, `tests/dark-mode-smoke.cjs`, `tests/dark-mode-computed-audit.cjs`, `tests/dark-mode-light-baseline.cjs`, `tests/dark-mode-editor-flow.cjs`. Browser/UX review menyeluruh tetap perlu sebelum produksi.
 
 **Delivery:** implementasi Dark Mode dikerjakan di branch `feature/newsroom-dark-mode-v1`, melalui Draft PR dan QA checks terlebih dahulu. Aplikasi production mengonsumsi desain & contract, bukan menyalin backend dummy prototype.
+
+
+### Dark Mode line separator refinement — editorial reading comfort
+
+Use the three-semantic-tier dark divider palette instead of hardcoded light borders: `--nr-divider-subtle:#343A42` (passive hairlines), `--nr-divider:#3A414A` (section breaks), and `--nr-canvas-border:#3C434D` (card perimeter). **Do not reuse these for form input boundaries**: retain `--nr-input-boundary:#718096` and focus `--nr-interactive:#93C5FD`.
+
+These changes must remain in the **dark-only stylesheets**; the editor canvas surface, article typography, block geometry and Light Mode are locked. Review the [Dark Mode specification](DARK-MODE-DESIGN-SYSTEM.md#8-dark-mode-editorial-comfort-pass--soft-dividers-october-2026) and browser check `tests/dark-mode-divider-comfort.cjs` before porting to production Frontend.

@@ -292,3 +292,166 @@ html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidatio
 html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationIssues #altValidationList .alt-validation-row-copy :is(small,.alt-validation-detail) {
   color:#BBC3CD!important;
 }
+
+/* EDITOR COMFORT PASS V1 — passive dividers and canvas edges only.
+ * IMPORTANT: Backgrounds, focus rings, input boundaries, warning/error cues,
+ * editor geometry and all Light Mode selectors remain unchanged.
+ * Two subtle levels replace pale legacy Light Mode hairlines.
+ */
+html[data-theme="dark"] body.alt-editor-layout {
+  --nr-editor-rule:var(--nr-divider-subtle, #343A42);
+  --nr-editor-section-rule:var(--nr-divider, #3A414A);
+  --nr-editor-card-rule:var(--nr-canvas-border, #3C434D);
+}
+
+/* App-shell separator and left navigation group rules. */
+html[data-theme="dark"] body.alt-editor-layout .newsroom-header-separator {
+  background:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .cms-nav-cluster,
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-account,
+html[data-theme="dark"] body.alt-editor-layout .cms-nav-bottom {
+  border-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail {
+  border-right-color:var(--nr-editor-section-rule)!important;
+}
+
+/* Internal editorial information architecture.
+ * Restrict to existing decorative top/bottom rules, not form controls.
+ */
+html[data-theme="dark"] body.alt-editor-layout #infoPane > .headline.v56-headline-cluster,
+html[data-theme="dark"] body.alt-editor-layout #infoPane > .headline,
+html[data-theme="dark"] body.alt-editor-layout #infoPane > .alt-editorial-cluster,
+html[data-theme="dark"] body.alt-editor-layout #infoPane > .settings-section,
+html[data-theme="dark"] body.alt-editor-layout #infoPane > .alt-headline-settings-section,
+html[data-theme="dark"] body.alt-editor-layout #seoPane > .seo-section,
+html[data-theme="dark"] body.alt-editor-layout #guardianPane > .guardian-list {
+  border-top-color:var(--nr-editor-rule)!important;
+  border-bottom-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.settings-divider,.team-role-divider),
+html[data-theme="dark"] body.alt-editor-layout .settings-divider,
+html[data-theme="dark"] body.alt-editor-layout .team-role-divider {
+  background:var(--nr-editor-rule)!important;
+  border-top-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .alt-editorial-cluster details {
+  border-top-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.settings-section,.alt-editorial-cluster,.headline) + :is(.settings-section,.alt-editorial-cluster,.headline) {
+  border-top-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta + .nr-pub-meta {
+  border-left-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .alt-headline-settings-section {
+  border-bottom-color:var(--nr-editor-rule)!important;
+}
+
+/* Article writing canvas: preserve established graphite and geometry. */
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card {
+  border-color:var(--nr-editor-card-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card:not(.is-active):not(:focus-within) {
+  border-color:var(--nr-editor-card-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-head,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-foot,
+html[data-theme="dark"] body.alt-editor-layout .alt-section-tools {
+  border-top-color:var(--nr-editor-rule)!important;
+  border-bottom-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] :is(.classic-toolbar,.alt-mini-toolbar),
+html[data-theme="dark"] body.alt-editor-layout :is(.classic-toolbar,.alt-mini-toolbar) {
+  border-bottom-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.classic-toolbar,.alt-mini-toolbar) :is(.alt-toolbar-group + .alt-toolbar-group,.alt-toolbar-row + .alt-toolbar-row) {
+  border-left-color:var(--nr-editor-rule)!important;
+  border-top-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.is-stuck,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.is-stuck {
+  border-bottom-color:var(--nr-editor-section-rule)!important;
+}
+
+/* Content separators/page breaks: visible but not luminant on a writing canvas. */
+html[data-theme="dark"] body.alt-editor-layout .alt-page-separator::before,
+html[data-theme="dark"] body.alt-editor-layout .alt-page-separator::after,
+html[data-theme="dark"] body.alt-editor-layout .alt-page-card .alt-page-separator::before,
+html[data-theme="dark"] body.alt-editor-layout .alt-page-card .alt-page-separator::after {
+  background:var(--nr-editor-section-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-page-separator span,
+html[data-theme="dark"] body.alt-editor-layout .alt-page-card .alt-page-separator span {
+  background:#303740!important;
+  color:var(--nr-text-2)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tiptap-editor .ProseMirror hr {
+  border-top-color:var(--nr-editor-section-rule)!important;
+  border-bottom-color:var(--nr-editor-section-rule)!important;
+  background:linear-gradient(90deg,#272C32,#30353D,#272C32)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tiptap-editor .ProseMirror blockquote,
+html[data-theme="dark"] body.alt-editor-layout .alt-mini-editor blockquote {
+  border-left-color:#505968!important;
+  background:#2A3037!important;
+  color:var(--nr-text-2)!important;
+}
+
+/* Shared right-panel and publishing dialog: keep component framing consistent. */
+html[data-theme="dark"] body.alt-editor-layout .context > .panel > .panel-head,
+html[data-theme="dark"] body.alt-editor-layout .context > .panel > .tabs.article-tabs-promoted,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.modal-head,.modal-foot),
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #nrReviewSchedule {
+  border-top-color:var(--nr-editor-rule)!important;
+  border-bottom-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context > .panel {
+  border-color:var(--nr-editor-card-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .agent-context,
+html[data-theme="dark"] body.alt-editor-layout .agent-composer {
+  border-color:var(--nr-editor-rule)!important;
+}
+
+/* Text Block comfort — covers dynamically inserted blocks, not just empty canvas.
+ * Editorial markup includes legacy #tiptap-editor and additional .alt-mini-editor
+ * with hardcoded #fff background and #1e293b text. No layout/geometry changes.
+ */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card {
+  background:var(--nr-writing-canvas)!important;
+  color:var(--nr-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #tiptap-editor,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #tiptap-editor .tiptap-editor,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-editor {
+  background:var(--nr-writing-canvas)!important;
+  color:var(--nr-text)!important;
+  caret-color:var(--nr-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #tiptap-editor .tiptap-editor :is(h1,h2,h3,p,li),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-editor :is(h1,h2,h3,p,li) {
+  color:inherit;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.classic-toolbar,.alt-mini-toolbar),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-card-head,.alt-content-card-foot) {
+  background:#2B3037!important;
+  color:var(--nr-text-2)!important;
+  border-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button {
+  color:var(--nr-text-2)!important;
+  background:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button:hover {
+  color:var(--nr-text)!important;
+  background:var(--nr-hover)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.toolbar-sep,.alt-mini-toolbar .toolbar-sep) {
+  background:var(--nr-editor-rule)!important;
+  border-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-mini-editor:empty::before {
+  color:var(--nr-muted)!important;
+}

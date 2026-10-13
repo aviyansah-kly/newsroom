@@ -46,6 +46,11 @@ assert "invert(" not in css and "filter:invert" not in css.replace(" ", "")
 assert "--nr-action-primary-bg:#D92B00" in css
 assert "--nr-action-primary-on:#FFFFFF" in css
 assert "--nr-input-boundary:#718096" in css
+assert "--nr-divider-subtle:#343A42" in css, "Quiet decorative separator token missing"
+assert "--nr-divider:#3A414A" in css, "Section separator token missing"
+assert "--nr-canvas-border:#3C434D" in css, "Canvas edge token missing"
+assert "--nr-input-boundary:#718096" in css, "Do not soften meaningful input boundaries"
+assert "--nr-editor-rule:var(--nr-divider-subtle" in editor_css
 assert "--ds-ai-review:" in css, "AI provenance must remain purple"
 assert "nr-appearance-option" in css and "role','radio" in js
 assert "html[data-theme=\"dark\"]" in editor_css
