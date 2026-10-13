@@ -38,3 +38,19 @@ Prototype saat ini masih memiliki simulated AI, dummy media metadata, local/sess
 ## Definition of done for implementation
 
 A production implementation should match layout hierarchy, component states, responsive behavior, keyboard/focus behavior, validation feedback, offline state, and editorial flows documented in this repo. Business/API behavior must use real services rather than prototype simulation.
+
+
+## Appearance / Light-Dark Mode (October 2026)
+
+Theme merupakan **semantic visual layer**, bukan alternative layout. Default existing user tetap **Terang** dan tidak boleh ada perubahan geometri atau interaction pada baseline Light.
+
+- [Dark Mode color tokens & behavior](DARK-MODE-DESIGN-SYSTEM.md) — palet Neutral Graphite, original brand orange `#FF3300`, commit-button Dark `#D92B00` + white label.
+- [Detailed audit, component mapping, QA gates & rollback](DARK-MODE-AUDIT-FRONTEND-HANDOFF.md) — halaman dan modal yang harus dites sebelum production release.
+- `styles/newsroom-dark-mode.css` — semantic tokens dan shared UI overrides, aktif hanya pada `html[data-theme="dark"]`.
+- `styles/newsroom-dark-mode-editor.css` — prototype-only adapter untuk Editor legacy inline CSS `!important`; saat production komponen perlu memakai semantic tokens, jangan port ribuan override selector.
+- `scripts/newsroom-appearance.js` — kontrol `Tampilan` di SidebarAccount bottom menu; `Terang / Gelap / Ikuti Sistem`; menyimpan `newsroom:appearance`.
+- `scripts/newsroom-shell.js` — *existing shared app shell* pemuat theme secara opt-in; jangan membuat theme control kedua di header.
+- Jangan mengubah warna published article preview, image assets atau logo; warna AI provenance tetap **ungu** sedangkan AI work action/focus memakai **biru**.
+- Validasi regresi otomatis: `scripts/check_theme_contract.py`, `tests/dark-mode-smoke.cjs`, `tests/dark-mode-computed-audit.cjs`, `tests/dark-mode-light-baseline.cjs`, `tests/dark-mode-editor-flow.cjs`. Browser/UX review menyeluruh tetap perlu sebelum produksi.
+
+**Delivery:** implementasi Dark Mode dikerjakan di branch `feature/newsroom-dark-mode-v1`, melalui Draft PR dan QA checks terlebih dahulu. Aplikasi production mengonsumsi desain & contract, bukan menyalin backend dummy prototype.
