@@ -19,13 +19,16 @@ html[data-theme="dark"] {
   --nr-text:#E8EBEF;
   --nr-text-2:#BBC3CD;
   --nr-muted:#A4AEBB;
-  --nr-border:#414852;
+  --nr-border:#3C434D;
+  --nr-divider-subtle:#343A42; /* passive hairlines; not interactive control boundaries */
+  --nr-divider:#3A414A; /* sectional grouping */
+  --nr-canvas-border:#3C434D; /* card edges */
   --nr-input:#566170;
   --nr-input-boundary:#718096; /* >=3:1 contrast against input surface */
   /* Existing Editor legacy variables must resolve in Dark Mode. */
   --bg:#17191D; --surface:#22262C; --soft:#272C32;
   --hover:#303740; --text:#E8EBEF; --text2:#BBC3CD;
-  --muted:#A4AEBB; --border:#414852; --input:#718096;
+  --muted:#A4AEBB; --border:#3C434D; --input:#718096;
   --orange:#D92B00; --orange2:#C12700; --orangeSoft:#3C2926;
   --blue:#93C5FD; --blueSoft:#1B314B;
   --green:#86EFAC; --greenSoft:#24372B;
@@ -56,7 +59,7 @@ html[data-theme="dark"] {
   --nr-red-soft:#42292E;
   --ds-color-text:#E8EBEF;
   --ds-color-text-muted:#A4AEBB;
-  --ds-color-border:#414852;
+  --ds-color-border:#3C434D;
   --ds-color-border-strong:#566170;
   --ds-color-surface:#22262C;
   --ds-color-surface-subtle:#272C32;
@@ -86,7 +89,7 @@ html[data-theme="dark"] {
   --ds-ai-review-soft:#2D2545;
   --ds-ai-review-soft-2:#29243B;
   --ds-ai-review-ring:rgba(167,139,250,.2);
-  --nr-shell-border:#414852;
+  --nr-shell-border:#3C434D;
   --nr-shell-surface:#1C2025;
   --nr-shell-text:#E8EBEF;
   --nr-shell-muted:#BBC3CD;
