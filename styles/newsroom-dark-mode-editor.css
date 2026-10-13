@@ -414,3 +414,44 @@ html[data-theme="dark"] body.alt-editor-layout .agent-context,
 html[data-theme="dark"] body.alt-editor-layout .agent-composer {
   border-color:var(--nr-editor-rule)!important;
 }
+
+/* Text Block comfort — covers dynamically inserted blocks, not just empty canvas.
+ * Editorial markup includes legacy #tiptap-editor and additional .alt-mini-editor
+ * with hardcoded #fff background and #1e293b text. No layout/geometry changes.
+ */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card {
+  background:var(--nr-writing-canvas)!important;
+  color:var(--nr-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #tiptap-editor,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #tiptap-editor .tiptap-editor,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-editor {
+  background:var(--nr-writing-canvas)!important;
+  color:var(--nr-text)!important;
+  caret-color:var(--nr-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #tiptap-editor .tiptap-editor :is(h1,h2,h3,p,li),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-editor :is(h1,h2,h3,p,li) {
+  color:inherit;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.classic-toolbar,.alt-mini-toolbar),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-card-head,.alt-content-card-foot) {
+  background:#2B3037!important;
+  color:var(--nr-text-2)!important;
+  border-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button {
+  color:var(--nr-text-2)!important;
+  background:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button:hover {
+  color:var(--nr-text)!important;
+  background:var(--nr-hover)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.toolbar-sep,.alt-mini-toolbar .toolbar-sep) {
+  background:var(--nr-editor-rule)!important;
+  border-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-mini-editor:empty::before {
+  color:var(--nr-muted)!important;
+}
