@@ -20993,11 +20993,18 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       const narrow=window.matchMedia('(max-width:560px)').matches;
       // The CSS contracts define sidebar widths; transitions must not introduce
       // stale intermediate measurements and leave a large gap on one side.
-      const gutter=16;
-      const leftWidth=body.classList.contains('cms-sidebar-collapsed')?66:274;
-      const rightWidth=body.classList.contains('nr-right-collapsed')?56:366;
-      const left=mobile?(narrow?12:24):leftWidth+gutter;
-      const right=mobile?(narrow?62:68):rightWidth+gutter;
+      // Measure the actual fixed panels, not stale CSS variable estimates.
+      // In expanded mode the right panel may be 390px even when a legacy
+      // token says 366px. The mismatch previously consumed the entire gutter.
+      const gutter=24;
+      const leftPanel=document.getElementById('cmsNavDrawer');
+      const rightPanel=document.getElementById('nrArticleSettingsPanel')||document.querySelector('.context');
+      const leftFallback=body.classList.contains('cms-sidebar-collapsed')?66:274;
+      const rightFallback=body.classList.contains('nr-right-collapsed')?56:390;
+      const leftWidth=leftPanel?.getBoundingClientRect().width||leftFallback;
+      const rightWidth=rightPanel?.getBoundingClientRect().width||rightFallback;
+      const left=mobile?(narrow?12:24):Math.ceil(leftWidth)+gutter;
+      const right=mobile?(narrow?62:68):Math.ceil(rightWidth)+gutter;
       // Inline !important overrides the several legacy responsive CSS blocks.
       workspace.style.setProperty('padding-left',left+'px','important');
       workspace.style.setProperty('padding-right',right+'px','important');
