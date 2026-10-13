@@ -7,6 +7,7 @@ on:
       - 'scripts/newsroom-shell.js'
       - 'tests/dark-mode-smoke.cjs'
       - 'tests/dark-mode-computed-audit.cjs'
+      - 'tests/dark-mode-editor-flow.cjs'
       - '.github/workflows/dark-mode-browser-smoke.yml'
   workflow_dispatch:
 jobs:
@@ -26,5 +27,5 @@ jobs:
           sleep 2
           node tests/dark-mode-smoke.cjs
           node tests/dark-mode-computed-audit.cjs
-          node tests/editor-sidebar-smoke.cjs
+          node tests/dark-mode-editor-flow.cjs
           node tests/editor-link-dialog-smoke.cjs
