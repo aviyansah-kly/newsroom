@@ -1,9 +1,10 @@
 /* Dark Mode smoke test for preview branch; does not publish or modify CMS data. */
-const {chromium}=require('playwright');
+const {chromium,firefox,webkit}=require('playwright');
 const assert=require('node:assert/strict');
 const base='http://127.0.0.1:8765/';
 (async()=>{
-  const browser=await chromium.launch({headless:true,args:['--no-sandbox']});
+  const driver=process.env.NR_BROWSER||'chromium';
+ const browser=await ({chromium,firefox,webkit}[driver]||chromium).launch({headless:true,args:driver==='chromium'?['--no-sandbox']:[]});
   const context=await browser.newContext({viewport:{width:1440,height:900},colorScheme:'light'});
   const page=await context.newPage();
   const errors=[];
