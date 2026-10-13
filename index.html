@@ -22606,4 +22606,75 @@ body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-na
  document.addEventListener('input',()=>queueMicrotask(refresh),true);
  document.addEventListener('change',()=>queueMicrotask(refresh),true);
 })();
-</script></body></html>
+</script>
+<style id="nr-validation-status-fix-v86">
+/* Explicit two-column status row: warning left and counters right. */
+body.alt-editor-layout .ai-writing-field .nr-validation-status-row{
+ display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;
+ align-items:center!important;column-gap:12px!important;width:100%!important;min-height:24px!important;
+}
+body.alt-editor-layout .ai-writing-field .nr-validation-status-row>.nr-inline-validation-note{
+ grid-column:1!important;grid-row:1!important;justify-self:start!important;text-align:left!important;
+ margin:0!important;padding:0!important;white-space:normal!important;position:static!important;
+}
+body.alt-editor-layout .ai-writing-field .nr-validation-status-row>.alt-compact-count{
+ grid-column:2!important;grid-row:1!important;justify-self:end!important;
+ width:auto!important;min-width:max-content!important;text-align:right!important;
+ justify-content:flex-end!important;margin:0!important;
+}
+body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error){
+ border-bottom-color:transparent!important;box-shadow:none!important;
+}
+body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error)>.nr-inline-validation-note{display:none!important}
+@media(max-width:560px){
+ body.alt-editor-layout .ai-writing-field .nr-validation-status-row{grid-template-columns:minmax(0,1fr)!important}
+ body.alt-editor-layout .ai-writing-field .nr-validation-status-row>.alt-compact-count{grid-column:1!important;grid-row:2!important}
+}
+</style>
+<script id="nr-validation-status-fix-script-v86">
+(function(){
+ const qs=s=>document.querySelector(s);
+ function sync(){
+  const touched=!!window.nrReviewValidationTouched;
+  [['title','Judul Artikel wajib diisi.'],['dek','Short Desc wajib diisi.']].forEach(([key,message])=>{
+   const input=document.getElementById(key);
+   const wrap=input?.closest('.ai-writing-field,.alt-field-card');
+   if(!wrap)return;
+   const count=wrap.querySelector('.alt-compact-count');
+   if(!count)return;
+   let status=count.closest('.nr-validation-status-row');
+   if(!status){
+    status=document.createElement('div');status.className='nr-validation-status-row';
+    count.parentNode.insertBefore(status,count);status.appendChild(count);
+   }
+   const all=[...wrap.querySelectorAll('.nr-inline-validation-note')].filter(n=>n.closest('.ai-writing-field,.alt-field-card')===wrap);
+   let note=all[0];
+   all.slice(1).forEach(n=>n.remove());
+   if(!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status')}
+   if(note.parentNode!==status)status.prepend(note);
+   const invalid=touched&&!input.value.trim();
+   note.textContent=message;note.hidden=!invalid;
+   wrap.classList.toggle('nr-inline-validation-error',invalid);
+   input.setAttribute('aria-invalid',String(invalid));
+  });
+  [['reporter','reporter'],['editor','editorName']].forEach(([role,id])=>{
+   const group=qs('[data-team-role="'+role+'"]');
+   if(!group)return;
+   const ok=!!document.getElementById(id)?.value.trim();
+   const invalid=touched&&!ok;
+   group.classList.toggle('nr-inline-validation-error',invalid);
+   group.setAttribute('aria-invalid',String(invalid));
+   [...group.querySelectorAll('.nr-inline-validation-note')].forEach(n=>n.hidden=!invalid);
+  });
+ }
+ // After the prototype's existing validation listeners render, reconcile the visual state.
+ function queue(){requestAnimationFrame(sync)}
+ document.addEventListener('input',queue,true);
+ document.addEventListener('change',queue,true);
+ document.addEventListener('click',queue,true);
+ document.addEventListener('newsroom:attributes-generated',queue);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue);
+ else queue();
+})();
+</script>
+</body></html>
