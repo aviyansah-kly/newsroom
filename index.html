@@ -14525,6 +14525,19 @@ body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .nr-admin-place
  body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left{width:66px!important;min-width:66px!important;max-width:66px!important;flex-basis:66px!important}
 }
 </style>
+
+<style id="nr-editor-balanced-gutters-v82">
+/* The sidebar and panel never own any part of the central editor column. */
+body.alt-editor-layout .workspace{
+  box-sizing:border-box!important;
+  min-width:0!important;
+}
+body.alt-editor-layout .workspace > section,
+body.alt-editor-layout .workspace > section > .paper{
+  width:100%!important;min-width:0!important;max-width:none!important;
+  margin-left:0!important;margin-right:0!important;box-sizing:border-box!important;
+}
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -20978,14 +20991,13 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       if(!workspace)return;
       const mobile=window.matchMedia('(max-width:1024px)').matches;
       const narrow=window.matchMedia('(max-width:560px)').matches;
-      // Measure actual fixed sidebar edges, not CSS assumptions, and reserve an equal gutter.
+      // The CSS contracts define sidebar widths; transitions must not introduce
+      // stale intermediate measurements and leave a large gap on one side.
       const gutter=16;
-      const leftSidebar=document.getElementById('cmsNavDrawer');
-      const rightSidebar=document.getElementById('nrArticleSettingsPanel')||document.querySelector('.context');
-      const leftEdge=leftSidebar?.getBoundingClientRect().right|| (body.classList.contains('cms-sidebar-collapsed')?66:274);
-      const rightWidth=rightSidebar?.getBoundingClientRect().width|| (body.classList.contains('nr-right-collapsed')?56:366);
-      const left=mobile?(narrow?12:24):Math.ceil(leftEdge)+gutter;
-      const right=mobile?(narrow?62:68):Math.ceil(rightWidth)+gutter;
+      const leftWidth=body.classList.contains('cms-sidebar-collapsed')?66:274;
+      const rightWidth=body.classList.contains('nr-right-collapsed')?56:366;
+      const left=mobile?(narrow?12:24):leftWidth+gutter;
+      const right=mobile?(narrow?62:68):rightWidth+gutter;
       // Inline !important overrides the several legacy responsive CSS blocks.
       workspace.style.setProperty('padding-left',left+'px','important');
       workspace.style.setProperty('padding-right',right+'px','important');
@@ -21030,6 +21042,13 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
     // The left sidebar controller changes a body class. Recalculate both
     // horizontal gutters whenever either sidebar toggles or viewport changes.
     new MutationObserver(syncCanvas).observe(body,{attributes:true,attributeFilter:['class']});
+    // Reconcile after the sidebar's asynchronous initialization, and after
+    // either column transitions; keeping both gutters equal at every state.
+    document.addEventListener('transitionend',e=>{
+      if(e.target?.closest?.('#cmsNavDrawer,#nrArticleSettingsPanel'))syncCanvas();
+    },true);
+    requestAnimationFrame(()=>requestAnimationFrame(syncCanvas));
+    window.addEventListener('load',syncCanvas,{once:true});
     window.addEventListener('resize',syncCanvas,{passive:true});
     document.addEventListener('keydown',e=>{
       if(e.key==='Escape'&&window.matchMedia('(max-width:1024px)').matches&&!body.classList.contains('nr-right-collapsed')&&!e.target.closest('.modal.open,.popup.open')){
