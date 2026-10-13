@@ -64,11 +64,14 @@ const expected={
  // Control boundaries remain >=3:1 while low-emphasis hairlines remain quiet.
  const title=page.locator('#title');
  const before=await title.inputValue();
- await page.locator('.nr-account-trigger').first().click();
- await page.locator('[data-nr-appearance-option="light"]').first().click();
+ const trigger=page.locator('.nr-account-trigger').first();
+ const lightOption=page.locator('[data-nr-appearance-option="light"]').first();
+ if(!await lightOption.isVisible())await trigger.click();
+ await lightOption.click();
  assert.equal(await title.inputValue(),before,'Theme transition may not change writing');
- await page.locator('.nr-account-trigger').first().click();
- await page.locator('[data-nr-appearance-option="dark"]').first().click();
+ const darkOption=page.locator('[data-nr-appearance-option="dark"]').first();
+ if(!await darkOption.isVisible())await trigger.click();
+ await darkOption.click();
  assert.equal(await title.inputValue(),before,'Writing remains intact after returning dark');
  console.log('PASS: softer decorative separators, unchanged canvas/text/primary action, stable draft');
  await browser.close();
