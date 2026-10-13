@@ -208,3 +208,42 @@ html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #
 html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationList .alt-validation-row.warn button.btn {
   background:#303740!important;color:#FBBF24!important;border-color:#566170!important;
 }
+
+/* Readability: browser-measured text nodes below WCAG AA in early Dark prototype. */
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-copy strong,
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.team-role-head strong,.alt-tag-head strong,.settings-section strong,.alt-editorial-cluster strong,.nr-pub-head strong,.headline .section-head strong),
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.modal-head strong,#altValidationHeading,#altValidationTitle) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(label,.field-label,.alt-field-label,.settings-section label,.alt-tag-head strong) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.nr-pub-meta dt,.alt-tag-hint,.nr-tag-feedback) {
+  color:#A4AEBB!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .headline-drop :is(p,.headline-empty-copy) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .nr-media-required-message,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-group-title {
+  color:#FBBF24!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-add-trigger span {
+  color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-copy span,
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal #altValidationSub {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-btn {
+  background:#6D28D9!important;border-color:#6D28D9!important;color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-btn span {
+  color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-ai-analyze-wrap .alt-ai-analyze-btn:hover {
+  background:#5B21B6!important;border-color:#5B21B6!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-rail span {
+  color:#A4AEBB!important;
+}
