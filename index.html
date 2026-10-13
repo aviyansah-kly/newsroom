@@ -14636,7 +14636,24 @@ body.alt-editor-layout [data-team-role]>.nr-inline-validation-note:not([hidden])
 @media(prefers-reduced-motion:reduce){
  body.alt-editor-layout [data-team-role].nr-validation-highlighted{animation:none!important}
 }
-</style></head><body class="alt-editor-layout">
+</style>
+<style id="nr-publication-tags-compact-v93">
+body.alt-editor-layout #altEditorialTagsSection .nr-tag-add{display:none!important}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:8px!important}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-head .nr-pub-status{flex:none!important;margin:0!important;white-space:nowrap!important}
+body.alt-editor-layout #nrPublicationStatusPreview dl{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;margin-top:10px!important}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta{min-width:0!important;display:flex!important;flex-direction:column!important;gap:5px!important}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{border:0!important;border-left:1px solid #e2e8f0!important;padding:0 0 0 10px!important}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta dt{font-size:11px!important;line-height:15px!important}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta dd{font-size:11px!important;line-height:16px!important;letter-spacing:-.2px!important;white-space:nowrap!important;font-variant-numeric:tabular-nums!important}
+@media(max-width:380px){
+ body.alt-editor-layout #nrPublicationStatusPreview{padding:12px!important}
+ body.alt-editor-layout #nrPublicationStatusPreview dl{gap:6px!important}
+ body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{padding-left:6px!important}
+ body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta dd{font-size:10px!important}
+}
+</style>
+</head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
     <span class="newsroom-site-wordmark" id="newsroomSiteCurrent"><img src="assets/liputan6-logo.svg" alt="Liputan6"></span>
@@ -22917,8 +22934,8 @@ body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{bor
    card=document.createElement('section');
    card.id='nrPublicationStatusPreview';
    card.setAttribute('aria-label','Publication Status Preview');
-   card.innerHTML='<div class="nr-pub-head"><strong>Publication Status</strong><span class="nr-pub-demo">Demo Preview</span></div>'+
-    '<span class="nr-pub-status"><span class="nr-pub-dot"></span>Published</span>'+
+   card.innerHTML='<div class="nr-pub-head"><strong>Publication Status</strong><span class="nr-pub-status"><span class="nr-pub-dot"></span>Published</span></div>'+
+
     '<dl><div class="nr-pub-meta"><dt>Published Date &amp; Time</dt><dd>12 Oct 2026, 09:30 WIB</dd></div>'+
     '<div class="nr-pub-meta"><dt>Modified Date &amp; Time</dt><dd>13 Oct 2026, 10:15 WIB</dd></div></dl>';
   }
@@ -23067,19 +23084,19 @@ body.alt-editor-layout #altEditorialTagsSection .nr-tag-feedback.is-warning{colo
   if(!section||!input||!list||section.dataset.nrTagsV92==='1')return;
   section.dataset.nrTagsV92='1';
   const wrapper=input.closest('.tag-wrap')||input.parentElement;
-  const add=document.createElement('button');
-  add.type='button';add.className='nr-tag-add';add.innerHTML='<i data-lucide="plus"></i><span>Add Tag</span>';
-  add.setAttribute('aria-label','Add Tag');
+  // Tags are added by selecting a result, never via a secondary Add Tag button.
   const feedback=document.createElement('div');
   feedback.className='nr-tag-feedback';feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
-  wrapper.appendChild(add);wrapper.insertAdjacentElement('afterend',feedback);
+  wrapper.insertAdjacentElement('afterend',feedback);
+  section.querySelectorAll('.nr-tag-add').forEach(button=>button.remove());
   const labels=()=>[...list.querySelectorAll('.tag-chip')].map(chip=>{
    const copy=chip.cloneNode(true);copy.querySelector('button')?.remove();
    return (copy.textContent||'').trim();
   }).filter(Boolean);
   function status(message,warning=false){
    feedback.textContent=message;feedback.classList.toggle('is-warning',warning);
-   add.disabled=labels().length>=5;
+   input.setAttribute('aria-describedby','nrTagsFeedback');
+   feedback.id='nrTagsFeedback';
   }
   function appendTag(tag){
    const text=String(tag||'').trim();
@@ -23091,12 +23108,12 @@ body.alt-editor-layout #altEditorialTagsSection .nr-tag-feedback.is-warning{colo
    input.dispatchEvent(new Event('input',{bubbles:true}));
    status(labels().length+' of 5 tags added.');
   }
-  add.addEventListener('click',()=>appendTag(input.value));
   input.addEventListener('keydown',e=>{
    if(e.key!=='Enter')return;
    e.preventDefault();e.stopImmediatePropagation();
    const first=document.querySelector('#tagSuggestions [data-add]');
-   appendTag(first?.dataset.add||input.value);
+   if(first){first.click();status((labels().length)+' of 5 tags added.');}
+   else status('Select a suggested tag from the list.',true);
   },true);
   input.addEventListener('input',()=>status(labels().length+' of 5 tags added.'));
   list.addEventListener('click',()=>setTimeout(()=>status(labels().length+' of 5 tags added.'),0));
@@ -23123,7 +23140,7 @@ body.alt-editor-layout #altEditorialTagsSection .nr-tag-feedback.is-warning{colo
    };
   }
   status(labels().length+' of 5 tags added.');
-  if(window.lucide)window.lucide.createIcons({nodes:[add]});
+  // Native suggestion click handlers remain the single source of truth.
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,1800));
  else setTimeout(init,1800);
