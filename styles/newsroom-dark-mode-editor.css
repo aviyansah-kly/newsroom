@@ -73,3 +73,31 @@ html[data-theme="dark"] body.nr-app .nr-nav-item.active {
 html[data-theme="dark"] body.nr-app .nr-nav-cluster-head {
   background:transparent!important;color:#BBC3CD!important;
 }
+
+/* High-specificity legacy selectors verified against real computed browser styles. */
+html[data-theme="dark"] body.alt-editor-layout .workspace .paper section.headline,
+html[data-theme="dark"] body.alt-editor-layout .workspace section.headline {
+  background:#272C32!important;
+  border-color:#414852!important;
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #publishBtn.btn.primary,
+html[data-theme="dark"] body.alt-editor-layout .topbar #publishBtn {
+  background:#D92B00!important;
+  border-color:#D92B00!important;
+  color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #publishBtn.btn.primary:hover {
+  background:#C12700!important;
+  border-color:#C12700!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-card {
+  background:#22262C!important;
+  color:#E8EBEF!important;
+  border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-card :is(.modal-head,.modal-body,.modal-foot) {
+  background:#22262C!important;
+  color:#E8EBEF!important;
+  border-color:#414852!important;
+}
