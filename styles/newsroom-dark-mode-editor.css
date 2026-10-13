@@ -178,3 +178,33 @@ html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validati
 html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.nr-review-schedule .schedule-summary,.alt-validation-ready.is-ready) {
   background:#24372B!important;color:#86EFAC!important;border-color:#414852!important;
 }
+
+/* Final inspected white-island targets: exact node ancestry in Chromium audit. */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content .nr-nav-list button.cms-nav-item.active {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context > section.panel > .tabs.article-tabs-promoted {
+  background:#22262C!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .headline-drop .headline-empty-actions #uploadHeadline.btn {
+  background:#303740!important;color:#E8EBEF!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-context > span,
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-context #agentSelectionChip {
+  background:#303740!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-quick > button {
+  background:#303740!important;color:#BBC3CD!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-quick > button:hover {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationIssues #altValidationList {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationList .alt-validation-row.warn {
+  background:#3D3022!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .modal-body #altValidationList .alt-validation-row.warn button.btn {
+  background:#303740!important;color:#FBBF24!important;border-color:#566170!important;
+}
