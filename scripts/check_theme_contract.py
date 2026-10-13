@@ -38,6 +38,7 @@ for path, expected_sha in BASELINE_GIT_BLOBS.items():
 print("PASS: locked Light Mode/editor baseline files unchanged")
 
 css = (ROOT / "styles/newsroom-dark-mode.css").read_text()
+editor_css = (ROOT / "styles/newsroom-dark-mode-editor.css").read_text()
 js = (ROOT / "scripts/newsroom-appearance.js").read_text()
 shell = (ROOT / "scripts/newsroom-shell.js").read_text()
 assert 'html[data-theme="dark"]' in css and 'html[data-theme="light"]' not in css
@@ -47,6 +48,10 @@ assert "--nr-action-primary-on:#FFFFFF" in css
 assert "--nr-input-boundary:#718096" in css
 assert "--ds-ai-review:" in css, "AI provenance must remain purple"
 assert "nr-appearance-option" in css and "role','radio" in js
+assert "html[data-theme=\"dark\"]" in editor_css
+assert "html[data-theme=\"light\"]" not in editor_css
+assert "filter:invert" not in editor_css.replace(" ", "")
+assert "styles/newsroom-dark-mode-editor.css" in shell
 assert "newsroom:appearance" in js and "prefers-color-scheme: dark" in js
 assert "styles/newsroom-dark-mode.css" in shell and "scripts/newsroom-appearance.js" in shell
 assert "newsroom:appearance" not in (ROOT / "index.html").read_text(), "Do not inline new behavior into locked editor"
