@@ -22891,4 +22891,41 @@ body.alt-editor-layout .nr-media-required-message[hidden]{display:none!important
  window.newsroomValidateMedia=()=>({headline:checkHeadline(true),contentImages:[...document.querySelectorAll('.alt-content-card[data-type="image"]')].every(card=>validate(card,true))});
 })();
 </script>
+
+<style id="nr-publication-status-preview-v82">
+body.alt-editor-layout #nrPublicationStatusPreview{margin:14px 0 18px;padding:16px;border:1px solid #e2e8f0;border-radius:10px;background:#fff;color:#0f172a}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-head strong{font-size:14px!important;font-weight:700;line-height:20px}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-demo{font-size:11px!important;color:#64748b;background:#f1f5f9;border-radius:5px;padding:3px 6px}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-status{display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:999px;padding:5px 9px;color:#166534;font-size:12px!important;font-weight:600}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-dot{height:7px;width:7px;flex:none;border-radius:100%;background:#16a34a}
+body.alt-editor-layout #nrPublicationStatusPreview dl{margin:14px 0 0;display:grid;gap:12px}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta{display:grid;gap:3px}
+body.alt-editor-layout #nrPublicationStatusPreview dt{color:#64748b;font-size:12px!important;font-weight:500}
+body.alt-editor-layout #nrPublicationStatusPreview dd{margin:0;color:#0f172a;font-size:13px!important;font-weight:600}
+body.alt-editor-layout #nrPublicationStatusPreview .nr-pub-meta+.nr-pub-meta{border-top:1px solid #f1f5f9;padding-top:12px}
+</style>
+<script id="nr-publication-status-preview-script-v82">
+(function(){
+ function render(){
+  const info=document.getElementById('infoPane');
+  if(!info)return;
+  const headline=info.querySelector('.headline,.v56-headline-cluster,.alt-headline-settings-section');
+  if(!headline)return;
+  let card=document.getElementById('nrPublicationStatusPreview');
+  if(!card){
+   card=document.createElement('section');
+   card.id='nrPublicationStatusPreview';
+   card.setAttribute('aria-label','Publication Status Preview');
+   card.innerHTML='<div class="nr-pub-head"><strong>Publication Status</strong><span class="nr-pub-demo">Demo Preview</span></div>'+
+    '<span class="nr-pub-status"><span class="nr-pub-dot"></span>Published</span>'+
+    '<dl><div class="nr-pub-meta"><dt>Published Date &amp; Time</dt><dd>12 Oct 2026, 09:30 WIB</dd></div>'+
+    '<div class="nr-pub-meta"><dt>Modified Date &amp; Time</dt><dd>13 Oct 2026, 10:15 WIB</dd></div></dl>';
+  }
+  if(headline.nextElementSibling!==card)headline.insertAdjacentElement('afterend',card);
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(render,1500));
+ else setTimeout(render,1500);
+})();
+</script>
 </body></html>
