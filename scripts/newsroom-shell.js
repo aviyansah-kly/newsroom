@@ -19,6 +19,11 @@
       style.href='styles/newsroom-dark-mode.css';style.setAttribute('data-nr-theme','1');
       document.head.appendChild(style);
     }
+    if(!document.querySelector('link[data-nr-editor-theme]')){
+      const editorStyle=document.createElement('link');editorStyle.rel='stylesheet';
+      editorStyle.href='styles/newsroom-dark-mode-editor.css';editorStyle.setAttribute('data-nr-editor-theme','1');
+      document.head.appendChild(editorStyle);
+    }
     if(!document.querySelector('script[data-nr-theme]')){
       const controller=document.createElement('script');controller.src='scripts/newsroom-appearance.js';
       controller.setAttribute('data-nr-theme','1');document.head.appendChild(controller);
