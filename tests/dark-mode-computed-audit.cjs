@@ -56,6 +56,22 @@ const white=await page.evaluate(()=>{
   return [...selectors].sort((a,b)=>b[1]-a[1]).slice(0,75);
 });
 console.log('VISIBLE LIGHT ISLANDS',JSON.stringify(white));
+
+const details=await page.evaluate(()=>{
+ const out=[];
+ document.querySelectorAll('body *').forEach(el=>{
+  const cs=getComputedStyle(el),r=el.getBoundingClientRect();
+  if(cs.display==='none'||cs.visibility==='hidden'||r.width<65||r.height<18||r.top>1200||r.bottom<0)return;
+  const col=(cs.backgroundColor.match(/[0-9]+/g)||[]).slice(0,3).map(Number);
+  if(col.length<3||Math.min(...col)<220)return;
+  const cl=typeof el.className==='string'?el.className.slice(0,100):'';
+  const parents=[];let p=el.parentElement;
+  for(let i=0;i<3&&p;i++,p=p.parentElement){parents.push(p.tagName.toLowerCase()+(p.id?'#'+p.id:'')+(typeof p.className==='string'?'.'+p.className.split(' ').slice(0,2).join('.'):'').slice(0,90))}
+  out.push({tag:el.tagName.toLowerCase(),id:el.id,cls:cl,text:(el.textContent||'').trim().slice(0,42),bg:cs.backgroundColor,fg:cs.color,parents});
+ });
+ return out.slice(0,65);
+});
+console.log('LIGHT ISLAND DETAILS',JSON.stringify(details));
 console.log('JS ERRORS',JSON.stringify(errs.slice(0,8)));
 for(const route of ['dashboard.html','articles.html','tags.html']){
   await page.goto('http://127.0.0.1:8765/'+route,{waitUntil:'domcontentloaded',timeout:45000});
