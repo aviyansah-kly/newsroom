@@ -1,6 +1,6 @@
 # CMS Newsroom — Dark Mode Design System V1
 
-**Status:** Color and placement approved for implementation; feature branch candidate is in progress. **Not merged, fully QA-approved or live in production.**
+**Status:** Color and placement approved; prototype implementation passes static, Light Mode pixel/geometry, and Chromium/Firefox/WebKit browser regression. Production CMS integration and manual editorial UAT remain separate.
 
 **Baseline:** Existing Light Mode in `aviyansah-kly/newsroom` on `main`; current design-system file: `styles/newsroom-design-system.css`; Editor Workspace: `index.html`.
 
@@ -139,4 +139,4 @@ html[data-theme="dark"] {
 
 ## 7. Audit and handover
 
-Implementation scaffold is isolated to `feature/newsroom-dark-mode-v1`. The required handover and incomplete-QA release gates are documented in [DARK-MODE-AUDIT-FRONTEND-HANDOFF.md](DARK-MODE-AUDIT-FRONTEND-HANDOFF.md). Do not merge or declare feature production-ready before closing visual/functional regression gates.
+Implementation and browser QA originated in `feature/newsroom-dark-mode-v1`, with Light Mode baseline preserved. The release gates for actual CMS production are documented in [DARK-MODE-AUDIT-FRONTEND-HANDOFF.md](DARK-MODE-AUDIT-FRONTEND-HANDOFF.md). A merged Newsroom **prototype** does not constitute an IT production release.
