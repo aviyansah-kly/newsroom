@@ -1,0 +1,28 @@
+name: Newsroom Dark Mode Contract
+on:
+  pull_request:
+    paths:
+      - 'styles/newsroom-dark-mode.css'
+      - 'scripts/newsroom-appearance.js'
+      - 'scripts/newsroom-shell.js'
+      - 'scripts/check_theme_contract.py'
+      - 'index.html'
+      - 'styles/newsroom-design-system.css'
+      - 'styles/newsroom-global-navigation.css'
+      - 'styles/newsroom-right-panel.css'
+      - 'design-system/foundations/tokens.css'
+      - '.github/workflows/dark-mode-contract.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Light Mode baseline and dark token contract
+        run: python3 scripts/check_theme_contract.py
