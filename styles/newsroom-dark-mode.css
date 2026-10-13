@@ -22,6 +22,15 @@ html[data-theme="dark"] {
   --nr-border:#414852;
   --nr-input:#566170;
   --nr-input-boundary:#718096; /* >=3:1 contrast against input surface */
+  /* Existing Editor legacy variables must resolve in Dark Mode. */
+  --bg:#17191D; --surface:#22262C; --soft:#272C32;
+  --hover:#303740; --text:#E8EBEF; --text2:#BBC3CD;
+  --muted:#A4AEBB; --border:#414852; --input:#718096;
+  --orange:#D92B00; --orange2:#C12700; --orangeSoft:#3C2926;
+  --blue:#93C5FD; --blueSoft:#1B314B;
+  --green:#86EFAC; --greenSoft:#24372B;
+  --amber:#FBBF24; --amberSoft:#3D3022;
+  --purple:#C4B5FD; --purpleSoft:#2D2545;
   --nr-brand-orange:#FF3300;
   --nr-action-primary-bg:#D92B00;
   --nr-action-primary-hover:#C12700;
