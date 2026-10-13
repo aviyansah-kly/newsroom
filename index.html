@@ -14451,7 +14451,7 @@ body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing{display:bl
 body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary{cursor:default;list-style:none}
 body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary::-webkit-details-marker{display:none}
 body.alt-editor-layout #altEditorialPublishing #altAdvancedPublishing>summary>svg{display:none!important}
-body.alt-editor-layout .nr-additional-label-title{font-size:13px;font-weight:700;color:#0f172a;margin:18px 0 10px;border-top:1px solid #e2e8f0;padding-top:16px}
+body.alt-editor-layout .nr-additional-label-title{display:none!important}
 body.alt-editor-layout .nr-branded-content-type{margin-top:12px}
 </style>
 
@@ -16621,13 +16621,13 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const articleText=[...document.querySelectorAll('.alt-block-list .alt-content-card[data-type="text"] .ProseMirror,.alt-block-list .alt-content-card[data-type="text"] .alt-mini-editor')]
         .map(el=>(el.innerText||'').trim()).filter(Boolean).join(' ');
       const checks=[
-        {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Judul Artikel wajib diisi.'},
-        {key:'dek',label:'Short Desc',ok:!!dek?.value.trim()&&dek.value.trim().split(/\s+/).length<=30,help:!dek?.value.trim()?'Short Desc wajib diisi.':'Short Desc maksimal 30 kata.'},
-        {key:'content',label:'Konten Artikel',ok:!!(articleText||pm?.innerText||'').trim(),help:'Isi minimal satu blok teks artikel.'},
-        {key:'reporter',label:'Reporter',ok:!!$('#reporter')?.value.trim(),help:'Reporter wajib diisi.'},
-        {key:'editor',label:'Editor',ok:!!$('#editorName')?.value.trim(),help:'Editor wajib diisi.'},
-        {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Tambahkan gambar utama artikel.'},
-        {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'SEO Keyword wajib diisi.'}
+        {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Article Title is required.'},
+        {key:'dek',label:'Short Desc',ok:!!dek?.value.trim()&&dek.value.trim().split(/\s+/).length<=30,help:!dek?.value.trim()?'Short Desc is required.':'Short Desc must not exceed 30 words.'},
+        {key:'content',label:'Konten Artikel',ok:!!(articleText||pm?.innerText||'').trim(),help:'Add at least one article text block.'},
+        {key:'reporter',label:'Reporter',ok:!!$('#reporter')?.value.trim(),help:'Reporter is required.'},
+        {key:'editor',label:'Editor',ok:!!$('#editorName')?.value.trim(),help:'Editor is required.'},
+        {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Add a headline image.'},
+        {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'SEO Keyword is required.'}
       ];
       // Inline validation mirrors Review & Publish; only reveal warnings after review is requested.
       checks.forEach(c=>{
@@ -18689,7 +18689,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const info=$('#infoPane'),publish=$('#publishPane');
     if(!info||!publish||$('#altEditorialPublishing'))return;
 
-    const cluster=createCluster('Distribusi & Label','','alt-editorial-publishing');
+    const cluster=createCluster('Label','','alt-editorial-publishing');
     cluster.id='altEditorialPublishing';
     const body=cluster.querySelector('.alt-editorial-cluster-body');
 
@@ -18699,7 +18699,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     const advanced=publish.querySelector('#altAdvancedPublishing');
     if(advanced){
       advanced.open=true;
-      advanced.querySelector('summary span') && (advanced.querySelector('summary span').textContent='Distribusi & Label (Posisi)');
+      advanced.querySelector('summary span') && (advanced.querySelector('summary span').textContent='Label');
       body.appendChild(advanced);
       // Flatten additional labels so all distribution controls are visible without nested accordions.
       const extra=advanced.querySelector('#additionalPublishLabels');
@@ -18715,11 +18715,15 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         const inner=advanced.querySelector('.alt-advanced-publish-body');
         if(content&&inner){
           content.querySelector('.auto-setting')?.remove();
-          const title=document.createElement('div');
-          title.className='nr-additional-label-title';
-          title.textContent='Label Tambahan';
-          inner.appendChild(title);
-          while(content.firstChild)inner.appendChild(content.firstChild);
+          // One continuous Label list: move remaining controls without a nested title.
+          while(content.firstChild){
+            const child=content.firstChild;
+            if(child.classList?.contains('flag-list')){
+              const destination=inner.querySelector('#distributionPlacementSection .flag-list')||inner.querySelector('.flag-list');
+              if(destination){while(child.firstChild)destination.appendChild(child.firstChild);child.remove();continue;}
+            }
+            inner.appendChild(child);
+          }
         }
         extra.closest('.publish-advanced')?.remove();
       }
@@ -22670,7 +22674,7 @@ body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-valida
  function words(value){return String(value||'').trim().split(/\s+/).filter(Boolean).length}
  function sync(){
   const touched=Boolean(window.nrReviewValidationTouched);
-  [['title','Judul Artikel wajib diisi.'],['dek','Short Desc wajib diisi.']].forEach(([key,required])=>{
+  [['title','Article Title is required.'],['dek','Short Desc is required.']].forEach(([key,required])=>{
    const input=document.getElementById(key);
    const card=input?.closest('.alt-field-card');
    const count=card?.querySelector('.alt-compact-count');
@@ -22694,7 +22698,7 @@ body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-valida
    notes.forEach(n=>{if(n!==note)n.remove()});
    if(note.parentElement!==left)left.prepend(note);
    const wc=words(input.value),invalid=touched&&(!input.value.trim()||(key==='dek'&&wc>30));
-   note.textContent=key==='dek'&&wc>30?'Short Desc maksimal 30 kata.':required;
+   note.textContent=key==='dek'&&wc>30?'Short Desc must not exceed 30 words.':required;
    note.hidden=!invalid;
    card.classList.toggle('nr-inline-validation-error',invalid);
    input.setAttribute('aria-invalid',String(invalid));
