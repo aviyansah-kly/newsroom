@@ -14496,6 +14496,35 @@ body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-toggle{
 body.alt-editor-layout:not(.nr-right-collapsed) .context .nr-right-toggle:hover{background:#f8fafc!important;border-color:#94a3b8!important}
 body.alt-editor-layout.nr-right-collapsed .context>.nr-right-panel-control{position:relative!important}
 </style>
+
+<style id="nr-nav-final-alignment-v81">
+/* One hairline only above the full-width user footer. */
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account{
+ border-top:1px solid #e2e8f0!important;box-shadow:none!important;padding:0!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account .cms-nav-bottom{
+ border:0!important;border-top:0!important;box-shadow:none!important;padding:0!important;margin:0!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account::before,
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account::after{display:none!important}
+/* Admin items match Dashboard icon, label and row geometry. */
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .nr-admin-placeholder{
+ display:flex!important;align-items:center!important;gap:9px!important;text-align:left!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .nr-admin-placeholder svg{
+ display:block!important;width:15px!important;height:15px!important;min-width:15px!important;
+ stroke-width:1.8!important;color:#64748b!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .nr-admin-placeholder span{
+ flex:1!important;min-width:0!important;
+}
+/* The site-switcher header boundary and sidebar edge share the 274px grid line. */
+@media(min-width:1025px){
+ body.alt-editor-layout .newsroom-header-left{width:274px!important;min-width:274px!important;max-width:274px!important;flex:0 0 274px!important;box-sizing:border-box!important}
+ body.alt-editor-layout .newsroom-header-left::after{right:0!important}
+ body.alt-editor-layout.cms-sidebar-collapsed .newsroom-header-left{width:66px!important;min-width:66px!important;max-width:66px!important;flex-basis:66px!important}
+}
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -20949,8 +20978,8 @@ body.alt-editor-layout .headline-drop.has-image:not(.v59-empty) #headlineActions
       if(!workspace)return;
       const mobile=window.matchMedia('(max-width:1024px)').matches;
       const narrow=window.matchMedia('(max-width:560px)').matches;
-      const left=mobile?(narrow?12:24):(body.classList.contains('cms-sidebar-collapsed')?64:236)+24;
-      const right=mobile?(narrow?62:68):(body.classList.contains('nr-right-collapsed')?56:390)+24;
+      const left=mobile?(narrow?12:24):(body.classList.contains('cms-sidebar-collapsed')?66:274)+16;
+      const right=mobile?(narrow?62:68):(body.classList.contains('nr-right-collapsed')?56:366)+16;
       // Inline !important overrides the several legacy responsive CSS blocks.
       workspace.style.setProperty('padding-left',left+'px','important');
       workspace.style.setProperty('padding-right',right+'px','important');
@@ -22243,11 +22272,13 @@ body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-na
     if(item.dataset.cmsItem==='Articles')item.classList.add('active');
     dash.appendChild(item);
   });
-  adminNames.forEach(name=>{
+  const adminIcons=['radio-tower','package','megaphone','panels-top-left','users','history','radio','bell','layout-template','globe','file-code','tags','list-tree','spell-check','chart-no-axes-column','code-2','handshake','send','clipboard-list','toggle-right','wrench','link-2','link'];
+  adminNames.forEach((name,index)=>{
     const item=document.createElement('button');item.type='button';
     item.className='cms-nav-item nr-admin-placeholder';item.dataset.adminMenu=name;
+    const icon=document.createElement('i');icon.dataset.lucide=adminIcons[index]||'settings';
     const span=document.createElement('span');span.textContent=name;
-    item.appendChild(span);
+    item.append(icon,span);
     item.title='Menu existing: '+name+' (halaman belum terhubung pada prototipe)';
     admin.appendChild(item);
   });
