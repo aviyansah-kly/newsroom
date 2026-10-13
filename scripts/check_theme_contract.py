@@ -22,7 +22,7 @@ BASELINE_GIT_BLOBS = {
 
 def sha_blob(path: Path) -> str:
     value = path.read_bytes()
-    return hashlib.sha1(f"blob {len(value)}\\0".encode() + value).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(value)).encode() + bytes([0]) + value).hexdigest()
 
 def contrast(hex_a: str, hex_b: str) -> float:
     def lum(s: str) -> float:
