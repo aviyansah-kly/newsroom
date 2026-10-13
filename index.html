@@ -22192,4 +22192,89 @@ body.alt-editor-layout .topbar #previewBtn{display:none!important}
  else init();
 })();
 </script>
+
+<style id="newsroom-unified-two-level-nav-v79">
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav{display:flex!important;flex-direction:row!important;width:260px!important;max-width:calc(100vw - 24px)!important;overflow:hidden!important;background:#fff!important;box-shadow:none!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail{display:flex;flex:0 0 66px;width:66px;flex-direction:column;gap:5px;align-items:stretch;padding:12px 5px;background:#f8fafc;border-right:1px solid #e2e8f0}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:60px;width:100%;border:0;border-radius:8px;color:#64748b;background:transparent;cursor:pointer}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button[aria-selected="true"]{background:#eaf1ff;color:#1d4ed8;font-weight:700}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button svg{width:20px;height:20px}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail button span{font-size:10px!important;line-height:14px}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-heading{height:50px;flex:0 0 50px;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 13px;border-bottom:1px solid #e2e8f0}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-heading strong{font-size:13px}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-heading button{width:34px;height:34px;border:0;border-radius:7px;background:transparent;color:#475569;cursor:pointer}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-heading button:hover{background:#eaf1ff}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 7px 16px}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .cms-nav-item{display:flex!important;width:100%!important;max-width:none!important;min-height:36px!important;align-items:center!important;gap:9px!important;text-align:left!important;margin:0!important;padding:7px 9px!important;border-radius:7px!important;background:transparent;border:0;color:#475569;white-space:normal}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .cms-nav-item:hover{background:#f1f5f9!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .cms-nav-item.active{background:#eff6ff!important;color:#1d4ed8!important;font-weight:600!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .cms-nav-item svg{width:15px!important;height:15px!important;flex:0 0 15px!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .cms-nav-item span{display:block!important;font-size:12px!important;line-height:17px!important;overflow-wrap:anywhere}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list .nr-admin-placeholder{border:0;cursor:default;color:#475569}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-list[hidden]{display:none!important}
+body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav{width:66px!important}
+body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-nav-content{display:none!important}
+body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-nav-rail{width:66px!important;flex-basis:66px!important}
+@media(max-width:1024px){body.alt-editor-layout #cmsNavDrawer.nr-unified-nav{width:min(260px,86vw)!important}}
+</style>
+<script id="newsroom-unified-two-level-nav-script-v79">
+(function(){
+ function init(){
+  const drawer=document.getElementById('cmsNavDrawer');
+  if(!drawer||drawer.classList.contains('nr-unified-nav'))return;
+  const oldScroll=drawer.querySelector('.cms-nav-scroll');
+  const originalItems=oldScroll?[...oldScroll.querySelectorAll('[data-cms-item]')]:[];
+  const close=document.getElementById('cmsNavClose');
+  if(!oldScroll||!close)return;
+  const adminNames=['Channel Management','Product Management','Ads Management','Site Ads Management','Users','Activity Logs','Breaking News','Dashboard Alerts','Widget','Site Management','Custom Page','Topic Type','Program Type','Autocorrect Terms','Pageview Targets','Custom Scripts','Partners','Autopost','Initiative Management','Feature Toggling','Tools','Whitelist Link','Building Link'];
+  const rail=document.createElement('nav');rail.className='nr-nav-rail';rail.setAttribute('aria-label','Kelompok Menu');
+  const content=document.createElement('div');content.className='nr-nav-content';
+  const header=document.createElement('div');header.className='nr-nav-heading';
+  header.innerHTML='<strong id="nrNavGroupTitle">Dashboard</strong>';
+  close.setAttribute('aria-label','Sembunyikan Menu');
+  close.title='Sembunyikan Menu';
+  header.appendChild(close);
+  content.appendChild(header);
+  const dash=document.createElement('div');dash.className='nr-nav-list';dash.dataset.group='dashboard';
+  const admin=document.createElement('div');admin.className='nr-nav-list';admin.dataset.group='admin';admin.hidden=true;
+  // Preserve original menu DOM nodes and their navigation handlers.
+  originalItems.forEach(item=>{
+    if(item.dataset.cmsItem==='Articles')item.classList.add('active');
+    dash.appendChild(item);
+  });
+  adminNames.forEach(name=>{
+    const item=document.createElement('button');item.type='button';
+    item.className='cms-nav-item nr-admin-placeholder';item.dataset.adminMenu=name;
+    const span=document.createElement('span');span.textContent=name;
+    item.appendChild(span);
+    item.title='Menu existing: '+name+' (halaman belum terhubung pada prototipe)';
+    admin.appendChild(item);
+  });
+  content.append(dash,admin);
+  [['dashboard','layout-dashboard','Dashboard'],['admin','settings','Admin']].forEach(([key,icon,label])=>{
+    const button=document.createElement('button');button.type='button';button.dataset.navGroup=key;
+    button.setAttribute('aria-selected',String(key==='dashboard'));
+    button.title=label;button.innerHTML='<i data-lucide="'+icon+'"></i><span>'+label+'</span>';
+    button.addEventListener('click',()=>{
+      if(document.body.classList.contains('cms-sidebar-collapsed')){
+        document.getElementById('cmsNavClose')?.click();
+      }
+      rail.querySelectorAll('[data-nav-group]').forEach(b=>b.setAttribute('aria-selected',String(b===button)));
+      dash.hidden=key!=='dashboard';admin.hidden=key!=='admin';
+      header.querySelector('strong').textContent=label;
+    });
+    rail.appendChild(button);
+  });
+  // Legacy search and nested cluster headers are no longer part of this navigation.
+  drawer.querySelector('.cms-nav-search-row')?.remove();
+  oldScroll.remove();
+  drawer.prepend(rail);drawer.appendChild(content);
+  drawer.classList.add('nr-unified-nav');
+  if(window.lucide)window.lucide.createIcons({nodes:[rail,header]});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,350));
+ else setTimeout(init,350);
+})();
+</script>
 </body></html>
