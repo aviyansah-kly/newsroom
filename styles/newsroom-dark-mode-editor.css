@@ -330,10 +330,13 @@ html[data-theme="dark"] body.alt-editor-layout #guardianPane > .guardian-list {
   border-top-color:var(--nr-editor-rule)!important;
   border-bottom-color:var(--nr-editor-rule)!important;
 }
-html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.settings-divider,.team-role-divider,.alt-editorial-cluster details),
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.settings-divider,.team-role-divider),
 html[data-theme="dark"] body.alt-editor-layout .settings-divider,
 html[data-theme="dark"] body.alt-editor-layout .team-role-divider {
   background:var(--nr-editor-rule)!important;
+  border-top-color:var(--nr-editor-rule)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .alt-editorial-cluster details {
   border-top-color:var(--nr-editor-rule)!important;
 }
 html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.settings-section,.alt-editorial-cluster,.headline) + :is(.settings-section,.alt-editorial-cluster,.headline) {
