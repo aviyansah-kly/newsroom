@@ -38,6 +38,24 @@ for(const [label,selector] of names.filter(x=>x[0].startsWith('Review'))){
  },{selector});arr.push({label:label+' (OPEN)',selector,...snap});
 }
 console.log('EDITOR DARK COMPUTED AUDIT',JSON.stringify(arr));
+
+const white=await page.evaluate(()=>{
+  const selectors=new Map();
+  document.querySelectorAll('body *').forEach(el=>{
+    const c=getComputedStyle(el),rect=el.getBoundingClientRect();
+    if(c.display==='none'||c.visibility==='hidden'||rect.width<65||rect.height<18||rect.top>1200||rect.bottom<0)return;
+    const match=c.backgroundColor.match(/^rgba?\\((\\d+), (\\d+), (\\d+)/);
+    if(!match)return;
+    const col=match.slice(1,4).map(Number);
+    if(Math.min(...col)<220)return;
+    const id=el.id?'#'+el.id:'';
+    const cls=typeof el.className==='string'?el.className.split(/\\s+/).slice(0,3).join('.'):'';
+    const key=el.tagName.toLowerCase()+id+(cls?'.'+cls:'');
+    selectors.set(key,(selectors.get(key)||0)+1);
+  });
+  return [...selectors].sort((a,b)=>b[1]-a[1]).slice(0,75);
+});
+console.log('VISIBLE LIGHT ISLANDS',JSON.stringify(white));
 console.log('JS ERRORS',JSON.stringify(errs.slice(0,8)));
 for(const route of ['dashboard.html','articles.html','tags.html']){
   await page.goto('http://127.0.0.1:8765/'+route,{waitUntil:'domcontentloaded',timeout:45000});
