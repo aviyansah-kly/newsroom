@@ -207,7 +207,7 @@ html[data-theme="dark"] body.alt-editor-layout :is(.topbar,#cmsNavDrawer) {
   border-color:var(--nr-border);
 }
 html[data-theme="dark"] body.alt-editor-layout :is(.workspace,.workspace > section) {background-color:var(--nr-bg)}
-html[data-theme="dark"] body.alt-editor-layout :is(.paper,.alt-editor-section,.alt-content-card,.headline) {
+html[data-theme="dark"] body.alt-editor-layout :is(.workspace > section > .paper,.workspace .alt-editor-section,.workspace .alt-content-card,.context .headline) {
   background-color:var(--nr-writing-canvas);
   color:var(--nr-text);
   border-color:var(--nr-border);
@@ -246,6 +246,73 @@ html[data-theme="dark"] body.alt-editor-layout .nr-btn-primary:hover {background
 html[data-theme="dark"] body.alt-editor-layout .nr-btn-primary:active {background:var(--nr-action-primary-pressed);border-color:var(--nr-action-primary-pressed)}
 /* Editor content preview must retain its published-site styling. */
 html[data-theme="dark"] body.alt-editor-layout :is(.article-preview,.preview-canvas,[data-site-preview]) {color-scheme:light}
+
+
+/* Override known hardcoded !important declarations in the shared right panel. */
+html[data-theme="dark"] body.alt-editor-layout .context {
+  background-color:var(--nr-surface)!important;
+  color:var(--nr-text)!important;
+  border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .nr-right-panel-control {
+  background-color:var(--nr-surface)!important;
+  border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-right-toggle {
+  background:var(--nr-elevated)!important;color:var(--nr-text-2)!important;
+  border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-right-toggle:hover,
+html[data-theme="dark"] body.alt-editor-layout.nr-right-collapsed .nr-right-toggle {
+  background:var(--nr-selection-bg)!important;color:var(--nr-interactive)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-right-panel-title,
+html[data-theme="dark"] body.alt-editor-layout .nr-right-panel-rail-label {color:var(--nr-text-2)!important}
+/* Existing purple visual provenance stays purple, but darken its panels for legibility. */
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-suggestion,.nr-ai-progress) {
+  background:var(--ds-ai-review-soft)!important;
+  color:var(--nr-text)!important;
+  border-color:var(--ds-ai-review-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-suggestion strong,.nr-ai-progress strong) {
+  color:var(--ds-ai-review)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-action,.nr-ai-field-action:hover) {
+  background:var(--ds-ai-review-soft)!important;
+  color:var(--ds-ai-review)!important;
+  border-color:var(--ds-ai-review-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-ai-publish-warning {
+  background:var(--nr-warning-soft);color:var(--nr-warning);border-color:var(--nr-warning);
+}
+/* Link dialog: a portal mounted outside normal Editor sections, style it explicitly. */
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-dialog,.nr-link-foot,.nr-link-context,.nr-link-result,.nr-link-empty,.nr-link-quiet,.nr-link-action) {
+  background:var(--nr-surface);
+  color:var(--nr-text);
+  border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-tabs,.nr-link-result:hover,.nr-link-title-icon,.nr-link-context-icon) {
+  background:var(--nr-elevated);color:var(--nr-text-2);border-color:var(--nr-border);
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-top h2,.nr-link-result strong,.nr-link-field label) {color:var(--nr-text)}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-top p,.nr-link-context p,.nr-link-helper,.nr-link-foot-note,.nr-link-result small) {color:var(--nr-text-2)}
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-link-field input,.nr-link-search input) {
+  background:var(--nr-input-surface);color:var(--nr-text);border-color:var(--nr-input-boundary);
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-link-primary {
+  background:var(--nr-action-primary-bg);color:var(--nr-action-primary-on);border-color:var(--nr-action-primary-bg);
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-link-primary:hover {background:var(--nr-action-primary-hover)}
+html[data-theme="dark"] body.alt-editor-layout .nr-link-result[aria-selected="true"] {
+  background:var(--nr-selection-bg);border-color:var(--nr-interactive);
+}
+/* Articles list: hardcoded popover/menu buttons from article-editorial-refinement.css. */
+html[data-theme="dark"] body.articles-page :is(.nr-editorial-menu,.nr-editorial-menu .nr-menu-button,.nr-menu-note) {
+  background:var(--nr-surface)!important;color:var(--nr-text-2)!important;border-color:var(--nr-border)!important;
+}
+html[data-theme="dark"] body.articles-page .nr-editorial-menu .nr-menu-button:hover {
+  background:var(--nr-hover)!important;color:var(--nr-text)!important;
+}
 
 /* Focus and accessibility (restricted to the CMS app, not site-preview iframe). */
 html[data-theme="dark"] :is(.nr-account-trigger,.nr-appearance-option,.nr-btn,.nr-select):focus-visible {
