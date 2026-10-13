@@ -106,6 +106,7 @@ const contrast=await page.evaluate(()=>{
  return out.sort((a,b)=>a.ratio-b.ratio).slice(0,75);
 });
 console.log('DARK TEXT CONTRAST FAILURES',JSON.stringify(contrast));
+if(white.length || contrast.length)throw Error('Visible Dark Mode white islands or sub-AA text remain: '+JSON.stringify({white,contrast}));
 console.log('JS ERRORS',JSON.stringify(errs.slice(0,8)));
 for(const route of ['dashboard.html','articles.html','tags.html']){
   await page.goto('http://127.0.0.1:8765/'+route,{waitUntil:'domcontentloaded',timeout:45000});
