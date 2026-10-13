@@ -1,6 +1,6 @@
 # CMS Newsroom — Dark Mode Design System V1
 
-**Status:** Design specification approved for implementation planning. **Not implemented in the UI.**
+**Status:** Color and placement approved for implementation; feature branch candidate is in progress. **Not merged, fully QA-approved or live in production.**
 
 **Baseline:** Existing Light Mode in `aviyansah-kly/newsroom` on `main`; current design-system file: `styles/newsroom-design-system.css`; Editor Workspace: `index.html`.
 
@@ -121,7 +121,7 @@ html[data-theme="dark"] {
 ```
 
 3. **Existing CSS includes hard-coded hex backgrounds/colors** (including Editor Workspace sections and shared navigation). Audit and map those styles to scoped semantic tokens instead of expecting root variables alone to cover every element.
-4. Keep brand logo assets intact. Use **dedicated action tokens**, rather than globally changing `--nr-orange` or the current Light Mode button.
+4. Use a separate high-contrast input-boundary token `--nr-input-boundary:#718096` for meaningful form boundaries (about 3.31:1 on `#2B3037`) while leaving the lower-emphasis divider token as defined. Keep brand logo assets intact. Use **dedicated action tokens**, rather than globally changing `--nr-orange` or the current Light Mode button.
 5. Avoid global CSS inversion filters or opaque overlays on canvas/media. Scope theme styling to CMS shell and editable controls; preview iframe/media should opt out.
 6. Render/test primary, secondary, hover, focus-visible, disabled, loading, destructive states and layered UI (dropdown, modal, toast).
 7. Complete component-by-component regression QA across Editor, editorial list/workspaces, SEO, review/publish, responsive layouts, and all roles (Writer, Editor, Redpel, SEO).
@@ -134,4 +134,9 @@ html[data-theme="dark"] {
 - **Agreed:** Dark CTA `#D92B00` with **white text**; hover `#C12700`, pressed `#B82500`.
 - **Agreed:** Blue used for selected, links, focus, and AI Suggestion; reserved semantic colors for status.
 - **Recommended:** Theme selector in sidebar-bottom account menu, rather than crowded article editor toolbar.
-- **Pending:** User approval of final token spec and placement prior to implementation/QA.
+- **Approved for implementation planning:** Neutral Graphite palette and switch inside the sidebar-bottom account menu. **Pending:** complete QA, Product/Frontend sign-off, production merge.
+
+
+## 7. Audit and handover
+
+Implementation scaffold is isolated to `feature/newsroom-dark-mode-v1`. The required handover and incomplete-QA release gates are documented in [DARK-MODE-AUDIT-FRONTEND-HANDOFF.md](DARK-MODE-AUDIT-FRONTEND-HANDOFF.md). Do not merge or declare feature production-ready before closing visual/functional regression gates.
