@@ -1,7 +1,7 @@
 # Newsroom — Dark Mode Audit & Frontend Handover
 
 > **Audit date:** 14 October 2026  
-> **Status:** **Implementation candidate on a feature branch; NOT production-ready / not merged**. Static verification is provided by CI; full visual, interaction, and cross-browser regression tests are a release gate.
+> **Status:** **Prototype theme implementation tested across Chromium, Firefox and WebKit; approved for merging to the Newsroom prototype main preview.** This does not mean production CMS integration or editorial UAT is complete.
 > **Branch:** `feature/newsroom-dark-mode-v1`  
 > **Approved Light Mode baseline:** commit `d2b17895078b93986621b2c7da4e62cfc0fc86bd` (includes Dark Mode specification; Editor last changed by `cf97995`).
 
@@ -34,7 +34,7 @@ We must preserve established UI behaviors from the October 13 baseline: unified 
 
 ### Hardcoded color findings (reviewed source files)
 
-Static review found approximately: **40 hexadecimal values** in `newsroom-global-navigation.css`, **17** in `newsroom-shell.css`, **17** in `newsroom-right-panel.css`, **24** in `newsroom-ai-assist.css`, and **123** in `newsroom-link-dialog.css`. These are raw occurrences, not unique tokens or confirmed bugs. The large `index.html` could not be extracted through the available GitHub file API due to its size; accordingly, a complete selector-level audit of its inline styles remains a **blocker** before merge.
+Static review found approximately: **40 hexadecimal values** in `newsroom-global-navigation.css`, **17** in `newsroom-shell.css`, **17** in `newsroom-right-panel.css`, **24** in `newsroom-ai-assist.css`, and **123** in `newsroom-link-dialog.css`. These are raw occurrences, not unique tokens or confirmed bugs. The large `index.html` was inspected through the Git blob API. Its approximately 59 inline style blocks include roughly 7,587 `!important` declarations. Browser-computed dark surface and text-node contrast audits have now removed visible white islands and sub-AA sampled text in the inspected Editor viewport. Hidden, dynamic and role-specific states still warrant manual review.
 
 ### Important correction to earlier theme concept
 
@@ -117,13 +117,13 @@ html[data-theme="dark"] .field--interactive:focus-visible {
 
 **Gate B — CI static:** Run `python3 scripts/check_theme_contract.py` and `node --check scripts/newsroom-appearance.js`. Guard intentionally freezes the baseline Editor, global-navigation and DS source file blob SHAs. See `.github/workflows/dark-mode-contract.yml`.
 
-**Gate C — open:** Full inline Editor CSS mapping and QA of `!important` conflicts, including modals and Editor custom publish button. This audit could not be completed with the available API access.
+**Gate C — completed for sampled visible Editor states:** Full index source inspected via Git blob API; computed styles audited on real browser DOM, including header, sidebar, canvas, inline fields, headline, tags, publication status, Review & Publish modal, AI controls and the shared button system. Browser CI fails on visible light islands or contrast failures in the sampled UI. Additional hidden states remain for manual UAT.
 
-**Gate D — open:** Automated Playwright screenshot comparisons for both themes across all page/viewport combinations. Existing tests `tests/editor-sidebar-smoke.cjs` and Text Toolbar tests must pass on the feature branch. Add screenshot baseline, keyboard, modal behavior and form state E2E tests before merge.
+**Gate D — automated PASS:** Light Mode pixel + computed style/geometry regression against approved main baseline for Editor, Dashboard, Articles and Tags at 1440px and 390px; Dark Mode controller/system theme checks and Editor flow smoke including panel toggle, Review & Publish modal, title state, Insert Link; Chromium, Firefox and WebKit jobs passed on the same implementation commit. Screenshot comparisons accept up to 2% noise from dynamic metadata/remote fonts while exact style/layout assertions are enforced. Additional screenshot baselines for all dialog states remain valuable for ongoing QA.
 
-**Gate E — open:** Manual editorial session: Writer, Editor, Redpel, SEO, plus keyboard and mobile.
+**Gate E — open for production CMS:** Manual editorial UAT by Writer, Editor, Redpel and SEO, including device-level Safari/mobile, keyboard access and backend integration, must precede production use.
 
-**Gate F — open:** Merge to main only after Product + Frontend review and QA approval. Do not deploy this branch to the production Cloudflare Worker as an unreviewed visual change.
+**Gate F — prototype preview ready:** Feature may be merged to the prototype `main` after passing the three CI check suites. Live/production CMS deployment and backend implementation still require IT review, role/UAT signoff and release controls.
 
 ### Rollback
 
@@ -131,4 +131,4 @@ At runtime, changing appearance to Terang removes the Dark Mode selector. For co
 
 ## Current limitations — do NOT overclaim
 
-This branch provides **a scoped implementation candidate, a preference controller, CI baseline guard, and a handover spec**. It does **not** prove that the entire Editor has been visually verified, because the large inline Editor file and live browser environment were not available in the current audit. No claim of full regression pass or production readiness is made until Gates C–E are satisfied.
+This work provides **a scoped prototype implementation, preference controller, baseline and three-engine browser tests, and an IT handover specification**. It does **not** certify every hidden modal, role-specific interface, Safari on a physical device, or real backend persistence. Product/IT must validate those separately before a real CMS production release.
