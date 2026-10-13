@@ -16266,7 +16266,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         const label=reporter.closest('.field')?.querySelector('label');
         if(label && !label.querySelector('.alt-required')) label.insertAdjacentHTML('beforeend','<span class="alt-required">*</span>');
         reporter.setAttribute('required','required');
-        if(!reporter.closest('.field')?.querySelector('.alt-inline-help')) reporter.closest('.field')?.insertAdjacentHTML('beforeend','<div class="alt-inline-help">Wajib diisi · mendukung lebih dari satu reporter.</div>');
+        if(!reporter.closest('.field')?.querySelector('.alt-inline-help')) reporter.closest('.field')?.insertAdjacentHTML('beforeend','<div class="alt-inline-help">Required · supports multiple reporters.</div>');
       }
     }
 
@@ -22703,10 +22703,10 @@ body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-valida
    card.classList.toggle('nr-inline-validation-error',invalid);
    input.setAttribute('aria-invalid',String(invalid));
    if(key==='dek'){
-    count.setAttribute('aria-label','Short Desc: '+wc+' dari maksimal 30 kata');
+    count.setAttribute('aria-label','Short Desc: '+wc+' of 30 words maximum');
     let meter=count.querySelector('[data-nr-word-limit]');
     if(!meter){meter=document.createElement('span');meter.dataset.nrWordLimit='';count.appendChild(meter)}
-    meter.textContent=wc+'/30 kata';meter.style.color=wc>30?'#c2410c':'';
+    meter.textContent=wc+'/30 words';meter.style.color=wc>30?'#c2410c':'';
    }
   });
   [['reporter','reporter'],['editor','editorName']].forEach(([role,id])=>{
