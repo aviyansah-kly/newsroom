@@ -14564,6 +14564,39 @@ body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note{display:inl
 body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note[hidden]{display:none!important}
 @media(prefers-reduced-motion:reduce){body.alt-editor-layout .nr-validation-highlighted textarea{animation:none!important}}
 </style>
+
+<style id="newsroom-validation-team-and-counter-v84">
+/* Inline warning remains left-aligned; the character/word count stays right. */
+body.alt-editor-layout .alt-compact-count:has(>.nr-inline-validation-note){
+ display:flex!important;flex-flow:row nowrap!important;align-items:center!important;
+ justify-content:flex-start!important;width:100%!important;gap:12px!important;text-align:left!important;
+}
+body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note:not([hidden]){
+ display:block!important;order:-1!important;flex:1 1 auto!important;min-width:0!important;
+ text-align:left!important;margin:0!important;
+}
+body.alt-editor-layout .alt-compact-count>.nr-inline-validation-note:not([hidden])~*{
+ margin-left:auto!important;
+}
+body.alt-editor-layout [data-team-role].nr-inline-validation-error{
+ border:1px solid #f59e0b!important;border-radius:9px!important;
+ box-shadow:0 0 0 1px rgba(245,158,11,.1)!important;
+ transition:border-color .2s ease,box-shadow .2s ease!important;
+}
+body.alt-editor-layout [data-team-role].nr-inline-validation-error.nr-validation-highlighted{
+ animation:nrValidationPulse 1.3s ease-out 1!important;
+}
+body.alt-editor-layout [data-team-role].nr-inline-validation-error .team-add-trigger{
+ border-color:#f59e0b!important;
+}
+body.alt-editor-layout [data-team-role]>.nr-inline-validation-note{
+ display:block!important;margin:6px 8px 4px!important;text-align:left!important;color:#b45309!important;
+}
+body.alt-editor-layout [data-team-role]>.nr-inline-validation-note[hidden]{display:none!important}
+@media(prefers-reduced-motion:reduce){
+ body.alt-editor-layout [data-team-role].nr-validation-highlighted{animation:none!important}
+}
+</style>
 </head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
@@ -16433,10 +16466,11 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         content:$('.alt-block-list .alt-content-card[data-type="text"] .ProseMirror')||$('#tiptap-editor .ProseMirror')||$('[data-insert="text"]'),
         headline:$('#chooseHeadline')||$('.headline-drop'),
         reporter:document.querySelector('[data-team-role="reporter"] [data-team-add]')||document.querySelector('[data-team-role="reporter"] [data-team-search]'),
+        editor:document.querySelector('[data-team-role="editor"] [data-team-add]')||document.querySelector('[data-team-role="editor"] [data-team-search]'),
         seo:$('#seoKeyword')
       };
       const el=map[key];if(!el)return;
-      const isRight=['reporter','headline','seo'].includes(key);
+      const isRight=['reporter','editor','headline','seo'].includes(key);
       if(isRight&&document.body.classList.contains('nr-right-collapsed')){
         $('#nrRightPanelToggle')?.click();
       }
@@ -16447,8 +16481,8 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       }
       setTimeout(()=>{
         el.scrollIntoView({behavior:'smooth',block:'center'});
-        if(key==='reporter'){
-          const panel=el.closest('[data-team-role="reporter"]');
+        if(key==='reporter'||key==='editor'){
+          const panel=el.closest('[data-team-role="'+key+'"]');
           const add=panel?.querySelector('[data-team-add]');
           if(add) add.click();
           const search=panel?.querySelector('[data-team-search]');
@@ -16552,6 +16586,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
         {key:'dek',label:'Short Desc',ok:!!dek?.value.trim(),help:'Short Desc wajib diisi.'},
         {key:'content',label:'Konten Artikel',ok:!!(articleText||pm?.innerText||'').trim(),help:'Isi minimal satu blok teks artikel.'},
         {key:'reporter',label:'Reporter',ok:!!$('#reporter')?.value.trim(),help:'Reporter wajib diisi.'},
+        {key:'editor',label:'Editor',ok:!!$('#editorName')?.value.trim(),help:'Editor wajib diisi.'},
         {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Tambahkan gambar utama artikel.'},
         {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'SEO Keyword wajib diisi.'}
       ];
@@ -16561,6 +16596,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
           title:$('#title'),dek:$('#dek'),
           content:document.querySelector('.alt-editor-section'),
           reporter:document.querySelector('[data-team-role="reporter"]'),
+          editor:document.querySelector('[data-team-role="editor"]'),
           headline:document.querySelector('.headline-drop'),
           seo:$('#seoKeyword')
         };
