@@ -22607,92 +22607,99 @@ body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-na
  document.addEventListener('change',()=>queueMicrotask(refresh),true);
 })();
 </script>
-<style id="nr-validation-status-fix-v87">
-/* Place exactly one warning at the LEFT edge, counters at the RIGHT edge. */
-body.alt-editor-layout .alt-field-card .nr-validation-status-row,
-body.alt-editor-layout .ai-writing-field .nr-validation-status-row{
- display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;
- align-items:center!important;justify-content:space-between!important;gap:12px!important;
+<style id="nr-validation-status-fix-v88">
+/* One true full-width status bar per field: warning on the left and counters on the right. */
+body.alt-editor-layout .alt-field-card .ai-writing-field-status,
+body.alt-editor-layout .alt-field-card .nr-validation-status-row{
  width:100%!important;max-width:100%!important;min-width:0!important;
+ display:flex!important;flex-direction:row!important;align-items:center!important;
+ justify-content:space-between!important;gap:10px!important;
  min-height:24px!important;margin:4px 0 0!important;padding:0!important;
- float:none!important;position:relative!important;transform:none!important;
+ position:relative!important;float:none!important;transform:none!important;
 }
-body.alt-editor-layout .nr-validation-status-row>.nr-inline-validation-note{
- display:block!important;flex:1 1 auto!important;min-width:0!important;
- margin:0!important;padding:0!important;text-align:left!important;
- white-space:normal!important;position:static!important;transform:none!important;
- color:#c2410c!important;font-size:12px!important;line-height:18px!important;
- order:0!important;
+body.alt-editor-layout .alt-field-card .ai-writing-field-status-left{
+ flex:1 1 auto!important;min-width:0!important;display:flex!important;align-items:center!important;gap:8px!important;
+ justify-content:flex-start!important;text-align:left!important;
 }
-body.alt-editor-layout .nr-validation-status-row>.nr-inline-validation-note[hidden]{display:none!important}
-body.alt-editor-layout .nr-validation-status-row>.alt-compact-count{
- display:flex!important;flex:0 0 auto!important;align-items:center!important;
- gap:5px!important;justify-content:flex-end!important;
- margin:0 0 0 auto!important;padding:0!important;position:static!important;
- transform:none!important;float:none!important;order:1!important;
- width:auto!important;max-width:none!important;min-width:max-content!important;
- white-space:nowrap!important;text-align:right!important;
+body.alt-editor-layout .alt-field-card .ai-writing-field-status-right{
+ flex:0 0 auto!important;min-width:max-content!important;display:flex!important;align-items:center!important;
+ justify-content:flex-end!important;margin-left:auto!important;
 }
-body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-validation-status-row>.nr-inline-validation-note){
+body.alt-editor-layout .alt-field-card .nr-validation-status-row>.nr-inline-validation-note,
+body.alt-editor-layout .alt-field-card .ai-writing-field-status-left>.nr-inline-validation-note{
+ display:block!important;position:static!important;margin:0!important;padding:0!important;
+ width:auto!important;text-align:left!important;white-space:normal!important;
+ color:#c2410c!important;font-size:12px!important;line-height:18px!important;flex:0 1 auto!important;
+}
+body.alt-editor-layout .alt-field-card .nr-inline-validation-note[hidden]{display:none!important}
+body.alt-editor-layout .alt-field-card .nr-validation-status-row>.alt-compact-count,
+body.alt-editor-layout .alt-field-card .ai-writing-field-status-right>.alt-compact-count{
+ display:flex!important;flex:0 0 auto!important;width:auto!important;min-width:max-content!important;
+ position:static!important;margin:0!important;padding:0!important;justify-content:flex-end!important;
+ align-items:center!important;gap:5px!important;white-space:nowrap!important;
+}
+body.alt-editor-layout .alt-field-card .nr-inline-validation-note:not(.nr-validation-status-row>.nr-inline-validation-note):not(.ai-writing-field-status-left>.nr-inline-validation-note){
  display:none!important;
 }
-body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error){border-bottom-color:transparent!important;box-shadow:none!important}
-body.alt-editor-layout [data-team-role]:not(.nr-inline-validation-error)>.nr-inline-validation-note{display:none!important}
 @media(max-width:560px){
+ body.alt-editor-layout .alt-field-card .ai-writing-field-status,
  body.alt-editor-layout .alt-field-card .nr-validation-status-row{flex-wrap:wrap!important}
- body.alt-editor-layout .nr-validation-status-row>.alt-compact-count{margin-left:auto!important}
+ body.alt-editor-layout .alt-field-card .ai-writing-field-status-right{margin-left:auto!important}
 }
 </style>
-<script id="nr-validation-status-fix-script-v87">
+<script id="nr-validation-status-fix-script-v88">
 (function(){
  function words(value){return String(value||'').trim().split(/\s+/).filter(Boolean).length}
  function sync(){
   const touched=Boolean(window.nrReviewValidationTouched);
   [['title','Judul Artikel wajib diisi.'],['dek','Short Desc wajib diisi.']].forEach(([key,required])=>{
    const input=document.getElementById(key);
-   const wrap=input?.closest('.ai-writing-field,.alt-field-card');
-   const count=wrap?.querySelector('.alt-compact-count');
-   if(!input||!wrap||!count)return;
-   let row=count.closest('.nr-validation-status-row');
-   if(!row){row=document.createElement('div');row.className='nr-validation-status-row';count.parentNode.insertBefore(row,count);row.appendChild(count)}
-   const notes=[...wrap.querySelectorAll('.nr-inline-validation-note')].filter(n=>n.closest('.ai-writing-field,.alt-field-card')===wrap);
-   let note=notes.find(n=>n.parentElement===row)||notes[0];
-   notes.filter(n=>n!==note).forEach(n=>n.remove());
-   if(!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status')}
-   if(note.parentElement!==row)row.prepend(note);
-   else if(row.firstElementChild!==note)row.prepend(note);
-   const empty=!input.value.trim();
-   const tooLong=key==='dek'&&words(input.value)>30;
-   const invalid=touched&&(empty||tooLong);
-   note.textContent=tooLong?'Short Desc maksimal 30 kata.':required;
+   const card=input?.closest('.alt-field-card');
+   const count=card?.querySelector('.alt-compact-count');
+   if(!input||!card||!count)return;
+   let bar=card.querySelector('.ai-writing-field-status');
+   if(!bar){bar=card.querySelector('.nr-validation-status-row')}
+   if(!bar){
+    bar=document.createElement('div');bar.className='nr-validation-status-row';
+    input.insertAdjacentElement('afterend',bar);
+   }
+   let left=bar.querySelector('.ai-writing-field-status-left');
+   let right=bar.querySelector('.ai-writing-field-status-right');
+   if(!left){left=document.createElement('div');left.className='ai-writing-field-status-left';bar.prepend(left)}
+   if(!right){right=document.createElement('div');right.className='ai-writing-field-status-right';bar.appendChild(right)}
+   if(count.parentElement!==right)right.appendChild(count);
+   // One warning node per field. Remove older nodes created by legacy validators.
+   const notes=[...card.querySelectorAll('.nr-inline-validation-note')];
+   let note=notes.find(n=>n.dataset.nrCanonicalWarning===key)||notes[0];
+   if(!note){note=document.createElement('small');note.className='nr-inline-validation-note'}
+   note.dataset.nrCanonicalWarning=key;
+   notes.forEach(n=>{if(n!==note)n.remove()});
+   if(note.parentElement!==left)left.prepend(note);
+   const wc=words(input.value),invalid=touched&&(!input.value.trim()||(key==='dek'&&wc>30));
+   note.textContent=key==='dek'&&wc>30?'Short Desc maksimal 30 kata.':required;
    note.hidden=!invalid;
-   wrap.classList.toggle('nr-inline-validation-error',invalid);
+   card.classList.toggle('nr-inline-validation-error',invalid);
    input.setAttribute('aria-invalid',String(invalid));
    if(key==='dek'){
-    count.setAttribute('aria-label','Short Desc: '+words(input.value)+' dari maksimal 30 kata');
+    count.setAttribute('aria-label','Short Desc: '+wc+' dari maksimal 30 kata');
     let meter=count.querySelector('[data-nr-word-limit]');
     if(!meter){meter=document.createElement('span');meter.dataset.nrWordLimit='';count.appendChild(meter)}
-    meter.textContent=words(input.value)+'/30 kata';
-    meter.style.color=tooLong?'#c2410c':'';
+    meter.textContent=wc+'/30 kata';meter.style.color=wc>30?'#c2410c':'';
    }
   });
   [['reporter','reporter'],['editor','editorName']].forEach(([role,id])=>{
-   const group=document.querySelector('[data-team-role="'+role+'"]');
-   if(!group)return;
+   const group=document.querySelector('[data-team-role="'+role+'"]');if(!group)return;
    const invalid=touched&&!document.getElementById(id)?.value.trim();
    group.classList.toggle('nr-inline-validation-error',invalid);
    group.setAttribute('aria-invalid',String(invalid));
    group.querySelectorAll('.nr-inline-validation-note').forEach(n=>n.hidden=!invalid);
   });
  }
- let scheduled=false;
- function queue(){if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;sync()})}
- document.addEventListener('input',queue,true);
- document.addEventListener('change',queue,true);
- document.addEventListener('click',queue,true);
- document.addEventListener('newsroom:attributes-generated',queue);
- if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});
- else queue();
+ let queued=false;
+ function queue(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;sync()})}
+ document.addEventListener('input',queue,true);document.addEventListener('change',queue,true);
+ document.addEventListener('click',queue,true);document.addEventListener('newsroom:attributes-generated',queue);
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',queue,{once:true});else queue();
 })();
 </script>
 </body></html>
