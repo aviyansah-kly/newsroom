@@ -72,6 +72,40 @@ const details=await page.evaluate(()=>{
  return out.slice(0,65);
 });
 console.log('LIGHT ISLAND DETAILS',JSON.stringify(details));
+
+const contrast=await page.evaluate(()=>{
+ function rgb(c){
+  const m=(c||'').match(/[0-9.]+/g);if(!m||m.length<3)return null;
+  return m.slice(0,3).map(Number);
+ }
+ function light(v){const s=v.map(x=>x/255).map(x=>x<=.04045?x/12.92:Math.pow((x+.055)/1.055,2.4));return s[0]*.2126+s[1]*.7152+s[2]*.0722}
+ const roots=['.topbar','#cmsNavDrawer','.alt-writing-card','#infoPane','#altValidationModal'];
+ const out=[];
+ roots.forEach(root=>{
+  const box=document.querySelector(root);if(!box)return;
+  box.querySelectorAll('*').forEach(el=>{
+   const c=getComputedStyle(el),r=el.getBoundingClientRect();
+   if(c.display==='none'||c.visibility==='hidden'||r.width<8||r.height<8||r.bottom<0||r.top>1400)return;
+   const ownText=[...el.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent.trim()).join(' ');
+   if(ownText.length<3)return;
+   const fg=rgb(c.color);if(!fg)return;
+   let bg=null,ancestor=el;
+   while(ancestor){
+     const cs=getComputedStyle(ancestor),candidate=rgb(cs.backgroundColor);
+     const opacity=(cs.backgroundColor.match(/[0-9.]+/g)||[])[3];
+     if(candidate && (opacity===undefined||Number(opacity)>=.95)){bg=candidate;break}
+     ancestor=ancestor.parentElement;
+   }
+   if(!bg)bg=[23,25,29];
+   const a=light(fg),b=light(bg),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+   if(ratio>=4.5)return;
+   const cls=typeof el.className==='string'?el.className.split(' ').slice(0,3).join('.'):'';
+   out.push({root,id:el.id,tag:el.tagName.toLowerCase(),cls,text:ownText.slice(0,42),fg:c.color,bg:bg.join(','),ratio:Number(ratio.toFixed(2))});
+  });
+ });
+ return out.sort((a,b)=>a.ratio-b.ratio).slice(0,75);
+});
+console.log('DARK TEXT CONTRAST FAILURES',JSON.stringify(contrast));
 console.log('JS ERRORS',JSON.stringify(errs.slice(0,8)));
 for(const route of ['dashboard.html','articles.html','tags.html']){
   await page.goto('http://127.0.0.1:8765/'+route,{waitUntil:'domcontentloaded',timeout:45000});
