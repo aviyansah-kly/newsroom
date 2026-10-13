@@ -1,0 +1,75 @@
+/* Night-only patches for hardcoded light Editor CSS.
+ * Derived from Playwright computed colors. Never edit geometry or Light Mode.
+ * Loaded after newsroom-dark-mode.css by the shared SidebarAccount shell.
+ */
+html[data-theme="dark"] body.alt-editor-layout .topbar {
+  background:#1C2025!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#cmsNavDrawer,.cms-nav-drawer) {
+  background:#1C2025!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-scroll,.cms-nav-group,.cms-nav-cluster,.cms-nav-heading,.cms-nav-item,.cms-nav-cluster-head,.cms-nav-search-row) {
+  background-color:transparent!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item:hover,.cms-nav-cluster-head:hover) {
+  background:#303740!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item.active,.cms-nav-item[aria-current="page"],.cms-nav-item.is-active) {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-writing-card,.headline) {
+  background:#272C32!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-field-card,.headline,.alt-editor-section) {
+  border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#title,#dek) {
+  background:transparent!important;color:#E8EBEF!important;border-color:#718096!important;caret-color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.editor-field-name,.alt-editor-section-head strong) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editor-section-head span,.section-head span) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .nr-right-panel-control .nr-right-toggle {
+  background:#303740!important;color:#BBC3CD!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .nr-right-panel-control .nr-right-toggle:hover,
+html[data-theme="dark"] body.alt-editor-layout.nr-right-collapsed .context .nr-right-panel-control .nr-right-toggle {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn.primary:not(.alt-ai-analyze-btn) {
+  background:#D92B00!important;border-color:#D92B00!important;color:#FFFFFF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn.primary:not(.alt-ai-analyze-btn):hover {
+  background:#C12700!important;border-color:#C12700!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn.primary:not(.alt-ai-analyze-btn):active {
+  background:#B82500!important;border-color:#B82500!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-card,.alt-validation-card,.popup-card) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-card,.alt-validation-card) :is(.modal-head,.modal-body,.modal-foot) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-summary,.nr-review-validation-section,.alt-validation-issues,.alt-validation-group,.nr-validation-inline) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-summary.warn,.alt-validation-summary.is-warning,.nr-review-validation-section.is-warning) {
+  background:#3D3022!important;color:#FBBF24!important;border-color:#FBBF24!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-validation-card,.modal-card) :is(.modal-head strong,.modal-head h2,.modal-body strong,.modal-body label,.modal-body p) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .btn:not(.primary):not(.alt-ai-analyze-btn) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#414852!important;
+}
+/* Existing standard-page navigation has higher-specificity active-state CSS. */
+html[data-theme="dark"] body.nr-app .nr-nav-item.active {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.nr-app .nr-nav-cluster-head {
+  background:transparent!important;color:#BBC3CD!important;
+}
