@@ -14538,7 +14538,20 @@ body.alt-editor-layout .workspace > section > .paper{
   margin-left:0!important;margin-right:0!important;box-sizing:border-box!important;
 }
 </style>
-</head><body class="alt-editor-layout">
+<style id="nr-inline-publish-validation-v82">
+body.alt-editor-layout .nr-inline-validation-error{position:relative}
+body.alt-editor-layout .nr-inline-validation-error input:not([type="hidden"]),
+body.alt-editor-layout .nr-inline-validation-error textarea,
+body.alt-editor-layout .nr-inline-validation-error .team-add-trigger,
+body.alt-editor-layout .nr-inline-validation-error .headline-drop{
+ border-color:#f59e0b!important;
+}
+body.alt-editor-layout .nr-inline-validation-note{
+ display:block!important;margin-top:7px!important;color:#b45309!important;
+ font-size:12px!important;line-height:18px!important;font-weight:500!important;
+}
+body.alt-editor-layout .nr-inline-validation-note[hidden]{display:none!important}
+</style></head><body class="alt-editor-layout">
 <header class="topbar"><div class="newsroom-header-left"><div class="newsroom-header-brand" aria-label="KLY"><img src="assets/KLY%20Logo.png" alt="KLY"></div><div class="newsroom-header-site-switcher newsroom-site-switcher" id="newsroomSiteSwitcher">
   <button class="newsroom-header-site-trigger newsroom-site-trigger" id="newsroomSiteTrigger" type="button" aria-haspopup="listbox" aria-expanded="false">
     <span class="newsroom-site-wordmark" id="newsroomSiteCurrent"><img src="assets/liputan6-logo.svg" alt="Liputan6"></span>
@@ -16401,12 +16414,34 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
 
     function openTarget(key){
       closeValidation();
-      const map={title:title,dek:dek,content:$('#tiptap-editor .ProseMirror')||$('#tiptap-editor'),headline:$('#chooseHeadline')||$('.headline-drop'),reporter:$('#reporter'),seo:$('#seoKeyword')};
-      const el=map[key]; if(!el) return;
-      if(el.closest('.pane')){
-        const pane=el.closest('.pane'); const tab=$('[data-tab="'+pane.id.replace('Pane','')+'"]'); tab?.click();
+      // Navigate to the VISIBLE editor control, not the hidden backing input.
+      const map={
+        title:$('#title'),dek:$('#dek'),
+        content:$('.alt-block-list .alt-content-card[data-type="text"] .ProseMirror')||$('#tiptap-editor .ProseMirror')||$('[data-insert="text"]'),
+        headline:$('#chooseHeadline')||$('.headline-drop'),
+        reporter:document.querySelector('[data-team-role="reporter"] [data-team-add]')||document.querySelector('[data-team-role="reporter"] [data-team-search]'),
+        seo:$('#seoKeyword')
+      };
+      const el=map[key];if(!el)return;
+      const isRight=['reporter','headline','seo'].includes(key);
+      if(isRight&&document.body.classList.contains('nr-right-collapsed')){
+        $('#nrRightPanelToggle')?.click();
       }
-      setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'center'}); if(el.focus)el.focus();},120);
+      const tabKey=key==='seo'?'seo':'info';
+      if(isRight){
+        const tab=document.querySelector('.context .article-tabs-promoted [data-tab="'+tabKey+'"]');
+        tab?.click();
+      }
+      setTimeout(()=>{
+        el.scrollIntoView({behavior:'smooth',block:'center'});
+        if(key==='reporter'){
+          const panel=el.closest('[data-team-role="reporter"]');
+          const add=panel?.querySelector('[data-team-add]');
+          if(add) add.click();
+          const search=panel?.querySelector('[data-team-search]');
+          (search&&!search.closest('[hidden]')?search:add||el)?.focus?.({preventScroll:true});
+        }else el.focus?.({preventScroll:true});
+      },220);
     }
 
     // Validation and inline correction share the original editorial field state.
@@ -16497,14 +16532,38 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
       const reviewOpen=$('#altValidationModal')?.classList.contains('open');
       const contentType=(reviewOpen?$('#nrValidation_contentType')?.value:'')||$('#contentType')?.value||'';
       const initiative=(reviewOpen?$('#nrValidation_contentInitiative')?.value:'')||$('#contentInitiative')?.value||'';
+      const articleText=[...document.querySelectorAll('.alt-block-list .alt-content-card[data-type="text"] .ProseMirror,.alt-block-list .alt-content-card[data-type="text"] .alt-mini-editor')]
+        .map(el=>(el.innerText||'').trim()).filter(Boolean).join(' ');
       const checks=[
-        {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Judul wajib diisi.'},
-        {key:'dek',label:'Short Desc',ok:!!dek?.value.trim(),help:'Ringkasan membantu preview dan distribusi.'},
-        {key:'content',label:'Konten Artikel',ok:!!pm?.innerText.trim(),help:'Minimal satu section Text harus berisi.'},
+        {key:'title',label:'Judul Artikel',ok:!!title?.value.trim(),help:'Judul Artikel wajib diisi.'},
+        {key:'dek',label:'Short Desc',ok:!!dek?.value.trim(),help:'Short Desc wajib diisi.'},
+        {key:'content',label:'Konten Artikel',ok:!!(articleText||pm?.innerText||'').trim(),help:'Isi minimal satu blok teks artikel.'},
         {key:'reporter',label:'Reporter',ok:!!$('#reporter')?.value.trim(),help:'Reporter wajib diisi.'},
-        {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Lengkapi gambar utama artikel.'},
-        {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'Minimal satu keyword SEO.'}
+        {key:'headline',label:'Headline Image',ok:hasHeadline,help:'Tambahkan gambar utama artikel.'},
+        {key:'seo',label:'SEO Keyword',ok:!!$('#seoKeyword')?.value.trim(),help:'SEO Keyword wajib diisi.'}
       ];
+      // Inline validation mirrors Review & Publish; only reveal warnings after review is requested.
+      checks.forEach(c=>{
+        const targetMap={
+          title:$('#title'),dek:$('#dek'),
+          content:document.querySelector('.alt-editor-section'),
+          reporter:document.querySelector('[data-team-role="reporter"]'),
+          headline:document.querySelector('.headline-drop'),
+          seo:$('#seoKeyword')
+        };
+        const target=targetMap[c.key];
+        if(!target)return;
+        const wrap=c.key==='title'||c.key==='dek'?target.closest('.alt-field-card,.ai-writing-field')||target.parentElement
+          :c.key==='seo'?target.closest('.field,.seo-field')||target.parentElement
+          :target;
+        if(!wrap)return;
+        const show=window.nrReviewValidationTouched&&!c.ok;
+        wrap.classList.toggle('nr-inline-validation-error',!!show);
+        target.setAttribute('aria-invalid',String(!!show));
+        let note=wrap.querySelector(':scope > .nr-inline-validation-note');
+        if(show&&!note){note=document.createElement('small');note.className='nr-inline-validation-note';note.setAttribute('role','status');wrap.appendChild(note);}
+        if(note){note.textContent=c.help;note.hidden=!show;}
+      });
       const issues=$('#altValidationList'),ready=$('#altValidationReadyList');
       issues.replaceChildren();ready.replaceChildren();
       checks.forEach(c=>{
@@ -16556,6 +16615,7 @@ if(!localStorage.getItem(UT_SCENARIO)){currentScenario='sports';localStorage.set
     }
     function validateArticle(){
       validationSubmitted=false;
+      window.nrReviewValidationTouched=true;
       renderValidation();
       reviewReturnFocus=document.activeElement;
       reviewScrollY=window.scrollY;
@@ -22422,4 +22482,27 @@ body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-na
  else setTimeout(init,850);
 })();
 </script>
-</body></html>
+<script id="nr-live-inline-validation-v82">
+(function(){
+ function refresh(){
+  if(!window.nrReviewValidationTouched)return;
+  const errors=[
+    ['title',!!document.getElementById('title')?.value.trim()],
+    ['dek',!!document.getElementById('dek')?.value.trim()],
+    ['reporter',!!document.getElementById('reporter')?.value.trim()],
+    ['seo',!!document.getElementById('seoKeyword')?.value.trim()]
+  ];
+  errors.forEach(([key,ok])=>{
+   const target=key==='reporter'?document.querySelector('[data-team-role="reporter"]'):document.getElementById(key==='seo'?'seoKeyword':key);
+   const wrap=key==='reporter'?target:target?.closest('.alt-field-card,.ai-writing-field,.field,.seo-field')||target?.parentElement;
+   if(!wrap)return;
+   wrap.classList.toggle('nr-inline-validation-error',!ok);
+   let note=wrap.querySelector(':scope > .nr-inline-validation-note');
+   if(note)note.hidden=ok;
+   target?.setAttribute('aria-invalid',String(!ok));
+  });
+ }
+ document.addEventListener('input',()=>queueMicrotask(refresh),true);
+ document.addEventListener('change',()=>queueMicrotask(refresh),true);
+})();
+</script></body></html>
