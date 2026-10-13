@@ -109,7 +109,12 @@
       pending=true;
       window.requestAnimationFrame(function(){pending=false;mount()});
     });
-    observer.observe(document.body,{childList:true,subtree:true});
+    /* Observe navigation only. Editorial typing creates thousands of DOM mutations:
+       never subscribe the theme controller to the entire writing workspace. */
+    var roots=[document.querySelector('#cmsNavDrawer')].concat(
+      Array.prototype.slice.call(document.querySelectorAll('.nr-sidebar'))
+    ).filter(Boolean);
+    roots.forEach(function(root){observer.observe(root,{childList:true,subtree:true})});
   }
   if(media){
     if(media.addEventListener)media.addEventListener('change',function(){if(preference()==='system')apply()});
