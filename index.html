@@ -22277,4 +22277,86 @@ body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-na
  else setTimeout(init,350);
 })();
 </script>
+
+<style id="nr-nav-layout-correction-v80">
+/* Unified menu stays in one sidebar; neither column may disappear in expanded state. */
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav{
+  width:274px!important;min-width:274px!important;max-width:calc(100vw - 12px)!important;
+  display:grid!important;grid-template-columns:66px minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr) auto!important;
+  transform:translateX(0)!important;overflow:hidden!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-rail{
+  grid-column:1!important;grid-row:1!important;width:66px!important;min-width:66px!important;
+  height:100%!important;box-sizing:border-box!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content{
+  grid-column:2!important;grid-row:1!important;min-width:0!important;width:100%!important;
+  display:flex!important;visibility:visible!important;opacity:1!important;
+  overflow:hidden!important;pointer-events:auto!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content .nr-nav-heading{flex:0 0 48px!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content .nr-nav-list{min-height:0!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-content .nr-nav-list[hidden]{display:none!important}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account{
+  grid-column:1/-1!important;grid-row:2!important;display:flex!important;
+  align-items:center!important;min-height:68px!important;flex:0 0 auto!important;
+  border-top:1px solid #e2e8f0!important;background:#fff!important;
+}
+body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account>*{width:100%!important;max-width:100%!important}
+body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav{
+  width:66px!important;min-width:66px!important;grid-template-columns:66px!important;
+}
+body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-nav-content{display:none!important}
+body.alt-editor-layout.cms-sidebar-collapsed #cmsNavDrawer.nr-unified-nav .nr-nav-account{
+  grid-column:1!important;justify-content:center!important;min-height:60px!important;overflow:hidden!important;
+}
+@media(max-width:1024px){
+  body.alt-editor-layout #cmsNavDrawer.nr-unified-nav{
+    width:min(274px,90vw)!important;min-width:0!important;
+    transform:translateX(-105%)!important;
+  }
+  body.alt-editor-layout.cms-mobile-sidebar-open #cmsNavDrawer.nr-unified-nav{transform:translateX(0)!important}
+}
+</style>
+<script id="nr-nav-interaction-correction-v80">
+(function(){
+ function init(){
+  const drawer=document.getElementById('cmsNavDrawer');
+  if(!drawer?.classList.contains('nr-unified-nav'))return;
+  const rail=drawer.querySelector('.nr-nav-rail');
+  const account=document.createElement('footer');
+  account.className='nr-nav-account';
+  account.setAttribute('aria-label','Akun Pengguna');
+  // Reuse the original account/profile node if present; do not duplicate it.
+  const existing=document.querySelector('.cms-nav-bottom');
+  if(existing){account.appendChild(existing);}
+  else {
+   // Account profile may be rendered asynchronously by the legacy shell.
+   const observer=new MutationObserver(()=>{
+    const footer=document.querySelector('.cms-nav-bottom');
+    if(footer&&footer!==account&& !account.contains(footer)){
+      account.replaceChildren(footer);observer.disconnect();
+    }
+   });
+   observer.observe(document.body,{childList:true,subtree:true});
+  }
+  drawer.appendChild(account);
+  const close=drawer.querySelector('#cmsNavClose');
+  const applyExpanded=()=>{
+    if(window.matchMedia('(max-width:1024px)').matches)return;
+    if(document.body.classList.contains('cms-sidebar-collapsed'))close?.click();
+  };
+  rail?.querySelectorAll('[data-nav-group]').forEach(button=>{
+    button.addEventListener('click',applyExpanded,true);
+  });
+  // On desktop, expose both levels on first visit; keep intentional collapse preference afterward.
+  const saved=localStorage.getItem('sixdesk:sidebar-collapsed');
+  if(!window.matchMedia('(max-width:1024px)').matches&&saved!=='1')applyExpanded();
+  if(window.lucide)window.lucide.createIcons({nodes:[drawer]});
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(init,850));
+ else setTimeout(init,850);
+})();
+</script>
 </body></html>
