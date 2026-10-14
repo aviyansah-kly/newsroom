@@ -677,3 +677,142 @@ html[data-theme="dark"] body.alt-editor-layout .context :is(#seoPane,#infoPane) 
   border-top-color:var(--nr-ui-decorative-divider)!important;
   border-bottom-color:var(--nr-ui-decorative-divider)!important;
 }
+
+
+/* V2.4 · targeted screenshot-led Editor comfort.
+ * Every property is dark-scoped and uses semantic tokens; do not change
+ * Light Mode sizes, positioning, selection rules, sticky offset or article state.
+ */
+html[data-theme="dark"] {
+  --nr-ui-review-ring:var(--nr-ui-warning-text);
+  --nr-ui-review-ring-soft:rgba(245,158,11,.20);
+}
+/* 1. Main content-divider: ONE soft stroke, no extra outline/drop shadow. */
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .alt-editor-section,
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .alt-editor-section-head {
+  border-top-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .alt-editor-section > .alt-editor-section-head,
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .alt-editor-section > .section-head {
+  box-shadow:none!important;
+  outline:0!important;
+}
+/* 2. Consolidated chrome: one parent frame, no nested double outline. */
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster,
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group {
+  border:1px solid var(--nr-ui-card-border)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster :is(.article-lifecycle-pill,#saveStatus),
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device {
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-divider {
+  background:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account {
+  border:0!important;
+  border-top:1px solid var(--nr-ui-decorative-divider)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account :is(.cms-nav-bottom,.nr-account-trigger) {
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account .cms-nav-bottom {
+  border:0!important;
+}
+/* Account trigger has its own hit target; no second thick enclosing stroke. */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account .nr-account-trigger {
+  border-color:var(--nr-ui-card-border)!important;
+}
+
+/* 3. Add Content: keep six independent selectable tiles, clear 1px outlines. */
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu {
+  background:var(--nr-ui-control)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border:1px solid var(--nr-ui-card-border)!important;
+  border-radius:8px!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button:hover,
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button:focus-visible {
+  background:var(--nr-ui-hover)!important;
+  border-color:var(--nr-ui-focus)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu :is(button strong,button svg,button .alt-add-icon) {
+  color:var(--nr-ui-text)!important;
+}
+
+/* 4. Sticky Text toolbar: fixed, primary-stuck and normal share ONE graphite
+ * surface. Legacy ID/state selectors outrank generic theme classes. */
+html[data-theme="dark"] body.alt-editor-layout #classicToolbar,
+html[data-theme="dark"] body.alt-editor-layout #classicToolbar.newsroom-primary-stuck,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar {
+  background:var(--nr-ui-block-header)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#classicToolbar,.classic-toolbar.v46-fixed,.alt-mini-toolbar.v46-fixed) :is(button,svg,i) {
+  color:var(--nr-ui-secondary)!important;
+  stroke:currentColor;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#classicToolbar,.classic-toolbar.v46-fixed,.alt-mini-toolbar.v46-fixed) button:hover {
+  color:var(--nr-ui-text)!important;
+  background:var(--nr-ui-hover)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#classicToolbar,.classic-toolbar.v46-fixed,.alt-mini-toolbar.v46-fixed) .toolbar-sep {
+  background:var(--nr-ui-decorative-divider)!important;
+}
+
+/* 5. Exact existing icon markup: .alt-content-card-title > .icon.
+ * Previous component contract only covered *-icon class names, not .icon. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-content-card-title .icon {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border:1px solid var(--nr-ui-card-border)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-content-card-title .icon :is(svg,i) {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
+
+/* 6. Review & Publish → Perbaiki: source-of-truth is an actual target with
+ * .nr-review-focus-target set only after navigation. It stays until user edits
+ * or the next Perbaiki navigation; no whole-canvas warning outline. */
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #title,#dek,.headline-drop,.field input,.field textarea,
+  .alt-editor-section .alt-add-menu,.alt-content-card[data-type="text"],
+  .team-add-trigger,.alt-content-card[data-type="image"]
+).nr-review-focus-target,
+html[data-theme="dark"] body.alt-editor-layout .nr-review-focus-target :is(
+  #title,#dek,.headline-drop,.team-add-trigger
+) {
+  border-color:var(--nr-ui-review-ring)!important;
+  outline:2px solid var(--nr-ui-review-ring)!important;
+  outline-offset:2px!important;
+  box-shadow:0 0 0 4px var(--nr-ui-review-ring-soft)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-review-focus-target:focus-within {
+  border-color:var(--nr-ui-review-ring)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .nr-field-highlight[data-highlight-variant="warning"] {
+  background:var(--nr-ui-raised)!important;
+  border-color:var(--nr-ui-review-ring)!important;
+}
+@media (prefers-reduced-motion:reduce) {
+  html[data-theme="dark"] body.alt-editor-layout .nr-review-focus-target {
+    animation:none!important;
+  }
+}
