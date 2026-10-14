@@ -1,5 +1,5 @@
 {
-  "version": "2.2.0",
+  "version": "2.3.0",
   "status": "prototype",
   "themeScope": "html[data-theme=\"dark\"]",
   "sourceOfTruth": "styles/newsroom-theme-components.css",
@@ -39,7 +39,13 @@
     "tabActiveIndicator": "--nr-ui-tab-active-indicator",
     "toolbarIcon": "--nr-ui-toolbar-icon",
     "placeholder": "--nr-ui-placeholder",
-    "decorativeDivider": "--nr-ui-decorative-divider"
+    "decorativeDivider": "--nr-ui-decorative-divider",
+    "blockSurface": "--nr-ui-block-surface",
+    "blockBody": "--nr-ui-block-body",
+    "blockHeader": "--nr-ui-block-header",
+    "blockTitle": "--nr-ui-block-title",
+    "blockMeta": "--nr-ui-block-meta",
+    "blockPlaceholder": "--nr-ui-block-placeholder"
   },
   "components": [
     {
@@ -82,12 +88,21 @@
         "text",
         "toolbarIcon",
         "decorativeDivider",
-        "placeholder"
+        "placeholder",
+        "blockSurface",
+        "blockBody",
+        "blockHeader",
+        "blockTitle",
+        "blockMeta",
+        "cardBorder"
       ],
       "qa": [
         "insert-text-block",
         "sticky-toolbar",
-        "expanded-dynamic-block-contrast"
+        "expanded-dynamic-block-contrast",
+        "soft-section-separators",
+        "heading-contrast",
+        "card-outer-vs-inner-surface"
       ]
     },
     {
@@ -109,7 +124,11 @@
         "inputBorder",
         "muted",
         "decorativeDivider",
-        "placeholder"
+        "placeholder",
+        "blockTitle",
+        "blockMeta",
+        "blockPlaceholder",
+        "cardBorder"
       ],
       "qa": [
         "video-empty",
@@ -117,7 +136,9 @@
         "image-empty",
         "standings",
         "media-empty-actions",
-        "page-break"
+        "page-break",
+        "placeholder-headings",
+        "image-empty-readability"
       ]
     },
     {
@@ -324,7 +345,9 @@
         "tab-inactive-contrast",
         "tab-active-contrast",
         "tab-switch",
-        "keyboard-focus"
+        "keyboard-focus",
+        "no-active-underline",
+        "filled-active-only"
       ]
     },
     {
