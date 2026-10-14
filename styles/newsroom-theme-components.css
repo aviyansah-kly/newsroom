@@ -725,13 +725,13 @@ html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-
 }
 /* Account trigger has its own hit target; no second thick enclosing stroke. */
 html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer.nr-unified-nav .nr-nav-account .nr-account-trigger {
-  border-color:var(--nr-ui-card-border)!important;
+  border-color:transparent!important;
 }
 
 /* 3. Add Content: keep six independent selectable tiles, clear 1px outlines. */
 html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu {
   background:var(--nr-ui-control)!important;
-  border-color:var(--nr-ui-decorative-divider)!important;
+  border-color:transparent!important;
   box-shadow:none!important;
 }
 html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button {
