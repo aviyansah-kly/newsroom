@@ -763,6 +763,16 @@ html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text
   border-bottom-color:var(--nr-ui-decorative-divider)!important;
   box-shadow:none!important;
 }
+/* The original primary Text toolbar is an ID selector inside a content card.
+ * Match BOTH ancestry and ID to beat its legacy white !important rule. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar.newsroom-primary-stuck,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] #classicToolbar.v46-fixed {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+  box-shadow:none!important;
+}
 html[data-theme="dark"] body.alt-editor-layout :is(#classicToolbar,.classic-toolbar.v46-fixed,.alt-mini-toolbar.v46-fixed) :is(button,svg,i) {
   color:var(--nr-ui-secondary)!important;
   stroke:currentColor;
