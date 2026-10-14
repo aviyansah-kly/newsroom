@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'tests/live-dark-mode-audit.cjs'
+      - 'tests/dark-mode-editor-ux-v24.cjs'
       - '.github/workflows/newsroom-live-dark-qa.yml'
       - 'styles/**'
       - 'scripts/**'
@@ -30,7 +31,9 @@ jobs:
             NR_LIVE_REPORT_ONLY=1 node tests/live-dark-mode-audit.cjs
           else
             for attempt in 1 2 3 4 5; do
-              if node tests/live-dark-mode-audit.cjs; then exit 0; fi
+              if python3 scripts/verify-live-deployment.py --strict && \\
+                 node tests/live-dark-mode-audit.cjs && \\
+                 NR_BASE_URL=https://newsroom.avi-yansah.workers.dev/ node tests/dark-mode-editor-ux-v24.cjs; then exit 0; fi
               if [ "$attempt" = "5" ]; then exit 1; fi
               sleep 20
             done
