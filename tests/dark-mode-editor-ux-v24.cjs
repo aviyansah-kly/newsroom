@@ -53,7 +53,6 @@ const engine=process.env.NR_BROWSER||'chromium';
  assert(sticky.exists,'Primary Text toolbar should exist');
  assert.equal(sticky.bg,'rgb(48, 55, 64)','Sticky toolbar must use graphite');
  assert.equal(sticky.border,'rgb(48, 54, 62)','Sticky separator soft');
- assert(!/^rgb\\(2(0[0-9]|1[0-9]|2[0-9]),/.test(sticky.bg),'No white toolbar');
  await page.locator('#publishBtn').click();
  await page.locator('#altValidationModal').waitFor({state:'visible',timeout:12000});
  const titleFix=page.locator('#altValidationList .alt-validation-row.warn').filter({has:page.locator('strong', {hasText:'Judul Artikel'})}).locator('button').first();
