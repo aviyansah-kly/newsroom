@@ -14,7 +14,7 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
  await page.locator('.nr-account-trigger').first().waitFor({timeout:25000});
  await page.waitForFunction(()=>!!document.querySelector('link[data-nr-component-theme]'),null,{timeout:10000});
  await page.waitForTimeout(800);
- const result=await page.evaluate(()=>{
+ const result=await page.evaluate(async()=>{
   const css=getComputedStyle(document.documentElement);
   const token=n=>css.getPropertyValue(n).trim();
   const root=document.createElement('div');root.id='nr-theme-probe';root.style.position='absolute';root.style.left='-12000px';root.style.top='0';
@@ -70,6 +70,9 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
   results.thumb=thumb;
   toggle.querySelector('input').click();
   results.checked=toggle.querySelector('input').checked;
+  results.matchesOn=toggle.querySelector('.switch-track').matches('input:checked + .switch-track');
+  results.matchesOff=toggle.querySelector('.switch-track').matches('input:not(:checked) + .switch-track');
+  await new Promise(resolve=>requestAnimationFrame(()=>resolve()));
   toggle.querySelector('.switch-track').getBoundingClientRect();
   results.on=cssColor('#nrSwitchProbe .switch-track');
   toggle.remove();
