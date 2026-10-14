@@ -198,3 +198,17 @@ A GitHub merge and a passing local test are not proof of a successful Cloudflare
 - **After merge:** compare Cloudflare live hashes to GitHub main (`scripts/verify-live-deployment.py --strict`) and render-check SEO and editor states (`tests/live-dark-mode-audit.cjs`). Do not claim deployed before these complete.
 
 **Protected UI:** Left/Right navigation dimensions, editor text/article data, role-based controls, article actual preview, light-mode appearance, logos and source media pixels, Review & Publish function, and all content block interactions.
+
+
+## V2.4 screenshot-driven Editor consistency (14 October 2026)
+
+**Scope:** only `html[data-theme="dark"]`; no Light Mode layout or content behavior changes.
+
+- **Center separator:** passive border uses `--nr-ui-decorative-divider`, not white or an actionable input-border color.
+- **Outline hierarchy:** status pill group, preview controls and sidebar account must have a single structural frame, not nested strokes. Keyboard `:focus-visible` remains accessible.
+- **Tambah Content:** each of the six action tiles (Text, Video, Image, Embed, Klasemen, Page Break) has its **own** 1px `--nr-ui-card-border`, neutral raised fill, blue hover/focus; the outer group is a quiet surface without a second visible enclosing stroke.
+- **Text editing toolbar:** primary `#classicToolbar`, `.newsroom-primary-stuck` and later `.v46-fixed` instances use `--nr-ui-raised` and `--nr-ui-decorative-divider`. CSS must match legacy `#classicToolbar` specificity; never move its sticky top or alter cursor/formatting logic.
+- **Content Block icon:** actual generated markup is `.alt-content-card-title .icon` (not the older `.alt-card-type-icon` convention); semantic control surface and stroke are mandatory.
+- **Review & Publish / Perbaiki:** Short Desc previously had no mapped label in the V70 JS handler. `scripts/newsroom-dark-review-focus.js` now coordinates the clicked issue with its real editable field and applies a persistent amber `.nr-review-focus-target` outline until the editor edits that field. It does not modify draft content, validation rules or publication state.
+
+**Regression:** `tests/dark-mode-editor-ux-v24.cjs` tests real Add Content behavior, Text Block icon and sticky toolbar rendering, and clicks Perbaiki for Judul Artikel / Short Desc in Chromium, Firefox and WebKit. Keep the approved Light Mode pixel/geometry baseline tests. Actual Cloudflare deployment and live visual QA are separate release gates.
