@@ -13,6 +13,15 @@ const engine=process.env.NR_BROWSER||'chromium';
  await page.locator('#publishBtn').waitFor({state:'visible',timeout:30000});
  await page.waitForFunction(()=>!!document.querySelector('script[data-nr-review-focus]'),null,{timeout:10000});
  await page.waitForTimeout(1600);
+ // Blank article starts without a Text Card. Add one through the actual
+ // production prototype control, rather than asserting against missing DOM.
+ if(!await page.locator('.alt-content-card[data-type="text"]').count()){
+   const add=page.locator('.alt-editor-section .alt-add-menu [data-alt-add="text"]').first();
+   const menu=page.locator('.alt-editor-section .alt-add-menu').first();
+   if(!await menu.isVisible())await page.locator('.alt-editor-section .alt-add-content').first().click();
+   await add.click({timeout:12000});
+   await page.waitForTimeout(700);
+ }
  const state=await page.evaluate(()=>{
   const get=sel=>{
    let el=document.querySelector(sel);if(!el)return {exists:false};
