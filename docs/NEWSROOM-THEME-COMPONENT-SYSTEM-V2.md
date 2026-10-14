@@ -104,3 +104,57 @@ A live audit against `https://newsroom.avi-yansah.workers.dev/` confirmed that *
 - Actions `verify-newsroom-live.yml` and `newsroom-live-dark-qa.yml`: report-only before PR merge; strict on main push with deployment retries.
 
 A GitHub merge and a passing local test are not proof of a successful Cloudflare release. Both the **live asset match** and the **live rendered UI audit** are required, in that order.
+
+
+## V2.2 — Editor Workspace Dark Mode consistency & handover (14 October 2026)
+
+**Scope:** This is a token-only color pass on *the existing UI*, not a redesign. It is deliberately limited to `html[data-theme="dark"]` and does not change positions, component sizes, user copy, AI behavior, article data, role permissions or media appearance.
+
+### Symptoms audited on the user's Editor Workspace screenshot
+
+- Strong white toolbar behind Text Block formatting controls despite a graphite article canvas.
+- Black/light-theme placeholder labels or white icon backgrounds in dynamically generated Image, Video, Embed, Klasemen and Page Break blocks.
+- Thin rules from legacy Light CSS rendering too bright in Text Block headers/footers and format toolbars.
+- Editorial/SEO tabs: active near-black surface and inactive SEO label with only **3.19:1** text contrast, below 4.5:1.
+- Bright violet/lavender outline on some AI suggestion action buttons.
+
+### Semantic source of truth
+
+| Purpose | CSS token | Value / inherited token | Required behavior |
+|---|---|---|---|
+| App background | `--nr-ui-app` | `#17191D` | Global shell only |
+| Writing canvas | `--nr-ui-canvas` | `#272C32` | Editorial text and block body |
+| Neutral control surface | `--nr-ui-control` | `#303740` | Secondary action and icon tiles |
+| Elevated toolbar | `--nr-ui-raised` | `#2B3037` | Formatting actions & preview scaffolds |
+| Passive divider | `--nr-ui-decorative-divider` | `var(--nr-ui-divider)` → `#343A42` | No Light Mode white lines |
+| Content text | `--nr-ui-text` | `#E8EBEF` | Main labels, actual content |
+| Secondary / idle action | `--nr-ui-secondary` | `#BBC3CD` | Field helpers, neutral toolbar icons |
+| Active tab background | `--nr-ui-tab-active-bg` | `#27435C` | Selected Editorial/SEO tab |
+| Active tab text | `--nr-ui-tab-active-text` | `#E8F2FF` | High contrast selected tab |
+| Inactive tab text | `--nr-ui-tab-inactive-text` | `var(--nr-ui-secondary)` | At least 4.5:1 against panel |
+| Selected indicator | `--nr-ui-tab-active-indicator` | `#93C5FD` | 2px inside lower edge, no geometry shift |
+| AI action border | `--nr-ui-purple-border` | `#59497C` | Purple semantic state, no pale lavender outline |
+
+**Do not** use light-theme hexadecimal values directly in React/Vue/frontend components or add duplicated overrides to inline HTML. Frontend implementation should reference semantic token variables and migrate existing overrides gradually. The registry `design-system/component-theme-registry.json` now owns component/QA mapping for `editor-right-tabs`, `richtext-block`, `media-block` and `editor-block-actions`.
+
+### Component-state matrix
+
+| Component | Default | Hover | Active/focus | Empty/disabled |
+|---|---|---|---|---|
+| Editorial/SEO tabs | Transparent with readable secondary text | `--nr-ui-hover` | Active graphite-blue with clear underline; keyboard outline | N/A |
+| Text formatting toolbar | Elevated graphite, not white | Toolbar button surface hover | `--nr-ui-selection` for pressed formatting | Idle icons stay readable |
+| Image / Video / Embed | Neutral media panel, legible placeholder | Neutral button hover | Existing blue/orange primary CTA preserved | Placeholder copy uses secondary token |
+| Klasemen / Page Break | Graphite details and soft separator | Same token roles | Existing selection behavior unchanged | Empty states remain legible |
+| Add Content icons | Neutral dark icon tile | Hover surface | Existing add action unchanged | No white icon tile |
+| AI suggestion borders | Muted purple outline | Existing interaction | AI provenance semantics preserved | No distracting bright passive line |
+
+### Safe handover / regression gates
+
+1. Confirm **source/style precedence**: `newsroom-design-system.css` (Light) → `newsroom-dark-mode.css` → `newsroom-dark-mode-editor.css` (legacy adapter) → `newsroom-theme-components.css` (canonical and final).
+2. Use `node tests/dark-mode-expanded-editor-contract.cjs` in Chromium, Firefox and WebKit. This mounts all six block types without changing stored articles; validates tabs (WCAG AA contrast), toolbar, neutral buttons and soft separators.
+3. Run existing suites `dark-mode-computed-audit.cjs`, `dark-mode-component-contract.cjs`, `dark-mode-divider-comfort.cjs`, `dark-mode-editor-flow.cjs`, `dark-mode-seo-surface.cjs`; no loss of field workflows, Review & Publish or SEO panels.
+4. Verify **Light Mode** against approved baseline at desktop/mobile using `dark-mode-light-baseline.cjs` or equivalent pixel/geometry comparison.
+5. After merge, run `python3 scripts/verify-live-deployment.py --strict` and `node tests/live-dark-mode-audit.cjs` against the real Cloudflare URL. A local pass is not proof that Workers has updated.
+6. Test any future new component in *default, hover, active, disabled, error, empty and overlay states*; add selectors and QA IDs to the component registry rather than hardcoding a new palette.
+
+**Protected UI:** original logos/images, article desktop/mobile previews, autosave & publishing, content block layout, navigation IA, Light Mode, roles (Writer/Editor/Redpel/SEO), orange primary publish action (`#D92B00` in the existing prototype) are unchanged.

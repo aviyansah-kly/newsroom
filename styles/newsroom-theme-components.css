@@ -327,3 +327,202 @@ html[data-theme="dark"] body.nr-app :is(.tag-table td,.tag-table th,.dashboard-q
     transition:none!important;
   }
 }
+
+
+/* V2.2 · Editor parity: additional content blocks and tab states.
+   Component-owned semantic tokens only. No geometry, behavior or Light Mode edits. */
+html[data-theme="dark"] {
+  --nr-ui-tab-active-bg:#27435C;
+  --nr-ui-tab-active-text:#E8F2FF;
+  --nr-ui-tab-inactive-text:var(--nr-ui-secondary);
+  --nr-ui-tab-active-indicator:#93C5FD;
+  --nr-ui-toolbar-icon:var(--nr-ui-secondary);
+  --nr-ui-placeholder:var(--nr-ui-muted);
+  --nr-ui-decorative-divider:var(--nr-ui-divider);
+}
+
+/* Existing Editorial/SEO button inherits legacy #0f172a and #64748b.
+   Use distinct selected surface, readable inactive label, and selection underline. */
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(button.tab,[role="tab"]) {
+  background:transparent!important;
+  color:var(--nr-ui-tab-inactive-text)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(button.tab,[role="tab"]) :is(.alt-tab-label,span,svg) {
+  color:inherit!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(button.tab,[role="tab"]):hover:not(.active):not([aria-selected="true"]) {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(button.tab.active,button.tab[aria-selected="true"],[role="tab"][aria-selected="true"]) {
+  background:var(--nr-ui-tab-active-bg)!important;
+  color:var(--nr-ui-tab-active-text)!important;
+  border-color:var(--nr-ui-tab-active-bg)!important;
+  box-shadow:inset 0 -2px 0 var(--nr-ui-tab-active-indicator)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(button.tab,[role="tab"]):focus-visible {
+  outline:2px solid var(--nr-ui-focus)!important;
+  outline-offset:2px;
+}
+
+/* Actual Text Block classic WYSIWYG and dynamically added mini toolbar.
+   These are inserted at runtime and were missing from initial-page-only QA. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] :is(.classic-toolbar,.alt-mini-toolbar),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-top-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+  border-left-color:var(--nr-ui-decorative-divider)!important;
+  border-right-color:var(--nr-ui-decorative-divider)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] :is(.classic-toolbar,.alt-mini-toolbar) button,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button {
+  background:transparent!important;
+  color:var(--nr-ui-toolbar-icon)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] :is(.classic-toolbar,.alt-mini-toolbar) button:hover,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button:hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] :is(.classic-toolbar,.alt-mini-toolbar) button:is(.active,[aria-pressed="true"],[aria-selected="true"]),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-mini-toolbar button:is(.active,[aria-pressed="true"]) {
+  background:var(--nr-ui-selection)!important;
+  color:var(--nr-ui-focus)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.classic-toolbar,.alt-mini-toolbar) :is(.toolbar-sep,.alt-toolbar-sep) {
+  background:var(--nr-ui-decorative-divider)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.classic-toolbar,.alt-mini-toolbar) :is(button,svg,span,i) {
+  stroke:currentColor;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] :is(#tiptap-editor,.tiptap-editor,.ProseMirror,.alt-mini-editor),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body {
+  background:var(--nr-ui-canvas)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-mini-editor,.tiptap-editor,.ProseMirror):empty::before {
+  color:var(--nr-ui-placeholder)!important;
+}
+
+/* Media/Image/Embed, Klasemen, Page Break: passively bordered preview UI
+   must not inherit Light Mode placeholder text or white icon tiles. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+  .alt-media-drop,.alt-media-dropzone,.alt-media-preview-card,.alt-media-side-preview,
+  .alt-inline-media-preview,.alt-preview-empty-state,.alt-standings-card,
+  .alt-page-card,.alt-page-badge,.alt-standings-field
+) {
+  background-color:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+  .alt-media-drop,.alt-preview-empty-state,.alt-media-preview-card,.alt-standings-card,
+  .alt-page-card,.alt-card-field
+) :is(strong,h3,span,small,p,label) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+  .alt-media-drop,.alt-preview-empty-state,.alt-media-preview-card,.alt-standings-card,
+  .alt-page-card
+) :is(strong,h3) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+  .alt-media-drop,.alt-media-preview-card,.alt-page-badge,.alt-standings-icon
+) :is(svg,.icon,[class*="icon"]) {
+  background:transparent!important;
+  color:var(--nr-ui-secondary)!important;
+  stroke:currentColor;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+  .alt-media-drop,.alt-media-preview-card,.alt-page-card
+) :is(button,.btn,.alt-save-preview) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+  .alt-media-drop,.alt-media-preview-card,.alt-page-card
+) :is(button,.btn,.alt-save-preview):hover {
+  background:var(--nr-ui-hover)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-page-line,.alt-page-separator) {
+  background:var(--nr-ui-decorative-divider)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+
+/* Neutral editor actions and inline icons in all dynamically mounted cards. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-actions button,.alt-content-card-head button) {
+  background:transparent!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-actions button,.alt-content-card-head button):hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu::before {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button:hover {
+  background:var(--nr-ui-hover)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-icon {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-focus)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+
+/* Quiet separators and readable helper text in tools & assistant surfaces. */
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-writing-card,.context,.alt-editor-section,.alt-content-card) :is(
+ .alt-content-card-head,.alt-content-card-foot,.alt-mini-toolbar,.classic-toolbar,
+ .alt-editor-section-head,.alt-card-field,.alt-page-card,.alt-media-drop
+) {
+  border-top-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#agentDock,.agent-dock) :is(
+ .agent-msg-label,.agent-note,.agent-mode span,.agent-context span
+) {
+  color:var(--nr-ui-secondary)!important;
+}
+/* AI actions are active affordances but should not have bright pastel strokes. */
+html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-action,.alt-tag-ai) {
+  border-color:var(--nr-ui-purple-border)!important;
+}
+
+
+/* Specific legacy inline selector outranks generic AI borders. Apply quiet
+   lavender only to the control frame; active provenance text remains purple. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane .nr-ai-field-head button.nr-ai-field-action,
+html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection .alt-tag-head button.alt-tag-ai {
+  border-color:var(--nr-ui-purple-border)!important;
+}
+
+/* Agent's passive metadata should be secondary graphite text, not #64748b
+   inherited from the prototype Light Mode chat shell. */
+html[data-theme="dark"] body.alt-editor-layout #agentDock :is(.agent-header,.agent-header span,.agent-mode,.agent-mode span,.agent-context,.agent-context span,.agent-composer-label,.agent-composer-label span) {
+  color:var(--nr-ui-secondary)!important;
+}
+
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .nr-ai-field-head button.nr-ai-field-action,
+html[data-theme="dark"] body.alt-editor-layout .headline .nr-ai-field-head button.nr-ai-field-action {
+  border-color:var(--nr-ui-purple-border)!important;
+}
+
+/* Final AA text contrast issue found in the original AgentDock heading. */
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-head .agent-title span {
+  color:var(--nr-ui-secondary)!important;
+}
