@@ -1,0 +1,32 @@
+name: Newsroom expanded Dark Mode component contract
+on:
+  push:
+    branches: [fix/dark-mode-consistency-20261014]
+    paths:
+      - styles/newsroom-theme-components.css
+      - tests/dark-mode-expanded-editor-contract.cjs
+      - .github/workflows/dark-mode-expanded-editor.yml
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  expanded:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    env:
+      NR_BROWSER: ${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --no-save --ignore-scripts playwright@1.56.1
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Test tab states and dynamically inserted editor blocks
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-editor-http.log 2>&1 &
+          sleep 2
+          node tests/dark-mode-expanded-editor-contract.cjs
+          node tests/dark-mode-editor-ink-audit.cjs
