@@ -570,3 +570,47 @@ html[data-theme="dark"] body.alt-editor-layout :is(.block-menu,.block-menu butto
 html[data-theme="dark"] body.alt-editor-layout :is(.block-menu button:hover,.alt-add-menu button:hover) {
   background:#303740!important;color:#93C5FD!important;
 }
+
+/* Browser-confirmed residual white islands from open/closed Article Settings.
+   Preserve semantic tag provenance and staff avatar initials. */
+html[data-theme="dark"] body.alt-editor-layout #altAdvancedPublishing,
+html[data-theme="dark"] body.alt-editor-layout #altAdvancedPublishing > summary,
+html[data-theme="dark"] body.alt-editor-layout #altAdvancedPublishing .alt-advanced-publish-body {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#343A42!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#distributionPlacementSection,#audienceComplianceSection) .flag-list {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#343A42!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#distributionPlacementSection,#audienceComplianceSection) .flag-row {
+  background:#303740!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(#distributionPlacementSection,#audienceComplianceSection) .flag-copy :is(span,small,strong) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagList .tag-chip {
+  background:#2D2545!important;color:#D8CEFF!important;border-color:#59497C!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagList .tag-chip :is(span,button,svg) {
+  color:inherit!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .team-member-avatar {
+  background:#303740!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #articleLifecycleIcon,
+html[data-theme="dark"] body.alt-editor-layout .article-lifecycle-icon {
+  background:#303740!important;color:#BBC3CD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule-icon {
+  background:#1B314B!important;color:#93C5FD!important;border-color:#3A414A!important;
+}
+/* Exact ID used by the category tree popover outranks old white !important rules. */
+html[data-theme="dark"] body.alt-editor-layout .alt-category-tree-picker.open > .alt-category-tree-popover,
+html[data-theme="dark"] body.alt-editor-layout .alt-category-tree-picker .alt-category-tree-search,
+html[data-theme="dark"] body.alt-editor-layout .alt-category-tree-picker .alt-category-tree-search input {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#566170!important;
+}
+/* Text Card body from legacy V16 was still white when a block was inserted. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] > .alt-content-card-body,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .alt-content-card-body {
+  background:#272C32!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
