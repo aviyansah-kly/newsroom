@@ -38,7 +38,7 @@ const {chromium,firefox,webkit}=require('playwright');
  assert(result.tabs.length>=2,'Editorial and SEO tabs must exist');
  for(const t of result.tabContrast)assert(t.ratio>=4.5,'Tab contrast must be readable: '+JSON.stringify(t));
  for(const block of result.cards){
-  assert.equal(block.card.bg,'rgb(39, 44, 50)',block.kind+' card neutral canvas');
+  assert.equal(block.card.bg,'rgb(44, 51, 59)',block.kind+' card uses differentiated graphite surface');
   assert.equal(block.head.bb,'rgb(52, 58, 66)',block.kind+' head quiet separator');
   assert.equal(block.foot.bt,'rgb(52, 58, 66)',block.kind+' footer quiet separator');
  }
