@@ -7,6 +7,7 @@ on:
       - 'scripts/newsroom-shell.js'
       - 'tests/dark-mode-smoke.cjs'
       - 'tests/dark-mode-computed-audit.cjs'
+      - 'tests/dark-mode-surface-inventory.cjs'
       - 'tests/dark-mode-divider-comfort.cjs'
       - 'styles/newsroom-dark-mode-editor.css'
       - 'tests/dark-mode-editor-flow.cjs'
@@ -35,6 +36,7 @@ jobs:
           sleep 2
           node tests/dark-mode-smoke.cjs
           node tests/dark-mode-computed-audit.cjs
+          if [ "$NR_BROWSER" = "chromium" ]; then node tests/dark-mode-surface-inventory.cjs; fi
           node tests/dark-mode-divider-comfort.cjs
           node tests/dark-mode-editor-flow.cjs
           if [ "$NR_BROWSER" = "chromium" ]; then node tests/editor-link-dialog-smoke.cjs; fi
