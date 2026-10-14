@@ -162,6 +162,14 @@ html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.seo-sectio
   color:var(--nr-ui-secondary)!important;
   border-color:var(--nr-ui-card-border)!important;
 }
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane .alt-slug-rules span {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-prefix,.alt-slug-count) {
+  color:var(--nr-ui-secondary)!important;
+}
 html[data-theme="dark"] body.alt-editor-layout .context #seoPane .alt-slug-status.ok {
   background:var(--nr-ui-success-bg)!important;
   color:var(--nr-ui-success-text)!important;
