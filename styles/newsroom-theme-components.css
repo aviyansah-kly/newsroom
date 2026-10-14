@@ -521,3 +521,8 @@ html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .nr-ai-field-he
 html[data-theme="dark"] body.alt-editor-layout .headline .nr-ai-field-head button.nr-ai-field-action {
   border-color:var(--nr-ui-purple-border)!important;
 }
+
+/* Final AA text contrast issue found in the original AgentDock heading. */
+html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-head .agent-title span {
+  color:var(--nr-ui-secondary)!important;
+}
