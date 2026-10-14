@@ -1,0 +1,28 @@
+name: Newsroom Live Dark Mode Visual QA
+on:
+  pull_request:
+    paths:
+      - 'tests/live-dark-mode-audit.cjs'
+      - '.github/workflows/newsroom-live-dark-qa.yml'
+      - 'styles/**'
+      - 'scripts/**'
+  workflow_dispatch:
+jobs:
+  real-cloudflare-render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --ignore-scripts playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - name: Inspect actual deployed Newsroom, not local files
+        run: node tests/live-dark-mode-audit.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-newsroom-dark-publish-screenshot
+          path: live-newsroom-dark-publish.png
+          if-no-files-found: ignore
