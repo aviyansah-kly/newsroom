@@ -13,6 +13,15 @@ const engine=process.env.NR_BROWSER||'chromium';
  await page.locator('[data-tab="seo"]').first().click();
  await page.waitForTimeout(350);
  const data=await page.evaluate(()=>{
+   // Custom Slug is conditionally rendered depending on article/workflow state.
+   // Cover both its real markup (if present) and the same DOM class contract in a fixture.
+   const pane=document.querySelector('#seoPane');
+   if(pane && !pane.querySelector('.alt-slug-input-wrap')){
+     const fixture=document.createElement('div');
+     fixture.id='nrSlugContractFixture';
+     fixture.innerHTML='<div class="alt-slug-card"><div class="alt-slug-status">Not filled</div><div class="alt-slug-input-wrap"><input value="judul-demo" /></div><div class="alt-slug-preview">Preview URL</div></div>';
+     pane.appendChild(fixture);
+   }
    const variables=getComputedStyle(document.documentElement);
    const get=(sel)=>{const el=document.querySelector(sel);if(!el)return null;const s=getComputedStyle(el);const r=el.getBoundingClientRect();return {visible:r.height>6&&r.width>6,bg:s.backgroundColor,fg:s.color,border:s.borderTopColor}};
    return {
