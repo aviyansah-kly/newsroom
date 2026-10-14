@@ -29,7 +29,7 @@ const base=process.env.NR_LIVE_BASE||'https://newsroom.avi-yansah.workers.dev/';
      const all=[],brightBorders=[];
      document.querySelectorAll('body *').forEach(e=>{
        const c=getComputedStyle(e),r=e.getBoundingClientRect();
-       if(!r.width||!r.height||c.display==='none'||c.visibility==='hidden'||Number(c.opacity)<.05||r.top>950||r.bottom<0) return;
+       if(!r.width||!r.height||c.display==='none'||c.visibility==='hidden'||Number(c.opacity)<.05) return;
        for(const side of ['Top','Bottom','Left','Right']){
          if(parseFloat(c['border'+side+'Width'])<1)continue;
          const v=(c['border'+side+'Color'].match(/[0-9.]+/g)||[]).slice(0,3).map(Number);
