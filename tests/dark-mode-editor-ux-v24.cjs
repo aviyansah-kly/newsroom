@@ -31,6 +31,12 @@ const engine=process.env.NR_BROWSER||'chromium';
   const menu=document.querySelector('.alt-editor-section .alt-add-menu');
   return {
    separator:get('.alt-writing-card .alt-editor-section'),
+   shortDescDivider:(()=>{
+     const el=document.querySelector('.alt-writing-card .alt-editor-section');
+     if(!el)return null;
+     const ps=getComputedStyle(el,'::before');
+     return {content:ps.content,background:ps.backgroundColor,height:ps.height,position:ps.position};
+   })(),
    addMenu:get('.alt-editor-section .alt-add-menu'),
    tiles:[...menu?.querySelectorAll('[data-alt-add]')||[]].map(e=>{let s=getComputedStyle(e);return {name:e.dataset.altAdd,bg:s.backgroundColor,border:s.borderTopColor,width:s.borderTopWidth,style:s.borderTopStyle}}),
    icon:get('.alt-content-card .alt-content-card-title .icon'),
@@ -40,7 +46,11 @@ const engine=process.env.NR_BROWSER||'chromium';
   };
  });
  console.log('DARK_EDITOR_UX_COMPONENT_AUDIT '+JSON.stringify(state));
- assert.equal(state.tiles.length,6,'Six independent Add Content tiles');
+ assert(state.shortDescDivider,'Short Desc / Konten Artikel divider exists');
+ assert.equal(state.shortDescDivider.content,'""','Divider pseudo-element is rendered');
+ assert.equal(state.shortDescDivider.background,'rgb(48, 54, 62)','Short Desc / Konten Artikel uses the SAME soft decorative divider');
+ assert.equal(state.shortDescDivider.height,'1px','Divider retains its original 1px geometry');
+  assert.equal(state.tiles.length,6,'Six independent Add Content tiles');
  for(const tile of state.tiles){
    assert.equal(tile.bg,'rgb(43, 48, 55)',tile.name+' bg');
    assert.equal(tile.border,'rgb(70, 82, 96)',tile.name+' outline');

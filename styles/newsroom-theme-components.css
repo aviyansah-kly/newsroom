@@ -826,3 +826,13 @@ html[data-theme="dark"] body.alt-editor-layout .nr-field-highlight[data-highligh
     animation:none!important;
   }
 }
+
+
+/* V2.5 — Short Desc → Konten Artikel separator.
+ * Legacy inline CSS draws this divider as a ::before background, not a border.
+ * Dark theme overrides the ACTUAL painted pseudo-element; keep 1px geometry.
+ * Do not add a second border, shadow or outline to the section.
+ */
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .alt-editor-section::before {
+  background:var(--nr-ui-decorative-divider)!important;
+}
