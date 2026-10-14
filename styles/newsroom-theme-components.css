@@ -516,3 +516,8 @@ html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection .alt-tag
 html[data-theme="dark"] body.alt-editor-layout #agentDock :is(.agent-header,.agent-header span,.agent-mode,.agent-mode span,.agent-context,.agent-context span,.agent-composer-label,.agent-composer-label span) {
   color:var(--nr-ui-secondary)!important;
 }
+
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card .nr-ai-field-head button.nr-ai-field-action,
+html[data-theme="dark"] body.alt-editor-layout .headline .nr-ai-field-head button.nr-ai-field-action {
+  border-color:var(--nr-ui-purple-border)!important;
+}
