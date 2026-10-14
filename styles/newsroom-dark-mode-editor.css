@@ -614,3 +614,10 @@ html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .alt-content-card-body {
   background:#272C32!important;color:#E8EBEF!important;border-color:#3C434D!important;
 }
+
+html[data-theme="dark"] body.alt-editor-layout #infoPane #altAdvancedPublishing > summary :is(span,strong,small,svg) {
+  color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane #altAdvancedPublishing > summary strong {
+  color:#E8EBEF!important;
+}
