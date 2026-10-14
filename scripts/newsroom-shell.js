@@ -32,6 +32,13 @@
       componentStyle.setAttribute('data-nr-component-theme','1');
       document.head.appendChild(componentStyle);
     }
+    // Coordinates Review & Publish "Perbaiki" → real field outline (dark only).
+    if(!document.querySelector('script[data-nr-review-focus]')){
+      const focus=document.createElement('script');
+      focus.src='scripts/newsroom-dark-review-focus.js';
+      focus.setAttribute('data-nr-review-focus','1');
+      document.head.appendChild(focus);
+    }
     if(!document.querySelector('script[data-nr-theme]')){
       const controller=document.createElement('script');controller.src='scripts/newsroom-appearance.js';
       controller.setAttribute('data-nr-theme','1');document.head.appendChild(controller);
