@@ -83,7 +83,7 @@ const expected={
  assert.equal(insertedBlock.editor.color,'rgb(232, 235, 239)','Editable text must retain readable contrast');
  for(const part of ['head','toolbar','foot']){
    assert.equal(insertedBlock[part].background,'rgb(43, 48, 55)',part+' has neutral graphite surface');
-   assert.equal(part==='foot'?insertedBlock[part].borderTop:insertedBlock[part].borderBottom,expected.subtle,part+' separator has reduced contrast');
+   assert.equal(part==='foot'?insertedBlock[part].borderTop:insertedBlock[part].borderBottom,'rgb(48, 54, 62)',part+' separator has reduced contrast');
  }
 
  // Control boundaries remain >=3:1 while low-emphasis hairlines remain quiet.
