@@ -82,7 +82,7 @@ const expected={
  assert.equal(insertedBlock.editor.background,expected.canvas,'Inserted editable area must not be white');
  assert.equal(insertedBlock.editor.color,'rgb(232, 235, 239)','Editable text must retain readable contrast');
  for(const part of ['head','toolbar','foot']){
-   assert.equal(insertedBlock[part].background,'rgb(43, 48, 55)',part+' has neutral graphite surface');
+   assert.equal(insertedBlock[part].background,part==='toolbar'?'rgb(43, 48, 55)':'rgb(48, 55, 64)',part+' has neutral graphite surface');
    assert.equal(part==='foot'?insertedBlock[part].borderTop:insertedBlock[part].borderBottom,'rgb(48, 54, 62)',part+' separator has reduced contrast');
  }
 
