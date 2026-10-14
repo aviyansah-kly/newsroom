@@ -72,7 +72,9 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
   results.checked=toggle.querySelector('input').checked;
   results.matchesOn=toggle.querySelector('.switch-track').matches('input:checked + .switch-track');
   results.matchesOff=toggle.querySelector('.switch-track').matches('input:not(:checked) + .switch-track');
-  await new Promise(resolve=>requestAnimationFrame(()=>resolve()));
+  // The existing switch has a 160ms background/thumb transition.
+  // Wait for its final ON state rather than measuring the first animation frame.
+  await new Promise(resolve=>setTimeout(resolve,260));
   toggle.querySelector('.switch-track').getBoundingClientRect();
   results.on=cssColor('#nrSwitchProbe .switch-track');
   toggle.remove();
