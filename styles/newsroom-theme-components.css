@@ -134,6 +134,19 @@ html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-g
 html[data-theme="dark"] body.alt-editor-layout .context #seoPane {
   border-color:var(--nr-ui-divider)!important;
 }
+/* Screenshot-level quiet separator audit: these navigation/agent separators
+   retained pale Light Mode strokes even when all nearby backgrounds were dark.
+   AI provenance is purple; its passive border should not be pale lavender. */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-heading,
+html[data-theme="dark"] body.alt-editor-layout :is(.agent-head,.agent-quick) {
+  border-bottom-color:var(--nr-ui-divider)!important;
+  border-top-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout button.alt-tag-ai {
+  border-color:var(--nr-ui-purple-border)!important;
+  background:var(--nr-ui-purple-bg)!important;
+  color:var(--nr-ui-purple-text)!important;
+}
 /* Component 03b: SEO SUBCOMPONENTS — observed white on REAL Cloudflare.
    A live-browser audit found missing semantic mapping for the SEO assistant,
    Editable badge, Custom Slug input wrapper, status pill and slug URL preview.
