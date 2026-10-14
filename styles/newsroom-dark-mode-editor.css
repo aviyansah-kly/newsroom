@@ -455,3 +455,118 @@ html[data-theme="dark"] body.alt-editor-layout :is(.toolbar-sep,.alt-mini-toolba
 html[data-theme="dark"] body.alt-editor-layout .alt-mini-editor:empty::before {
   color:var(--nr-muted)!important;
 }
+
+/* DARK MODE V1.2 — remaining light-only surfaces, scoped by component ownership.
+   Colors only: no display, size, typography, placement, z-index, or interaction edits.
+   Never theme genuine article preview, imagery, or third-party media contents.
+ */
+
+/* Category Tree and older single-select category picker */
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-popover,.alt-category-tree-popover,.alt-category-first-step,.alt-category-tree-search,.alt-category-search) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-trigger,.alt-category-tree-trigger,.alt-category-search input,.alt-category-tree-search input,.alt-category-option,.alt-category-tree-row) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-option:hover,.alt-category-option.active,.alt-category-tree-row:hover,.alt-category-tree-row.active,.alt-category-tree-row[aria-selected="true"]) {
+  background:#1B314B!important;color:#93C5FD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-option,.alt-category-tree-row) :is(span,strong,small) {
+  color:inherit!important;
+}
+
+/* Editorial settings and nested dropdowns/popovers (outside React-style surface map) */
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editorial-popover,.alt-editorial-popover-head,.alt-editorial-popover-body,.alt-editorial-popover-foot,.alt-editorial-popover-content,.alt-editorial-cluster,.settings-section,.alt-category-first-step) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editorial-popover-body :is(input,textarea,select),
+html[data-theme="dark"] body.alt-editor-layout :is(.team-search-wrap input,.tag-wrap input) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#718096!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editorial-popover-head,.alt-editorial-popover-foot,.settings-section-head) {
+  border-top-color:#343A42!important;border-bottom-color:#343A42!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editorial-popover,.alt-editorial-popover-body,.alt-category-popover,.alt-category-tree-popover) :is(h2,h3,h4,strong,label) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-editorial-popover,.alt-category-popover,.alt-category-tree-popover) :is(small,p,.hint,.caption) {
+  color:#BBC3CD!important;
+}
+
+/* Article block shells, images and expandable image details; don't recolor actual photos */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-card-body,.v34-image-details,.v34-image-summary,.v64-image-details,.v56-image-empty,.newsroom-image-empty,.v34-image-detail-btn),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] :is(.v34-image-summary,.v34-image-details,.v64-image-details,.v56-image-empty.newsroom-image-empty) {
+  background:#272C32!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] :is(.v34-image-detail-btn,[data-v32-image-select]) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.v34-image-details,.v64-image-details) :is(input,textarea,select) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#718096!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-advanced-publish-body,.alt-page-card,.alt-page-card .alt-page-title-input) {
+  background:#272C32!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+
+/* Media library — nav, gallery cards, upload, filters, details and zoom controls.
+   Retain photos, thumbnails, illustrations and real preview screenshots untouched. */
+html[data-theme="dark"] body.alt-editor-layout :is(#imageLibraryPopup.alt-media-picker,#imageLibraryPopup.v33-media-picker,#imageLibraryPopup.v34-picker,#imageLibraryPopup) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v61-primary-tabs,.v61-upload-drop,.v34-detail-summary,.v34-image-details,.v62-upload-back,.newsroom-orientation-segment,.newsroom-gallery-filter,.v62-field,.v34-card,.v34-detail-panel,.v34-media-preview,.v34-side-panel) {
+  background:#272C32!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v61-primary-tabs button,.v34-card button,.v62-upload-back,.v61-upload-drop em,.newsroom-orientation-segment button,.v34-close) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v61-primary-tabs button.active,.newsroom-orientation-segment button.active) {
+  background:#1B314B!important;color:#93C5FD!important;border-color:#93C5FD!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.newsroom-orientation-segment button:hover,.v34-card:hover,.v34-close:hover) {
+  background:#303740!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v62-field input,.v62-field textarea,.v62-field select,.v62-upload-back input,.newsroom-gallery-filter input,.newsroom-gallery-filter select) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#718096!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v34-card,.v34-detail-summary,.v61-upload-drop,.v34-image-details) :is(h2,h3,strong,label) {
+  color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v34-card,.v34-detail-summary,.v61-upload-drop,.v34-image-details) :is(p,small,em,span) {
+  color:#BBC3CD;
+}
+
+/* Review & Publish: header/footer, validation, schedule, readiness expanded
+   state and neutral CTAs. Keep badges, warnings and statuses semantic. */
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-ready,.alt-validation-ready-panel,.alt-validation-ready-toggle,.alt-validation-row,.alt-validation-list,.alt-validation-summary,.publish-readiness-badge,.nr-review-schedule,.nr-review-validation-section,.schedule-summary) {
+  background:#22262C!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-ready-toggle:hover,.alt-validation-row:hover) {
+  background:#303740!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-row .icon,.publish-readiness-badge) {
+  background:#303740!important;color:#BBC3CD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-row.warn,.alt-validation-summary.warn,.nr-review-validation-section.is-warning) {
+  background:#3D3022!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-ready.is-ready,.schedule-summary.is-ready) {
+  background:#24372B!important;color:#86EFAC!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-card,.modal-head,.modal-body,.modal-foot) {
+  background:#22262C!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-head,.popup-head) button:has([data-lucide="x"]),
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup .v34-close {
+  background:#303740!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-head,.popup-head) button:has([data-lucide="x"]):hover {
+  background:#39424D!important;
+}
+
+/* Block editing controls are neutral. Focus/selected states remain blue. */
+html[data-theme="dark"] body.alt-editor-layout :is(.block-menu,.block-menu button,.alt-add-menu,.alt-mini-toolbar,.classic-toolbar) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#343A42!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.block-menu button:hover,.alt-add-menu button:hover) {
+  background:#303740!important;color:#93C5FD!important;
+}
