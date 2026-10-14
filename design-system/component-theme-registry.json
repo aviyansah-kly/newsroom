@@ -1,0 +1,294 @@
+{
+  "version": "2.0.0",
+  "status": "prototype",
+  "themeScope": "html[data-theme=\"dark\"]",
+  "sourceOfTruth": "styles/newsroom-theme-components.css",
+  "precedence": [
+    "styles/newsroom-design-system.css",
+    "styles/newsroom-dark-mode.css",
+    "styles/newsroom-dark-mode-editor.css",
+    "styles/newsroom-theme-components.css"
+  ],
+  "rule": "Semantic tokens are edited once; add each new component to this registry and to component-contract Playwright tests. Never copy literal light hex rules into new components.",
+  "tokens": {
+    "app": "--nr-ui-app",
+    "navigation": "--nr-ui-navigation",
+    "panel": "--nr-ui-panel",
+    "canvas": "--nr-ui-canvas",
+    "raised": "--nr-ui-raised",
+    "control": "--nr-ui-control",
+    "hover": "--nr-ui-hover",
+    "text": "--nr-ui-text",
+    "secondary": "--nr-ui-secondary",
+    "muted": "--nr-ui-muted",
+    "divider": "--nr-ui-divider",
+    "sectionDivider": "--nr-ui-section-divider",
+    "cardBorder": "--nr-ui-card-border",
+    "inputBorder": "--nr-ui-input-border",
+    "focus": "--nr-ui-focus",
+    "toggleOffTrack": "--nr-ui-toggle-off-track",
+    "toggleOffBorder": "--nr-ui-toggle-off-border",
+    "toggleOn": "--nr-ui-toggle-on-track",
+    "toggleThumb": "--nr-ui-toggle-thumb",
+    "warningBg": "--nr-ui-warning-bg",
+    "successBg": "--nr-ui-success-bg",
+    "purpleBg": "--nr-ui-purple-bg"
+  },
+  "components": [
+    {
+      "id": "app-shell",
+      "owner": "Global",
+      "selectors": [
+        ".topbar",
+        ".context",
+        ".alt-writing-card"
+      ],
+      "tokenRoles": [
+        "navigation",
+        "panel",
+        "canvas",
+        "divider"
+      ],
+      "qa": [
+        "initial-editor",
+        "responsive"
+      ]
+    },
+    {
+      "id": "richtext-block",
+      "owner": "Editor Workspace",
+      "selectors": [
+        ".alt-content-card",
+        ".alt-content-card-body",
+        ".alt-mini-editor",
+        ".classic-toolbar",
+        "#tiptap-editor"
+      ],
+      "tokenRoles": [
+        "canvas",
+        "raised",
+        "divider",
+        "text"
+      ],
+      "qa": [
+        "insert-text-block",
+        "sticky-toolbar"
+      ]
+    },
+    {
+      "id": "media-block",
+      "owner": "Editor Workspace",
+      "selectors": [
+        ".alt-inline-media-preview",
+        ".alt-preview-empty-state",
+        ".alt-card-field input",
+        ".alt-standings-card",
+        ".alt-standings-select"
+      ],
+      "tokenRoles": [
+        "raised",
+        "inputBorder",
+        "muted"
+      ],
+      "qa": [
+        "video-empty",
+        "embed-empty",
+        "image-empty",
+        "standings"
+      ]
+    },
+    {
+      "id": "editorial-fields",
+      "owner": "Right Panel > Editorial",
+      "selectors": [
+        "#infoPane",
+        ".settings-section",
+        ".flag-row",
+        ".flag-list",
+        ".alt-editorial-cluster"
+      ],
+      "tokenRoles": [
+        "panel",
+        "control",
+        "divider"
+      ],
+      "qa": [
+        "expand-label",
+        "distribution-flags"
+      ]
+    },
+    {
+      "id": "seo-panel",
+      "owner": "Right Panel > SEO",
+      "selectors": [
+        "#seoPane",
+        ".seo-auto-row",
+        ".seo-readiness",
+        ".alt-slug-card",
+        ".seo-auto-toggle"
+      ],
+      "tokenRoles": [
+        "panel",
+        "canvas",
+        "successBg",
+        "inputBorder"
+      ],
+      "qa": [
+        "seo-tab",
+        "custom-slug",
+        "ai-suggestions"
+      ]
+    },
+    {
+      "id": "publish-modal",
+      "owner": "Review & Publish",
+      "selectors": [
+        "#altValidationModal",
+        ".nr-review-schedule",
+        ".schedule-fields.show",
+        ".schedule-control input",
+        ".schedule-summary"
+      ],
+      "tokenRoles": [
+        "panel",
+        "canvas",
+        "raised",
+        "successBg",
+        "divider"
+      ],
+      "qa": [
+        "open-dialog",
+        "schedule-enabled",
+        "schedule-disabled",
+        "validation"
+      ]
+    },
+    {
+      "id": "switch",
+      "owner": "Editorial + Publish",
+      "selectors": [
+        ".switch",
+        ".switch-track",
+        ".switch input"
+      ],
+      "tokenRoles": [
+        "toggleOffTrack",
+        "toggleOffBorder",
+        "toggleOn",
+        "toggleThumb",
+        "focus"
+      ],
+      "qa": [
+        "on",
+        "off",
+        "focus",
+        "disabled"
+      ]
+    },
+    {
+      "id": "category-tags",
+      "owner": "Editorial",
+      "selectors": [
+        ".alt-category-tree-popover",
+        ".alt-category-tree-search",
+        ".alt-tag-lookup",
+        ".tag-chip"
+      ],
+      "tokenRoles": [
+        "panel",
+        "raised",
+        "inputBorder",
+        "purpleBg"
+      ],
+      "qa": [
+        "category-open",
+        "tag-search",
+        "tag-ai"
+      ]
+    },
+    {
+      "id": "media-library",
+      "owner": "Picker Overlay",
+      "selectors": [
+        "#imageLibraryPopup",
+        ".v34-preview",
+        ".v61-upload-drop",
+        ".v34-card"
+      ],
+      "tokenRoles": [
+        "panel",
+        "raised",
+        "divider"
+      ],
+      "qa": [
+        "picker-open",
+        "gallery",
+        "upload",
+        "details"
+      ]
+    },
+    {
+      "id": "dashboard",
+      "owner": "Dashboard",
+      "selectors": [
+        ".dashboard-quick",
+        ".dashboard-open"
+      ],
+      "tokenRoles": [
+        "control",
+        "divider"
+      ],
+      "qa": [
+        "dashboard-route"
+      ]
+    },
+    {
+      "id": "article-list",
+      "owner": "Articles",
+      "selectors": [
+        ".article-row",
+        ".article-toolbar",
+        ".article-status-pill",
+        ".article-preview-btn"
+      ],
+      "tokenRoles": [
+        "panel",
+        "divider",
+        "successBg",
+        "warningBg"
+      ],
+      "qa": [
+        "article-list",
+        "status-pills",
+        "tabs"
+      ]
+    },
+    {
+      "id": "tags-management",
+      "owner": "Tags",
+      "selectors": [
+        ".tag-table",
+        ".status-toggle",
+        ".row-action"
+      ],
+      "tokenRoles": [
+        "panel",
+        "inputBorder",
+        "divider"
+      ],
+      "qa": [
+        "tags-route",
+        "tag-table",
+        "status-toggle"
+      ]
+    }
+  ],
+  "protected": [
+    "Actual article desktop/mobile preview",
+    "Original images and uploaded media",
+    "Brand logo assets",
+    "Draft or autosave state",
+    "Existing Light Mode pixel baseline",
+    "Role-based Writer/Editor/Redpel/SEO access controls"
+  ]
+}
