@@ -83,7 +83,7 @@ assert "--nr-ui-toggle-off-border:#8494A9" in components_css
 assert "--nr-ui-toggle-on-track:var(--nr-action-primary-bg" in components_css
 assert ":focus-visible + .switch-track" in components_css, "Switch keyboard focus must be visible"
 after_tokens = components_css.split("/* Component 01:", 1)[1]
-assert not re.search(r"#[0-9a-fA-F]{3,8}\\b", after_tokens), "Component rules must only use semantic tokens, never hex literals"
+assert not re.search(r"#[0-9a-fA-F]{3,8}\b", after_tokens), "Component rules must only use semantic tokens, never hex literals"
 for label, a, b, minimum in [
     ("Toggle OFF thumb-to-track", "#F8FAFC", "#46566C", 4.5),
     ("Toggle ON thumb-to-track", "#F8FAFC", "#D92B00", 4.5),
