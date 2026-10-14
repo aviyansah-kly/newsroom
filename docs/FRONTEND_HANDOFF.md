@@ -61,3 +61,12 @@ Theme merupakan **semantic visual layer**, bukan alternative layout. Default exi
 Use the three-semantic-tier dark divider palette instead of hardcoded light borders: `--nr-divider-subtle:#343A42` (passive hairlines), `--nr-divider:#3A414A` (section breaks), and `--nr-canvas-border:#3C434D` (card perimeter). **Do not reuse these for form input boundaries**: retain `--nr-input-boundary:#718096` and focus `--nr-interactive:#93C5FD`.
 
 These changes must remain in the **dark-only stylesheets**; the editor canvas surface, article typography, block geometry and Light Mode are locked. Review the [Dark Mode specification](DARK-MODE-DESIGN-SYSTEM.md#8-dark-mode-editorial-comfort-pass--soft-dividers-october-2026) and browser check `tests/dark-mode-divider-comfort.cjs` before porting to production Frontend.
+
+
+### Canonical Light/Dark Component System V2 — required for future components
+
+After the October 2026 Dark Mode audit, treat **[NEWSROOM-THEME-COMPONENT-SYSTEM-V2.md](NEWSROOM-THEME-COMPONENT-SYSTEM-V2.md)** as the canonical semantic color and component ownership specification. Machine-readable registry: `design-system/component-theme-registry.json`. Source CSS: `styles/newsroom-theme-components.css` (loaded **after** the compatibility styles; Dark Mode only).
+
+Do **not** add isolated hex-specific Dark Mode patches to arbitrary pages. Assign every new panel, control, popup, or Editor block to an existing surface role, update the component registry, and add its state to `tests/dark-mode-component-contract.cjs`. The legacy Editor can keep its existing inline styles during the prototype period; actual production frontend should implement semantic tokens inside reusable components and phase out inline `!important` styling incrementally.
+
+Priority handoff examples: **Switch OFF/ON**, SEO Readiness, Custom Slug, empty video/embed preview, Klasemen, expanded Schedule Publishing inputs, modal validation and media picker. Light Mode, Article Preview appearance and editor dimensions remain locked.
