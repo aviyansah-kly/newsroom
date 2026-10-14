@@ -78,7 +78,7 @@ const expected={
    block.remove();return result;
  });
  console.log('DYNAMIC TEXT BLOCK COMFORT',JSON.stringify(insertedBlock));
- assert.equal(insertedBlock.card,expected.canvas,'Inserted text block must not be white');
+ assert.equal(insertedBlock.card,'rgb(44, 51, 59)','Inserted text block uses distinct graphite card surface');
  assert.equal(insertedBlock.editor.background,expected.canvas,'Inserted editable area must not be white');
  assert.equal(insertedBlock.editor.color,'rgb(232, 235, 239)','Editable text must retain readable contrast');
  for(const part of ['head','toolbar','foot']){
