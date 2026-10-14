@@ -130,6 +130,10 @@ html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-g
   border-color:var(--nr-ui-card-border)!important;
 }
 
+/* The root SEO pane also kept a pale Light Mode outline despite dark children. */
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane {
+  border-color:var(--nr-ui-divider)!important;
+}
 /* Component 03b: SEO SUBCOMPONENTS — observed white on REAL Cloudflare.
    A live-browser audit found missing semantic mapping for the SEO assistant,
    Editable badge, Custom Slug input wrapper, status pill and slug URL preview.
