@@ -158,3 +158,43 @@ A GitHub merge and a passing local test are not proof of a successful Cloudflare
 6. Test any future new component in *default, hover, active, disabled, error, empty and overlay states*; add selectors and QA IDs to the component registry rather than hardcoding a new palette.
 
 **Protected UI:** original logos/images, article desktop/mobile previews, autosave & publishing, content block layout, navigation IA, Light Mode, roles (Writer/Editor/Redpel/SEO), orange primary publish action (`#D92B00` in the existing prototype) are unchanged.
+
+
+## V2.3 — Editorial legibility refinements (14 October 2026)
+
+**Implemented as dark-mode-only semantic CSS overrides**, without moving/resizing blocks, altering article text/data, changing brand colors or touching the Light Mode cascade. Based on the editor screenshots showing low-visibility block boundaries, dark blue media titles, overly bright horizontal rules and an unwanted selected-tab underline.
+
+### Final hierarchy and ownership
+
+| Component role | Token | Value | Usage |
+|---|---|---|---|
+| Passive section divider | `--nr-ui-decorative-divider` | `#30363E` | Editor section boundary, block header/footer, page break, toolbar group separator |
+| Card / preview outline | `--nr-ui-card-border` | `#465260` | Interactive/content block card edges, media placeholder borders |
+| Main Editor Canvas | `--nr-ui-canvas` | `#272C32` | Retained original writing canvas |
+| Block surface | `--nr-ui-block-surface` | `#2C333B` | Raised content card outer background, distinguishable from canvas |
+| Block body | `--nr-ui-block-body` | `#272C32` | Content editor body; unchanged content appearance |
+| Block header/footer | `--nr-ui-block-header` | `#303740` | Card header and footer, neutral |
+| Block title | `--nr-ui-block-title` | `#E1E8F1` | Text/Video/Image/Embed/Klasemen/Page Break headings; SEO field titles |
+| Block metadata/help | `--nr-ui-block-meta` | `#B9C4D0` | Inline descriptions, helper text, status |
+| Input placeholder | `--nr-ui-block-placeholder` | `#AEB9C6` | Media/Embed input placeholder |
+| Tab active | `--nr-ui-tab-active-bg` | `#304862` | Solid selected Editorial/SEO box |
+| Tab active text | `--nr-ui-tab-active-text` | `#F3F7FC` | Selected tab label |
+| Tab inactive text | `--nr-ui-tab-inactive-text` | `#C2CBD6` | Unselected tab label |
+
+### Behavior rules
+
+- A selected Editorial/SEO tab has a filled surface **without any underline** or default shadow. Its focus-visible outline remains for keyboard users only.
+- Structural separators are intentionally lower contrast than card boundaries. **Do not reuse input/interactive borders** for decorative dividers.
+- Text block and media placeholder titles must never inherit legacy dark-blue/Light Mode placeholder colors. Use `blockTitle` for headings and `blockMeta` for helper text.
+- Input border `--nr-ui-input-border` and action colors remain unchanged; the blue working action and orange `Review & Publish` continue using their existing semantic tokens.
+- Do not add HTML classes solely to theme content; newly created blocks follow the same scoped component CSS automatically.
+- If a new media/SEO feature is added, register its selectors, token roles and states in `design-system/component-theme-registry.json`; use `styles/newsroom-theme-components.css` as last-loaded source of truth.
+
+### Release QA
+
+- Run `tests/dark-mode-editor-contrast-v23.cjs` across Chromium/Firefox/WebKit. Asserts a selected tab without underline, contrast-oriented titles, differentiated card surface, passive separators and media placeholders.
+- Run `tests/dark-mode-expanded-editor-contract.cjs` and `tests/dark-mode-divider-comfort.cjs` for all dynamic blocks and editing flows.
+- Verify Light Mode pixel/geometry parity against main at desktop and mobile with `tests/dark-mode-light-baseline.cjs`.
+- **After merge:** compare Cloudflare live hashes to GitHub main (`scripts/verify-live-deployment.py --strict`) and render-check SEO and editor states (`tests/live-dark-mode-audit.cjs`). Do not claim deployed before these complete.
+
+**Protected UI:** Left/Right navigation dimensions, editor text/article data, role-based controls, article actual preview, light-mode appearance, logos and source media pixels, Review & Publish function, and all content block interactions.
