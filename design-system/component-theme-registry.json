@@ -1,5 +1,5 @@
 {
-  "version": "2.3.0",
+  "version": "2.3.1",
   "status": "prototype",
   "themeScope": "html[data-theme=\"dark\"]",
   "sourceOfTruth": "styles/newsroom-theme-components.css",
@@ -45,7 +45,11 @@
     "blockHeader": "--nr-ui-block-header",
     "blockTitle": "--nr-ui-block-title",
     "blockMeta": "--nr-ui-block-meta",
-    "blockPlaceholder": "--nr-ui-block-placeholder"
+    "blockPlaceholder": "--nr-ui-block-placeholder",
+    "navHoverBg": "--nr-ui-nav-hover-bg",
+    "navHoverText": "--nr-ui-nav-hover-text",
+    "navActiveBg": "--nr-ui-nav-active-bg",
+    "navActiveText": "--nr-ui-nav-active-text"
   },
   "components": [
     {
@@ -369,6 +373,46 @@
         "add-block",
         "hover",
         "icon-on-neutral"
+      ]
+    },
+    {
+      "id": "sidebar-navigation",
+      "owner": "Global chrome / Editor and secondary pages",
+      "selectors": [
+        "#cmsNavDrawer .cms-nav-item",
+        ".nr-sidebar .nr-nav-item",
+        ".cms-nav-legacy-separator"
+      ],
+      "tokenRoles": [
+        "navHoverBg",
+        "navHoverText",
+        "navActiveBg",
+        "navActiveText",
+        "decorativeDivider",
+        "focus"
+      ],
+      "qa": [
+        "nav-idle",
+        "hover-Video-Galleries",
+        "hover-text-and-icon",
+        "active-Articles",
+        "keyboard-focus",
+        "shared-articles-route"
+      ]
+    },
+    {
+      "id": "editor-content-divider",
+      "owner": "Workspace / Title-ShortDesc-Content",
+      "selectors": [
+        ".alt-writing-card .alt-editor-section::before"
+      ],
+      "tokenRoles": [
+        "decorativeDivider"
+      ],
+      "qa": [
+        "actual-pseudo-before-1px",
+        "no-duplicate-white-hairline",
+        "light-mode-unchanged"
       ]
     }
   ],
