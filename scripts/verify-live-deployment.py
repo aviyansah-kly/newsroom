@@ -18,6 +18,7 @@ DEFAULT_URL = "https://newsroom.avi-yansah.workers.dev"
 ASSETS = (
     "index.html",
     "scripts/newsroom-shell.js",
+    "scripts/newsroom-dark-review-focus.js",
     "styles/newsroom-dark-mode.css",
     "styles/newsroom-dark-mode-editor.css",
     "styles/newsroom-theme-components.css",
