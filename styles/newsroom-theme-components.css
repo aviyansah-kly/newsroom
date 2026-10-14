@@ -526,3 +526,154 @@ html[data-theme="dark"] body.alt-editor-layout .headline .nr-ai-field-head butto
 html[data-theme="dark"] body.alt-editor-layout #agentDock .agent-head .agent-title span {
   color:var(--nr-ui-secondary)!important;
 }
+
+
+/* V2.3 · Editorial readability polish / component-owned semantic roles.
+   This corrective layer only applies to the dark theme and keeps all
+   light-mode layout, field behavior, image pixels, dimensions and interactions. */
+html[data-theme="dark"] {
+  /* Hierarchy: passive lines should be quieter than cards and input outlines. */
+  --nr-ui-decorative-divider:#30363E;
+  --nr-ui-section-divider:#30363E;
+  --nr-ui-card-border:#465260;
+  --nr-ui-block-surface:#2C333B;
+  --nr-ui-block-body:#272C32;
+  --nr-ui-block-header:#303740;
+  --nr-ui-block-title:#E1E8F1;
+  --nr-ui-block-meta:#B9C4D0;
+  --nr-ui-block-placeholder:#AEB9C6;
+  --nr-ui-tab-active-bg:#304862;
+  --nr-ui-tab-active-text:#F3F7FC;
+  --nr-ui-tab-inactive-text:#C2CBD6;
+}
+
+/* Solid selected tab, no underlined/shadow indication. Focus-visible is still
+   available to keyboard users and does not appear on normal selected state. */
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(
+ button.tab.active,button.tab[aria-selected="true"],[role="tab"][aria-selected="true"]
+) {
+  background:var(--nr-ui-tab-active-bg)!important;
+  color:var(--nr-ui-tab-active-text)!important;
+  border-color:var(--nr-ui-tab-active-bg)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context .tabs.article-tabs-promoted :is(
+ button.tab,[role="tab"]
+):not(.active):not([aria-selected="true"]) {
+  box-shadow:none!important;
+  color:var(--nr-ui-tab-inactive-text)!important;
+}
+
+/* Editor center: keep the large panel outline but distinguish a quiet
+   structural separator from an interactable card outline. */
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card :is(
+ .alt-editor-section,.alt-editor-section-head,.alt-editor-section-head + .alt-content-list,
+ .alt-editor-section .section-head,.alt-section-separator,.alt-page-separator,hr
+) {
+  border-top-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-writing-card :is(
+ .alt-content-card,.alt-content-card[data-type],.alt-content-card:focus-within
+) {
+  background:var(--nr-ui-block-surface)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+ .alt-content-card-head,.alt-content-card-foot
+) {
+  background:var(--nr-ui-block-header)!important;
+  border-top-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card > .alt-content-card-body {
+  background:var(--nr-ui-block-body)!important;
+  color:var(--nr-ui-text)!important;
+}
+/* Headings and small type labels: avoid legacy washed-out navy/blue ink. */
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section-head :is(strong,h2,h3),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-head :is(
+ strong,h3,h4,.alt-content-card-title,.alt-content-card-title strong,
+ .alt-content-card-title span,[class*="block-title"]
+) {
+  color:var(--nr-ui-block-title)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section-head :is(span,small),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-head :is(
+ small,.alt-content-card-meta,.alt-content-card-subtitle,[class*="subtitle"],[class*="caption"]
+),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-foot :is(span,small) {
+  color:var(--nr-ui-block-meta)!important;
+}
+/* Small card-type icons must not remain light islands. Keep SVG stroke current. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-head :is(
+ .alt-content-card-icon,.alt-card-type-icon,.alt-content-type-icon,.alt-block-icon,[class*="type-icon"]
+) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-block-meta)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-head :is(
+ .alt-content-card-icon,.alt-card-type-icon,.alt-content-type-icon,.alt-block-icon,[class*="type-icon"]
+) svg {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
+
+/* Media placeholders: ensure title and secondary copy are readable even in
+   dynamic Image, Video and Embed blocks generated after first render. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+ .alt-media-drop,.alt-media-dropzone,.alt-media-preview-card,.alt-inline-media-preview,
+ .alt-media-side-preview,.alt-preview-empty-state,.alt-standings-card,.alt-page-card
+) {
+  background:var(--nr-ui-raised)!important;
+  border-color:var(--nr-ui-card-border)!important;
+  color:var(--nr-ui-block-meta)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+ .alt-media-drop,.alt-media-dropzone,.alt-media-preview-card,.alt-preview-empty-state,
+ .alt-standings-card,.alt-page-card
+) :is(strong,h3,h4) {
+  color:var(--nr-ui-block-title)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+ .alt-media-drop,.alt-media-dropzone,.alt-media-preview-card,.alt-preview-empty-state,
+ .alt-standings-card,.alt-page-card
+) :is(p,span,small,label) {
+  color:var(--nr-ui-block-meta)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+ input,textarea,select
+)::placeholder {
+  color:var(--nr-ui-block-placeholder)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(
+ .alt-page-line,.alt-page-separator,.toolbar-sep,.alt-toolbar-sep
+) {
+  background:var(--nr-ui-decorative-divider)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+
+/* Right pane: label roles on SEO/Editorial should be readable against the
+   same neutral surface used for input cards, with no low-contrast navy text. */
+html[data-theme="dark"] body.alt-editor-layout .context :is(#seoPane,#infoPane) :is(
+ label,.field-label,.seo-section-title,.seo-field-label,.alt-field-label,
+ .seo-section h3,.seo-section h4,.seo-section strong,
+ .settings-section h3,.alt-editorial-cluster strong
+) {
+  color:var(--nr-ui-block-title)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context :is(#seoPane,#infoPane) :is(
+ .seo-section-description,.seo-field-help,.seo-helper-text,
+ .seo-auto-caption,.alt-tag-hint,.section-hint
+) {
+  color:var(--nr-ui-block-meta)!important;
+}
+/* Controls use their distinct, stronger boundary. General separators must
+   not inherit the same color as interactive inputs. */
+html[data-theme="dark"] body.alt-editor-layout .context :is(#seoPane,#infoPane) :is(
+ .seo-section,.settings-section,.section-separator,.settings-divider
+) {
+  border-top-color:var(--nr-ui-decorative-divider)!important;
+  border-bottom-color:var(--nr-ui-decorative-divider)!important;
+}

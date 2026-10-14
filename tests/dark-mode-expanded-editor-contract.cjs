@@ -38,19 +38,19 @@ const {chromium,firefox,webkit}=require('playwright');
  assert(result.tabs.length>=2,'Editorial and SEO tabs must exist');
  for(const t of result.tabContrast)assert(t.ratio>=4.5,'Tab contrast must be readable: '+JSON.stringify(t));
  for(const block of result.cards){
-  assert.equal(block.card.bg,'rgb(39, 44, 50)',block.kind+' card neutral canvas');
-  assert.equal(block.head.bb,'rgb(52, 58, 66)',block.kind+' head quiet separator');
-  assert.equal(block.foot.bt,'rgb(52, 58, 66)',block.kind+' footer quiet separator');
+  assert.equal(block.card.bg,'rgb(44, 51, 59)',block.kind+' card uses differentiated graphite surface');
+  assert.equal(block.head.bb,'rgb(48, 54, 62)',block.kind+' head quiet separator');
+  assert.equal(block.foot.bt,'rgb(48, 54, 62)',block.kind+' footer quiet separator');
  }
  const text=result.cards.find(c=>c.kind==='text');
  for(const key of ['toolbar','miniToolbar'])assert.equal(text[key].bg,'rgb(43, 48, 55)',key+' dark toolbar');
  for(const key of ['toolbarButton','miniButton'])assert.equal(text[key].fg,'rgb(187, 195, 205)',key+' readable neutral control');
- assert.equal(text.toolbarRule.bg,'rgb(52, 58, 66)','Formatting separator is soft');
+ assert.equal(text.toolbarRule.bg,'rgb(48, 54, 62)','Formatting separator is soft');
  assert.equal(result.cards.find(c=>c.kind==='video').videoPreview.bg,'rgb(43, 48, 55)');
  assert.equal(result.cards.find(c=>c.kind==='image').mediaDrop.bg,'rgb(43, 48, 55)');
  assert.equal(result.cards.find(c=>c.kind==='embed').videoPreview,null);
  assert.equal(result.cards.find(c=>c.kind==='standings').standings.bg,'rgb(43, 48, 55)');
- assert.equal(result.cards.find(c=>c.kind==='page').pageLine.bg,'rgb(52, 58, 66)');
+ assert.equal(result.cards.find(c=>c.kind==='page').pageLine.bg,'rgb(48, 54, 62)');
  console.log('PASS: '+driver+' editorial tabs and six content types follow canonical dark theme');
  await browser.close();
 })().catch(e=>{console.error(e.stack||e);process.exit(1)});
