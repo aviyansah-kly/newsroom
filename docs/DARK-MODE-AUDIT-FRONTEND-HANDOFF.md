@@ -132,3 +132,17 @@ At runtime, changing appearance to Terang removes the Dark Mode selector. For co
 ## Current limitations — do NOT overclaim
 
 This work provides **a scoped prototype implementation, preference controller, baseline and three-engine browser tests, and an IT handover specification**. It does **not** certify every hidden modal, role-specific interface, Safari on a physical device, or real backend persistence. Product/IT must validate those separately before a real CMS production release.
+
+
+## Post-release Dark Mode white-surface audit — October 14, 2026
+
+A second, browser-computed audit found that the initial Dark Mode release had uncovered **large white surfaces beyond the Editor first viewport**, especially:
+- **Editor:** Advanced Publishing summary/body, distribution and compliance flag lists, staff avatars, light-purple Tags chips, Category Tree search/popover, and dynamically injected Text Block content/card internals.
+- **Standard pages:** Dashboard quick actions/open buttons; Articles List rows, tab backgrounds, menu controls, thumbnails, toolbar/footer; Tags table header, alternating rows, Edit buttons and status toggles.
+- **Interaction-specific:** image/media library states, nested category and editorial popovers, image details and expanded Review & Publish sections still had legacy `#fff` or pale grey `!important` rules.
+
+The remediation is **scoped exclusively to** `html[data-theme="dark"]` in `styles/newsroom-dark-mode.css` (Dashboard/Articles/Tags) and `styles/newsroom-dark-mode-editor.css` (Editor and overlays). The approved neutral graphite and soft separator tiers remain. Logo assets, real article previews, uploaded photos, rich-text content structure, font sizes, spacing and Light Mode are untouched.
+
+**Testing:** `tests/dark-mode-surface-inventory.cjs` explores the article editor and app pages and records computed light surfaces. Existing `dark-mode-computed-audit.cjs` must pass text WCAG AA contrast and detect no visible white islands; `dark-mode-light-baseline.cjs` must still pass against the unchanged production prototype baseline. A page-local white box must be fixed by a component style override, **not** by inverting or globally darkening everything.
+
+**Frontend handover:** migrate these page-level legacy hex colors to semantic `surface`, `surface-elevated`, `canvas`, `input`, `divider-subtle` and `status-soft` tokens. No new component hierarchy is needed, and no hardcoded inline CSS from the prototype should be copied into the actual CMS frontend without a token review.
