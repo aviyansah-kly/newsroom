@@ -1,0 +1,31 @@
+name: Newsroom Dark Mode V2.3 editorial readability contract
+on:
+  push:
+    branches: [fix/dark-mode-contrast-v23-20261014, main]
+    paths: [styles/newsroom-theme-components.css, tests/dark-mode-editor-contrast-v23.cjs, .github/workflows/dark-mode-editor-contrast-v23.yml]
+  pull_request:
+    paths: [styles/newsroom-theme-components.css, tests/dark-mode-editor-contrast-v23.cjs, .github/workflows/dark-mode-editor-contrast-v23.yml]
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 16
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    env:
+      NR_BROWSER: ${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --no-save --ignore-scripts playwright@1.56.1
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Verify V2.3 visual and existing content rules
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom.log 2>&1 &
+          sleep 2
+          node tests/dark-mode-editor-contrast-v23.cjs
+          node tests/dark-mode-expanded-editor-contract.cjs
+          node tests/dark-mode-divider-comfort.cjs
