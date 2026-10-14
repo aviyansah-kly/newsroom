@@ -82,3 +82,25 @@ Use the current Newsroom DS file. Add to Foundations → Color → *Dark / Seman
 ## Release policy
 
 Merge to Newsroom prototype main only after CI and cross-browser tests are green. The CMS production engineering team should implement the tokens in its actual component architecture (e.g. ThemeProvider/semantic CSS vars), not copy the prototype's large historical collection of inline `!important` CSS overrides. Real editorial sign-off/UAT remains a separate gate.
+
+
+## V2.1 — real live rendering verification (14 October 2026)
+
+A live audit against `https://newsroom.avi-yansah.workers.dev/` confirmed that **all HTML/JS/CSS files matched GitHub main** byte-for-byte, yet several SEO subcomponents remained white. These were not captured by the previous synthetic-only Playwright tests. The exact omitted components were:
+
+- SEO Assistant full-width container;
+- `Editable` badge and system caption;
+- Custom Slug input wrapper, status and URL preview;
+- Custom Slug `lowercase` / `numbers` / `hyphens` guideline chips;
+- pale separators in navigation and AI dock.
+
+**Resolved by token-mapped component rules** in `styles/newsroom-theme-components.css`, without changing Light Mode, component dimensions or editor behavior. Dark Mode tests now activate the **actual SEO tab**, inspect real article page markup and fail on white surfaces. Do not declare a change live merely because the local browser suite passes.
+
+**Release verification commands:**
+
+- `node tests/dark-mode-seo-surface.cjs`: validates SEO components on local candidate before merge (Chromium, Firefox and WebKit).
+- `python3 scripts/verify-live-deployment.py --strict`: compares the Worker URL to local checked-out GitHub assets.
+- `node tests/live-dark-mode-audit.cjs`: opens the **public** Cloudflare URL, checks SEO, Review & Publish, expanded Schedule Publishing and dynamic media fixture, and detects pale UI backgrounds.
+- Actions `verify-newsroom-live.yml` and `newsroom-live-dark-qa.yml`: report-only before PR merge; strict on main push with deployment retries.
+
+A GitHub merge and a passing local test are not proof of a successful Cloudflare release. Both the **live asset match** and the **live rendered UI audit** are required, in that order.
