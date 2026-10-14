@@ -425,3 +425,46 @@ html[data-theme="dark"] body.nr-app .tag-table :is(.row-action,.status-toggle) {
 html[data-theme="dark"] body.nr-app .tag-table .status-toggle.on {
   background:#24372B!important;color:#86EFAC!important;border-color:#3D6650!important;
 }
+
+/* Remaining compact white controls found after cross-page computed-surface scan. */
+html[data-theme="dark"] body.articles-page .article-status-pill.draft {
+  background:#303740!important;color:#BBC3CD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.articles-page .article-status-pill.scheduled {
+  background:#3D3022!important;color:#FBBF24!important;border-color:#735B2F!important;
+}
+html[data-theme="dark"] body.articles-page .article-status-pill.published {
+  background:#24372B!important;color:#86EFAC!important;border-color:#3D6650!important;
+}
+html[data-theme="dark"] body.articles-page .article-status-pill.review {
+  background:#1B314B!important;color:#93C5FD!important;border-color:#436181!important;
+}
+html[data-theme="dark"] body.articles-page .article-preview-btn,
+html[data-theme="dark"] body.articles-page .article-page-btn {
+  background:#303740!important;color:#BBC3CD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.articles-page .article-preview-btn:hover,
+html[data-theme="dark"] body.articles-page .article-page-btn:hover {
+  background:#39424D!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.articles-page .article-page-btn.active {
+  background:#1B314B!important;color:#93C5FD!important;border-color:#436181!important;
+}
+html[data-theme="dark"] body.articles-page .article-setting-chip {
+  background:#303740!important;color:#BBC3CD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.articles-page .article-tab-count {
+  background:#303740!important;color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.articles-page .article-tab.active .article-tab-count {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.nr-app .page-btn {
+  background:#303740!important;color:#BBC3CD!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.nr-app .page-btn:hover {
+  background:#39424D!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.nr-app .page-btn.active {
+  background:#D92B00!important;color:#FFFFFF!important;border-color:#D92B00!important;
+}
