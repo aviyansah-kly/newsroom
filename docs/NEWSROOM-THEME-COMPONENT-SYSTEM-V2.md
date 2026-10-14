@@ -212,3 +212,18 @@ A GitHub merge and a passing local test are not proof of a successful Cloudflare
 - **Review & Publish / Perbaiki:** Short Desc previously had no mapped label in the V70 JS handler. `scripts/newsroom-dark-review-focus.js` now coordinates the clicked issue with its real editable field and applies a persistent amber `.nr-review-focus-target` outline until the editor edits that field. It does not modify draft content, validation rules or publication state.
 
 **Regression:** `tests/dark-mode-editor-ux-v24.cjs` tests real Add Content behavior, Text Block icon and sticky toolbar rendering, and clicks Perbaiki for Judul Artikel / Short Desc in Chromium, Firefox and WebKit. Keep the approved Light Mode pixel/geometry baseline tests. Actual Cloudflare deployment and live visual QA are separate release gates.
+
+
+## Dark sidebar hover and Short Desc separator — October 2026
+
+The Video Galleries hover screenshot exposed a **legacy inline selector** `#cmsNavDrawer.nr-unified-nav .nr-nav-list .cms-nav-item:hover` that set `#f1f5f9 !important`, leaving light-on-light labels. The approved Dark Mode interaction contract is:
+
+- **Idle menu:** neutral sidebar, readable secondary text.
+- **Hover:** `--nr-ui-nav-hover-bg` = `--nr-ui-hover` (`#39424D`); text and SVG `--nr-ui-nav-hover-text` = `#E8EBEF`.
+- **Active:** selection `--nr-ui-nav-active-bg` = `#1B314B` with blue label/icon `#93C5FD`; hovering an active item must preserve active state.
+- **Keyboard:** `:focus-visible` ring `#93C5FD`, not a light fill.
+- **Passive sidebar grouping:** `--nr-ui-decorative-divider` (`#30363E`).
+
+The Short Desc → Konten Artikel line is a real `.alt-writing-card .alt-editor-section::before` pseudo-element with the same `#30363E` quiet divider. Changing only `border-color` does not control that line. **Do not add a second outline or thicker border.**
+
+Owned styles: `styles/newsroom-theme-components.css`; registry: `design-system/component-theme-registry.json`. Browser regression: `tests/dark-mode-sidebar-hover-separator.cjs` in Chromium/Firefox/WebKit, plus **Cloudflare live** validation on main push. Never change the shared Light Mode navigation styles to fix this Dark-specific defect.
