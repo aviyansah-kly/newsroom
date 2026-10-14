@@ -757,7 +757,7 @@ html[data-theme="dark"] body.alt-editor-layout #classicToolbar.newsroom-primary-
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar.v46-fixed,
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .alt-mini-toolbar.v46-fixed,
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="text"] .classic-toolbar {
-  background:var(--nr-ui-block-header)!important;
+  background:var(--nr-ui-raised)!important;
   color:var(--nr-ui-text)!important;
   border-color:var(--nr-ui-decorative-divider)!important;
   border-bottom-color:var(--nr-ui-decorative-divider)!important;
