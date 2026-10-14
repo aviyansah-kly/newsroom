@@ -1,0 +1,263 @@
+/*
+ Newsroom theme component contracts · V2
+
+ This is the AUTHORITATIVE component layer for Dark Mode. Legacy prototype
+ light-only declarations and earlier adapters remain for compatibility, but
+ component semantics are defined ONCE here. Never copy color hex values into
+ component selectors. Modify tokens, run theme component matrix tests, and
+ review design system docs before modifying a component's appearance.
+
+ Loaded last, after newsroom-dark-mode(-editor).css.
+ Absolutely no Light Mode rules or changes to geometry, typography, layout,
+ content images, true-to-frontend previews, keyboard behavior or workflow.
+*/
+html[data-theme="dark"] {
+  /* Passive & interactive surfaces, from quietest to raised */
+  --nr-ui-app:var(--nr-bg, #17191D);
+  --nr-ui-navigation:var(--nr-header-bg, #1C2025);
+  --nr-ui-panel:var(--nr-surface, #22262C);
+  --nr-ui-canvas:var(--nr-writing-canvas, #272C32);
+  --nr-ui-raised:var(--nr-input-surface, #2B3037);
+  --nr-ui-control:var(--nr-elevated, #303740);
+  --nr-ui-hover:#39424D;
+  --nr-ui-text:var(--nr-text, #E8EBEF);
+  --nr-ui-secondary:var(--nr-text-2, #BBC3CD);
+  --nr-ui-muted:var(--nr-muted, #A4AEBB);
+  /* Separators must NOT share an interactive control border token. */
+  --nr-ui-divider:var(--nr-divider-subtle, #343A42);
+  --nr-ui-section-divider:var(--nr-divider, #3A414A);
+  --nr-ui-card-border:var(--nr-canvas-border, #3C434D);
+  --nr-ui-control-border:#566170;
+  --nr-ui-input-border:var(--nr-input-boundary, #718096);
+  --nr-ui-focus:var(--nr-interactive, #93C5FD);
+  --nr-ui-selection:#1B314B;
+  --nr-ui-warning-bg:var(--nr-warning-soft, #3D3022);
+  --nr-ui-warning-text:var(--nr-warning, #FBBF24);
+  --nr-ui-success-bg:var(--nr-success-soft, #24372B);
+  --nr-ui-success-text:var(--nr-success, #86EFAC);
+  --nr-ui-purple-bg:#2D2545;
+  --nr-ui-purple-text:#D8CEFF;
+  --nr-ui-purple-border:#59497C;
+  --nr-ui-toggle-off-track:#46566C;
+  --nr-ui-toggle-off-border:#8494A9;
+  --nr-ui-toggle-on-track:var(--nr-action-primary-bg, #D92B00);
+  --nr-ui-toggle-thumb:#F8FAFC;
+  --nr-ui-toggle-thumb-border:#FFFFFF;
+}
+
+/* Component 01: APP SURFACE. Borders only where structurally meaningful. */
+html[data-theme="dark"] body.alt-editor-layout :is(.topbar,.context,.alt-writing-card) {
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.section-head,.settings-section-head,.alt-editorial-cluster-head,.alt-content-card-head,.alt-content-card-foot,.modal-head,.modal-foot) {
+  border-top-color:var(--nr-ui-divider)!important;
+  border-bottom-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.context,.alt-editorial-cluster,#seoPane,#infoPane) :is(.section-separator,.settings-divider,.flag-row) {
+  border-top-color:var(--nr-ui-divider)!important;
+  border-bottom-color:var(--nr-ui-divider)!important;
+}
+
+/* Component 02: EDITOR / BLOCK SURFACES — includes appended, not-yet-rendered blocks. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card {
+  background-color:var(--nr-ui-canvas)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-card-body,#tiptap-editor,.tiptap-editor,.ProseMirror,.alt-mini-editor) {
+  background:var(--nr-ui-canvas)!important;
+  color:var(--nr-ui-text)!important;
+  caret-color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-content-card-head,.alt-content-card-foot,.classic-toolbar,.alt-mini-toolbar) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-card-field label,.alt-standings-field label) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-card-field input,.alt-card-field textarea,.alt-standings-select,.v34-image-details input,.v64-image-details input,.v64-image-details select,.v64-image-details textarea) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-input-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-inline-media-preview,.alt-media-side-preview,.alt-standings-card,.alt-standings-field,.v34-image-details,.v64-image-details,.v34-image-summary,.v64-image-empty,.newsroom-image-empty) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card :is(.alt-preview-empty-state,.alt-standings-help,.alt-card-field-help) {
+  color:var(--nr-ui-muted)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card .alt-standings-icon {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-focus)!important;
+}
+/* Actual video, photos, and iframe contents retain their native appearance. */
+
+/* Component 03: RIGHT PANELS / SEO. Differentiate neutral surfaces from statuses. */
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.seo-auto,.seo-auto-list,.seo-auto-row,.seo-section,.seo-review-actions,.alt-slug-card,.alt-slug-body,.seo-review-panel) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-card,.seo-auto-row) {
+  background:var(--nr-ui-canvas)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.seo-readiness,.seo-readiness-icon,.seo-readiness-count) {
+  background:var(--nr-ui-success-bg)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane .seo-readiness :is(strong,span,.seo-readiness-count,.seo-readiness-icon) {
+  color:var(--nr-ui-success-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-head strong,.seo-auto-head strong,.seo-section-label strong) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-head span,.seo-auto-head span,.seo-section-label span) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(input,textarea,select,.seo-auto-toggle) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-input-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-generate,.seo-auto-row button) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-focus)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+
+/* Component 04: SCHEDULE / REVIEW MODAL — never a light-looking form card. */
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.nr-review-schedule,.nr-review-schedule-head,.schedule-fields,.schedule-fields.show,.schedule-grid,.alt-validation-ready-panel,.nr-review-validation-section,.alt-validation-summary,.publish-readiness-badge) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule :is(.schedule-fields,.schedule-fields.show,.schedule-grid) {
+  background:var(--nr-ui-canvas)!important;
+  border-top-color:var(--nr-ui-divider)!important;
+  border-bottom-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule :is(.schedule-control input,.schedule-control select,.schedule-control textarea) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-input-border)!important;
+  color-scheme:dark;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule :is(.schedule-control label,.nr-review-schedule-head strong) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule :is(.nr-review-schedule-head span,.schedule-note,.schedule-help) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule .schedule-summary {
+  background:var(--nr-ui-success-bg)!important;
+  color:var(--nr-ui-success-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .nr-review-schedule .schedule-summary :is(span,strong,small,svg) {
+  color:var(--nr-ui-success-text)!important;
+}
+/* Warning validation rows retain warm warning tint and accessible labels. */
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-validation-row.warn {
+  background:var(--nr-ui-warning-bg)!important;
+  border-color:var(--nr-ui-divider)!important;
+}
+
+/* Component 05: EDITORIAL LABELS and internal dividers. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.flag-list,.alt-advanced-publish-body,.settings-section,.alt-editorial-cluster) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .flag-list .flag-row {
+  background:var(--nr-ui-control)!important;
+  border-bottom-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(.flag-row,.alt-advanced-publish) :is(strong,.flag-copy strong) {
+  color:var(--nr-ui-text)!important;
+}
+
+/* Component 06: TOGGLE SWITCH — OFF distinct from track, ON high-contrast.
+   Existing .switch input + .switch-track is the canonical control; no new behavior. */
+html[data-theme="dark"] body.alt-editor-layout .switch input:not(:checked) + .switch-track {
+  background:var(--nr-ui-toggle-off-track)!important;
+  box-shadow:inset 0 0 0 1px var(--nr-ui-toggle-off-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .switch input:checked + .switch-track {
+  background:var(--nr-ui-toggle-on-track)!important;
+  box-shadow:inset 0 0 0 1px var(--nr-ui-toggle-on-track)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .switch .switch-track::after {
+  background:var(--nr-ui-toggle-thumb)!important;
+  box-shadow:0 1px 4px rgba(0,0,0,.38), inset 0 0 0 1px var(--nr-ui-toggle-thumb-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .switch input:focus-visible + .switch-track {
+  outline:2px solid var(--nr-ui-focus)!important;
+  outline-offset:3px;
+}
+html[data-theme="dark"] body.alt-editor-layout .switch input:disabled + .switch-track {
+  opacity:.55;
+}
+
+/* Component 07: CATEGORY / SEARCH / TAGS. All transient states must theme. */
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-tree-popover,.alt-category-popover,.alt-editorial-popover,.alt-tag-suggestions,.alt-tag-dropdown) {
+  background:var(--nr-ui-panel)!important;
+  border-color:var(--nr-ui-card-border)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-tree-search,.alt-category-search,.alt-category-tree-search input,.alt-category-search input,.alt-tag-lookup input) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-input-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(.alt-category-tree-row:hover,.alt-category-option:hover,.alt-tag-suggestion:hover) {
+  background:var(--nr-ui-selection)!important;
+  color:var(--nr-ui-focus)!important;
+}
+
+/* Component 08: MEDIA PICKER. Preserve original image/video pixels. */
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.alt-media-picker-head,.v34-preview,.v34-preview-empty,.v34-card,.v34-detail-panel,.v34-detail-summary,.v61-primary-tabs,.v61-upload-drop,.v62-field) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v34-preview-empty strong,.alt-media-picker-title strong,.v34-detail-summary strong) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(.v34-load button,.v61-primary-tabs button,.v62-upload-back,.v34-close) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(input,textarea,select) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-input-border)!important;
+}
+
+/* Component 09: COMMON ICON BUTTON and INFO PILLS. */
+html[data-theme="dark"] body.alt-editor-layout :is(.modal-head,.popup-head) button:has([data-lucide="x"]) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+
+/* Component 10: STANDARD PAGES. Already have per-page adapters in theme layer.
+   Normalize their surfaces & separators by semantic component tokens. */
+html[data-theme="dark"] body.nr-app.articles-page :is(.article-row,.article-list,.article-toolbar,.article-tabs,.article-footer) {
+  border-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.nr-app :is(.tag-table td,.tag-table th,.dashboard-quick-list) {
+  border-color:var(--nr-ui-divider)!important;
+}
+
+@media (prefers-reduced-motion:reduce) {
+  html[data-theme="dark"] body.alt-editor-layout .switch-track,
+  html[data-theme="dark"] body.alt-editor-layout .switch-track::after {
+    transition:none!important;
+  }
+}

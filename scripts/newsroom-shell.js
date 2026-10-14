@@ -24,6 +24,14 @@
       editorStyle.href='styles/newsroom-dark-mode-editor.css';editorStyle.setAttribute('data-nr-editor-theme','1');
       document.head.appendChild(editorStyle);
     }
+    // Canonical component surface contracts: loaded AFTER legacy adapters.
+    // Only dark-scoped selectors; Light Mode remains unchanged.
+    if(!document.querySelector('link[data-nr-component-theme]')){
+      const componentStyle=document.createElement('link');componentStyle.rel='stylesheet';
+      componentStyle.href='styles/newsroom-theme-components.css';
+      componentStyle.setAttribute('data-nr-component-theme','1');
+      document.head.appendChild(componentStyle);
+    }
     if(!document.querySelector('script[data-nr-theme]')){
       const controller=document.createElement('script');controller.src='scripts/newsroom-appearance.js';
       controller.setAttribute('data-nr-theme','1');document.head.appendChild(controller);
