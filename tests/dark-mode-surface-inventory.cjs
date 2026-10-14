@@ -56,5 +56,8 @@ for(const route of ['dashboard.html','articles.html','tags.html']){
  await inspect('PAGE '+route);
 }
 for(const state of states) console.log('AUDIT_WHITE_SURFACES '+JSON.stringify(state));
+const failures=states.filter(state=>state.count>0);
+if(failures.length)throw Error('Unresolved light surfaces in Dark Mode: '+JSON.stringify(failures.map(x=>({state:x.label,count:x.count,samples:x.samples.slice(0,8)}))));
+console.log('PASS: zero computed near-white UI surfaces across Editor interactions, Dashboard, Articles and Tags');
 await browser.close();
 })().catch(e=>{console.error(e.stack||e);process.exit(1)});
