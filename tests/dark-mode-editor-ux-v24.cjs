@@ -1,6 +1,6 @@
 /* Screenshot-led regression: Dark Editor separators, six Add Content tiles,
  * sticky toolbars, exact Content Block icon, Review → Perbaiki orange focus.
- * Runs against candidate branch (local http.server), NO publishing/production writes.
+ * Runs against candidate branch or NR_BASE_URL public preview. NO publishing/production writes.
  */
 const assert=require('node:assert/strict');
 const {chromium,firefox,webkit}=require('playwright');
@@ -9,7 +9,7 @@ const engine=process.env.NR_BROWSER||'chromium';
  const browser=await ({chromium,firefox,webkit}[engine]||chromium).launch({headless:true,args:engine==='chromium'?['--no-sandbox']:[]});
  const page=await browser.newPage({viewport:{width:1600,height:950}});
  await page.addInitScript(()=>localStorage.setItem('newsroom:appearance','dark'));
- await page.goto('http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded',timeout:60000});
+ await page.goto(process.env.NR_BASE_URL||'http://127.0.0.1:8765/index.html',{waitUntil:'domcontentloaded',timeout:60000});
  await page.locator('#publishBtn').waitFor({state:'visible',timeout:30000});
  await page.waitForFunction(()=>!!document.querySelector('script[data-nr-review-focus]'),null,{timeout:10000});
  await page.waitForTimeout(1600);
