@@ -502,3 +502,17 @@ html[data-theme="dark"] body.alt-editor-layout :is(#agentDock,.agent-dock) :is(
 html[data-theme="dark"] body.alt-editor-layout :is(.nr-ai-field-action,.alt-tag-ai) {
   border-color:var(--nr-ui-purple-border)!important;
 }
+
+
+/* Specific legacy inline selector outranks generic AI borders. Apply quiet
+   lavender only to the control frame; active provenance text remains purple. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane .nr-ai-field-head button.nr-ai-field-action,
+html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection .alt-tag-head button.alt-tag-ai {
+  border-color:var(--nr-ui-purple-border)!important;
+}
+
+/* Agent's passive metadata should be secondary graphite text, not #64748b
+   inherited from the prototype Light Mode chat shell. */
+html[data-theme="dark"] body.alt-editor-layout #agentDock :is(.agent-header,.agent-header span,.agent-mode,.agent-mode span,.agent-context,.agent-context span,.agent-composer-label,.agent-composer-label span) {
+  color:var(--nr-ui-secondary)!important;
+}
