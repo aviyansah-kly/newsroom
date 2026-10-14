@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.2.0",
   "status": "prototype",
   "themeScope": "html[data-theme=\"dark\"]",
   "sourceOfTruth": "styles/newsroom-theme-components.css",
@@ -32,7 +32,14 @@
     "toggleThumb": "--nr-ui-toggle-thumb",
     "warningBg": "--nr-ui-warning-bg",
     "successBg": "--nr-ui-success-bg",
-    "purpleBg": "--nr-ui-purple-bg"
+    "purpleBg": "--nr-ui-purple-bg",
+    "tabActiveBg": "--nr-ui-tab-active-bg",
+    "tabActiveText": "--nr-ui-tab-active-text",
+    "tabInactiveText": "--nr-ui-tab-inactive-text",
+    "tabActiveIndicator": "--nr-ui-tab-active-indicator",
+    "toolbarIcon": "--nr-ui-toolbar-icon",
+    "placeholder": "--nr-ui-placeholder",
+    "decorativeDivider": "--nr-ui-decorative-divider"
   },
   "components": [
     {
@@ -62,17 +69,25 @@
         ".alt-content-card-body",
         ".alt-mini-editor",
         ".classic-toolbar",
-        "#tiptap-editor"
+        "#tiptap-editor",
+        ".alt-mini-toolbar",
+        ".alt-mini-toolbar button",
+        ".classic-toolbar button",
+        ".toolbar-sep"
       ],
       "tokenRoles": [
         "canvas",
         "raised",
         "divider",
-        "text"
+        "text",
+        "toolbarIcon",
+        "decorativeDivider",
+        "placeholder"
       ],
       "qa": [
         "insert-text-block",
-        "sticky-toolbar"
+        "sticky-toolbar",
+        "expanded-dynamic-block-contrast"
       ]
     },
     {
@@ -83,18 +98,26 @@
         ".alt-preview-empty-state",
         ".alt-card-field input",
         ".alt-standings-card",
-        ".alt-standings-select"
+        ".alt-standings-select",
+        ".alt-media-drop",
+        ".alt-media-preview-card",
+        ".alt-page-card",
+        ".alt-page-line"
       ],
       "tokenRoles": [
         "raised",
         "inputBorder",
-        "muted"
+        "muted",
+        "decorativeDivider",
+        "placeholder"
       ],
       "qa": [
         "video-empty",
         "embed-empty",
         "image-empty",
-        "standings"
+        "standings",
+        "media-empty-actions",
+        "page-break"
       ]
     },
     {
@@ -280,6 +303,49 @@
         "tags-route",
         "tag-table",
         "status-toggle"
+      ]
+    },
+    {
+      "id": "editor-right-tabs",
+      "owner": "Right Panel > Editorial / SEO",
+      "selectors": [
+        ".context .tabs.article-tabs-promoted button.tab",
+        ".context .tabs.article-tabs-promoted button.tab.active",
+        ".alt-tab-label"
+      ],
+      "tokenRoles": [
+        "tabActiveBg",
+        "tabActiveText",
+        "tabInactiveText",
+        "tabActiveIndicator",
+        "focus"
+      ],
+      "qa": [
+        "tab-inactive-contrast",
+        "tab-active-contrast",
+        "tab-switch",
+        "keyboard-focus"
+      ]
+    },
+    {
+      "id": "editor-block-actions",
+      "owner": "Editor Workspace > Add Content",
+      "selectors": [
+        ".alt-content-card-head button",
+        ".alt-content-actions button",
+        ".alt-editor-section .alt-add-menu button",
+        ".alt-add-icon"
+      ],
+      "tokenRoles": [
+        "control",
+        "hover",
+        "secondary",
+        "decorativeDivider"
+      ],
+      "qa": [
+        "add-block",
+        "hover",
+        "icon-on-neutral"
       ]
     }
   ],
