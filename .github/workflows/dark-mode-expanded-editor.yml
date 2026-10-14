@@ -1,7 +1,13 @@
 name: Newsroom expanded Dark Mode component contract
 on:
+  pull_request:
+    paths:
+      - styles/newsroom-theme-components.css
+      - tests/dark-mode-expanded-editor-contract.cjs
+      - tests/dark-mode-editor-ink-audit.cjs
+      - .github/workflows/dark-mode-expanded-editor.yml
   push:
-    branches: [fix/dark-mode-consistency-20261014]
+    branches: [main, fix/dark-mode-consistency-20261014]
     paths:
       - styles/newsroom-theme-components.css
       - tests/dark-mode-expanded-editor-contract.cjs
