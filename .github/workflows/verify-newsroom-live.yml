@@ -1,0 +1,30 @@
+name: Verify Newsroom Live Deployment
+on:
+  pull_request:
+    paths:
+      - 'scripts/verify-live-deployment.py'
+      - '.github/workflows/verify-newsroom-live.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'styles/**'
+      - 'scripts/**'
+      - '.github/workflows/verify-newsroom-live.yml'
+  workflow_dispatch:
+jobs:
+  compare-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Inspect actual Cloudflare Workers response, not local http.server
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            python3 scripts/verify-live-deployment.py --attempts 1
+          else
+            python3 scripts/verify-live-deployment.py --strict --attempts 8 --delay 15
+          fi

@@ -130,6 +130,72 @@ html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-g
   border-color:var(--nr-ui-card-border)!important;
 }
 
+/* The root SEO pane also kept a pale Light Mode outline despite dark children. */
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane {
+  border-color:var(--nr-ui-divider)!important;
+}
+/* Screenshot-level quiet separator audit: these navigation/agent separators
+   retained pale Light Mode strokes even when all nearby backgrounds were dark.
+   AI provenance is purple; its passive border should not be pale lavender. */
+html[data-theme="dark"] body.alt-editor-layout #cmsNavDrawer .nr-nav-heading,
+html[data-theme="dark"] body.alt-editor-layout :is(.agent-head,.agent-quick) {
+  border-bottom-color:var(--nr-ui-divider)!important;
+  border-top-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout button.alt-tag-ai {
+  border-color:var(--nr-ui-purple-border)!important;
+  background:var(--nr-ui-purple-bg)!important;
+  color:var(--nr-ui-purple-text)!important;
+}
+/* Component 03b: SEO SUBCOMPONENTS — observed white on REAL Cloudflare.
+   A live-browser audit found missing semantic mapping for the SEO assistant,
+   Editable badge, Custom Slug input wrapper, status pill and slug URL preview.
+   These are actual existing nodes, not synthetic fixtures.
+ */
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane > .seo-assistant {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.seo-section-badge,.seo-auto-caption,.alt-slug-status) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane .alt-slug-rules span {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-prefix,.alt-slug-count) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane .alt-slug-status.ok {
+  background:var(--nr-ui-success-bg)!important;
+  color:var(--nr-ui-success-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane .alt-slug-status.warn {
+  background:var(--nr-ui-warning-bg)!important;
+  color:var(--nr-ui-warning-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-input-wrap,.alt-slug-preview) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-input-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.alt-slug-input-wrap,.alt-slug-preview) :is(input,span,strong) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.seo-assistant-title strong,.seo-review-copy strong,.seo-section-label strong) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane :is(.seo-assistant-title span,.seo-review-copy span) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane > * + * {
+  border-top-color:var(--nr-ui-divider)!important;
+}
+
 /* Component 04: SCHEDULE / REVIEW MODAL — never a light-looking form card. */
 html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.nr-review-schedule,.nr-review-schedule-head,.schedule-fields,.schedule-fields.show,.schedule-grid,.alt-validation-ready-panel,.nr-review-validation-section,.alt-validation-summary,.publish-readiness-badge) {
   background:var(--nr-ui-panel)!important;
