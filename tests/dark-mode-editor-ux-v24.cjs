@@ -62,8 +62,14 @@ const engine=process.env.NR_BROWSER||'chromium';
  assert(sticky.exists,'Primary Text toolbar should exist');
  assert.equal(sticky.bg,'rgb(43, 48, 55)','Sticky toolbar must use graphite');
  assert.equal(sticky.border,'rgb(48, 54, 62)','Sticky separator soft');
+ // Force two missing required fields in the disposable browser session.
+ // This avoids varying seeded demo content across test contexts.
+ await page.locator('#title').fill('');
+ await page.locator('#dek').fill(Array.from({length:34},(_,i)=>'kata'+i).join(' '));
  await page.locator('#publishBtn').click();
  await page.locator('#altValidationModal').waitFor({state:'visible',timeout:12000});
+ await page.waitForTimeout(450);
+ console.log('ACTUAL_REVIEW_ROWS',JSON.stringify(await page.locator('#altValidationList .alt-validation-row').allTextContents()));
  const titleFix=page.locator('#altValidationList .alt-validation-row.warn').filter({has:page.locator('strong', {hasText:'Judul Artikel'})}).locator('button').first();
  assert(await titleFix.count(),'Title Perbaiki button must exist');
  await titleFix.click({timeout:12000});
