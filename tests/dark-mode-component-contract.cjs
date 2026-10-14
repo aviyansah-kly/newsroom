@@ -68,7 +68,9 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
   results.off=cssColor('#nrSwitchProbe .switch-track');
   const thumb=getComputedStyle(toggle.querySelector('.switch-track'),'::after').backgroundColor;
   results.thumb=thumb;
-  toggle.querySelector('input').checked=true;
+  toggle.querySelector('input').click();
+  results.checked=toggle.querySelector('input').checked;
+  toggle.querySelector('.switch-track').getBoundingClientRect();
   results.on=cssColor('#nrSwitchProbe .switch-track');
   toggle.remove();
   block.remove();
@@ -89,6 +91,7 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
  c('scheduleDate','bg','rgb(43, 48, 55)');
  c('scheduleSummary','bg','rgb(36, 55, 43)');
  c('off','bg','rgb(70, 86, 108)');
+ assert.equal(d.checked,true,'Checkbox changed ON after user click');
  c('on','bg','rgb(217, 43, 0)');
  assert.equal(d.thumb,'rgb(248, 250, 252)');
  // Check that theme change did not shift any baseline layout geometry.
