@@ -60,7 +60,7 @@ const engine=process.env.NR_BROWSER||'chromium';
  });
  console.log('DARK_STICKY_TOOLBAR_AUDIT '+JSON.stringify(sticky));
  assert(sticky.exists,'Primary Text toolbar should exist');
- assert.equal(sticky.bg,'rgb(48, 55, 64)','Sticky toolbar must use graphite');
+ assert.equal(sticky.bg,'rgb(43, 48, 55)','Sticky toolbar must use graphite');
  assert.equal(sticky.border,'rgb(48, 54, 62)','Sticky separator soft');
  await page.locator('#publishBtn').click();
  await page.locator('#altValidationModal').waitFor({state:'visible',timeout:12000});
