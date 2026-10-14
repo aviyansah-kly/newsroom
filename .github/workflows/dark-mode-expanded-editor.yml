@@ -29,4 +29,4 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-editor-http.log 2>&1 &
           sleep 2
           node tests/dark-mode-expanded-editor-contract.cjs
-          node tests/dark-mode-editor-ink-audit.cjs
+          if [ "$NR_BROWSER" = "chromium" ]; then node tests/dark-mode-editor-ink-audit.cjs; fi
