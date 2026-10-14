@@ -333,3 +333,95 @@ html[data-theme="dark"] :is(.nr-account-trigger,.nr-appearance-option,.nr-btn,.n
 @media (prefers-reduced-motion:reduce) {
   html[data-theme="dark"] .nr-appearance-option {transition:none}
 }
+
+/* DARK MODE V1.2 — standard Newsroom pages (actual computed white-island audit).
+   Dashboard, Article List and Tags use additional page-local Light-only CSS.
+   These rules only apply in Dark; page layout, typography and functionality stay intact.
+ */
+
+/* Dashboard quick actions, compact row buttons and sidebar toggle */
+html[data-theme="dark"] body.nr-app :is(.dashboard-quick,.dashboard-open,#sidebarToggle) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.nr-app :is(.dashboard-quick:hover,.dashboard-open:hover,#sidebarToggle:hover) {
+  background:#39424D!important;
+}
+html[data-theme="dark"] body.nr-app .dashboard-quick-icon {
+  background:#272C32!important;color:#BBC3CD!important;
+}
+
+/* Articles — full list, row surfaces, tabs, toolbars, dropdowns and pagination */
+html[data-theme="dark"] body.nr-app.articles-page :is(.article-list,.article-toolbar,.article-tabs,.article-list-head,.article-footer) {
+  background:#22262C!important;color:#BBC3CD!important;border-color:#343A42!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-row {
+  background:#22262C!important;color:#E8EBEF!important;border-bottom-color:#343A42!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-row:hover,
+html[data-theme="dark"] body.nr-app.articles-page .article-row:focus-within {
+  background:#2A3037!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab:not(.active) {
+  background:transparent!important;color:#BBC3CD!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab:hover {
+  background:#303740!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab.active {
+  background:#1B314B!important;color:#93C5FD!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(.article-row-menu,.article-row-menu a,.article-row-menu button,.article-more-btn,.article-quick-actions button) {
+  background:#303740!important;color:#E8EBEF!important;border-color:#3C434D!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(.article-row-menu a:hover,.article-row-menu button:hover,.article-more-btn:hover,.article-quick-actions button:hover) {
+  background:#39424D!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-thumb,
+html[data-theme="dark"] body.nr-app.articles-page .article-thumb.placeholder {
+  background:#303740!important;color:#A4AEBB!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab-count {
+  background:#303740;color:#BBC3CD;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab.active .article-tab-count {
+  background:#1B314B;color:#93C5FD;
+}
+
+/* Tags — table headings, zebra rows, status toggles and edit action */
+html[data-theme="dark"] body.nr-app.tags-page :is(.tag-table,.tag-table-wrap,.tag-table tbody,.tag-table tbody tr) {
+  background:#22262C!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table th {
+  background:#272C32!important;color:#BBC3CD!important;border-bottom-color:#3C434D!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table td {
+  background:transparent!important;color:#E8EBEF;border-bottom-color:#343A42!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table tbody tr:hover,
+html[data-theme="dark"] body.nr-app.tags-page .tag-table tbody tr:nth-child(even):hover {
+  background:#303740!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page :is(.status-toggle,.row-action) {
+  background:#303740!important;color:#BBC3CD!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page :is(.status-toggle:hover,.row-action:hover) {
+  background:#39424D!important;color:#E8EBEF!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .status-toggle.on {
+  background:#24372B!important;color:#86EFAC!important;border-color:#3D6650!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table :is(input,textarea,select) {
+  background:#2B3037!important;color:#E8EBEF!important;border-color:#718096!important;
+}
+/* Pages may not share a page-specific body class; ensure Tags page table
+   still picks up the same dark colors without affecting another page. */
+html[data-theme="dark"] body.nr-app .tag-table th {background:#272C32!important;color:#BBC3CD!important}
+html[data-theme="dark"] body.nr-app .tag-table tbody tr {background:#22262C!important}
+html[data-theme="dark"] body.nr-app .tag-table tbody tr:hover {background:#303740!important}
+html[data-theme="dark"] body.nr-app .tag-table td {border-bottom-color:#343A42!important}
+html[data-theme="dark"] body.nr-app .tag-table :is(.row-action,.status-toggle) {
+  background:#303740!important;color:#BBC3CD!important;border-color:#566170!important;
+}
+html[data-theme="dark"] body.nr-app .tag-table .status-toggle.on {
+  background:#24372B!important;color:#86EFAC!important;border-color:#3D6650!important;
+}
