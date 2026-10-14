@@ -19,7 +19,7 @@ const engine=process.env.NR_BROWSER||'chromium';
    if(pane && !pane.querySelector('.alt-slug-input-wrap')){
      const fixture=document.createElement('div');
      fixture.id='nrSlugContractFixture';
-     fixture.innerHTML='<div class="alt-slug-card"><div class="alt-slug-status">Not filled</div><div class="alt-slug-input-wrap"><input value="judul-demo" /></div><div class="alt-slug-preview">Preview URL</div></div>';
+     fixture.innerHTML='<div class="alt-slug-card"><div class="alt-slug-status">Not filled</div><div class="alt-slug-input-wrap"><input value="judul-demo" /></div><div class="alt-slug-preview">Preview URL</div><div class="alt-slug-rules"><span>lowercase</span><span>numbers</span><span>hyphens (-)</span></div></div>';
      pane.appendChild(fixture);
    }
    const variables=getComputedStyle(document.documentElement);
@@ -31,6 +31,7 @@ const engine=process.env.NR_BROWSER||'chromium';
      slugWrap:get('#seoPane .alt-slug-input-wrap'),
      slugPreview:get('#seoPane .alt-slug-preview'),
      slugStatus:get('#seoPane .alt-slug-status'),
+     slugRule:get('#seoPane .alt-slug-rules span'),
      seoReadiness:get('#seoPane .seo-readiness'),
      slugInput:get('#seoPane .alt-slug-input-wrap input')
    };
@@ -42,6 +43,7 @@ const engine=process.env.NR_BROWSER||'chromium';
  must('slugWrap','rgb(43, 48, 55)');
  must('slugPreview','rgb(43, 48, 55)');
  must('slugStatus','rgb(48, 55, 64)');
+ must('slugRule','rgb(48, 55, 64)');
  must('seoReadiness','rgb(36, 55, 43)');
  assert.equal(data.slugInput.bg,'rgb(43, 48, 55)','Slug input matches the raised surface');
  await page.screenshot({path:'dark-mode-seo-actual.png',animations:'disabled'});
