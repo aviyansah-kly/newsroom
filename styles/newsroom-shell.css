@@ -162,3 +162,16 @@ body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item,.nr-account-name,.nr-acco
 .nr-account-popover :is(strong,span) {
   font-size:13px!important;
 }
+
+
+/* Design System · Navigation / Label / 13px.
+ * Dashboard navigation may use a label span nested inside a link/button.
+ * Target both the control and nested text so page-level legacy sizing loses.
+ * Applies equally to Light and Dark; icons and headings are unaffected. */
+:root { --nr-font-size-navigation:13px; }
+body.nr-app .nr-sidebar :is(a,button,.nr-nav-item,.cms-nav-item),
+body.nr-app .nr-sidebar :is(a,button,.nr-nav-item,.cms-nav-item) :is(span,.nr-nav-label,.cms-nav-label),
+body.alt-editor-layout #cmsNavDrawer :is(a.cms-nav-item,button.cms-nav-item,.nr-nav-item),
+body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item,.nr-nav-item) :is(span,.nr-nav-label,.cms-nav-label) {
+  font-size:var(--nr-font-size-navigation)!important;
+}
