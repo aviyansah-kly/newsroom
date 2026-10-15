@@ -86,15 +86,33 @@ async function optional(page,label,selector){
     const scene=state=>take(page,route,viewport.name+'-'+state);
     await scene('initial');
     // The Account menu is shared by every page and can conceal white popovers.
-    if(await optional(page,'Account','.nr-account-trigger')){await scene('account-open');await optional(page,'Close Account','.nr-account-trigger');}
+    // Mobile sidebar is collapsed by default. Expand it through its real
+    // control before inspecting Account, then close it to expose page actions.
+    if(viewport.name==='mobile' && await optional(page,'Mobile navigation','#mobileMenu')){
+      await scene('mobile-nav-open');
+    }
+    if(await optional(page,'Account','.nr-account-trigger')){
+      await scene('account-open');
+      await optional(page,'Close Account','.nr-account-trigger');
+    }
+    if(viewport.name==='mobile'){
+      const menu=page.locator('#mobileMenu');
+      if(await menu.count() && (await menu.getAttribute('aria-expanded'))==='true') await optional(page,'Close mobile navigation','#mobileMenu');
+    }
     // Scroll into the middle/bottom of actual page and inspect visible boxes.
     await page.evaluate(()=>window.scrollTo(0,Math.max(0,document.documentElement.scrollHeight/2-window.innerHeight/2)));
     await page.waitForTimeout(160);await scene('middle-scroll');
     await page.evaluate(()=>window.scrollTo(0,document.documentElement.scrollHeight));
     await page.waitForTimeout(160);await scene('bottom-scroll');
     if(route==='articles.html'){
-      if(await optional(page,'New article','#newArticleBtn'))await scene('new-article-open');
-      if(await optional(page,'Filter articles','#filterBtn'))await scene('filter-open');
+      if(await optional(page,'New article','#newArticleBtn')){
+        await scene('new-article-open');
+        await optional(page,'Close new article menu','#newArticleBtn');
+      }
+      if(await optional(page,'Filter articles','#filterBtn')){
+        await scene('filter-open');
+        await optional(page,'Close article filters','#filterBtn');
+      }
       if(await optional(page,'Article row menu','.article-menu-trigger'))await scene('article-action-open');
     } else if(route==='tags.html'){
       if(await optional(page,'Add tag','#addTagBtn'))await scene('tag-modal-open');
@@ -104,6 +122,13 @@ async function optional(page,label,selector){
       if(await optional(page,'SEO tab','.context [data-tab="seo"]'))await scene('seo-active');
       if(await optional(page,'Editorial tab','.context [data-tab="info"]'))await scene('editorial-active');
       if(await optional(page,'Review and Publish','#publishBtn'))await scene('review-modal');
+      else if(viewport.name==='mobile'&&await page.locator('#publishBtn').count()){
+        // Audit modal surface even if header action is currently obstructed.
+        // The inaccessible real click remains an explicit QA failure.
+        await page.locator('#publishBtn').evaluate(el=>el.click());
+        await page.waitForTimeout(200);
+        await scene('review-modal-programmatic');
+      }
     }
     if(errors.length){report.routes.push({route,scene:viewport.name+'-page-errors',errors:errors.slice(0,5)})}
     await context.close();
