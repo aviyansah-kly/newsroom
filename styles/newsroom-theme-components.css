@@ -1233,3 +1233,111 @@ html[data-theme="dark"] body.alt-editor-layout :is(
 ) :is(button,input,textarea,select):focus-visible {
   outline-color:var(--nr-ui-focus)!important;
 }
+
+/* V2.13 — Popup-specific computed-style remediation.
+ * Based on desktop/mobile inventory report: docs/qa/dark-popup-latest.json.
+ */
+html[data-theme="dark"] body.alt-editor-layout #importModal :is(.source-btn,.source-icon),
+html[data-theme="dark"] body.alt-editor-layout #altPreviewModal :is(.alt-preview-switch,.alt-preview-switch button,.alt-preview-stage,.alt-preview-frame),
+html[data-theme="dark"] body.alt-editor-layout #reviewPublishModal :is(.review-publish-note,.review-publish-list),
+html[data-theme="dark"] body.alt-editor-layout #imageLibraryPopup :is(
+ .v34-tools,.v34-tabs,.v34-tabs button,.v34-foot,.v34-foot button,
+ .v34-preview-image,.v34-head,.v34-results,.v34-card,
+ .v61-upload-drop,.v62-upload-editor,.v62-field
+),
+html[data-theme="dark"] body.alt-editor-layout :is(
+ #altMarketplacePopover .alt-marketplace-popover-foot,
+ #altMarketplacePopover button:not(.primary),
+ #altInsertPopover button,
+ #writingViewMenu button:not(.active),
+ #seoReview .seo-review-head,
+ #nrLinkOverlay #nrLinkTabInternal,
+ #nrLinkOverlay .nr-link-chosen
+) {
+ background:var(--nr-ui-control)!important;
+ background-color:var(--nr-ui-control)!important;
+ color:var(--nr-ui-text)!important;
+ border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+ #importModal .source-btn.active,
+ #altPreviewModal .alt-preview-switch button.active,
+ #imageLibraryPopup .v34-tabs button.active,
+ #writingViewMenu button.active,
+ #nrLinkOverlay #nrLinkTabInternal[aria-selected="true"]
+){
+ background:var(--nr-ui-hover)!important;
+ background-color:var(--nr-ui-hover)!important;
+ color:var(--nr-ui-text)!important;
+ border-color:var(--nr-ui-control-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+ #importModal .source-btn:hover,
+ #imageLibraryPopup .v34-tabs button:hover,
+ #imageLibraryPopup .v34-foot button:hover,
+ #altMarketplacePopover button:hover,
+ #altInsertPopover button:hover,
+ #writingViewMenu button:hover
+){
+ background:var(--nr-ui-hover)!important;
+ color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+ #altMarketplacePopover .alt-marketplace-popover-head,
+ #altMarketplacePopover .alt-marketplace-popover-foot,
+ #writingViewMenu .writing-view-menu-head,
+ #writingViewMenu .font-sample,
+ #seoReview .seo-review-head,
+ #imageLibraryPopup .v34-head,#imageLibraryPopup .v34-tools,
+ #imageLibraryPopup .v34-tabs,#imageLibraryPopup .v34-results,
+ #imageLibraryPopup .v34-preview-image,#imageLibraryPopup .v34-foot,
+ #reviewPublishModal .review-publish-list,
+ #vidioPopup .embed-provider-chip
+){
+ border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+ #writingViewMenu .font-sample,
+ #vidioPopup .embed-provider-chip
+) {
+ background:var(--nr-ui-control)!important;
+ color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #nrLinkOverlay .nr-link-chosen{
+ background:#1D382C!important;color:#B4E7C9!important;
+ border-color:#365846!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(
+ .guardian-summary-icon,.guardian-icon,.guardian-item.warn,.guardian-item.danger,
+ .alt-redpel-box
+){
+ background:var(--nr-ui-raised)!important;
+ background-color:var(--nr-ui-raised)!important;
+ color:var(--nr-ui-text)!important;
+ border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(
+ .guardian-item.warn,.guardian-icon
+){
+ border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .guardian-item.danger{
+ background:#3B272B!important;
+ border-color:#684047!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .guardian-item.warn{
+ background:#3B3227!important;
+ border-color:#68503A!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal .alt-redpel-box{
+ background:#3B3227!important;
+ border-color:#68503A!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+ .article-row-menu .nr-menu-section,
+ .article-row-menu .nr-menu-options,
+ .article-feature-menu .nr-menu-section,
+ .article-feature-menu .nr-menu-options
+){
+ border-color:var(--nr-ui-decorative-divider)!important;
+}
