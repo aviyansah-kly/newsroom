@@ -1385,3 +1385,20 @@ html[data-theme="dark"] body.alt-editor-layout #newsroomUnifiedImageModal :is(
 ){
  border-color:var(--nr-ui-decorative-divider)!important;
 }
+
+/* V2.14b — image editor option labels: only remaining bright elements in
+ * synthetic image dialog audit on desktop and mobile. */
+html[data-theme="dark"] body.alt-editor-layout #newsroomUnifiedImageModal :is(
+ .newsroom-existing-flags label,.newsroom-watermark-field label,
+ .newsroom-photo-details label,.newsroom-photo-field label
+){
+ background:var(--nr-ui-control)!important;
+ background-color:var(--nr-ui-control)!important;
+ color:var(--nr-ui-text)!important;
+ border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #newsroomUnifiedImageModal :is(
+ .newsroom-existing-flags label,.newsroom-watermark-field label
+):hover{
+ background:var(--nr-ui-hover)!important;
+}
