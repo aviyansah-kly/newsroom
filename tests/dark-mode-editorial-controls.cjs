@@ -112,4 +112,4 @@ async function auditBox(locator,name,expected){
  fs.writeFileSync(out,JSON.stringify(report,null,2));
  console.log('EDITORIAL_CONTROL_QA',JSON.stringify({checks:report.scenes.length,failures:report.failures}));
  if(report.failures.length)process.exitCode=1;
-})().catch(e=>{console.error(e.stack||e);process.exitCode=1});
+})().catch(e=>{report.failures.push('Fatal QA error: '+String(e.stack||e));fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(report,null,2));console.error(e.stack||e);process.exitCode=1});
