@@ -153,3 +153,12 @@ html[data-theme="dark"] body.alt-editor-layout .cms-nav-bottom .nr-account-trigg
   border-color:transparent!important;
   box-shadow:none!important;
 }
+
+
+/* Typography contract: navigation and account/menu labels are 13px in
+   both themes. Preserve body copy, headlines and article editing typography. */
+.nr-sidebar :is(.nr-nav-item,.nr-account-name,.nr-account-role,.nr-account-menu-item),
+body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item,.nr-account-name,.nr-account-role,.nr-account-menu-item),
+.nr-account-popover :is(strong,span) {
+  font-size:13px!important;
+}
