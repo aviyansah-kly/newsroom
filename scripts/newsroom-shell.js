@@ -224,6 +224,53 @@
         queueMicrotask(()=>{queued=false;enforceSidebarNavType()});
       }).observe(menuDrawer,{childList:true,subtree:true});
     }
+    // Editorial ownership: move existing content initiative / SEO keyword
+    // controls rather than cloning them. Event listeners and draft bindings
+    // follow the original DOM nodes. Never remove the containing SEO pane.
+    const relocateEditorialFields=()=>{
+      const pane=document.querySelector('#seoPane');
+      if(!pane)return;
+      const context=document.querySelector('.context');
+      if(!context)return;
+      const editorial=context.querySelector('#infoPane') ||
+        context.querySelector('[data-tab-panel="editorial"]') ||
+        context.querySelector('.editorial-pane');
+      if(!editorial)return;
+      const normalized=node=>(node.textContent||'').replace(/\\s+/g,' ').trim().toLowerCase();
+      const findLabel=(root,terms)=>[...root.querySelectorAll('label,.field-label,.alt-field-label,.seo-field-label,h3,h4,strong')]
+        .find(node=>terms.some(t=>normalized(node)===t));
+      const typeLabel=findLabel(editorial,['tipe artikel','article type']);
+      if(!typeLabel)return;
+      const fieldSelector='.alt-meta-field,.alt-card-field,.seo-field,.seo-field-row,.form-field,.field-group,.field,.alt-standings-field';
+      const typeField=typeLabel.closest(fieldSelector) || typeLabel.parentElement;
+      if(!typeField || !typeField.parentElement)return;
+      let after=typeField;
+      const moveField=(terms)=>{
+        const label=findLabel(pane,terms);
+        if(!label)return;
+        const field=label.closest(fieldSelector) || label.parentElement;
+        if(!field||field===pane||field.contains(typeField)||field.querySelector('h2,h1'))return;
+        if(field.parentElement!==after.parentElement || field.previousElementSibling!==after){
+          after.insertAdjacentElement('afterend',field);
+        }
+        after=field;
+      };
+      moveField(['content initiative']);
+      moveField(['seo keyword','keyword']);
+    };
+    relocateEditorialFields();
+    const editorialSource=document.querySelector('#seoPane');
+    if(editorialSource){
+      let queued=false;
+      const sync=()=>{
+        if(queued)return;
+        queued=true;
+        queueMicrotask(()=>{queued=false;relocateEditorialFields()});
+      };
+      new MutationObserver(sync).observe(editorialSource,{childList:true,subtree:true});
+      const editorialDestination=document.querySelector('#infoPane');
+      if(editorialDestination)new MutationObserver(sync).observe(editorialDestination,{childList:true,subtree:true});
+    }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
     document.querySelectorAll('.nr-topbar > .nr-user').forEach(el=>el.remove());
