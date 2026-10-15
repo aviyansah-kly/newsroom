@@ -291,7 +291,17 @@
         const wrap=document.createElement('div');wrap.className='nr-keyword-tags';
         const chips=document.createElement('div');chips.className='nr-keyword-chips';
         const input=document.createElement('input');input.id='nr-editorial-keyword-input';
-        input.placeholder='Cari keyword atau tekan Enter untuk menambahkan';
+        input.placeholder='Cari Keywords...';
+        input.setAttribute('autocomplete','off');
+        input.setAttribute('role','combobox');
+        input.setAttribute('aria-autocomplete','list');
+        input.setAttribute('aria-expanded','false');
+        const suggestions=document.createElement('div');
+        suggestions.className='nr-keyword-suggestions';
+        suggestions.id='nr-keyword-suggestions';
+        suggestions.setAttribute('role','listbox');
+        suggestions.hidden=true;
+        input.setAttribute('aria-controls',suggestions.id);
         const seo=document.querySelector('#seoPane');
         const seoLabels=seo?[...seo.querySelectorAll('label,strong,.field-label,.seo-field-label')]:[];
         const originalLabel=seoLabels.find(el=>['seo keyword','keyword'].includes(normalize(el.textContent)));
@@ -326,11 +336,45 @@
           if(clean && !values.some(v=>v.toLowerCase()===clean.toLowerCase())){
             values.push(clean);render();save();
           }
-          input.value='';
+          input.value='';suggestions.hidden=true;
+          input.setAttribute('aria-expanded','false');
         };
+        const getTagSuggestions=()=>{
+          // Reuse the available editorial Tags suggestions rather than an
+          // independently maintained keyword vocabulary.
+          const tagsField=[...editorial.querySelectorAll('label,.field-label,strong')]
+            .find(node=>normalize(node.textContent)==='tags');
+          const tagsRoot=tagsField?.closest('.alt-meta-field,.field-group,.field,.alt-card-field')||tagsField?.parentElement;
+          const options=tagsRoot?[...tagsRoot.querySelectorAll('[role="option"],option,[data-tag],.tag-option,.tag-suggestion')]:[];
+          return [...new Set(options.map(el=>el.getAttribute('data-tag')||el.value||el.textContent?.trim()).filter(Boolean))];
+        };
+        const updateSuggestions=()=>{
+          const term=input.value.trim();
+          suggestions.replaceChildren();
+          if(!term){suggestions.hidden=true;input.setAttribute('aria-expanded','false');return}
+          const known=getTagSuggestions().filter(value=>value.toLowerCase().includes(term.toLowerCase())&&!values.some(v=>v.toLowerCase()===value.toLowerCase()));
+          // Allow the same free-text creation path as Tags where no match
+          // exists; clicking a suggestion selects it immediately.
+          const matches=known.length?known:[term];
+          matches.slice(0,8).forEach(value=>{
+            const button=document.createElement('button');
+            button.type='button';button.setAttribute('role','option');
+            button.textContent=value;
+            button.addEventListener('mousedown',event=>event.preventDefault());
+            button.addEventListener('click',()=>{add(value);input.focus()});
+            suggestions.append(button);
+          });
+          suggestions.hidden=false;input.setAttribute('aria-expanded','true');
+        };
+        input.addEventListener('input',updateSuggestions);
+        input.addEventListener('focus',updateSuggestions);
+        input.addEventListener('blur',()=>{requestAnimationFrame(()=>{if(!field.contains(document.activeElement)){suggestions.hidden=true;input.setAttribute('aria-expanded','false')}})});
         input.addEventListener('keydown',event=>{
-          if(event.key==='Enter'||event.key===','){
-            event.preventDefault();add(input.value);
+          if(event.key==='Enter'&&input.value.trim()){
+            event.preventDefault();
+            add(suggestions.querySelector('button')?.textContent||input.value);
+          }else if(event.key==='Escape'){
+            suggestions.hidden=true;input.setAttribute('aria-expanded','false');
           }else if(event.key==='Backspace'&&!input.value&&values.length){
             values.pop();render();save();
           }
@@ -343,7 +387,7 @@
           if(words.length){add(words.slice(0,Math.min(4,words.length)).join(' '))}
           else input.focus();
         });
-        header.append(label,ai);wrap.append(chips,input);field.append(header,wrap);
+        header.append(label,ai);wrap.append(chips,input);field.append(header,wrap,suggestions);
         document.getElementById('nr-editorial-initiative').insertAdjacentElement('afterend',field);
         render();save();
       }
