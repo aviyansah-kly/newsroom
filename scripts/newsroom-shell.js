@@ -181,6 +181,26 @@
         queueMicrotask(()=>{queued=false;tidySeoHeading()});
       }).observe(seoPane,{childList:true,subtree:true});
     }
+    // Sidebar menu typography: legacy Editor inline CSS can override the
+    // shared stylesheet. Load the same 13px design token after page styles.
+    if(!document.getElementById('nr-sidebar-nav-type-contract')){
+      const navType=document.createElement('style');
+      navType.id='nr-sidebar-nav-type-contract';
+      navType.textContent=`
+        :root{--nr-font-size-navigation:13px}
+        #cmsNavDrawer .nr-nav-list .cms-nav-item,
+        #cmsNavDrawer .nr-nav-list .cms-nav-item :is(span,.cms-nav-label,.nr-nav-label),
+        #cmsNavDrawer .nr-nav-content .cms-nav-item,
+        #cmsNavDrawer .nr-nav-content .cms-nav-item :is(span,.cms-nav-label,.nr-nav-label),
+        .nr-sidebar .nr-nav-item,
+        .nr-sidebar .nr-nav-item :is(span,.nr-nav-label),
+        .nr-sidebar .nr-nav-list a,
+        .nr-sidebar .nr-nav-list a span {
+          font-size:var(--nr-font-size-navigation)!important;
+        }
+      `;
+      document.head.appendChild(navType);
+    }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
     document.querySelectorAll('.nr-topbar > .nr-user').forEach(el=>el.remove());
