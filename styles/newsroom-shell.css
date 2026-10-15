@@ -98,3 +98,58 @@ body.alt-editor-layout.cms-sidebar-collapsed .nr-account-popover{left:calc(100% 
 .nr-account-menu-item:disabled{opacity:1;cursor:default}
 .nr-account-menu-danger{margin-top:6px;border-top:1px solid #eef2f7;border-radius:0;padding-top:14px;color:#dc2626}
 .nr-account-menu-danger svg{color:#dc2626}
+
+
+/* Account hit target V2.6: a single hover surface, shared by Editor,
+   Dashboard and Tags. Do not paint parent and child independently. */
+.nr-sidebar-bottom,
+body.alt-editor-layout .cms-nav-bottom {
+  box-sizing:border-box;
+}
+.nr-sidebar-bottom > .nr-account,
+body.alt-editor-layout .cms-nav-bottom > .nr-account {
+  display:block;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+.nr-sidebar-bottom .nr-account-trigger,
+body.alt-editor-layout .cms-nav-bottom .nr-account-trigger {
+  display:flex;
+  box-sizing:border-box;
+  width:100%;
+  max-width:100%;
+  margin:0;
+  background:transparent;
+  border:1px solid transparent;
+  box-shadow:none;
+  background-clip:padding-box;
+}
+.nr-sidebar-bottom .nr-account-trigger:is(:hover,[aria-expanded="true"]),
+body.alt-editor-layout .cms-nav-bottom .nr-account-trigger:is(:hover,[aria-expanded="true"]) {
+  background:var(--nr-shell-account-hover,#f1f5f9);
+  border-color:transparent;
+  box-shadow:none;
+}
+.nr-sidebar-bottom .nr-account-trigger:focus-visible,
+body.alt-editor-layout .cms-nav-bottom .nr-account-trigger:focus-visible {
+  outline:2px solid var(--nr-shell-accent);
+  outline-offset:-2px;
+}
+html[data-theme="dark"] {
+  --nr-shell-account-hover:var(--nr-ui-hover,#39424D);
+}
+html[data-theme="dark"] .nr-sidebar-bottom .nr-account-trigger:is(:hover,[aria-expanded="true"]),
+html[data-theme="dark"] body.alt-editor-layout .cms-nav-bottom .nr-account-trigger:is(:hover,[aria-expanded="true"]) {
+  color:var(--nr-ui-text,#E8EBEF);
+  background:var(--nr-shell-account-hover)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] .nr-sidebar-bottom .nr-account-trigger,
+html[data-theme="dark"] body.alt-editor-layout .cms-nav-bottom .nr-account-trigger {
+  border-color:transparent!important;
+  box-shadow:none!important;
+}
