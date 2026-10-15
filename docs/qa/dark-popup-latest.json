@@ -1,8 +1,8 @@
 {
-  "commit": "e5629868a0b840f24d10bb780ea062d94bd2d4a3",
+  "commit": "4cc99833ca6e51a15b8b0f7ed974cae7f2a2863a",
   "base": "http://127.0.0.1:8765/",
   "engine": "chromium",
-  "time": "2026-10-15T06:19:36.699Z",
+  "time": "2026-10-15T06:25:25.416Z",
   "modalResults": [
     {
       "route": "index.html",
@@ -62,8 +62,18 @@
       "route": "index.html",
       "viewport": "desktop",
       "selector": "#newsroomUnifiedImageModal",
-      "exists": false,
-      "white": [],
+      "exists": true,
+      "instances": 1,
+      "white": [
+        {
+          "selector": "label",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "selector": "label",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
       "borders": []
     },
     {
@@ -480,8 +490,18 @@
       "route": "index.html",
       "viewport": "mobile",
       "selector": "#newsroomUnifiedImageModal",
-      "exists": false,
-      "white": [],
+      "exists": true,
+      "instances": 1,
+      "white": [
+        {
+          "selector": "label",
+          "background": "rgb(255, 255, 255)"
+        },
+        {
+          "selector": "label",
+          "background": "rgb(255, 255, 255)"
+        }
+      ],
       "borders": []
     },
     {
@@ -910,6 +930,13 @@
       "programmatic": false
     },
     {
+      "route": "index.html",
+      "viewport": "desktop",
+      "name": "Unified Image Editor synthetic open",
+      "opened": true,
+      "programmatic": true
+    },
+    {
       "route": "tags.html",
       "viewport": "desktop",
       "name": "Add Tag",
@@ -1031,6 +1058,13 @@
       "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"info\"]').first()\n    - locator resolved to <button class=\"tab\" data-tab=\"info\">…</button>\n  - attempting click action\n    2 "
     },
     {
+      "route": "index.html",
+      "viewport": "mobile",
+      "name": "Unified Image Editor synthetic open",
+      "opened": true,
+      "programmatic": true
+    },
+    {
       "route": "tags.html",
       "viewport": "mobile",
       "name": "Add Tag",
@@ -1084,8 +1118,8 @@
   "errors": [],
   "summary": {
     "probed": 94,
-    "missing": 10,
-    "white": 0,
+    "missing": 8,
+    "white": 4,
     "brightBorders": 0,
     "clicked": 14,
     "clickFailed": 12
