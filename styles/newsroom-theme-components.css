@@ -953,3 +953,24 @@ body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item,.nr-account-name,.nr-acco
 body.nr-app .nr-sidebar :is(.nr-nav-item,.nr-account-name,.nr-account-role,.nr-account-menu-item) {
   font-size:13px!important;
 }
+
+
+/* V2.8 · Left / right sidebar collapse affordance icon parity.
+ * Equal SVG box and stroke; keep the existing button hit target, layout,
+ * hover, keyboard interaction and both theme surface tokens untouched. */
+:root { --nr-sidebar-collapse-icon-size:16px; }
+body.alt-editor-layout :is(
+  #cmsNavDrawer .cms-nav-header button,
+  #cmsNavDrawer .cms-nav-head button,
+  #cmsNavDrawer .cms-nav-collapse,
+  #cmsNavDrawer .cms-nav-toggle,
+  #cmsNavDrawer .nr-sidebar-toggle,
+  .context .nr-right-panel-control .nr-right-toggle
+) :is(svg,.lucide) {
+  width:var(--nr-sidebar-collapse-icon-size)!important;
+  height:var(--nr-sidebar-collapse-icon-size)!important;
+  min-width:var(--nr-sidebar-collapse-icon-size)!important;
+  min-height:var(--nr-sidebar-collapse-icon-size)!important;
+  flex-shrink:0!important;
+  stroke-width:1.8;
+}
