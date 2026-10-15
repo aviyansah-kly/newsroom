@@ -227,3 +227,10 @@ The Video Galleries hover screenshot exposed a **legacy inline selector** `#cmsN
 The Short Desc → Konten Artikel line is a real `.alt-writing-card .alt-editor-section::before` pseudo-element with the same `#30363E` quiet divider. Changing only `border-color` does not control that line. **Do not add a second outline or thicker border.**
 
 Owned styles: `styles/newsroom-theme-components.css`; registry: `design-system/component-theme-registry.json`. Browser regression: `tests/dark-mode-sidebar-hover-separator.cjs` in Chromium/Firefox/WebKit, plus **Cloudflare live** validation on main push. Never change the shared Light Mode navigation styles to fix this Dark-specific defect.
+
+
+## Navigation typography and SEO AI consolidation — October 2026
+
+- **Navigation / Menu Label:** the design-system token `--nr-font-size-navigation:13px` is defined in `styles/newsroom-shell.css`; all Dashboard, Editor and shared sidebar link/button labels (including nested spans) use 13px in Light and Dark Mode. It must not change editor body text, headings or icons.
+- **SEO action hierarchy:** the redundant "Generate SEO with AI" section and "Generate All" action are deprecated. The only primary SEO AI generation entry point is **Generate Attributes** (AI Auto). Preserve the existing Generate Attributes behavior, and do not add a parallel AI CTA.
+- **QA checklist:** check Dashboard / Editor sidebar at normal and collapsed widths; both theme states; SEO tab after switching and re-render; verify no "Generate SEO with AI" card and the existing attribute generator is usable.
