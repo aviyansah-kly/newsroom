@@ -126,6 +126,26 @@
       watcher.observe(bottom,{childList:true});
     }
     document.querySelectorAll('.nr-sidebar-bottom').forEach(buildAccount);
+    // The SEO tab has one canonical AI action: Generate Attributes.
+    // Retire redundant legacy Generate All buttons without touching AI Auto.
+    const pruneSeoGenerateAll=()=>{
+      const pane=document.querySelector('#seoPane');
+      if(!pane)return;
+      pane.querySelectorAll('button,[role="button"]').forEach(button=>{
+        const label=(button.textContent||'').replace(/\\s+/g,' ').trim();
+        if(/^generate all$/i.test(label))button.remove();
+      });
+    };
+    pruneSeoGenerateAll();
+    const seoPane=document.querySelector('#seoPane');
+    if(seoPane){
+      let queued=false;
+      new MutationObserver(()=>{
+        if(queued)return;
+        queued=true;
+        queueMicrotask(()=>{queued=false;pruneSeoGenerateAll()});
+      }).observe(seoPane,{childList:true,subtree:true});
+    }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
     document.querySelectorAll('.nr-topbar > .nr-user').forEach(el=>el.remove());
