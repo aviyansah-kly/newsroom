@@ -251,29 +251,33 @@
         ai.type='button';ai.className='nr-editorial-ai-suggest';
         ai.textContent='✧ AI Suggestions';
         ai.title='Sarankan inisiatif dari judul dan ringkasan';
-        const input=document.createElement('input');
-        input.id='nr-content-initiative-select';input.setAttribute('list','nr-content-initiative-options');
-        input.placeholder='Cari atau pilih Content Initiative';
-        input.autocomplete='off';
-        const choices=document.createElement('datalist');
-        choices.id='nr-content-initiative-options';
-        ['Ramadan','Piala Dunia','Pemilu','Breaking News','Liputan Khusus'].forEach(value=>{
-          const opt=document.createElement('option');opt.value=value;choices.append(opt);
+        // Use the same single-select model as Tipe Artikel (no free text).
+        const typeSelect=typeField.querySelector('select');
+        const input=document.createElement('select');
+        input.id='nr-content-initiative-select';
+        if(typeSelect)input.className=typeSelect.className;
+        const choices=['','Pilkada Serentak','Predictive Calendar'];
+        choices.forEach(value=>{
+          const opt=document.createElement('option');
+          opt.value=value;opt.textContent=value||'Pilih Content Initiative';
+          input.append(opt);
         });
         const key='nr:content-initiative';
-        try{input.value=sessionStorage.getItem(key)||''}catch(e){}
-        input.addEventListener('input',()=>{
+        try{const saved=sessionStorage.getItem(key)||'';if(choices.includes(saved))input.value=saved}catch(e){}
+        input.addEventListener('change',()=>{
           try{sessionStorage.setItem(key,input.value)}catch(e){}
         });
         ai.addEventListener('click',()=>{
-          const text=(document.querySelector('textarea[placeholder*="judul" i],input[placeholder*="judul" i]')?.value||'')+' '+
-          (document.querySelector('textarea[placeholder*="short" i]')?.value||'');
-          const candidates=[['ramadan', 'Ramadan'],['piala dunia','Piala Dunia'],['pemilu','Pemilu']];
-          const match=candidates.find(([term])=>text.toLowerCase().includes(term));
-          if(match){input.value=match[1];input.dispatchEvent(new Event('input',{bubbles:true}))}
-          else{input.focus();input.placeholder='Pilih Content Initiative dari daftar'}
+          const headline=document.querySelector('textarea[placeholder*="judul" i],input[placeholder*="judul" i]')?.value||'';
+          const summary=document.querySelector('textarea[placeholder*="short" i]')?.value||'';
+          const content=(headline+' '+summary).toLowerCase();
+          const suggestion=/pilkada|pemilihan kepala daerah/.test(content)?'Pilkada Serentak':
+            /kalender|calendar|prediksi/.test(content)?'Predictive Calendar':'';
+          if(suggestion){
+            input.value=suggestion;input.dispatchEvent(new Event('change',{bubbles:true}));
+          }else input.focus();
         });
-        header.append(label,ai);field.append(header,input,choices);
+        header.append(label,ai);field.append(header,input);
         typeField.insertAdjacentElement('afterend',field);
       }
       if(!document.getElementById('nr-editorial-keywords')){
