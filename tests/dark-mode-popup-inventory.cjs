@@ -79,15 +79,33 @@ async function inspect(page,route,viewport,selector){
  if(state.white.length||state.borders.length)console.log('DARK_POPUP_DEFECT '+JSON.stringify(row).slice(0,2400));
 }
 async function click(page,route,viewport,name,selector){
- const row={route,viewport,name,selector,opened:false};
+ const row={route,viewport,name,selector,opened:false,programmatic:false};
  try{
   const loc=page.locator(selector).first();
   if(!await loc.count()){row.reason='absent';return}
-  await loc.click({timeout:5000});
-  await page.waitForTimeout(240);
-  row.opened=true;report.summary.clicked++;
- }catch(e){row.reason=String(e.message).slice(0,210);report.summary.clickFailed++}
- finally{report.interactive.push(row)}
+  try{
+   await loc.click({timeout:2700});
+   row.opened=true;
+   report.summary.clicked++;
+  }catch(e){
+   row.reason=String(e.message).slice(0,210);
+   report.summary.clickFailed++;
+   // Probe hard-to-reach legacy overlays without claiming the visible click
+   // works. Distinct from the real interaction acceptance criteria.
+   await loc.evaluate(el=>{if(typeof el.click==='function')el.click()}).catch(()=>{});
+   row.programmatic=true;
+  }
+  await page.waitForTimeout(180);
+ }finally{
+  report.interactive.push(row);
+  // Restore modal state for the next safe trigger. Never hit Save/Publish.
+  await page.keyboard.press('Escape').catch(()=>{});
+  await page.evaluate(()=>{
+   document.querySelectorAll('.modal.open,.popup.open,.nr-modal-backdrop.open,#imageLibraryPopup.open,.alt-editorial-popover.open,.alt-marketplace-popover.open,.article-new-menu.open,.article-filter-panel.open,.article-feature-menu.open,.article-simple-sub.open,.article-action-sub.open').forEach(el=>el.classList.remove('open'));
+   document.body.classList.remove('nr-review-scroll-lock','nr-preview-open','modal-open','nr-link-open');
+   document.querySelector('#nrLinkOverlay')?.setAttribute('hidden','');
+  }).catch(()=>{});
+ }
 }
 (async()=>{
  const browser=await ({chromium,firefox,webkit}[driver]||chromium).launch({
