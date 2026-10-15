@@ -1,0 +1,85 @@
+name: Newsroom All Pages Dark Mode Audit
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'dashboard.html'
+      - 'articles.html'
+      - 'tags.html'
+      - 'styles/**'
+      - 'scripts/**'
+      - 'tests/dark-mode-all-pages.cjs'
+      - '.github/workflows/dark-mode-all-pages-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: newsroom-dark-all-pages
+  cancel-in-progress: true
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium browser QA dependencies
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Audit four real pages in Dark Mode
+        env:
+          NR_BROWSER: chromium
+          NR_DARK_REPORT_ONLY: '1'
+          NR_DARK_REPORT: /tmp/newsroom-dark-mode-audit.json
+          NR_DARK_SCREENSHOTS_DIR: /tmp/newsroom-dark-screenshots
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-qa-http.log 2>&1 &
+          sleep 2
+          node tests/dark-mode-all-pages.cjs
+      - name: Upload audit screenshots and JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsroom-dark-all-pages-chromium
+          path: |
+            /tmp/newsroom-dark-mode-audit.json
+            /tmp/newsroom-dark-screenshots/
+          if-no-files-found: warn
+      - uses: actions/checkout@v4
+        if: success()
+        with:
+          ref: qa/dark-mode-audit
+          path: qa-report
+      - name: Save QA findings on isolated audit branch
+        if: success()
+        run: |
+          mkdir -p qa-report/docs/qa
+          cp /tmp/newsroom-dark-mode-audit.json qa-report/docs/qa/dark-mode-latest.json
+          cd qa-report
+          git config user.name "newsroom-qa-bot"
+          git config user.email "newsroom-qa-bot@users.noreply.github.com"
+          git add docs/qa/dark-mode-latest.json
+          if ! git diff --cached --quiet; then
+            git commit -m "test(report): update all-page dark-mode audit"
+            git push origin HEAD:qa/dark-mode-audit
+          fi
+      - name: Summary and visual regression gate
+        if: always()
+        run: |
+          if [ ! -f /tmp/newsroom-dark-mode-audit.json ]; then
+            echo 'Dark audit could not run.' >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          cat /tmp/newsroom-dark-mode-audit.json | python3 -c 'import json,sys; a=json.load(sys.stdin); print("## Newsroom Dark Mode",a["summary"])' >> "$GITHUB_STEP_SUMMARY"
+          python3 - <<'PY'
+          import json
+          r=json.load(open('/tmp/newsroom-dark-mode-audit.json'))
+          s=r['summary']
+          if s['missingDark'] or s['whiteSurfaces']:
+              raise SystemExit('Dark Mode UI regression: review docs/qa/dark-mode-latest.json on qa/dark-mode-audit')
+          print('PASS: Four pages, desktop + mobile, no near-white UI surfaces in measured scenes')
+          PY
