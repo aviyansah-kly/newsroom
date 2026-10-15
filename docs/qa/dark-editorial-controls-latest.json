@@ -1,0 +1,393 @@
+{
+  "commit": "dbcb70cde5792722e7a47d037f3509d5d1e30ce7",
+  "scenes": [
+    {
+      "name": "desktop reporter add-panel",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop reporter search",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(147, 197, 253)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "rgba(147, 197, 253, 0.14) 0px 0px 0px 2px",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop reporter input",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop reporter cancel",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(187, 195, 205)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop reporter suggestions",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop reporter suggestion",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgba(0, 0, 0, 0)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop reporter name",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "desktop editor add-panel",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop editor search",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(147, 197, 253)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "rgba(147, 197, 253, 0.14) 0px 0px 0px 2px",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop editor input",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop editor cancel",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(187, 195, 205)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop editor suggestions",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop editor suggestion",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgba(0, 0, 0, 0)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop editor name",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "desktop Add Content wrapper",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 0",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 0 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 0 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 1",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 1 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 1 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 2",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 2 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 2 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 3",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 3 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 3 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 4",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 4 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 4 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 5",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 5 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 5 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Text Block title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(225, 232, 241)",
+        "color": "rgb(225, 232, 241)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "desktop Text Block icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "11px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    }
+  ],
+  "failures": [
+    "Fatal QA error: locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for locator('#infoPane').locator('[data-team-role=\"reporter\"]').locator('[data-team-add-panel]') to be visible\n    13 × locator resolved to hidden <div class=\"team-add-panel\" data-team-add-panel=\"\">…</div>\n\n    at /home/runner/work/newsroom/newsroom/tests/dark-mode-editorial-controls.cjs:45:18"
+  ]
+}
