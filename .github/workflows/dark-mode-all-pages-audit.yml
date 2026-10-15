@@ -11,6 +11,7 @@ on:
       - 'scripts/**'
       - 'tests/dark-mode-all-pages.cjs'
       - 'tests/dark-mode-popup-inventory.cjs'
+      - 'tests/dark-mode-editorial-controls.cjs'
       - '.github/workflows/dark-mode-all-pages-audit.yml'
   workflow_dispatch:
 permissions:
@@ -44,6 +45,11 @@ jobs:
       - name: Inventory all popup and modal styles
         run: |
           NR_POPUP_REPORT=/tmp/newsroom-dark-popup-audit.json node tests/dark-mode-popup-inventory.cjs || true
+      - name: Verify Editorial Team and Add Content in Dark Mode
+        env:
+          NR_EDITORIAL_QA_REPORT: /tmp/newsroom-editorial-controls-qa.json
+          NR_EDITORIAL_QA_SCREENSHOTS: /tmp/newsroom-editorial-controls-screenshots
+        run: node tests/dark-mode-editorial-controls.cjs
       - name: Upload audit screenshots and JSON
         if: always()
         uses: actions/upload-artifact@v4
@@ -52,6 +58,8 @@ jobs:
           path: |
             /tmp/newsroom-dark-mode-audit.json
             /tmp/newsroom-dark-popup-audit.json
+            /tmp/newsroom-editorial-controls-qa.json
+            /tmp/newsroom-editorial-controls-screenshots/
             /tmp/newsroom-dark-screenshots/
           if-no-files-found: warn
       - uses: actions/checkout@v4
@@ -65,10 +73,11 @@ jobs:
           mkdir -p qa-report/docs/qa
           cp /tmp/newsroom-dark-mode-audit.json qa-report/docs/qa/dark-mode-latest.json
           cp /tmp/newsroom-dark-popup-audit.json qa-report/docs/qa/dark-popup-latest.json
+          cp /tmp/newsroom-editorial-controls-qa.json qa-report/docs/qa/dark-editorial-controls-latest.json
           cd qa-report
           git config user.name "newsroom-qa-bot"
           git config user.email "newsroom-qa-bot@users.noreply.github.com"
-          git add docs/qa/dark-mode-latest.json docs/qa/dark-popup-latest.json
+          git add docs/qa/dark-mode-latest.json docs/qa/dark-popup-latest.json docs/qa/dark-editorial-controls-latest.json
           if ! git diff --cached --quiet; then
             git commit -m "test(report): update all-page dark-mode audit"
             git push origin HEAD:qa/dark-mode-audit
@@ -92,5 +101,8 @@ jobs:
           print('Popup audit:',q)
           if q['white'] or q['brightBorders']:
               raise SystemExit('Popup Dark Mode regression: inspect docs/qa/dark-popup-latest.json')
-          print('PASS: Four pages, desktop + mobile, no near-white UI surfaces in measured scenes and popup DOM')
+          e=json.load(open('/tmp/newsroom-editorial-controls-qa.json'))
+          if e['failures']:
+              raise SystemExit('Editorial dark regression: '+str(e['failures']))
+          print('PASS: Four pages, popup inventory and Editorial Team/Add Content controls in Dark Mode')
           PY
