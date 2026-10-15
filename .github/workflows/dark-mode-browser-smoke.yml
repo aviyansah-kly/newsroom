@@ -19,6 +19,7 @@ on:
       - 'tests/editorial-reusable-controls.cjs'
       - 'index.html'
       - 'tests/dark-mode-smoke.cjs'
+      - 'tests/dark-mode-all-pages.cjs'
       - 'tests/dark-mode-computed-audit.cjs'
       - 'tests/dark-mode-sidebar-hover-separator.cjs'
       - 'tests/dark-mode-surface-inventory.cjs'
@@ -53,6 +54,7 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-theme-http.log 2>&1 &
           sleep 2
           node tests/dark-mode-smoke.cjs
+          node tests/dark-mode-all-pages.cjs
           node tests/dark-mode-computed-audit.cjs
           node tests/dark-mode-sidebar-hover-separator.cjs
           node tests/dark-mode-component-contract.cjs
