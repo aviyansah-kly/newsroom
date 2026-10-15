@@ -974,3 +974,119 @@ body.alt-editor-layout :is(
   flex-shrink:0!important;
   stroke-width:1.8;
 }
+
+
+/* V2.10 — Cross-page dark-surface regression fixes.
+ * Legacy Articles/Tags templates contain hard-coded white backgrounds.
+ * Use semantic component roles, preserving intentional active/status colors,
+ * image content and the approved Light Mode baseline.
+ */
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-new-popover,.article-feature-menu,.article-simple-submenu,
+  .article-action-submenu,.article-row-menu,.article-filter-panel
+) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-new-option,.article-feature-option,.article-simple-item,
+  .article-simple-choice,.article-action-item,.article-action-choice,
+  .article-menu-action,.article-row-menu a,.article-row-menu button
+):not(.is-active):not(.active) {
+  background:transparent!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-new-option,.article-feature-option,.article-simple-item,
+  .article-simple-choice,.article-action-item,.article-action-choice,
+  .article-menu-action,.article-row-menu a,.article-row-menu button
+):hover:not(.is-active):not(.active),
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-new-option,.article-feature-option,.article-simple-item,
+  .article-simple-choice,.article-action-item,.article-action-choice
+):focus-visible {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-search input,.article-filter-field select,.article-filter-field input,
+  .article-primary-action.action-edit,.article-preview-btn,
+  .article-action-menu-btn,.article-quick-btn
+) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-control-border)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-search input,.article-filter-field select,.article-filter-field input
+)::placeholder {
+  color:var(--nr-ui-muted)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-primary-action.action-edit,.article-preview-btn,
+  .article-action-menu-btn,.article-quick-btn
+):hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-primary-action.action-schedule {
+  background:var(--nr-ui-warning-bg)!important;
+  color:var(--nr-ui-warning-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-action-feedback,.article-setting-chip,.article-status-pill
+):not(.is-active):not(.published):not(.scheduled) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page :is(
+  .nr-modal-card,.nr-modal-head,.nr-modal-body,.nr-modal-foot,
+  .tag-table-wrap,.tag-table
+) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page :is(
+  .tag-search input,.nr-modal-card .nr-field input,
+  .nr-modal-card .nr-field select,.row-action,.status-toggle:not(.on),
+  .page-btn:not(.active)
+) {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-control-border)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page :is(
+  .tag-search input,.nr-modal-card .nr-field input
+)::placeholder {
+  color:var(--nr-ui-muted)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page :is(
+  .row-action,.page-btn:not(.active),.status-toggle:not(.on)
+):hover {
+  background:var(--nr-ui-hover)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table tbody tr:hover {
+  background:var(--nr-ui-hover)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table :is(th,td) {
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.nr-app.tags-page .tag-table th {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.nr-app .dashboard-quick,
+html[data-theme="dark"] body.nr-app .dashboard-open {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.nr-app .dashboard-quick:hover,
+html[data-theme="dark"] body.nr-app .dashboard-open:hover {
+  background:var(--nr-ui-hover)!important;
+}
