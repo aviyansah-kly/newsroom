@@ -1402,3 +1402,172 @@ html[data-theme="dark"] body.alt-editor-layout #newsroomUnifiedImageModal :is(
 ):hover{
  background:var(--nr-ui-hover)!important;
 }
+
+/* V2.15 — Editorial Team search and reusable icon-box design tokens.
+ * The original prototype sets white surfaces directly in index.html.
+ * Apply these AFTER legacy CSS, in both desktop and mobile Dark Mode.
+ */
+:root {
+  --nr-icon-box-bg:#F1F5F9;
+  --nr-icon-box-border:#E2E8F0;
+  --nr-icon-box-ink:#64748B;
+  --nr-icon-box-radius:7px;
+}
+html[data-theme="dark"] {
+  --nr-icon-box-bg:var(--nr-ui-control,#303740);
+  --nr-icon-box-border:var(--nr-ui-card-border,#3C434D);
+  --nr-icon-box-ink:var(--nr-ui-secondary,#BBC3CD);
+}
+/* Common neutral icon boxes — semantic success/warning/error badges retain
+ * their own colors. No nested icon background or second outline. */
+body.alt-editor-layout :is(
+  .alt-editor-section .alt-add-menu .alt-add-icon,
+  .alt-content-card-title .icon,
+  #importModal .source-icon,
+  #nrKeywordSuggestions .newsroom-tag-result-icon,
+  #tagSuggestions .newsroom-tag-result-icon
+) {
+  background:var(--nr-icon-box-bg)!important;
+  color:var(--nr-icon-box-ink)!important;
+  border:1px solid var(--nr-icon-box-border)!important;
+  border-radius:var(--nr-icon-box-radius)!important;
+  box-shadow:none!important;
+  background-clip:padding-box;
+}
+body.alt-editor-layout :is(
+  .alt-editor-section .alt-add-menu .alt-add-icon,
+  .alt-content-card-title .icon,
+  #importModal .source-icon,
+  #nrKeywordSuggestions .newsroom-tag-result-icon,
+  #tagSuggestions .newsroom-tag-result-icon
+) :is(svg,i) {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-add-panel {
+  background:var(--nr-ui-panel)!important;
+  background-color:var(--nr-ui-panel)!important;
+  border:1px solid var(--nr-ui-card-border)!important;
+  color:var(--nr-ui-text)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap {
+  background:var(--nr-ui-raised)!important;
+  background-color:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border:1px solid var(--nr-ui-input-border)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap:focus-within {
+  border-color:var(--nr-ui-focus)!important;
+  box-shadow:0 0 0 2px rgba(147,197,253,.14)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap input[data-team-search] {
+  background:transparent!important;
+  background-color:transparent!important;
+  color:var(--nr-ui-text)!important;
+  border:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+  font-size:13px!important;
+  caret-color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap input[data-team-search]::placeholder {
+  color:var(--nr-ui-muted)!important;
+  opacity:1!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap>svg {
+  color:var(--nr-ui-muted)!important;
+  stroke:currentColor!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap button[data-team-cancel] {
+  background:transparent!important;
+  color:var(--nr-ui-secondary)!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-search-wrap button[data-team-cancel]:hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-suggestions {
+  background:transparent!important;
+  color:var(--nr-ui-text)!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-suggestion {
+  background:transparent!important;
+  color:var(--nr-ui-text)!important;
+  border:1px solid transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-suggestion:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-suggestion :is(strong,.team-suggestion-name) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-suggestion :is(span,.team-suggestion-role):not(.team-suggestion-avatar) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-suggestion-avatar,
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-member-avatar {
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-add-trigger {
+  background:transparent!important;
+  color:var(--nr-ui-focus)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-add-trigger:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-role-divider {
+  background:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(
+  .team-member,.team-member.primary,.team-primary-badge,.team-assignment-note
+) {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane .team-remove:hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+/* One typography scale, both themes, for every Add Content tile.
+ * The legacy page declares black strong labels with !important. */
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu::before {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button[data-alt-add] {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button[data-alt-add] :is(
+  strong,small,span:not(.alt-add-icon)
+) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button[data-alt-add] small {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-editor-section .alt-add-menu button[data-alt-add]:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover)!important;
+  border-color:var(--nr-ui-focus)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-title :is(strong,span) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card-title>span:not(.icon) {
+  color:var(--nr-ui-secondary)!important;
+}
