@@ -187,7 +187,7 @@
   function init(){
     const pane=$('#infoPane'),type=$('#articleType')?.closest('.field');
     const tags=$('#tagInput')?.closest('.field');
-    if(!pane||!type||!tags||!pane.contains(type)||!pane.contains(tags))return false;
+    if(!pane||!type||!tags||!pane.contains(type)||!pane.contains(tags)||!tags.querySelector('.alt-tag-design'))return false;
     pane.querySelector('#nr-editorial-initiative')?.remove();
     pane.querySelector('#nr-editorial-keywords:not(.nr-reused-tags-field)')?.remove();
     const initiative=$('#nr-initiative-reused-field')||initiativeFrom(type);
