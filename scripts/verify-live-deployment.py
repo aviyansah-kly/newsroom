@@ -17,7 +17,12 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_URL = "https://newsroom.avi-yansah.workers.dev"
 ASSETS = (
     "index.html",
+    "dashboard.html",
+    "articles.html",
+    "tags.html",
     "scripts/newsroom-shell.js",
+    "scripts/newsroom-editorial-reusable.js",
+    "styles/newsroom-shell.css",
     "scripts/newsroom-dark-review-focus.js",
     "styles/newsroom-dark-mode.css",
     "styles/newsroom-dark-mode-editor.css",
