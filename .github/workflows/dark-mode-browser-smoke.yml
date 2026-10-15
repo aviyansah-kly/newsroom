@@ -1,10 +1,23 @@
 name: Newsroom Dark Mode Browser Smoke
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'scripts/newsroom-shell.js'
+      - 'scripts/newsroom-editorial-reusable.js'
+      - 'styles/newsroom-shell.css'
+      - 'tests/editorial-reusable-controls.cjs'
+      - '.github/workflows/dark-mode-browser-smoke.yml'
   pull_request:
     paths:
       - 'styles/newsroom-dark-mode.css'
       - 'scripts/newsroom-appearance.js'
       - 'scripts/newsroom-shell.js'
+      - 'scripts/newsroom-editorial-reusable.js'
+      - 'styles/newsroom-shell.css'
+      - 'tests/editorial-reusable-controls.cjs'
+      - 'index.html'
       - 'tests/dark-mode-smoke.cjs'
       - 'tests/dark-mode-computed-audit.cjs'
       - 'tests/dark-mode-sidebar-hover-separator.cjs'
@@ -44,6 +57,7 @@ jobs:
           node tests/dark-mode-sidebar-hover-separator.cjs
           node tests/dark-mode-component-contract.cjs
           node tests/dark-mode-editor-ux-v24.cjs
+          node tests/editorial-reusable-controls.cjs
           node tests/dark-mode-seo-surface.cjs
           if [ "$NR_BROWSER" = "chromium" ]; then node tests/dark-mode-surface-inventory.cjs; fi
           node tests/dark-mode-divider-comfort.cjs
