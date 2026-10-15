@@ -38,7 +38,7 @@
     if(label){label.textContent='Content Initiative';label.htmlFor=select.id}
     if(!field.querySelector('.nr-reused-field-heading')){
       const head=document.createElement('div');
-      head.className='nr-reused-field-heading';
+      head.className='nr-ai-field-head nr-reused-field-heading';
       if(label){label.insertAdjacentElement('beforebegin',head);head.append(label)}
       const example=[...typeField.querySelectorAll('button')].find(button=>/AI Suggestions/i.test(clean(button.textContent)))
         ||$('#altEditorialTagsSection .alt-tag-ai');
