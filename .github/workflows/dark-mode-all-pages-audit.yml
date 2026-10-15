@@ -10,6 +10,7 @@ on:
       - 'styles/**'
       - 'scripts/**'
       - 'tests/dark-mode-all-pages.cjs'
+      - 'tests/dark-mode-popup-inventory.cjs'
       - '.github/workflows/dark-mode-all-pages-audit.yml'
   workflow_dispatch:
 permissions:
@@ -40,6 +41,9 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-qa-http.log 2>&1 &
           sleep 2
           node tests/dark-mode-all-pages.cjs
+      - name: Inventory all popup and modal styles
+        run: |
+          NR_POPUP_REPORT=/tmp/newsroom-dark-popup-audit.json node tests/dark-mode-popup-inventory.cjs || true
       - name: Upload audit screenshots and JSON
         if: always()
         uses: actions/upload-artifact@v4
@@ -47,6 +51,7 @@ jobs:
           name: newsroom-dark-all-pages-chromium
           path: |
             /tmp/newsroom-dark-mode-audit.json
+            /tmp/newsroom-dark-popup-audit.json
             /tmp/newsroom-dark-screenshots/
           if-no-files-found: warn
       - uses: actions/checkout@v4
@@ -59,10 +64,11 @@ jobs:
         run: |
           mkdir -p qa-report/docs/qa
           cp /tmp/newsroom-dark-mode-audit.json qa-report/docs/qa/dark-mode-latest.json
+          cp /tmp/newsroom-dark-popup-audit.json qa-report/docs/qa/dark-popup-latest.json
           cd qa-report
           git config user.name "newsroom-qa-bot"
           git config user.email "newsroom-qa-bot@users.noreply.github.com"
-          git add docs/qa/dark-mode-latest.json
+          git add docs/qa/dark-mode-latest.json docs/qa/dark-popup-latest.json
           if ! git diff --cached --quiet; then
             git commit -m "test(report): update all-page dark-mode audit"
             git push origin HEAD:qa/dark-mode-audit
@@ -81,5 +87,10 @@ jobs:
           s=r['summary']
           if s['missingDark'] or s['whiteSurfaces']:
               raise SystemExit('Dark Mode UI regression: review docs/qa/dark-mode-latest.json on qa/dark-mode-audit')
-          print('PASS: Four pages, desktop + mobile, no near-white UI surfaces in measured scenes')
+          p=json.load(open('/tmp/newsroom-dark-popup-audit.json'))
+          q=p['summary']
+          print('Popup audit:',q)
+          if q['white'] or q['brightBorders']:
+              raise SystemExit('Popup Dark Mode regression: inspect docs/qa/dark-popup-latest.json')
+          print('PASS: Four pages, desktop + mobile, no near-white UI surfaces in measured scenes and popup DOM')
           PY
