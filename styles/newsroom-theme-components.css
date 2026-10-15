@@ -1341,3 +1341,13 @@ html[data-theme="dark"] body.nr-app.articles-page :is(
 ){
  border-color:var(--nr-ui-decorative-divider)!important;
 }
+
+/* V2.13b: Insert button sits next to its popover, not inside it. */
+html[data-theme="dark"] body.alt-editor-layout .alt-insert-menu > #altInsertBtn{
+  background:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-insert-menu > #altInsertBtn:hover{
+  background:var(--nr-ui-hover)!important;
+}
