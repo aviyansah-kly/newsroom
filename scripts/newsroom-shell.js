@@ -181,25 +181,43 @@
         queueMicrotask(()=>{queued=false;tidySeoHeading()});
       }).observe(seoPane,{childList:true,subtree:true});
     }
-    // Sidebar menu typography: legacy Editor inline CSS can override the
-    // shared stylesheet. Load the same 13px design token after page styles.
-    if(!document.getElementById('nr-sidebar-nav-type-contract')){
-      const navType=document.createElement('style');
-      navType.id='nr-sidebar-nav-type-contract';
-      navType.textContent=`
-        :root{--nr-font-size-navigation:13px}
-        #cmsNavDrawer .nr-nav-list .cms-nav-item,
-        #cmsNavDrawer .nr-nav-list .cms-nav-item :is(span,.cms-nav-label,.nr-nav-label),
-        #cmsNavDrawer .nr-nav-content .cms-nav-item,
-        #cmsNavDrawer .nr-nav-content .cms-nav-item :is(span,.cms-nav-label,.nr-nav-label),
-        .nr-sidebar .nr-nav-item,
-        .nr-sidebar .nr-nav-item :is(span,.nr-nav-label),
-        .nr-sidebar .nr-nav-list a,
-        .nr-sidebar .nr-nav-list a span {
-          font-size:var(--nr-font-size-navigation)!important;
-        }
-      `;
-      document.head.appendChild(navType);
+    // Navigation labels are 13px by design-system contract. The legacy
+    // prototype includes inline and versioned rules, so bind the typography
+    // to the actual menu text elements (not assumptions about class names).
+    const sidebarNavLabels=new Set([
+      'Dashboard','Articles','Embedded Contents','Images','Livestreamings',
+      'Photo Galleries','Video Galleries','Autopilot Articles',
+      'Rewrite Articles','Distributed Articles','Persona','N A I S',
+      'Topical Hub','SEO Recommendation','Earthquake News',
+      'Live Reports','Figures','Football'
+    ]);
+    const enforceSidebarNavType=()=>{
+      const sidebar=document.querySelector('#cmsNavDrawer');
+      if(!sidebar)return;
+      // Limit to real navigation controls. Never change account, icons,
+      // dashboard heading, badges or other editorial typography.
+      sidebar.querySelectorAll('a,button,[role="menuitem"]').forEach(control=>{
+        const title=(control.textContent||'').replace(/\\s+/g,' ').trim();
+        if(!sidebarNavLabels.has(title))return;
+        control.style.setProperty('font-size','13px','important');
+        control.querySelectorAll('*').forEach(el=>{
+          if(el instanceof SVGElement) return;
+          // Set inherited font on the leaf containing the actual menu text.
+          if(el.children.length===0 && (el.textContent||'').trim()){
+            el.style.setProperty('font-size','13px','important');
+          }
+        });
+      });
+    };
+    enforceSidebarNavType();
+    const menuDrawer=document.querySelector('#cmsNavDrawer');
+    if(menuDrawer){
+      let queued=false;
+      new MutationObserver(()=>{
+        if(queued)return;
+        queued=true;
+        queueMicrotask(()=>{queued=false;enforceSidebarNavType()});
+      }).observe(menuDrawer,{childList:true,subtree:true});
     }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
