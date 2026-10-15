@@ -234,3 +234,14 @@ Owned styles: `styles/newsroom-theme-components.css`; registry: `design-system/c
 - **Navigation / Menu Label:** the design-system token `--nr-font-size-navigation:13px` is defined in `styles/newsroom-shell.css`; all Dashboard, Editor and shared sidebar link/button labels (including nested spans) use 13px in Light and Dark Mode. It must not change editor body text, headings or icons.
 - **SEO action hierarchy:** the redundant "Generate SEO with AI" section and "Generate All" action are deprecated. The only primary SEO AI generation entry point is **Generate Attributes** (AI Auto). Preserve the existing Generate Attributes behavior, and do not add a parallel AI CTA.
 - **QA checklist:** check Dashboard / Editor sidebar at normal and collapsed widths; both theme states; SEO tab after switching and re-render; verify no "Generate SEO with AI" card and the existing attribute generator is usable.
+
+
+## Editorial metadata component reuse — 15 October 2026
+
+**Source of truth:** `index.html` retains the original `#contentInitiative` select and exports `window.newsroomTagCatalog()` from the existing Tags suggestion data. `scripts/newsroom-editorial-reusable.js` enhances the original select and uses the original Tags field DOM structure for the Keywords field.
+
+- **Content Initiative:** original `.field > label + select` pattern, same geometry and keyboard interaction as `#articleType`. Approved values: `Pilkada Serentak`, `Predictive Calendar`; empty placeholder `Pilih Content Initiative`. Preserve original `#contentInitiative` identity and draft/validation listeners. Position immediately after Tipe Artikel. One AI Suggestions button.
+- **Keywords:** same `.tag-wrap`, `.tag-list`, `.newsroom-tag-search`, `.newsroom-tag-results`, `.tag-chip`, and `.newsroom-tag-result` element system as Editorial Tags. Use canonical `window.newsroomTagCatalog()`. Select a search result to add; Enter selects the first suggestion; chip X removes; no secondary Add button, max five, prevent duplicates. Distinct DOM IDs and state from Tags.
+- **SEO linkage:** first selected Keyword is synchronized with `#seoKeyword` (primary SEO keyword), and changes to the primary SEO input update the first chip. This remains prototype-side session storage, not a backend CMS contract.
+- **AI Suggestions:** Content Initiative currently uses deterministic matching from article text; Keywords matches existing Tags vocabulary against title and Short Desc. Full integration with the existing AI engine requires separate frontend work. Do not claim these are genuine AI-generated server results.
+- **QA:** `tests/editorial-reusable-controls.cjs` checks both themes, original select options, no duplicate IDs, Tags/Keywords isolation, one-click suggestions, removal, and matching component radius in Chromium / Firefox / WebKit. Test against Cloudflare after deployment before design signoff.
