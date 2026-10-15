@@ -138,6 +138,24 @@ async function click(page,route,viewport,name,selector){
      await click(page,route,viewport.label,'Close Tag','#modalClose');
      await click(page,route,viewport.label,'Edit Tag','.row-action.edit-tag');
     }
+    // The Unified Image modal does not mount until a picture is chosen.
+    // Exercise the real editor entrypoint with a synthetic 1px image, never Save.
+    if(route==='index.html'){
+      const mounted=await page.evaluate(()=>{
+        if(typeof window.newsroomOpenUnifiedImageEditor!=='function')return false;
+        const tiny='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+/MwAAAABJRU5ErkJggg==';
+        try{
+          window.newsroomOpenUnifiedImageEditor({
+            id:'qa-synthetic-image',source:'qa',fileName:'qa.png',
+            title:'QA synthetic image',url:tiny,photographer:'',
+            photoSource:'',shortDesc:'',watermark:'none'
+          },{type:'headline'});
+          return !!document.getElementById('newsroomUnifiedImageModal');
+        }catch(error){return false}
+      });
+      report.interactive.push({route,viewport:viewport.label,name:'Unified Image Editor synthetic open',opened:mounted,programmatic:true});
+      if(mounted)await page.waitForTimeout(120);
+    }
     for(const selector of inventory[route])await inspect(page,route,viewport.label,selector);
     await context.close();
    }
