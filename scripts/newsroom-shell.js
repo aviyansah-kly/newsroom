@@ -224,52 +224,137 @@
         queueMicrotask(()=>{queued=false;enforceSidebarNavType()});
       }).observe(menuDrawer,{childList:true,subtree:true});
     }
-    // Editorial ownership: move existing content initiative / SEO keyword
-    // controls rather than cloning them. Event listeners and draft bindings
-    // follow the original DOM nodes. Never remove the containing SEO pane.
-    const relocateEditorialFields=()=>{
-      const pane=document.querySelector('#seoPane');
-      if(!pane)return;
-      const context=document.querySelector('.context');
-      if(!context)return;
-      const editorial=context.querySelector('#infoPane') ||
-        context.querySelector('[data-tab-panel="editorial"]') ||
-        context.querySelector('.editorial-pane');
+    // Editorial metadata enhancements (prototype only).
+    // Keep the original SEO Keyword input and its listeners as the canonical
+    // primary keyword. The Editorial tag-style UI synchronizes its first
+    // item with that input instead of duplicating SEO state.
+    const setupEditorialMetadata=()=>{
+      const editorial=document.querySelector('#infoPane');
       if(!editorial)return;
-      const normalized=node=>(node.textContent||'').replace(/\\s+/g,' ').trim().toLowerCase();
-      const findLabel=(root,terms)=>[...root.querySelectorAll('label,.field-label,.alt-field-label,.seo-field-label,h3,h4,strong')]
-        .find(node=>terms.some(t=>normalized(node)===t));
-      const typeLabel=findLabel(editorial,['tipe artikel','article type']);
+      const normalize=s=>(s||'').replace(/\\s+/g,' ').trim().toLowerCase();
+      const labels=[...editorial.querySelectorAll('label,strong,.field-label,.alt-field-label,h3,h4')];
+      const typeLabel=labels.find(el=>normalize(el.textContent)==='tipe artikel');
       if(!typeLabel)return;
-      const fieldSelector='.alt-meta-field,.alt-card-field,.seo-field,.seo-field-row,.form-field,.field-group,.field,.alt-standings-field';
-      const typeField=typeLabel.closest(fieldSelector) || typeLabel.parentElement;
-      if(!typeField || !typeField.parentElement)return;
-      let after=typeField;
-      const moveField=(terms)=>{
-        const label=findLabel(pane,terms);
-        if(!label)return;
-        const field=label.closest(fieldSelector) || label.parentElement;
-        if(!field||field===pane||field.contains(typeField)||field.querySelector('h2,h1'))return;
-        if(field.parentElement!==after.parentElement || field.previousElementSibling!==after){
-          after.insertAdjacentElement('afterend',field);
-        }
-        after=field;
-      };
-      moveField(['content initiative']);
-      moveField(['seo keyword','keyword']);
+      const parentSelector='.alt-meta-field,.alt-card-field,.field-group,.form-field,.field,.alt-standings-field';
+      const typeField=typeLabel.closest(parentSelector)||typeLabel.parentElement;
+      if(!typeField?.parentElement)return;
+      const existing=document.getElementById('nr-editorial-initiative');
+      if(!existing){
+        const field=document.createElement('div');
+        field.id='nr-editorial-initiative';
+        field.className='nr-editorial-extra-field';
+        const header=document.createElement('div');
+        header.className='nr-editorial-extra-heading';
+        const label=document.createElement('label');
+        label.htmlFor='nr-content-initiative-select';label.textContent='Content Initiative';
+        const ai=document.createElement('button');
+        ai.type='button';ai.className='nr-editorial-ai-suggest';
+        ai.textContent='✧ AI Suggestions';
+        ai.title='Sarankan inisiatif dari judul dan ringkasan';
+        const input=document.createElement('input');
+        input.id='nr-content-initiative-select';input.setAttribute('list','nr-content-initiative-options');
+        input.placeholder='Cari atau pilih Content Initiative';
+        input.autocomplete='off';
+        const choices=document.createElement('datalist');
+        choices.id='nr-content-initiative-options';
+        ['Ramadan','Piala Dunia','Pemilu','Breaking News','Liputan Khusus'].forEach(value=>{
+          const opt=document.createElement('option');opt.value=value;choices.append(opt);
+        });
+        const key='nr:content-initiative';
+        try{input.value=sessionStorage.getItem(key)||''}catch(e){}
+        input.addEventListener('input',()=>{
+          try{sessionStorage.setItem(key,input.value)}catch(e){}
+        });
+        ai.addEventListener('click',()=>{
+          const text=(document.querySelector('textarea[placeholder*="judul" i],input[placeholder*="judul" i]')?.value||'')+' '+
+          (document.querySelector('textarea[placeholder*="short" i]')?.value||'');
+          const candidates=[['ramadan', 'Ramadan'],['piala dunia','Piala Dunia'],['pemilu','Pemilu']];
+          const match=candidates.find(([term])=>text.toLowerCase().includes(term));
+          if(match){input.value=match[1];input.dispatchEvent(new Event('input',{bubbles:true}))}
+          else{input.focus();input.placeholder='Pilih Content Initiative dari daftar'}
+        });
+        header.append(label,ai);field.append(header,input,choices);
+        typeField.insertAdjacentElement('afterend',field);
+      }
+      if(!document.getElementById('nr-editorial-keywords')){
+        const field=document.createElement('div');
+        field.id='nr-editorial-keywords';field.className='nr-editorial-extra-field';
+        const header=document.createElement('div');header.className='nr-editorial-extra-heading';
+        const label=document.createElement('label');
+        label.htmlFor='nr-editorial-keyword-input';label.textContent='Keywords';
+        const ai=document.createElement('button');ai.type='button';
+        ai.className='nr-editorial-ai-suggest';ai.textContent='✧ AI Suggestions';
+        const wrap=document.createElement('div');wrap.className='nr-keyword-tags';
+        const chips=document.createElement('div');chips.className='nr-keyword-chips';
+        const input=document.createElement('input');input.id='nr-editorial-keyword-input';
+        input.placeholder='Cari keyword atau tekan Enter untuk menambahkan';
+        const seo=document.querySelector('#seoPane');
+        const seoLabels=seo?[...seo.querySelectorAll('label,strong,.field-label,.seo-field-label')]:[];
+        const originalLabel=seoLabels.find(el=>['seo keyword','keyword'].includes(normalize(el.textContent)));
+        const originalInput=originalLabel?.closest('.seo-field,.field-group,.field,.seo-field-row')?.querySelector('input')||
+          originalLabel?.parentElement?.querySelector('input');
+        let values=[];
+        const key='nr:editorial-keywords';
+        try{values=JSON.parse(sessionStorage.getItem(key)||'[]')}catch(e){}
+        if(!Array.isArray(values))values=[];
+        if(!values.length && originalInput?.value.trim())values=[originalInput.value.trim()];
+        const save=()=>{
+          try{sessionStorage.setItem(key,JSON.stringify(values))}catch(e){}
+          if(originalInput && originalInput.value!==(values[0]||'')){
+            originalInput.value=values[0]||'';
+            originalInput.dispatchEvent(new Event('input',{bubbles:true}));
+            originalInput.dispatchEvent(new Event('change',{bubbles:true}));
+          }
+        };
+        const render=()=>{
+          chips.replaceChildren();
+          values.forEach(value=>{
+            const chip=document.createElement('span');chip.className='nr-keyword-chip';
+            const text=document.createElement('span');text.textContent=value;
+            const remove=document.createElement('button');remove.type='button';
+            remove.textContent='×';remove.setAttribute('aria-label','Hapus '+value);
+            remove.addEventListener('click',()=>{values=values.filter(v=>v!==value);render();save()});
+            chip.append(text,remove);chips.append(chip);
+          });
+        };
+        const add=value=>{
+          const clean=value.trim().replace(/\\s+/g,' ');
+          if(clean && !values.some(v=>v.toLowerCase()===clean.toLowerCase())){
+            values.push(clean);render();save();
+          }
+          input.value='';
+        };
+        input.addEventListener('keydown',event=>{
+          if(event.key==='Enter'||event.key===','){
+            event.preventDefault();add(input.value);
+          }else if(event.key==='Backspace'&&!input.value&&values.length){
+            values.pop();render();save();
+          }
+        });
+        ai.addEventListener('click',()=>{
+          // Local, transparent fallback until the existing AI Suggestions
+          // API explicitly supports editorial Keywords.
+          const headline=document.querySelector('textarea[placeholder*="judul" i],input[placeholder*="judul" i]');
+          const words=(headline?.value||'').match(/[\\p{L}\\p{N}]+/gu)||[];
+          if(words.length){add(words.slice(0,Math.min(4,words.length)).join(' '))}
+          else input.focus();
+        });
+        header.append(label,ai);wrap.append(chips,input);field.append(header,wrap);
+        document.getElementById('nr-editorial-initiative').insertAdjacentElement('afterend',field);
+        render();save();
+      }
     };
-    relocateEditorialFields();
-    const editorialSource=document.querySelector('#seoPane');
-    if(editorialSource){
-      let queued=false;
-      const sync=()=>{
-        if(queued)return;
-        queued=true;
-        queueMicrotask(()=>{queued=false;relocateEditorialFields()});
-      };
-      new MutationObserver(sync).observe(editorialSource,{childList:true,subtree:true});
-      const editorialDestination=document.querySelector('#infoPane');
-      if(editorialDestination)new MutationObserver(sync).observe(editorialDestination,{childList:true,subtree:true});
+    setupEditorialMetadata();
+    // Editorial may render on tab activation; retry only when relevant
+    // panel DOM changes, without duplicating fields or observers.
+    const editorialPanel=document.querySelector('#infoPane');
+    if(editorialPanel){
+      let pending=false;
+      new MutationObserver(()=>{
+        if(pending)return;
+        pending=true;
+        queueMicrotask(()=>{pending=false;setupEditorialMetadata()});
+      }).observe(editorialPanel,{childList:true});
     }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
