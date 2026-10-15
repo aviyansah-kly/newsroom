@@ -88,17 +88,15 @@ async function optional(page,label,selector){
     // The Account menu is shared by every page and can conceal white popovers.
     // Mobile sidebar is collapsed by default. Expand it through its real
     // control before inspecting Account, then close it to expose page actions.
-    if(viewport.name==='mobile' && await optional(page,'Mobile navigation','#mobileMenu')){
+    const openedMobileNav=viewport.name==='mobile' && await optional(page,'Mobile navigation','#mobileMenu');
+    if(openedMobileNav){
       await scene('mobile-nav-open');
     }
     if(await optional(page,'Account','.nr-account-trigger')){
       await scene('account-open');
       await optional(page,'Close Account','.nr-account-trigger');
     }
-    if(viewport.name==='mobile'){
-      const menu=page.locator('#mobileMenu');
-      if(await menu.count() && (await menu.getAttribute('aria-expanded'))==='true') await optional(page,'Close mobile navigation','#mobileMenu');
-    }
+    if(openedMobileNav)await optional(page,'Close mobile navigation','#mobileMenu');
     // Scroll into the middle/bottom of actual page and inspect visible boxes.
     await page.evaluate(()=>window.scrollTo(0,Math.max(0,document.documentElement.scrollHeight/2-window.innerHeight/2)));
     await page.waitForTimeout(160);await scene('middle-scroll');
