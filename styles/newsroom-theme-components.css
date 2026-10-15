@@ -1149,3 +1149,87 @@ html[data-theme="dark"] body.nr-app .nr-modal-card{
  background:var(--nr-ui-panel)!important;color:var(--nr-ui-text)!important;
  border-color:var(--nr-ui-card-border)!important;
 }
+
+/* V2.12 — complete Dark Mode overlay chrome coverage.
+ * The Editor has both current and legacy overlays. Scope to chrome, leaving
+ * reader preview content, images, semantic action colours and Light Mode intact.
+ */
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #linkPopup,#transformPopup,#aiPopup,#commentPopup,#typoPopup,#vidioPopup,
+  #imageLibraryPopup,#altEditorialPopover,#altMarketplacePopover,
+  #altInsertPopover,#blockMenu,#writingViewMenu,#newsroomSiteMenu,
+  #seoReview,.alt-category-popover,.alt-category-tree-popover,
+  .team-suggestions,.alt-entity-suggestions,.newsroom-tag-results,
+  #tagSuggestions,#nrKeywordSuggestions,.alt-ai-tag-suggestions,
+  .article-new-popover,.popup,.alt-insert-popover,.alt-marketplace-popover
+) {
+  background:var(--nr-ui-panel)!important;
+  background-color:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #importModal,#reviewModal,#reviewPublishModal,#cropModal,
+  #altPreviewModal,#altValidationModal,#newsroomUnifiedImageModal,
+  #nrLinkOverlay
+) :is(
+  .modal-card,.modal-head,.modal-body,.modal-foot,.popup-head,.popup-body,.popup-foot,
+  .nr-link-dialog,.nr-link-dialog-head,.nr-link-dialog-body,.nr-link-dialog-foot,
+  .newsroom-image-editor,.newsroom-image-editor-body,
+  .alt-validation-card,.review-publish
+) {
+  background:var(--nr-ui-panel)!important;
+  background-color:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #linkPopup,#transformPopup,#aiPopup,#commentPopup,#typoPopup,#vidioPopup,
+  #imageLibraryPopup,#altEditorialPopover,#altMarketplacePopover,
+  #seoReview,#importModal,#reviewModal,#reviewPublishModal,
+  #cropModal,#altValidationModal,#newsroomUnifiedImageModal,#nrLinkOverlay
+) :is(
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,select,.selection-preview,.popup-body,
+  .rewrite-option,.typo-row,.menu-option,.v34-detail-panel,
+  .v34-detail-summary,.v34-preview-empty,.v62-field
+) {
+  background:var(--nr-ui-control)!important;
+  background-color:var(--nr-ui-control)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-control-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #linkPopup,#transformPopup,#aiPopup,#commentPopup,#typoPopup,#vidioPopup,
+  #imageLibraryPopup,#altEditorialPopover,#altMarketplacePopover,
+  #seoReview,#importModal,#reviewModal,#reviewPublishModal,
+  #cropModal,#altValidationModal,#newsroomUnifiedImageModal,#nrLinkOverlay
+) :is(input,textarea)::placeholder {
+  color:var(--nr-ui-muted)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #linkPopup,#transformPopup,#aiPopup,#commentPopup,#typoPopup,#vidioPopup,
+  #imageLibraryPopup,#altEditorialPopover,#altMarketplacePopover,
+  #seoReview,#importModal,#reviewModal,#reviewPublishModal,
+  #cropModal,#altValidationModal,#newsroomUnifiedImageModal,#nrLinkOverlay
+) :is(.modal-head,.modal-foot,.popup-head,.popup-foot,.section-head) {
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #linkPopup,#transformPopup,#aiPopup,#commentPopup,#typoPopup,#vidioPopup,
+  #altEditorialPopover,#altMarketplacePopover,#blockMenu,#writingViewMenu,
+  #newsroomSiteMenu,#altInsertPopover
+) :is(
+  button:not(.primary):not(.btn-primary):not(.danger):not(.active),
+  .menu-option,.rewrite-option
+):hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is(
+  #linkPopup,#transformPopup,#aiPopup,#commentPopup,#typoPopup,#vidioPopup,
+  #altEditorialPopover,#altMarketplacePopover,#blockMenu,#writingViewMenu,
+  #newsroomSiteMenu,#altInsertPopover
+) :is(button,input,textarea,select):focus-visible {
+  outline-color:var(--nr-ui-focus)!important;
+}
