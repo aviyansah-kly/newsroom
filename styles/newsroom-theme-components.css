@@ -1090,3 +1090,34 @@ html[data-theme="dark"] body.nr-app .dashboard-quick:hover,
 html[data-theme="dark"] body.nr-app .dashboard-open:hover {
   background:var(--nr-ui-hover)!important;
 }
+
+
+/* Explicitly cover recent Articles V2 shell/toolbar variants whose legacy
+ * selectors set background:#fff!important after the original dark adapter. */
+html[data-theme="dark"] body.nr-app.articles-page :is(
+  .article-shell,.article-toolbar,.article-list,.article-tabs,.article-footer
+) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab:not(.active) {
+  background:transparent!important;
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-tab:not(.active):hover {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-list-head {
+  background:var(--nr-ui-raised)!important;
+  color:var(--nr-ui-secondary)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-row {
+  background:var(--nr-ui-panel)!important;
+  border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.nr-app.articles-page .article-row:hover {
+  background:var(--nr-ui-hover)!important;
+}
