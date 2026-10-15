@@ -126,36 +126,24 @@
       watcher.observe(bottom,{childList:true});
     }
     document.querySelectorAll('.nr-sidebar-bottom').forEach(buildAccount);
-    // SEO AI has a single action in Generate Attributes; remove the
-    // redundant explanatory card, not the actual attribute generator.
-    const pruneSeoAiCard=()=>{
+    // The SEO tab has one canonical AI action: Generate Attributes.
+    // Retire redundant legacy Generate All buttons without touching AI Auto.
+    const pruneSeoGenerateAll=()=>{
       const pane=document.querySelector('#seoPane');
       if(!pane)return;
-      const headings=[...pane.querySelectorAll('h1,h2,h3,h4,h5,h6,.seo-section-title,.section-title,strong')];
-      for(const heading of headings){
-        if(!/^Generate SEO with AI$/i.test((heading.textContent||'').trim()))continue;
-        const section=heading.closest('.seo-section,.seo-auto,.seo-review-panel,section,.card,.panel');
-        if(section && section!==pane && !section.querySelector('[data-action="generate-attributes"],#generateAttributesBtn')){
-          section.remove();
-        }else{
-          // Conservative fallback: remove only the heading and duplicate
-          // Generate All control when the legacy wrapper is ambiguous.
-          heading.remove();
-        }
-      }
       pane.querySelectorAll('button,[role="button"]').forEach(button=>{
-        const label=(button.textContent||'').replace(/\s+/g,' ').trim();
+        const label=(button.textContent||'').replace(/\\s+/g,' ').trim();
         if(/^generate all$/i.test(label))button.remove();
       });
     };
-    pruneSeoAiCard();
+    pruneSeoGenerateAll();
     const seoPane=document.querySelector('#seoPane');
     if(seoPane){
       let queued=false;
       new MutationObserver(()=>{
         if(queued)return;
         queued=true;
-        queueMicrotask(()=>{queued=false;pruneSeoAiCard()});
+        queueMicrotask(()=>{queued=false;pruneSeoGenerateAll()});
       }).observe(seoPane,{childList:true,subtree:true});
     }
     // Standard pages previously put a duplicate account chip in the header.
