@@ -940,3 +940,16 @@ html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group 
   background:transparent!important;
   box-shadow:none!important;
 }
+
+
+/* Editorial field-label typography V2.7 — intentionally applies in
+ * Light and Dark Mode; never alters headline/editor body content. */
+body.alt-editor-layout :is(.workspace,.context,#seoPane,#infoPane)
+  :is(.alt-card-field,.alt-standings-field,.seo-section,.seo-auto-row,.alt-meta-section,.alt-editor-section)
+  label,
+body.alt-editor-layout :is(.workspace,.context,#seoPane,#infoPane)
+  :is(.field-label,.form-label,.alt-field-label,.seo-field-label),
+body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item,.nr-account-name,.nr-account-role,.nr-account-menu-item),
+body.nr-app .nr-sidebar :is(.nr-nav-item,.nr-account-name,.nr-account-role,.nr-account-menu-item) {
+  font-size:13px!important;
+}
