@@ -126,24 +126,37 @@
       watcher.observe(bottom,{childList:true});
     }
     document.querySelectorAll('.nr-sidebar-bottom').forEach(buildAccount);
-    // The SEO tab has one canonical AI action: Generate Attributes.
-    // Retire redundant legacy Generate All buttons without touching AI Auto.
-    const pruneSeoGenerateAll=()=>{
+    // Remove only the unused SEO AI heading row, never the SEO pane or
+    // any wrapper containing SEO Metadata and its input fields.
+    const tidySeoHeading=()=>{
       const pane=document.querySelector('#seoPane');
       if(!pane)return;
+      const candidates=pane.querySelectorAll('h1,h2,h3,h4,h5,h6,strong,.seo-section-title,.section-title,div,span');
+      for(const node of candidates){
+        if(node.children.length && [...node.children].some(child=>child.textContent?.trim()==='Generate SEO with AI'))continue;
+        if((node.textContent||'').trim()!=='Generate SEO with AI')continue;
+        const parent=node.parentElement;
+        if(!parent||parent===pane)continue;
+        // Only remove a leaf heading or the compact row that owns it.
+        // Guard against deleting metadata or other editorial inputs.
+        if(parent.children.length===1 && !parent.querySelector('input,textarea,select,button')){
+          parent.remove();
+        }else{
+          node.remove();
+        }
+      }
       pane.querySelectorAll('button,[role="button"]').forEach(button=>{
-        const label=(button.textContent||'').replace(/\\s+/g,' ').trim();
-        if(/^generate all$/i.test(label))button.remove();
+        if(/^Generate All$/i.test((button.textContent||'').trim()))button.remove();
       });
     };
-    pruneSeoGenerateAll();
+    tidySeoHeading();
     const seoPane=document.querySelector('#seoPane');
     if(seoPane){
       let queued=false;
       new MutationObserver(()=>{
         if(queued)return;
         queued=true;
-        queueMicrotask(()=>{queued=false;pruneSeoGenerateAll()});
+        queueMicrotask(()=>{queued=false;tidySeoHeading()});
       }).observe(seoPane,{childList:true,subtree:true});
     }
     // Standard pages previously put a duplicate account chip in the header.
