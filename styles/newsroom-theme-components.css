@@ -1121,3 +1121,31 @@ html[data-theme="dark"] body.nr-app.articles-page .article-row {
 html[data-theme="dark"] body.nr-app.articles-page .article-row:hover {
   background:var(--nr-ui-hover)!important;
 }
+
+/* Dark V2.11: browser-confirmed fixes, all page classes. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane #contentInitiative,
+html[data-theme="dark"] body.alt-editor-layout #infoPane .nr-reused-select-field select{
+ background:var(--nr-ui-raised)!important;background-color:var(--nr-ui-raised)!important;
+ color:var(--nr-ui-text)!important;border-color:var(--nr-ui-input-border)!important;
+ box-shadow:none!important;color-scheme:dark;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane #contentInitiative option{
+ background:var(--nr-ui-raised)!important;color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout nav.utility-rail,
+html[data-theme="dark"] body.alt-editor-layout .utility-rail{
+ background:var(--nr-ui-navigation)!important;background-color:var(--nr-ui-navigation)!important;
+ color:var(--nr-ui-text)!important;border-color:var(--nr-ui-decorative-divider)!important;
+ box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .utility-rail :is(button,a):hover{
+ background:var(--nr-ui-hover)!important;color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.nr-app .nr-nav-cluster.cms-nav-legacy-order,
+html[data-theme="dark"] body.nr-app :is(.dashboard-article,.dashboard-article-row){
+ border-color:var(--nr-ui-decorative-divider)!important;
+}
+html[data-theme="dark"] body.nr-app .nr-modal-card{
+ background:var(--nr-ui-panel)!important;color:var(--nr-ui-text)!important;
+ border-color:var(--nr-ui-card-border)!important;
+}
