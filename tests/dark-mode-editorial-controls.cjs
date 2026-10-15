@@ -90,9 +90,7 @@ async function auditBox(locator,name,expected){
    // Create one temporary Text Block in this isolated browser context.
    // No CMS save or publish action is invoked.
    const oldBlocks=await page.locator('.alt-content-card[data-type="text"]').count();
-   await tiles.filter({has:page.locator('[data-lucide="type"]')}).first().evaluate(el=>el.click()).catch(async()=>{
-     await page.locator('.alt-editor-section .alt-add-menu [data-alt-add="text"]').first().evaluate(el=>el.click());
-   });
+   await page.locator('.alt-editor-section .alt-add-menu [data-alt-add="text"]').first().evaluate(el=>el.click());
    await page.waitForTimeout(160);
    const newBlocks=await page.locator('.alt-content-card[data-type="text"]').count();
    assert(newBlocks>oldBlocks,viewport.label+': Add Content Text must insert block');
