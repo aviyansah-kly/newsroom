@@ -900,3 +900,43 @@ html[data-theme="dark"] body.alt-editor-layout .workspace .alt-writing-card .alt
   border-top-color:var(--nr-ui-decorative-divider)!important;
   border-bottom-color:var(--nr-ui-decorative-divider)!important;
 }
+
+
+/* V2.5 · Quiet nested header controls.
+ * One parent outline defines the group. Passive status pills are not buttons;
+ * their state is conveyed by text and status icon, not a permanent grey fill.
+ * Interactive preview devices receive a surface only on hover/focus or when
+ * selected. Preserve the parent's frame and the active-state affordance.
+ */
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster :is(.article-lifecycle-pill,#saveStatus),
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster :is(.article-lifecycle-pill,#saveStatus)::before,
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device:not(:hover):not(:focus-visible):not(.active):not(.is-active):not([aria-pressed="true"]):not([aria-current="true"]) {
+  background:transparent!important;
+  background-color:transparent!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster :is(.article-lifecycle-pill,#saveStatus) {
+  border:0!important;
+  outline:0!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device {
+  border:0!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device:is(:hover,:focus-visible):not(.active):not(.is-active):not([aria-pressed="true"]):not([aria-current="true"]) {
+  background:var(--nr-ui-hover)!important;
+  background-color:var(--nr-ui-hover)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group .nr-preview-device:focus-visible {
+  outline:2px solid var(--nr-ui-focus)!important;
+  outline-offset:-2px!important;
+}
+/* Apply the same single-frame rule to nested neutral controls elsewhere:
+ * no duplicate border on children when their container is framed.
+ * Intentional selected/warning styles remain untouched.
+ */
+html[data-theme="dark"] body.alt-editor-layout .topbar .header-status-cluster,
+html[data-theme="dark"] body.alt-editor-layout .topbar .nr-preview-device-group {
+  background:transparent!important;
+  box-shadow:none!important;
+}
