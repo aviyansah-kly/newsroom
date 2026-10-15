@@ -1,8 +1,8 @@
 {
-  "commit": "75250409109b77b22c626ce62222394b856c265b",
+  "commit": "e5629868a0b840f24d10bb780ea062d94bd2d4a3",
   "base": "http://127.0.0.1:8765/",
   "engine": "chromium",
-  "time": "2026-10-15T06:12:37.280Z",
+  "time": "2026-10-15T06:19:36.699Z",
   "modalResults": [
     {
       "route": "index.html",
@@ -10,102 +10,8 @@
       "selector": "#importModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button.source-btn.active",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.source-btn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.source-btn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.source-btn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "button.source-btn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -122,34 +28,8 @@
       "selector": "#reviewPublishModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.review-publish-note",
-          "background": "rgb(248, 250, 252)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -166,46 +46,8 @@
       "selector": "#altPreviewModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.alt-preview-switch",
-          "background": "rgb(248, 250, 252)"
-        },
-        {
-          "selector": "button.active",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.alt-preview-stage",
-          "background": "rgb(238, 242, 246)"
-        },
-        {
-          "selector": "div#altPreviewFrame.alt-preview-frame.desktop",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -213,138 +55,8 @@
       "selector": "#altValidationModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "span.guardian-summary-icon",
-          "background": "rgb(254, 242, 242)"
-        },
-        {
-          "selector": "article.guardian-item.danger",
-          "background": "rgb(255, 253, 253)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(254, 242, 242)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "div#altRedpelBox.alt-redpel-box",
-          "background": "rgb(255, 247, 237)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -360,16 +72,7 @@
       "selector": "#nrLinkOverlay",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button#nrLinkTabInternal",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div#nrLinkChosen.nr-link-chosen",
-          "background": "rgb(240, 253, 244)"
-        }
-      ],
+      "white": [],
       "borders": []
     },
     {
@@ -378,94 +81,8 @@
       "selector": "#imageLibraryPopup",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div#v61GalleryTools.v34-tools.newsroom-gallery-tools",
-          "background": "rgb(251, 252, 254)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.active",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "background": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-foot",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button#v34Cancel",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.v34-head",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#v61GalleryTools.v34-tools.newsroom-gallery-tools",
-          "edge": "Bottom",
-          "color": "rgb(238, 242, 247)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.v34-results",
-          "edge": "Right",
-          "color": "rgb(238, 242, 247)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-foot",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -519,128 +136,7 @@
       "exists": true,
       "instances": 1,
       "white": [],
-      "borders": [
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "borders": []
     },
     {
       "route": "index.html",
@@ -657,32 +153,8 @@
       "selector": "#altMarketplacePopover",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.alt-marketplace-popover-foot",
-          "background": "rgb(251, 252, 254)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.alt-marketplace-popover-head",
-          "edge": "Bottom",
-          "color": "rgb(238, 242, 247)"
-        },
-        {
-          "selector": "div.alt-marketplace-popover-foot",
-          "edge": "Top",
-          "color": "rgb(238, 242, 247)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -690,20 +162,7 @@
       "selector": "#altInsertPopover",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
+      "white": [],
       "borders": []
     },
     {
@@ -721,87 +180,8 @@
       "selector": "#writingViewMenu",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button.active",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.writing-view-menu-head",
-          "edge": "Bottom",
-          "color": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -818,19 +198,8 @@
       "selector": "#seoReview",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.seo-review-head",
-          "background": "rgb(248, 250, 252)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.seo-review-head",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -918,24 +287,7 @@
       "selector": ".alt-insert-menu",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button#altInsertBtn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
+      "white": [],
       "borders": []
     },
     {
@@ -952,38 +304,8 @@
       "selector": ".alt-preview-controlbar",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.alt-preview-switch",
-          "background": "rgb(248, 250, 252)"
-        },
-        {
-          "selector": "button.active",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "tags.html",
@@ -1037,133 +359,7 @@
       "exists": true,
       "instances": 10,
       "white": [],
-      "borders": [
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-headline-0.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#nropts-pin-1.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-ads-2.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-technical-3.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-headline-100.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#nropts-pin-101.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-ads-102.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-technical-103.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-headline-200.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#nropts-pin-201.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-ads-202.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-technical-203.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        }
-      ]
+      "borders": []
     },
     {
       "route": "articles.html",
@@ -1232,102 +428,8 @@
       "selector": "#importModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button.source-btn.active",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.source-btn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.source-btn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.source-btn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "span.source-icon",
-          "background": "rgb(241, 245, 249)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "button.source-btn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "button.source-btn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1344,34 +446,8 @@
       "selector": "#reviewPublishModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.review-publish-note",
-          "background": "rgb(248, 250, 252)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#reviewPublishList.review-publish-list",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1388,46 +464,8 @@
       "selector": "#altPreviewModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.alt-preview-switch",
-          "background": "rgb(248, 250, 252)"
-        },
-        {
-          "selector": "button.active",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.alt-preview-stage",
-          "background": "rgb(238, 242, 246)"
-        },
-        {
-          "selector": "div#altPreviewFrame.alt-preview-frame.desktop",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1435,138 +473,8 @@
       "selector": "#altValidationModal",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "span.guardian-summary-icon",
-          "background": "rgb(254, 242, 242)"
-        },
-        {
-          "selector": "article.guardian-item.danger",
-          "background": "rgb(255, 253, 253)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(254, 242, 242)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.guardian-icon",
-          "background": "rgb(255, 247, 237)"
-        },
-        {
-          "selector": "div#altRedpelBox.alt-redpel-box",
-          "background": "rgb(255, 247, 237)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "article.guardian-item.warn",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1582,16 +490,7 @@
       "selector": "#nrLinkOverlay",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button#nrLinkTabInternal",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div#nrLinkChosen.nr-link-chosen",
-          "background": "rgb(240, 253, 244)"
-        }
-      ],
+      "white": [],
       "borders": []
     },
     {
@@ -1600,94 +499,8 @@
       "selector": "#imageLibraryPopup",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div#v61GalleryTools.v34-tools.newsroom-gallery-tools",
-          "background": "rgb(251, 252, 254)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button.active",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "background": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-foot",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button#v34Cancel",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.v34-head",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#v61GalleryTools.v34-tools.newsroom-gallery-tools",
-          "edge": "Bottom",
-          "color": "rgb(238, 242, 247)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-tabs",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.v34-results",
-          "edge": "Right",
-          "color": "rgb(238, 242, 247)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-preview-image",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.v34-foot",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1741,128 +554,7 @@
       "exists": true,
       "instances": 1,
       "white": [],
-      "borders": [
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.embed-provider-chip",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1879,32 +571,8 @@
       "selector": "#altMarketplacePopover",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "div.alt-marketplace-popover-foot",
-          "background": "rgb(251, 252, 254)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.alt-marketplace-popover-head",
-          "edge": "Bottom",
-          "color": "rgb(238, 242, 247)"
-        },
-        {
-          "selector": "div.alt-marketplace-popover-foot",
-          "edge": "Top",
-          "color": "rgb(238, 242, 247)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -1912,20 +580,7 @@
       "selector": "#altInsertPopover",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
+      "white": [],
       "borders": []
     },
     {
@@ -1943,87 +598,8 @@
       "selector": "#writingViewMenu",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button.active",
-          "background": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.writing-view-menu-head",
-          "edge": "Bottom",
-          "color": "rgb(241, 245, 249)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-normal",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-large",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "span.font-sample.font-sample-xlarge",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -2040,19 +616,8 @@
       "selector": "#seoReview",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.seo-review-head",
-          "background": "rgb(248, 250, 252)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.seo-review-head",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "index.html",
@@ -2140,24 +705,7 @@
       "selector": ".alt-insert-menu",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "button#altInsertBtn",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        },
-        {
-          "selector": "button",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
+      "white": [],
       "borders": []
     },
     {
@@ -2174,38 +722,8 @@
       "selector": ".alt-preview-controlbar",
       "exists": true,
       "instances": 1,
-      "white": [
-        {
-          "selector": "div.alt-preview-switch",
-          "background": "rgb(248, 250, 252)"
-        },
-        {
-          "selector": "button.active",
-          "background": "rgb(255, 255, 255)"
-        }
-      ],
-      "borders": [
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Top",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Bottom",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Right",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div.alt-preview-switch",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        }
-      ]
+      "white": [],
+      "borders": []
     },
     {
       "route": "tags.html",
@@ -2259,133 +777,7 @@
       "exists": true,
       "instances": 10,
       "white": [],
-      "borders": [
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-headline-0.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#nropts-pin-1.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-ads-2.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-technical-3.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-headline-100.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#nropts-pin-101.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-ads-102.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-technical-103.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-headline-200.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "div#nropts-pin-201.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-ads-202.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        },
-        {
-          "selector": "div#nropts-technical-203.nr-menu-options",
-          "edge": "Left",
-          "color": "rgb(226, 232, 240)"
-        },
-        {
-          "selector": "section.nr-menu-section",
-          "edge": "Bottom",
-          "color": "rgb(232, 237, 243)"
-        }
-      ]
+      "borders": []
     },
     {
       "route": "articles.html",
@@ -2456,22 +848,24 @@
       "name": "Article preview",
       "selector": "#previewBtn",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#previewBtn').first()\n    - locator resolved to <button class=\"btn\" id=\"previewBtn\" title=\"Preview\" aria-label=\"Preview\">…</button>\n  -"
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#previewBtn').first()\n    - locator resolved to <button class=\"btn\" id=\"previewBtn\" title=\"Preview\" aria-label=\"Preview\">…</button>\n  -"
     },
     {
       "route": "index.html",
       "viewport": "desktop",
       "name": "Review Publish",
       "selector": "#publishBtn",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "index.html",
       "viewport": "desktop",
       "name": "Image gallery",
       "selector": "#chooseHeadline",
-      "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#chooseHeadline').first()\n    - locator resolved to <button type=\"button\" class=\"btn primary\" id=\"chooseHeadline\">…</button>\n  - attemp"
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "index.html",
@@ -2479,7 +873,8 @@
       "name": "Import Draft",
       "selector": "#railImport",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#railImport').first()\n    - locator resolved to <button id=\"railImport\" class=\"rail-item\">…</button>\n  - attempting click action\n    2 "
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#railImport').first()\n    - locator resolved to <button id=\"railImport\" class=\"rail-item\">…</button>\n  - attempting click action\n    2 "
     },
     {
       "route": "index.html",
@@ -2487,6 +882,7 @@
       "name": "Writing View",
       "selector": ".writing-view-trigger",
       "opened": false,
+      "programmatic": false,
       "reason": "absent"
     },
     {
@@ -2494,60 +890,65 @@
       "viewport": "desktop",
       "name": "Site selection",
       "selector": ".newsroom-site-trigger",
-      "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('.newsroom-site-trigger').first()\n    - locator resolved to <button type=\"button\" aria-expanded=\"false\" aria-haspopup=\"listbox\" id=\"news"
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "index.html",
       "viewport": "desktop",
       "name": "SEO tab",
       "selector": "[data-tab=\"seo\"]",
-      "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"seo\"]').first()\n    - locator resolved to <button class=\"tab\" data-tab=\"seo\">…</button>\n  - attempting click action\n    2 × "
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "index.html",
       "viewport": "desktop",
       "name": "Editorial tab",
       "selector": "[data-tab=\"info\"]",
-      "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"info\"]').first()\n    - locator resolved to <button data-tab=\"info\" class=\"tab active\">…</button>\n  - attempting click action"
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "tags.html",
       "viewport": "desktop",
       "name": "Add Tag",
       "selector": "#addTagBtn",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "tags.html",
       "viewport": "desktop",
       "name": "Close Tag",
       "selector": "#modalClose",
-      "opened": true
+      "opened": false,
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#modalClose').first()\n    - locator resolved to <button type=\"button\" id=\"modalClose\" aria-label=\"Close\" class=\"nr-btn nr-btn-icon\">…</"
     },
     {
       "route": "tags.html",
       "viewport": "desktop",
       "name": "Edit Tag",
       "selector": ".row-action.edit-tag",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "articles.html",
       "viewport": "desktop",
       "name": "New Article",
       "selector": "#newArticleBtn",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "articles.html",
       "viewport": "desktop",
       "name": "Filter",
       "selector": "#filterBtn",
-      "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#filterBtn').first()\n    - locator resolved to <button type=\"button\" id=\"filterBtn\" aria-expanded=\"false\" class=\"nr-btn article-filter-"
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "articles.html",
@@ -2555,7 +956,8 @@
       "name": "Article contextual",
       "selector": ".article-menu-trigger",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('.article-menu-trigger').first()\n    - locator resolved to <button type=\"button\" aria-pressed=\"true\" aria-expanded=\"false\" data-action=\""
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('.article-menu-trigger').first()\n    - locator resolved to <button type=\"button\" aria-pressed=\"true\" aria-expanded=\"false\" data-action=\""
     },
     {
       "route": "index.html",
@@ -2563,7 +965,8 @@
       "name": "Article preview",
       "selector": "#previewBtn",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#previewBtn').first()\n    - locator resolved to <button class=\"btn\" id=\"previewBtn\" title=\"Preview\" aria-label=\"Preview\">…</button>\n  -"
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#previewBtn').first()\n    - locator resolved to <button class=\"btn\" id=\"previewBtn\" title=\"Preview\" aria-label=\"Preview\">…</button>\n  -"
     },
     {
       "route": "index.html",
@@ -2571,7 +974,8 @@
       "name": "Review Publish",
       "selector": "#publishBtn",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#publishBtn').first()\n    - locator resolved to <button id=\"publishBtn\" class=\"btn primary\" title=\"Kereadyan artikel: 5/6 ready\" aria-l"
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#publishBtn').first()\n    - locator resolved to <button id=\"publishBtn\" class=\"btn primary\" title=\"Kereadyan artikel: 5/6 ready\" aria-l"
     },
     {
       "route": "index.html",
@@ -2579,7 +983,8 @@
       "name": "Image gallery",
       "selector": "#chooseHeadline",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#chooseHeadline').first()\n    - locator resolved to <button type=\"button\" class=\"btn primary\" id=\"chooseHeadline\">…</button>\n  - attemp"
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#chooseHeadline').first()\n    - locator resolved to <button type=\"button\" class=\"btn primary\" id=\"chooseHeadline\">…</button>\n  - attemp"
     },
     {
       "route": "index.html",
@@ -2587,7 +992,8 @@
       "name": "Import Draft",
       "selector": "#railImport",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('#railImport').first()\n    - locator resolved to <button id=\"railImport\" class=\"rail-item\">…</button>\n  - attempting click action\n    2 "
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#railImport').first()\n    - locator resolved to <button id=\"railImport\" class=\"rail-item\">…</button>\n  - attempting click action\n    2 "
     },
     {
       "route": "index.html",
@@ -2595,6 +1001,7 @@
       "name": "Writing View",
       "selector": ".writing-view-trigger",
       "opened": false,
+      "programmatic": false,
       "reason": "absent"
     },
     {
@@ -2602,7 +1009,8 @@
       "viewport": "mobile",
       "name": "Site selection",
       "selector": ".newsroom-site-trigger",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "index.html",
@@ -2610,7 +1018,8 @@
       "name": "SEO tab",
       "selector": "[data-tab=\"seo\"]",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"seo\"]').first()\n    - locator resolved to <button class=\"tab\" data-tab=\"seo\">…</button>\n  - attempting click action\n    2 × "
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"seo\"]').first()\n    - locator resolved to <button class=\"tab\" data-tab=\"seo\">…</button>\n  - attempting click action\n    2 × "
     },
     {
       "route": "index.html",
@@ -2618,42 +1027,49 @@
       "name": "Editorial tab",
       "selector": "[data-tab=\"info\"]",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"info\"]').first()\n    - locator resolved to <button data-tab=\"info\" class=\"tab active\">…</button>\n  - attempting click action"
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('[data-tab=\"info\"]').first()\n    - locator resolved to <button class=\"tab\" data-tab=\"info\">…</button>\n  - attempting click action\n    2 "
     },
     {
       "route": "tags.html",
       "viewport": "mobile",
       "name": "Add Tag",
       "selector": "#addTagBtn",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "tags.html",
       "viewport": "mobile",
       "name": "Close Tag",
       "selector": "#modalClose",
-      "opened": true
+      "opened": false,
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('#modalClose').first()\n    - locator resolved to <button type=\"button\" id=\"modalClose\" aria-label=\"Close\" class=\"nr-btn nr-btn-icon\">…</"
     },
     {
       "route": "tags.html",
       "viewport": "mobile",
       "name": "Edit Tag",
       "selector": ".row-action.edit-tag",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "articles.html",
       "viewport": "mobile",
       "name": "New Article",
       "selector": "#newArticleBtn",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "articles.html",
       "viewport": "mobile",
       "name": "Filter",
       "selector": "#filterBtn",
-      "opened": true
+      "opened": true,
+      "programmatic": false
     },
     {
       "route": "articles.html",
@@ -2661,16 +1077,17 @@
       "name": "Article contextual",
       "selector": ".article-menu-trigger",
       "opened": false,
-      "reason": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for locator('.article-menu-trigger').first()\n    - locator resolved to <button type=\"button\" aria-pressed=\"true\" aria-expanded=\"false\" data-action=\""
+      "programmatic": true,
+      "reason": "locator.click: Timeout 2700ms exceeded.\nCall log:\n  - waiting for locator('.article-menu-trigger').first()\n    - locator resolved to <button type=\"button\" aria-pressed=\"true\" aria-expanded=\"false\" data-action=\""
     }
   ],
   "errors": [],
   "summary": {
     "probed": 94,
     "missing": 10,
-    "white": 98,
-    "brightBorders": 234,
-    "clicked": 11,
-    "clickFailed": 15
+    "white": 0,
+    "brightBorders": 0,
+    "clicked": 14,
+    "clickFailed": 12
   }
 }
