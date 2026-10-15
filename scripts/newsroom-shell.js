@@ -199,6 +199,11 @@
       sidebar.querySelectorAll('a,button,[role="menuitem"]').forEach(control=>{
         const title=(control.textContent||'').replace(/\\s+/g,' ').trim();
         if(!sidebarNavLabels.has(title))return;
+        // A header/rail entry may also say "Dashboard". Only the actual
+        // navigation list items receive 13px, not the Dashboard title.
+        if(!control.matches('.cms-nav-item,.nr-nav-item') &&
+           !control.closest('.nr-nav-list,.cms-nav-list,.nr-nav-items,.nr-nav-content'))return;
+        if(control.closest('.cms-nav-heading,.cms-nav-header,.nr-sidebar-head,.nr-nav-cluster-head'))return;
         control.style.setProperty('font-size','13px','important');
         control.querySelectorAll('*').forEach(el=>{
           if(el instanceof SVGElement) return;
