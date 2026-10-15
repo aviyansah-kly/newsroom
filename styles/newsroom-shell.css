@@ -175,3 +175,22 @@ body.alt-editor-layout #cmsNavDrawer :is(a.cms-nav-item,button.cms-nav-item,.nr-
 body.alt-editor-layout #cmsNavDrawer :is(.cms-nav-item,.nr-nav-item) :is(span,.nr-nav-label,.cms-nav-label) {
   font-size:var(--nr-font-size-navigation)!important;
 }
+
+
+/* Editorial Content Initiative and Keywords — shared Light/Dark pattern. */
+body.alt-editor-layout .nr-editorial-extra-field{display:grid;gap:8px;margin-top:16px;min-width:0}
+body.alt-editor-layout .nr-editorial-extra-heading{display:flex;align-items:center;justify-content:space-between;gap:8px}
+body.alt-editor-layout .nr-editorial-extra-heading label{font-size:13px;font-weight:700;color:var(--nr-text,#0f172a)}
+body.alt-editor-layout .nr-editorial-ai-suggest{font-size:13px;font-weight:600;color:#7438ef;background:#f6f2ff;border:1px solid #e2d5ff;border-radius:7px;padding:6px 9px;cursor:pointer}
+body.alt-editor-layout .nr-editorial-extra-field>input,
+body.alt-editor-layout .nr-keyword-tags{width:100%;min-height:40px;box-sizing:border-box;border:1px solid var(--nr-input,#cbd5e1);border-radius:9px;background:var(--nr-surface,#fff);color:var(--nr-text,#0f172a);font:400 13px/1.5 Inter,system-ui,sans-serif;padding:9px 12px}
+body.alt-editor-layout .nr-keyword-tags{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+body.alt-editor-layout .nr-keyword-chips{display:flex;flex-wrap:wrap;gap:5px}
+body.alt-editor-layout .nr-keyword-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:6px;background:var(--nr-soft,#f1f5f9);font-size:13px}
+body.alt-editor-layout .nr-keyword-chip button{border:0;background:transparent;color:inherit;font-size:16px;cursor:pointer;padding:0 2px}
+body.alt-editor-layout .nr-keyword-tags input{flex:1 1 160px;min-width:100px;border:0;outline:0;background:transparent;color:inherit;font:inherit;padding:2px}
+html[data-theme="dark"] body.alt-editor-layout .nr-editorial-extra-heading label{color:var(--nr-ui-text,#E8EBEF)}
+html[data-theme="dark"] body.alt-editor-layout .nr-editorial-extra-field>input,
+html[data-theme="dark"] body.alt-editor-layout .nr-keyword-tags{background:var(--nr-ui-raised,#2B3037);color:var(--nr-ui-text,#E8EBEF);border-color:var(--nr-ui-input-border,#718096)}
+html[data-theme="dark"] body.alt-editor-layout .nr-keyword-chip{background:var(--nr-ui-control,#303740)}
+html[data-theme="dark"] body.alt-editor-layout .nr-editorial-ai-suggest{background:var(--nr-ui-control,#303740);color:#c4b5fd;border-color:var(--nr-ui-card-border,#3C434D)}
