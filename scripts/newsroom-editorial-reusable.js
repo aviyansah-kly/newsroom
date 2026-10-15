@@ -8,53 +8,56 @@
   const get=(key,fallback)=>{try{const item=sessionStorage.getItem(key);return item===null?fallback:JSON.parse(item)}catch{return fallback}};
   const put=(key,value)=>{try{sessionStorage.setItem(key,JSON.stringify(value))}catch{}};
   function catalogue(){
-    // The existing Editor defines the Tags directory as a global lexical binding.
-    try{if(typeof tagSuggestions!=='undefined'&&Array.isArray(tagSuggestions))return tagSuggestions.slice()}catch{}
-    return [...document.querySelectorAll('#tagSuggestions [data-add]')].map(item=>item.dataset.add);
+    // Read from the original Editor Tags directory, not a copied list.
+    if(typeof window.newsroomTagCatalog==='function'){
+      const values=window.newsroomTagCatalog();
+      if(Array.isArray(values))return values;
+    }
+    return [...document.querySelectorAll('#tagSuggestions [data-add]')]
+      .map(item=>item.dataset.add).filter(Boolean);
   }
   function initiativeFrom(typeField){
-    // Exact Article Type markup: .field > label + select, with the same class names.
-    const copy=typeField.cloneNode(true);
-    copy.id='nr-initiative-reused-field';
-    copy.classList.remove('alt-article-type-field');
-    copy.querySelectorAll('.setting-help,.alt-inline-help,.alt-ai-hint').forEach(n=>n.remove());
-    const select=$('select',copy);
-    if(!select)return null;
-    copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
-    select.id='contentInitiative';
-    select.name='contentInitiative';
-    select.replaceChildren(new Option('Pilih Content Initiative',''),...OPTIONS.map(v=>new Option(v,v)));
-    const label=$('label',copy);
-    if(label){label.textContent='Content Initiative';label.htmlFor=select.id}
-    const current=get('nr:content-initiative','');
-    select.value=OPTIONS.includes(current)?current:'';
+    // The original Newsroom field already exists. Preserve its native
+    // select, onChange handlers, saved draft state and validation mapping.
+    const select=$('#contentInitiative');
+    const field=select?.closest('.field');
+    if(!select||!field)return null;
+    field.id='nr-initiative-reused-field';
+    field.classList.add('nr-reused-select-field');
+    field.querySelectorAll('.setting-help,.alt-inline-help').forEach(node=>node.remove());
+    const original=select.value;
+    const valid=['',...OPTIONS];
+    if(select.options.length!==3||[...select.options].some((option,index)=>
+      option.value!==valid[index])){
+      select.replaceChildren(new Option('Pilih Content Initiative',''),...OPTIONS.map(value=>new Option(value,value)));
+    }
+    const stored=get('nr:content-initiative','');
+    select.value=valid.includes(original)?original:valid.includes(stored)?stored:'';
     select.addEventListener('change',()=>put('nr:content-initiative',select.value));
-    const buttons=[...copy.querySelectorAll('button')];
-    let ai=buttons.find(button=>clean(button.textContent).includes('AI Suggestions'));
-    buttons.forEach(button=>{if(button!==ai)button.remove()});
-    if(!ai){
-      const sample=typeField.querySelector('button')||$('#altEditorialTagsSection .alt-tag-ai');
-      if(sample){
-        ai=sample.cloneNode(true);
-        const head=document.createElement('div');
-        head.className='nr-reused-field-heading';
-        label?.parentElement.insertBefore(head,label);
-        if(label)head.append(label);
+    const label=field.querySelector('label');
+    if(label){label.textContent='Content Initiative';label.htmlFor=select.id}
+    if(!field.querySelector('.nr-reused-field-heading')){
+      const head=document.createElement('div');
+      head.className='nr-reused-field-heading';
+      if(label){label.insertAdjacentElement('beforebegin',head);head.append(label)}
+      const example=[...typeField.querySelectorAll('button')].find(button=>/AI Suggestions/i.test(clean(button.textContent)))
+        ||$('#altEditorialTagsSection .alt-tag-ai');
+      if(example){
+        const ai=example.cloneNode(true);
+        ai.type='button';ai.removeAttribute('id');ai.removeAttribute('data-nr-ai-field');
+        ai.onclick=event=>{
+          event.preventDefault();event.stopImmediatePropagation();
+          const text=clean(($('#title')?.value||'')+' '+($('#dek')?.value||'')).toLowerCase();
+          const found=/pilkada|kepala daerah/.test(text)?OPTIONS[0]:
+            /predictive|kalender|calendar|prediksi/.test(text)?OPTIONS[1]:'';
+          if(found){select.value=found;select.dispatchEvent(new Event('change',{bubbles:true}))}
+          else select.focus();
+        };
         head.append(ai);
       }
     }
-    if(ai){
-      ai.removeAttribute('id');ai.removeAttribute('data-nr-ai-field');ai.type='button';
-      ai.onclick=event=>{
-        event.preventDefault();event.stopImmediatePropagation();
-        const text=clean(($('#title')?.value||'')+' '+($('#dek')?.value||'')).toLowerCase();
-        const found=/pilkada|kepala daerah/.test(text)?OPTIONS[0]:/predictive|kalender|calendar|prediksi/.test(text)?OPTIONS[1]:'';
-        if(found){select.value=found;select.dispatchEvent(new Event('change',{bubbles:true}))}
-        else select.focus();
-      };
-    }
-    typeField.insertAdjacentElement('afterend',copy);
-    return copy;
+    if(field.previousElementSibling!==typeField)typeField.insertAdjacentElement('afterend',field);
+    return field;
   }
   function keywordsFrom(tagField,initiative){
     // Clone exactly the Tags field DOM and styles. Never duplicate its IDs or
