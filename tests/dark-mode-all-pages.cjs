@@ -10,7 +10,7 @@ const base=process.env.NR_BASE_URL||'http://127.0.0.1:8765/';
 const screenshotDir=process.env.NR_DARK_SCREENSHOTS_DIR||'';
 const routes=['dashboard.html','articles.html','tags.html','index.html'];
 const sizes=[{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844}];
-const report={timestamp:new Date().toISOString(),engine,base,routes:[],summary:{scenes:0,whiteSurfaces:0,brightBorders:0,missingDark:0,failedInteractions:0}};
+const report={timestamp:new Date().toISOString(),commit:process.env.GITHUB_SHA||'local',engine,base,routes:[],interactionFailures:[],summary:{scenes:0,whiteSurfaces:0,brightBorders:0,missingDark:0,failedInteractions:0}};
 const take=async(page,route,scene)=>{
  const data=await page.evaluate(()=>{
    const list=[],border=[];
@@ -68,7 +68,7 @@ async function optional(page,label,selector){
    await item.click({timeout:4500});
    await page.waitForTimeout(180);
    return true;
- }catch(error){report.summary.failedInteractions++;console.log('OPTIONAL_INTERACTION_FAILED '+label+' '+error.message.slice(0,160));return false}
+ }catch(error){report.summary.failedInteractions++;report.interactionFailures.push({label,error:error.message.slice(0,240)});console.log('OPTIONAL_INTERACTION_FAILED '+label+' '+error.message.slice(0,160));return false}
 }
 (async()=>{
  const driver={chromium,firefox,webkit}[engine]||chromium;
@@ -86,7 +86,7 @@ async function optional(page,label,selector){
     const scene=state=>take(page,route,viewport.name+'-'+state);
     await scene('initial');
     // The Account menu is shared by every page and can conceal white popovers.
-    if(await optional(page,'Account','.nr-account-trigger'))await scene('account-open');
+    if(await optional(page,'Account','.nr-account-trigger')){await scene('account-open');await optional(page,'Close Account','.nr-account-trigger');}
     // Scroll into the middle/bottom of actual page and inspect visible boxes.
     await page.evaluate(()=>window.scrollTo(0,Math.max(0,document.documentElement.scrollHeight/2-window.innerHeight/2)));
     await page.waitForTimeout(160);await scene('middle-scroll');
