@@ -126,28 +126,50 @@
       watcher.observe(bottom,{childList:true});
     }
     document.querySelectorAll('.nr-sidebar-bottom').forEach(buildAccount);
-    // Remove only the unused SEO AI heading row, never the SEO pane or
-    // any wrapper containing SEO Metadata and its input fields.
+    // Remove the deprecated SEO AI row AND its reserved space without touching
+    // SEO Metadata. The row may be rendered asynchronously by legacy scripts.
     const tidySeoHeading=()=>{
       const pane=document.querySelector('#seoPane');
       if(!pane)return;
-      const candidates=pane.querySelectorAll('h1,h2,h3,h4,h5,h6,strong,.seo-section-title,.section-title,div,span');
-      for(const node of candidates){
-        if(node.children.length && [...node.children].some(child=>child.textContent?.trim()==='Generate SEO with AI'))continue;
-        if((node.textContent||'').trim()!=='Generate SEO with AI')continue;
-        const parent=node.parentElement;
-        if(!parent||parent===pane)continue;
-        // Only remove a leaf heading or the compact row that owns it.
-        // Guard against deleting metadata or other editorial inputs.
-        if(parent.children.length===1 && !parent.querySelector('input,textarea,select,button')){
-          parent.remove();
-        }else{
-          node.remove();
+      const protectedContent='input,textarea,select,[contenteditable="true"],.alt-slug-card';
+      const elements=[...pane.querySelectorAll('h1,h2,h3,h4,h5,h6,strong,.seo-section-title,.section-title,div,span')];
+      for(const node of elements){
+        if(!node.isConnected || (node.textContent||'').trim()!=='Generate SEO with AI')continue;
+        // Choose the smallest enclosing block that contains this heading,
+        // never a container including Metadata or other editorial fields.
+        let target=node;
+        for(let parent=node.parentElement;parent && parent!==pane;parent=parent.parentElement){
+          if(parent.querySelector(protectedContent))break;
+          if(/SEO Metadata|SEO Readiness/.test(parent.textContent||''))break;
+          if(parent.querySelector('button,[role="button"]') &&
+             ![...parent.querySelectorAll('button,[role="button"]')].every(btn=>/^Generate All$/i.test((btn.textContent||'').trim())))break;
+          target=parent;
+          if(parent.matches('section,.seo-section,.seo-auto,.seo-review-panel'))break;
         }
+        target.remove();
       }
       pane.querySelectorAll('button,[role="button"]').forEach(button=>{
         if(/^Generate All$/i.test((button.textContent||'').trim()))button.remove();
       });
+      // Remove only empty structural siblings directly before SEO Metadata.
+      // Avoid generic empty-div cleanup: many functional UI nodes start empty.
+      const metadata=[...pane.querySelectorAll('h1,h2,h3,h4,h5,h6,strong,.seo-section-title,.section-title')]
+        .find(node=>(node.textContent||'').trim()==='SEO Metadata');
+      if(metadata){
+        let current=metadata;
+        while(current.parentElement && current.parentElement!==pane &&
+              !current.previousElementSibling)current=current.parentElement;
+        let sibling=current.previousElementSibling;
+        let inspected=0;
+        while(sibling && inspected++<3){
+          if(sibling.querySelector(protectedContent))break;
+          if((sibling.textContent||'').trim()!=='')break;
+          if(sibling.querySelector('button,[role="button"],svg,[role="status"]'))break;
+          const previous=sibling.previousElementSibling;
+          sibling.remove();
+          sibling=previous;
+        }
+      }
     };
     tidySeoHeading();
     const seoPane=document.querySelector('#seoPane');
