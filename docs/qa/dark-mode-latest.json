@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-10-15T05:14:06.577Z",
-  "commit": "cc2aaaf6a8f6e8388cfbb6387e2c66e10a5cc57c",
+  "timestamp": "2026-10-15T05:18:11.972Z",
+  "commit": "80f2b80a34ddbacf416b931c7374e8c8f105e67e",
   "engine": "chromium",
   "base": "http://127.0.0.1:8765/",
   "routes": [
@@ -63,6 +63,13 @@
     {
       "route": "articles.html",
       "scene": "desktop-new-article-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "articles.html",
+      "scene": "desktop-filter-open",
       "theme": "dark",
       "whiteSurfaces": [],
       "brightBorders": []
@@ -174,6 +181,20 @@
     },
     {
       "route": "dashboard.html",
+      "scene": "mobile-mobile-nav-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "dashboard.html",
+      "scene": "mobile-account-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "dashboard.html",
       "scene": "mobile-middle-scroll",
       "theme": "dark",
       "whiteSurfaces": [],
@@ -195,6 +216,20 @@
     },
     {
       "route": "articles.html",
+      "scene": "mobile-mobile-nav-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "articles.html",
+      "scene": "mobile-account-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "articles.html",
       "scene": "mobile-middle-scroll",
       "theme": "dark",
       "whiteSurfaces": [],
@@ -203,20 +238,6 @@
     {
       "route": "articles.html",
       "scene": "mobile-bottom-scroll",
-      "theme": "dark",
-      "whiteSurfaces": [],
-      "brightBorders": []
-    },
-    {
-      "route": "articles.html",
-      "scene": "mobile-new-article-open",
-      "theme": "dark",
-      "whiteSurfaces": [],
-      "brightBorders": []
-    },
-    {
-      "route": "articles.html",
-      "scene": "mobile-filter-open",
       "theme": "dark",
       "whiteSurfaces": [],
       "brightBorders": []
@@ -230,6 +251,20 @@
     },
     {
       "route": "tags.html",
+      "scene": "mobile-mobile-nav-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "tags.html",
+      "scene": "mobile-account-open",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "tags.html",
       "scene": "mobile-middle-scroll",
       "theme": "dark",
       "whiteSurfaces": [],
@@ -238,27 +273,6 @@
     {
       "route": "tags.html",
       "scene": "mobile-bottom-scroll",
-      "theme": "dark",
-      "whiteSurfaces": [],
-      "brightBorders": []
-    },
-    {
-      "route": "tags.html",
-      "scene": "mobile-tag-modal-open",
-      "theme": "dark",
-      "whiteSurfaces": [],
-      "brightBorders": []
-    },
-    {
-      "route": "tags.html",
-      "scene": "mobile-tag-modal-close",
-      "theme": "dark",
-      "whiteSurfaces": [],
-      "brightBorders": []
-    },
-    {
-      "route": "tags.html",
-      "scene": "mobile-tag-edit-modal-open",
       "theme": "dark",
       "whiteSurfaces": [],
       "brightBorders": []
@@ -280,6 +294,13 @@
     {
       "route": "index.html",
       "scene": "mobile-bottom-scroll",
+      "theme": "dark",
+      "whiteSurfaces": [],
+      "brightBorders": []
+    },
+    {
+      "route": "index.html",
+      "scene": "mobile-review-modal-programmatic",
       "theme": "dark",
       "whiteSurfaces": [],
       "brightBorders": []
@@ -287,20 +308,24 @@
   ],
   "interactionFailures": [
     {
+      "label": "Close article filters",
+      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('#filterBtn').first()\n    - locator resolved to <button type=\"button\" id=\"filterBtn\" aria-expanded=\"true\" class=\"nr-btn article-filter-btn active\">…</button>\n  - atte"
+    },
+    {
+      "label": "New article",
+      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('#newArticleBtn').first()\n    - locator resolved to <button type=\"button\" id=\"newArticleBtn\" aria-expanded=\"false\" class=\"nr-btn nr-btn-primary\">…</button>\n  - attemp"
+    },
+    {
       "label": "Filter articles",
       "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('#filterBtn').first()\n    - locator resolved to <button type=\"button\" id=\"filterBtn\" aria-expanded=\"false\" class=\"nr-btn article-filter-btn\">…</button>\n  - attempting"
     },
     {
-      "label": "Account",
-      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('.nr-account-trigger').first()\n    - locator resolved to <button type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nr-account-trigger\" title=\"Avi Yansah"
+      "label": "Add tag",
+      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('#addTagBtn').first()\n    - locator resolved to <button type=\"button\" id=\"addTagBtn\" class=\"nr-btn nr-btn-primary\">…</button>\n  - attempting click action\n    2 × wait"
     },
     {
-      "label": "Account",
-      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('.nr-account-trigger').first()\n    - locator resolved to <button type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nr-account-trigger\" title=\"Avi Yansah"
-    },
-    {
-      "label": "Account",
-      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('.nr-account-trigger').first()\n    - locator resolved to <button type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nr-account-trigger\" title=\"Avi Yansah"
+      "label": "Edit tag",
+      "error": "locator.click: Timeout 4500ms exceeded.\nCall log:\n  - waiting for locator('.row-action.edit-tag').first()\n    - locator resolved to <button data-index=\"0\" title=\"Edit tag\" class=\"row-action edit-tag\">…</button>\n  - attempting click action\n "
     },
     {
       "label": "Account",
@@ -312,10 +337,10 @@
     }
   ],
   "summary": {
-    "scenes": 40,
+    "scenes": 43,
     "whiteSurfaces": 0,
     "brightBorders": 0,
     "missingDark": 0,
-    "failedInteractions": 6
+    "failedInteractions": 7
   }
 }
