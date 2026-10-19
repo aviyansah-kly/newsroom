@@ -1,12 +1,13 @@
 {
-  "version": "2.3.1",
-  "status": "prototype",
+  "version": "3.0.0-refactor-preview",
+  "status": "refactor-validation",
   "themeScope": "html[data-theme=\"dark\"]",
-  "sourceOfTruth": "styles/newsroom-theme-components.css",
+  "sourceOfTruth": "styles/newsroom-theme-tokens.css",
   "precedence": [
     "styles/newsroom-design-system.css",
     "styles/newsroom-dark-mode.css",
     "styles/newsroom-dark-mode-editor.css",
+    "styles/newsroom-theme-tokens.css",
     "styles/newsroom-theme-components.css"
   ],
   "rule": "Semantic tokens are edited once; add each new component to this registry and to component-contract Playwright tests. Never copy literal light hex rules into new components.",
@@ -49,7 +50,15 @@
     "navHoverBg": "--nr-ui-nav-hover-bg",
     "navHoverText": "--nr-ui-nav-hover-text",
     "navActiveBg": "--nr-ui-nav-active-bg",
-    "navActiveText": "--nr-ui-nav-active-text"
+    "navActiveText": "--nr-ui-nav-active-text",
+    "iconBoxBg": "--nr-icon-box-bg",
+    "iconBoxBorder": "--nr-icon-box-border",
+    "iconBoxInk": "--nr-icon-box-ink",
+    "iconBoxRadius": "--nr-icon-box-radius",
+    "sidebarCollapseIconSize": "--nr-sidebar-collapse-icon-size",
+    "navigationFontSize": "--nr-font-size-navigation",
+    "reviewRing": "--nr-ui-review-ring",
+    "reviewRingSoft": "--nr-ui-review-ring-soft"
   },
   "components": [
     {
@@ -414,6 +423,53 @@
         "no-duplicate-white-hairline",
         "light-mode-unchanged"
       ]
+    },
+    {
+      "id": "editorial-team-picker",
+      "owner": "Editor Workspace",
+      "selectors": [
+        "#infoPane .team-add-panel",
+        "#infoPane .team-search-wrap",
+        "#infoPane .team-suggestion"
+      ],
+      "tokenRoles": [
+        "panel",
+        "raised",
+        "text",
+        "secondary",
+        "hover",
+        "inputBorder"
+      ],
+      "qa": [
+        "add-reporter",
+        "add-editor",
+        "search-suggestion",
+        "remove-member",
+        "dark-mode",
+        "mobile"
+      ]
+    },
+    {
+      "id": "shared-icon-box",
+      "owner": "Global",
+      "selectors": [
+        ".alt-add-icon",
+        ".alt-content-card-title .icon",
+        ".seo-auto-status.seo-icon-slot",
+        "#importModal .source-icon"
+      ],
+      "tokenRoles": [
+        "iconBoxBg",
+        "iconBoxBorder",
+        "iconBoxInk",
+        "iconBoxRadius"
+      ],
+      "qa": [
+        "add-content",
+        "seo-automated-icon",
+        "import-popup",
+        "light-dark"
+      ]
     }
   ],
   "protected": [
@@ -423,5 +479,23 @@
     "Draft or autosave state",
     "Existing Light Mode pixel baseline",
     "Role-based Writer/Editor/Redpel/SEO access controls"
-  ]
+  ],
+  "componentStyleSource": "styles/newsroom-theme-components.css",
+  "tokenOwnership": {
+    "componentSemantics": "styles/newsroom-theme-tokens.css",
+    "lightFoundations": "styles/newsroom-design-system.css",
+    "darkCompatibility": "styles/newsroom-dark-mode.css",
+    "iconBoxes": "styles/newsroom-theme-tokens.css",
+    "navigationTypography": "styles/newsroom-shell.css",
+    "componentSelectors": "styles/newsroom-theme-components.css"
+  },
+  "migration": {
+    "phase": "P1/P2 isolated",
+    "safety": "No design values changed. No removal of legacy layout/event handlers. Merge only with baseline comparison and browser QA.",
+    "doNotMergeWithout": [
+      "Light/Dark computed-style parity on Dashboard, Articles, Tags, Editor Workspace",
+      "Popups and user flows regressions",
+      "Cloudflare build log and preview confirmation"
+    ]
+  }
 }
