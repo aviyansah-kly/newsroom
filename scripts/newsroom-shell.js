@@ -24,6 +24,14 @@
       editorStyle.href='styles/newsroom-dark-mode-editor.css';editorStyle.setAttribute('data-nr-editor-theme','1');
       document.head.appendChild(editorStyle);
     }
+    // Canonical semantic component tokens, extracted without changing values.
+    // Keep AFTER legacy Dark Mode adapters but BEFORE visual component rules.
+    if(!document.querySelector('link[data-nr-component-tokens]')){
+      const tokens=document.createElement('link');tokens.rel='stylesheet';
+      tokens.href='styles/newsroom-theme-tokens.css';
+      tokens.setAttribute('data-nr-component-tokens','1');
+      document.head.appendChild(tokens);
+    }
     // Canonical component surface contracts: loaded AFTER legacy adapters.
     // Only dark-scoped selectors; Light Mode remains unchanged.
     if(!document.querySelector('link[data-nr-component-theme]')){
