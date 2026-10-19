@@ -5,7 +5,7 @@
 
 ## What changed
 
-1. The inert first popup-manager copy inside `<script src="https://unpkg.com/lucide@latest">` was deleted. The **actual live manager** later in `index.html` remains untouched. Enabling both would have created duplicate event listeners.
+1. **Editor HTML is fully protected.** A proposed removal of the inert popup-manager copy inside the Lucide external script was reverted after existing Product Design baseline checks rejected any modification to `index.html`. The active popup manager later in the file is untouched. The inert copy is now documented as legacy debt for a separate, explicitly approved Editor migration; do not activate both copies.
 2. Semantic component tokens formerly declared across eight separate `:root` / `html[data-theme="dark"]` blocks of `styles/newsroom-theme-components.css` are now defined in `styles/newsroom-theme-tokens.css`.
 3. Redefined variables in the old blocks were reduced to **one final declaration per token per scope**. Final values are identical to the effective V2 values; no deliberate UI change.
 4. `scripts/newsroom-shell.js` loads the token file **after** the legacy theme adapters and **before** `styles/newsroom-theme-components.css`.
@@ -28,11 +28,12 @@
 
 ## Acceptance gates (must all pass before merge)
 
-1. `tests/design-system-parity.cjs`: compare `main` to this branch on Dashboard, Articles, Tags, Editor; Light/Dark; desktop/mobile; semantic token values, computed surface/text/border/radius/font metrics; **zero differences and zero new JavaScript errors**.
-2. Existing Playwright component flows: Editorial Team, Add Content, Tags/Keywords, Dark Mode and modal checks remain green. Never change the existing Light Mode baseline.
-3. Validate Cloudflare deployment/build settings independently. No production deploy from this branch without user review.
-4. Any baseline difference must be explained, corrected, or explicitly approved **before** merge. Never silence failures by broadening color thresholds or deleting a test.
-5. Any missing stylesheet/failed network request for `newsroom-theme-tokens.css` is a blocking error.
+1. `scripts/check_theme_contract.py` and the existing AI/Text toolbar checksum guards must pass. They now recognize the new token owner without relaxing the locked Editor HTML baseline.
+2. `tests/design-system-parity.cjs`: compare `main` to this branch on Dashboard, Articles, Tags, Editor; Light/Dark; desktop/mobile; semantic token values, computed surface/text/border/radius/font metrics; **zero differences and zero new JavaScript errors**.
+3. Existing Playwright component flows: Editorial Team, Add Content, Tags/Keywords, Dark Mode and modal checks remain green. Never change the existing Light Mode baseline.
+4. Validate Cloudflare deployment/build settings independently. No production deploy from this branch without user review.
+5. Any baseline difference must be explained, corrected, or explicitly approved **before** merge. Never silence failures by broadening color thresholds or deleting a test.
+6. Any missing stylesheet/failed network request for `newsroom-theme-tokens.css` is a blocking error.
 
 ## Next safe phase (not included here)
 
