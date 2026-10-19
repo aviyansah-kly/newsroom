@@ -19,7 +19,7 @@ const targets={
   'dashboard.html':['body','.nr-topbar','.nr-sidebar','.nr-nav-item','.dashboard-quick','.dashboard-open','.nr-account-trigger'],
   'articles.html':['body','.nr-topbar','.nr-sidebar','.article-shell','.article-toolbar','.article-row','.article-list','.article-preview-btn','.nr-account-trigger'],
   'tags.html':['body','.nr-topbar','.nr-sidebar','.tag-table','.tag-search input','.nr-modal-card','.nr-account-trigger'],
-  'index.html':['body','.topbar','.context','.alt-writing-card','#seoPane','.seo-auto','.seo-auto-status.seo-icon-slot','#infoPane','.alt-add-menu','.alt-add-icon','.team-add-panel','.team-search-wrap','.nr-account-trigger']
+  'index.html':['body','.topbar','.context','.alt-writing-card','#seoPane','.seo-auto','.seo-auto-status.seo-icon-slot','#infoPane','#nrScheduleProbe','#nrScheduleProbe input[type="date"]','#nrScheduleProbe .schedule-summary','.alt-add-menu','.alt-add-icon','.team-add-panel','.team-search-wrap','.nr-account-trigger']
 };
 const fields=['backgroundColor','color','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','borderRadius','fontSize','fontWeight','boxShadow','display'];
 const report={engine,baseline,candidate,tokenCount:tokens.length,routes:[],differences:[],errors:[]};
@@ -31,6 +31,16 @@ async function capture(browser,url,route,theme,viewport){
  await page.goto(new URL(route,url).href,{waitUntil:'domcontentloaded',timeout:60000});
  await page.waitForTimeout(1200);
  const actual=await page.evaluate(({tokens,selectors,fields})=>{
+  // Reproduce the existing Dark Mode contract's Schedule Publish fixture in
+  // BOTH checkouts, to determine whether its failed assertion predates V3.
+  const modal=document.querySelector('#altValidationModal');
+  if(modal){
+    const probe=document.createElement('div');
+    probe.id='nrScheduleProbe';
+    probe.className='nr-review-schedule';
+    probe.innerHTML='<div class="nr-review-schedule-head"><strong>Schedule Publish</strong></div><div class="schedule-fields show"><div class="schedule-grid"><div class="schedule-control"><label>Date</label><input type="date"></div><div class="schedule-control"><label>Time</label><input type="time"></div></div><div class="schedule-summary">Scheduled for 10:00 WIB</div></div>';
+    modal.appendChild(probe);
+  }
   const root=getComputedStyle(document.documentElement);
   const props=Object.fromEntries(tokens.map(key=>[key,root.getPropertyValue(key).trim()]));
   const style={};
