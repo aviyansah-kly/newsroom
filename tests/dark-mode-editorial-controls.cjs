@@ -95,6 +95,17 @@ async function auditBox(locator,name,expected){
      const bg=await tiles.nth(i).locator('.alt-add-icon').evaluate(el=>getComputedStyle(el).backgroundColor);
      assert(bg===iconBg,viewport.label+': inconsistent Add Content icon surface');
    }
+   // Automated SEO uses the same neutral icon box surface and border as
+   // Add Content. Status semantics remain in glyph ink and status badges.
+   const seoIcons=page.locator('#seoPane .seo-auto-list .seo-auto-row .seo-auto-status.seo-icon-slot');
+   assert(await seoIcons.count()===5,viewport.label+': Automated SEO must expose five status icons');
+   const iconBorder=await tiles.first().locator('.alt-add-icon').evaluate(el=>getComputedStyle(el).borderColor);
+   for(let i=0;i<await seoIcons.count();i++){
+     const slot=seoIcons.nth(i);
+     const computed=await auditBox(slot,viewport.label+' Automated SEO icon '+i,'dark');
+     assert(computed.bg===iconBg,viewport.label+': Automated SEO icon '+i+' does not use shared icon background');
+     assert(computed.border===iconBorder,viewport.label+': Automated SEO icon '+i+' does not use shared icon border');
+   }
    // Create one temporary Text Block in this isolated browser context.
    // No CMS save or publish action is invoked.
    const oldBlocks=await page.locator('.alt-content-card[data-type="text"]').count();
