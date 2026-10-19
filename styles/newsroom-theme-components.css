@@ -1571,3 +1571,32 @@ html[data-theme="dark"] body.alt-editor-layout .alt-content-card-title :is(stron
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card-title>span:not(.icon) {
   color:var(--nr-ui-secondary)!important;
 }
+
+/* V2.16 — Automated SEO: the five status icons must use the shared icon
+ * surface rather than light-mode pastel/white boxes in Dark Mode.
+ * Keep status meaning in the glyph and badge, never in a pale box.
+ */
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane
+  .seo-auto-list .seo-auto-row .seo-auto-status.seo-icon-slot {
+  background:var(--nr-icon-box-bg,var(--nr-ui-control,#303740))!important;
+  background-color:var(--nr-icon-box-bg,var(--nr-ui-control,#303740))!important;
+  border:1px solid var(--nr-icon-box-border,var(--nr-ui-card-border,#3C434D))!important;
+  border-radius:var(--nr-icon-box-radius,7px)!important;
+  box-shadow:none!important;
+  background-clip:padding-box;
+  color:#86D3A2!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane
+  .seo-auto-list .seo-auto-row .seo-auto-status.seo-icon-slot.neutral {
+  color:var(--nr-icon-box-ink,var(--nr-ui-secondary,#BBC3CD))!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane
+  .seo-auto-list .seo-auto-row .seo-auto-status.seo-icon-slot.warn {
+  color:#F4A273!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .context #seoPane
+  .seo-auto-list .seo-auto-row .seo-auto-status.seo-icon-slot svg {
+  color:inherit!important;
+  stroke:currentColor!important;
+  background:transparent!important;
+}
