@@ -18,7 +18,7 @@
     },
     {
       "label": "index.html / light / desktop",
-      "components": 13
+      "components": 16
     },
     {
       "label": "dashboard.html / dark / desktop",
@@ -34,7 +34,7 @@
     },
     {
       "label": "index.html / dark / desktop",
-      "components": 13
+      "components": 16
     },
     {
       "label": "dashboard.html / light / mobile",
@@ -50,7 +50,7 @@
     },
     {
       "label": "index.html / light / mobile",
-      "components": 13
+      "components": 16
     },
     {
       "label": "dashboard.html / dark / mobile",
@@ -66,7 +66,7 @@
     },
     {
       "label": "index.html / dark / mobile",
-      "components": 13
+      "components": 16
     }
   ],
   "differences": [],
