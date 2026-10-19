@@ -1,0 +1,121 @@
+name: Newsroom Design System V3 — Baseline Parity
+on:
+  push:
+    branches: [refactor/design-system-foundations-v3]
+    paths:
+      - 'index.html'
+      - 'scripts/newsroom-shell.js'
+      - 'styles/newsroom-theme-components.css'
+      - 'styles/newsroom-theme-tokens.css'
+      - 'design-system/component-theme-registry.json'
+      - 'tests/design-system-parity.cjs'
+      - 'tests/design-system-source-contract.cjs'
+      - 'docs/DESIGN-SYSTEM-REFACTOR-V3.md'
+      - '.github/workflows/newsroom-design-system-refactor.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'scripts/newsroom-shell.js'
+      - 'styles/newsroom-theme-components.css'
+      - 'styles/newsroom-theme-tokens.css'
+      - 'design-system/component-theme-registry.json'
+      - 'tests/design-system-parity.cjs'
+      - 'tests/design-system-source-contract.cjs'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: newsroom-ds-v3-qa
+  cancel-in-progress: true
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate contracts and script syntax
+        run: |
+          node --check scripts/newsroom-shell.js
+          node --check scripts/newsroom-editorial-reusable.js
+          node --check tests/design-system-parity.cjs
+          node --check tests/design-system-source-contract.cjs
+          node tests/design-system-source-contract.cjs
+      - name: Install browser dependencies
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium firefox webkit
+      - name: Serve main baseline and isolated candidate
+        run: |
+          git worktree add --detach /tmp/newsroom-main-baseline origin/main
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory /tmp/newsroom-main-baseline >/tmp/newsroom-baseline-server.log 2>&1 &
+          python3 -m http.server 8766 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE" >/tmp/newsroom-candidate-server.log 2>&1 &
+          sleep 3
+          curl --fail --silent http://127.0.0.1:8765/dashboard.html >/dev/null
+          curl --fail --silent http://127.0.0.1:8766/dashboard.html >/dev/null
+          curl --fail --silent http://127.0.0.1:8766/styles/newsroom-theme-tokens.css >/dev/null
+      - name: Compare actual computed styles in three browsers
+        env:
+          NR_BASELINE_URL: http://127.0.0.1:8765/
+          NR_CANDIDATE_URL: http://127.0.0.1:8766/
+        run: |
+          failed=0
+          for browser in chromium firefox webkit; do
+            echo "Comparing main and refactor in $browser"
+            NR_BROWSER="$browser" NR_DS_REPORT="/tmp/newsroom-ds-parity-$browser.json" node tests/design-system-parity.cjs || failed=1
+          done
+          NR_BASE_URL=http://127.0.0.1:8766/ NR_BROWSER=chromium node tests/editorial-reusable-controls.cjs || failed=1
+          NR_BASE_URL=http://127.0.0.1:8766/ NR_EDITORIAL_QA_REPORT=/tmp/newsroom-ds-editorial-controls.json node tests/dark-mode-editorial-controls.cjs || failed=1
+          echo "$failed" >/tmp/newsroom-ds-qa-status
+          exit 0
+      - name: Upload QA reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsroom-design-system-v3-parity
+          if-no-files-found: warn
+          path: |
+            /tmp/newsroom-ds-parity-*.json
+            /tmp/newsroom-ds-editorial-controls.json
+            /tmp/newsroom-ds-qa-status
+            /tmp/newsroom-baseline-server.log
+            /tmp/newsroom-candidate-server.log
+      - name: Checkout isolated QA report branch
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          ref: qa/design-system-refactor-v3
+          path: qa-report
+      - name: Publish machine-readable comparison without touching main
+        if: always()
+        run: |
+          mkdir -p qa-report/docs/qa/design-system-v3
+          for report in /tmp/newsroom-ds-parity-*.json /tmp/newsroom-ds-editorial-controls.json; do
+            if [ -f "$report" ]; then cp "$report" qa-report/docs/qa/design-system-v3/; fi
+          done
+          if [ -f /tmp/newsroom-ds-qa-status ]; then cp /tmp/newsroom-ds-qa-status qa-report/docs/qa/design-system-v3/status.txt; fi
+          printf '%s\n' "$GITHUB_SHA" >qa-report/docs/qa/design-system-v3/source-commit.txt
+          cd qa-report
+          git config user.name "newsroom-qa-bot"
+          git config user.email "newsroom-qa-bot@users.noreply.github.com"
+          git add docs/qa/design-system-v3/
+          if ! git diff --cached --quiet; then
+            git commit -m "test(report): V3 refactor parity $GITHUB_SHA"
+            git push origin HEAD:qa/design-system-refactor-v3
+          fi
+      - name: Parity acceptance gate
+        if: always()
+        run: |
+          if [ ! -f /tmp/newsroom-ds-qa-status ]; then
+            echo "QA did not complete" >&2
+            exit 1
+          fi
+          if [ "$(cat /tmp/newsroom-ds-qa-status)" != "0" ]; then
+            echo "Computed-style/behavior parity failed; review QA report branch" >&2
+            exit 1
+          fi
+          echo "PASS: Light + Dark parity on Dashboard, Articles, Tags, Editor (desktop/mobile, 3 browsers)" >> "$GITHUB_STEP_SUMMARY"
