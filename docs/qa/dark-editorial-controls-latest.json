@@ -1,5 +1,5 @@
 {
-  "commit": "18480a5e853a15eedf0e615802cbb4b7edde7b00",
+  "commit": "5bd3f4957fac53f1e87a7b7ca9a380ec00bfdc98",
   "scenes": [
     {
       "name": "desktop reporter add-panel",
@@ -359,6 +359,61 @@
         "bg": "rgb(48, 55, 64)",
         "border": "rgb(70, 82, 96)",
         "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 0",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 1",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 2",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 3",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 4",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(244, 162, 115)",
         "font": "13px",
         "shadow": "none",
         "display": "grid"
@@ -744,6 +799,61 @@
         "bg": "rgb(48, 55, 64)",
         "border": "rgb(70, 82, 96)",
         "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 0",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 1",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 2",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 3",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 4",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(244, 162, 115)",
         "font": "13px",
         "shadow": "none",
         "display": "grid"
