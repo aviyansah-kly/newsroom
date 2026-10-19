@@ -86,8 +86,8 @@ for name, token in registry["tokens"].items():
     owner = shell_css if name == "navigationFontSize" else tokens_css
     assert token in owner, f"Token {name} not found in canonical owner: {token}"
 scoped_tokens = set()
-for scope, body in re.findall(r'(^|\\n)(:root|html\\[data-theme="dark"\\])\\s*\\{([^{}]*)\\}', tokens_css):
-    for token in re.findall(r'--[\\w-]+\\s*:', body):
+for _, scope, body in re.findall(r'(^|\n)(:root|html\[data-theme="dark"\])\s*\{([^{}]*)\}', tokens_css):
+    for token in re.findall(r'--[\w-]+\s*:', body):
         key = scope + "|" + token
         assert key not in scoped_tokens, f"Duplicate token in canonical theme sheet: {key}"
         scoped_tokens.add(key)
