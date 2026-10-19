@@ -1,0 +1,74 @@
+{
+  "engine": "chromium",
+  "baseline": "http://127.0.0.1:8765/",
+  "candidate": "http://127.0.0.1:8766/",
+  "tokenCount": 53,
+  "routes": [
+    {
+      "label": "dashboard.html / light / desktop",
+      "components": 7
+    },
+    {
+      "label": "articles.html / light / desktop",
+      "components": 9
+    },
+    {
+      "label": "tags.html / light / desktop",
+      "components": 7
+    },
+    {
+      "label": "index.html / light / desktop",
+      "components": 13
+    },
+    {
+      "label": "dashboard.html / dark / desktop",
+      "components": 7
+    },
+    {
+      "label": "articles.html / dark / desktop",
+      "components": 9
+    },
+    {
+      "label": "tags.html / dark / desktop",
+      "components": 7
+    },
+    {
+      "label": "index.html / dark / desktop",
+      "components": 13
+    },
+    {
+      "label": "dashboard.html / light / mobile",
+      "components": 7
+    },
+    {
+      "label": "articles.html / light / mobile",
+      "components": 9
+    },
+    {
+      "label": "tags.html / light / mobile",
+      "components": 7
+    },
+    {
+      "label": "index.html / light / mobile",
+      "components": 13
+    },
+    {
+      "label": "dashboard.html / dark / mobile",
+      "components": 7
+    },
+    {
+      "label": "articles.html / dark / mobile",
+      "components": 9
+    },
+    {
+      "label": "tags.html / dark / mobile",
+      "components": 7
+    },
+    {
+      "label": "index.html / dark / mobile",
+      "components": 13
+    }
+  ],
+  "differences": [],
+  "errors": []
+}
