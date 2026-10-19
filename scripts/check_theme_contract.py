@@ -63,12 +63,18 @@ assert "styles/newsroom-dark-mode.css" in shell and "scripts/newsroom-appearance
 assert "newsroom:appearance" not in (ROOT / "index.html").read_text(), "Do not inline new behavior into locked editor"
 assert abs(css.count("{") - css.count("}")) == 0, "CSS braces are unbalanced"
 components_css = (ROOT / "styles/newsroom-theme-components.css").read_text()
+tokens_css = (ROOT / "styles/newsroom-theme-tokens.css").read_text()
+shell_css = (ROOT / "styles/newsroom-shell.css").read_text()
 registry = json.loads((ROOT / "design-system/component-theme-registry.json").read_text())
+assert "styles/newsroom-theme-tokens.css" in shell, "Canonical token sheet not loaded"
+assert shell.index("styles/newsroom-theme-tokens.css") < shell.index("styles/newsroom-theme-components.css"), "Tokens must precede component CSS"
 assert "styles/newsroom-theme-components.css" in shell, "Canonical component stylesheet not loaded"
 assert 'html[data-theme="light"]' not in components_css, "New layer must never touch Light Mode"
 assert components_css.count("{") == components_css.count("}"), "Component CSS malformed"
-assert len(registry["components"]) >= 12, "Missing mandatory component ownership records"
-assert registry["sourceOfTruth"] == "styles/newsroom-theme-components.css"
+assert tokens_css.count("{") == tokens_css.count("}"), "Token CSS malformed"
+assert len(registry["components"]) >= 18, "Missing mandatory reusable component records"
+assert registry["sourceOfTruth"] == "styles/newsroom-theme-tokens.css"
+assert registry["componentStyleSource"] == "styles/newsroom-theme-components.css"
 assert len({x["id"] for x in registry["components"]}) == len(registry["components"]), "Component IDs must be unique"
 for component in registry["components"]:
     assert component["selectors"] and component["tokenRoles"] and component["qa"], f"Missing coverage for {component['id']}"
@@ -76,11 +82,18 @@ for component in registry["components"]:
         assert role in registry["tokens"], f"Undeclared token role {component['id']}:{role}"
     for selector in component["selectors"]:
         assert selector.startswith((".", "#")), f"Unscoped selector {selector}"
-for token in registry["tokens"].values():
-    assert token in components_css, f"Missing component token definition: {token}"
-assert "--nr-ui-toggle-off-track:#46566C" in components_css
-assert "--nr-ui-toggle-off-border:#8494A9" in components_css
-assert "--nr-ui-toggle-on-track:var(--nr-action-primary-bg" in components_css
+for name, token in registry["tokens"].items():
+    owner = shell_css if name == "navigationFontSize" else tokens_css
+    assert token in owner, f"Token {name} not found in canonical owner: {token}"
+scoped_tokens = set()
+for scope, body in re.findall(r'(^|\\n)(:root|html\\[data-theme="dark"\\])\\s*\\{([^{}]*)\\}', tokens_css):
+    for token in re.findall(r'--[\\w-]+\\s*:', body):
+        key = scope + "|" + token
+        assert key not in scoped_tokens, f"Duplicate token in canonical theme sheet: {key}"
+        scoped_tokens.add(key)
+assert "--nr-ui-toggle-off-track: #46566C" in tokens_css
+assert "--nr-ui-toggle-off-border: #8494A9" in tokens_css
+assert "--nr-ui-toggle-on-track: var(--nr-action-primary-bg" in tokens_css
 assert ":focus-visible + .switch-track" in components_css, "Switch keyboard focus must be visible"
 after_tokens = components_css.split("/* Component 01:", 1)[1]
 # Component versioned semantic tokens may define hex values. Prevent literal
