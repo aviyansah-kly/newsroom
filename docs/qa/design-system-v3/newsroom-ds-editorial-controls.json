@@ -1,0 +1,886 @@
+{
+  "commit": "590eb86792107b12daa44d9e2a3e438cf2ed1676",
+  "scenes": [
+    {
+      "name": "desktop reporter add-panel",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop reporter search",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(147, 197, 253)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "rgba(147, 197, 253, 0.14) 0px 0px 0px 2px",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop reporter input",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop reporter cancel",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(187, 195, 205)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop reporter suggestions",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop reporter suggestion",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgba(0, 0, 0, 0)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop reporter name",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "desktop editor add-panel",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop editor search",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(147, 197, 253)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "rgba(147, 197, 253, 0.14) 0px 0px 0px 2px",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop editor input",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop editor cancel",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(187, 195, 205)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop editor suggestions",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop editor suggestion",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgba(0, 0, 0, 0)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop editor name",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "desktop Add Content wrapper",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 0",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 0 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 0 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 1",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 1 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 1 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 2",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 2 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 2 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 3",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 3 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 3 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 4",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 4 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 4 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop tile 5",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "desktop tile 5 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "desktop tile 5 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 0",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 1",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 2",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 3",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Automated SEO icon 4",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(244, 162, 115)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "desktop Text Block title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(225, 232, 241)",
+        "color": "rgb(225, 232, 241)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "desktop Text Block icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "11px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile reporter add-panel",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile reporter search",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(113, 128, 150)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile reporter input",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile reporter cancel",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(187, 195, 205)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile reporter suggestions",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile reporter suggestion",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgba(0, 0, 0, 0)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile reporter name",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "mobile editor add-panel",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile editor search",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(113, 128, 150)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile editor input",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile editor cancel",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(187, 195, 205)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile editor suggestions",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile editor suggestion",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgba(0, 0, 0, 0)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile editor name",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "mobile Add Content wrapper",
+      "actual": {
+        "bg": "rgb(34, 38, 44)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile tile 0",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile tile 0 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile tile 0 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile tile 1",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile tile 1 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile tile 1 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile tile 2",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile tile 2 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile tile 2 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile tile 3",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile tile 3 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile tile 3 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile tile 4",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile tile 4 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile tile 4 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile tile 5",
+      "actual": {
+        "bg": "rgb(43, 48, 55)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(232, 235, 239)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "flex"
+      }
+    },
+    {
+      "name": "mobile tile 5 title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(232, 235, 239)",
+        "color": "rgb(232, 235, 239)",
+        "font": "12px",
+        "shadow": "none",
+        "display": "block"
+      }
+    },
+    {
+      "name": "mobile tile 5 icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 0",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 1",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 2",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 3",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(134, 211, 162)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Automated SEO icon 4",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(244, 162, 115)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    },
+    {
+      "name": "mobile Text Block title",
+      "actual": {
+        "bg": "rgba(0, 0, 0, 0)",
+        "border": "rgb(225, 232, 241)",
+        "color": "rgb(225, 232, 241)",
+        "font": "13px",
+        "shadow": "none",
+        "display": "inline"
+      }
+    },
+    {
+      "name": "mobile Text Block icon",
+      "actual": {
+        "bg": "rgb(48, 55, 64)",
+        "border": "rgb(70, 82, 96)",
+        "color": "rgb(187, 195, 205)",
+        "font": "11px",
+        "shadow": "none",
+        "display": "grid"
+      }
+    }
+  ],
+  "failures": []
+}
