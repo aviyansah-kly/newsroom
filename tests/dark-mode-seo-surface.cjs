@@ -1,5 +1,5 @@
 /* Real Editorial SEO tab regression in Dark Mode.
-   Covers exact markup that previously passed synthetic fixtures but remained white.
+   Covers active SEO Metadata and Readiness; the redundant Generate SEO with AI section was intentionally retired.
  */
 const {chromium,firefox,webkit}=require('playwright');
 const assert=require('node:assert/strict');
@@ -38,7 +38,7 @@ const engine=process.env.NR_BROWSER||'chromium';
  });
  console.log('SEO ACTUAL DOM COLORS '+JSON.stringify(data));
  const must=(name,bg)=>{assert(data[name]&&data[name].visible,name+' missing/hidden');assert.equal(data[name].bg,bg,name+' should not appear white in Dark Mode')};
- must('seoAssistant','rgb(34, 38, 44)');
+ assert.equal(data.seoAssistant,null,'Deprecated Generate SEO with AI section should remain removed');
  must('editableBadge','rgb(48, 55, 64)');
  must('slugWrap','rgb(43, 48, 55)');
  must('slugPreview','rgb(43, 48, 55)');
