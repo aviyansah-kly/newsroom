@@ -1,0 +1,109 @@
+name: Newsroom TagInput Phase 3 — Safe Regression
+on:
+  push:
+    branches: [refactor/shared-taginput-phase3]
+  pull_request:
+    paths:
+      - 'scripts/components/tag-input-model.js'
+      - 'scripts/newsroom-editorial-reusable.js'
+      - 'scripts/newsroom-shell.js'
+      - 'tests/tag-input-model.test.cjs'
+      - 'tests/tag-input-integration.cjs'
+      - '.assetsignore'
+      - '.github/workflows/newsroom-taginput-phase3.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: newsroom-taginput-phase3
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static JS source checks
+        run: |
+          node --check scripts/components/tag-input-model.js
+          node --check scripts/newsroom-editorial-reusable.js
+          node --check scripts/newsroom-shell.js
+          node --check tests/tag-input-integration.cjs
+      - name: Unit, static assets and browser dependencies
+        run: |
+          node --test tests/tag-input-model.test.cjs
+          node tests/cloudflare-static-assets-preflight.cjs
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium firefox webkit
+      - name: Cloudflare Wrangler dry-run (no deployment)
+        run: |
+          npx --yes wrangler@4.151.2 versions upload --dry-run --outdir /tmp/newsroom-phase3-worker
+          grep -q '!/scripts/components/' .assetsignore
+          test -f scripts/components/tag-input-model.js
+      - name: Serve current main baseline and branch candidate
+        run: |
+          git worktree add --detach /tmp/newsroom-phase3-main origin/main
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory /tmp/newsroom-phase3-main >/tmp/newsroom-phase3-main.log 2>&1 &
+          python3 -m http.server 8766 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE" >/tmp/newsroom-phase3-candidate.log 2>&1 &
+          sleep 3
+          curl -fsS http://127.0.0.1:8766/scripts/components/tag-input-model.js >/dev/null
+      - name: Compare visual parity and functionality
+        run: |
+          set +e
+          failed=0
+          for browser in chromium firefox webkit; do
+            echo "===== $browser ====="
+            NR_BROWSER="$browser" NR_BASELINE_URL=http://127.0.0.1:8765/ NR_CANDIDATE_URL=http://127.0.0.1:8766/ NR_DS_REPORT="/tmp/phase3-parity-$browser.json" node tests/design-system-parity.cjs >"/tmp/phase3-parity-$browser.log" 2>&1 || failed=1
+            NR_BROWSER="$browser" NR_BASE_URL=http://127.0.0.1:8766/ node tests/tag-input-integration.cjs >"/tmp/phase3-taginput-$browser.log" 2>&1 || failed=1
+            NR_BROWSER="$browser" NR_BASE_URL=http://127.0.0.1:8766/ node tests/editorial-reusable-controls.cjs >"/tmp/phase3-editorial-$browser.log" 2>&1 || failed=1
+          done
+          NR_BROWSER=chromium NR_BASE_URL=http://127.0.0.1:8766/ NR_EDITORIAL_QA_REPORT=/tmp/phase3-editorial-controls.json node tests/dark-mode-editorial-controls.cjs > /tmp/phase3-controls.log 2>&1 || failed=1
+          echo "$failed" >/tmp/phase3-status.txt
+          cat /tmp/phase3-taginput-chromium.log
+          cat /tmp/phase3-parity-chromium.log | tail -15
+          exit 0
+      - name: Upload complete QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsroom-phase3-shared-taginput
+          if-no-files-found: warn
+          path: |
+            /tmp/phase3-*.json
+            /tmp/phase3-*.log
+            /tmp/phase3-status.txt
+      - name: Checkout QA branch
+        if: always()
+        uses: actions/checkout@v4
+        with:
+          ref: qa/shared-taginput-phase3
+          path: phase3-report
+      - name: Publish QA outputs away from main
+        if: always()
+        run: |
+          mkdir -p phase3-report/docs/qa/shared-taginput
+          for f in /tmp/phase3-*.json /tmp/phase3-*.log /tmp/phase3-status.txt; do
+            if [ -f "$f" ]; then cp "$f" phase3-report/docs/qa/shared-taginput/; fi
+          done
+          echo "$GITHUB_SHA" >phase3-report/docs/qa/shared-taginput/source-commit.txt
+          cd phase3-report
+          git config user.name "newsroom-qa-bot"
+          git config user.email "newsroom-qa-bot@users.noreply.github.com"
+          git add docs/qa/shared-taginput/
+          if ! git diff --cached --quiet; then
+            git commit -m "test(report): shared TagInput Phase 3"
+            git push origin HEAD:qa/shared-taginput-phase3
+          fi
+      - name: Branch acceptance gate
+        if: always()
+        run: |
+          if [ ! -f /tmp/phase3-status.txt ] || [ "$(cat /tmp/phase3-status.txt)" != "0" ]; then
+            echo "QA incomplete or failed; keep Phase 3 isolated" >&2
+            exit 1
+          fi
+          echo "PASS — component behavior, baseline style parity, static-assets dry-run" >>"$GITHUB_STEP_SUMMARY"
