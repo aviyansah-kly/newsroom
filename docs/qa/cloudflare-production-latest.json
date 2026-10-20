@@ -1,0 +1,83 @@
+{
+  "target_commit": "171224eb9a456066bdc4063e2311a5798c288a85",
+  "base_url": "https://newsroom.avi-yansah.workers.dev",
+  "verified_at": "2026-10-20T06:04:44.656751+00:00",
+  "status": "PASS",
+  "attempts": [
+    {
+      "attempt": 1,
+      "resources": {
+        "/": {
+          "http_status": 200,
+          "bytes": 1184612,
+          "content_type": "text/html",
+          "looks_html": true,
+          "pass": true
+        },
+        "/dashboard.html": {
+          "http_status": 200,
+          "bytes": 15584,
+          "content_type": "text/html",
+          "exact_match": true,
+          "live_sha256": "cd4a2c235479d91e62795239042691d797a310ff1a748887eac07de8c6fb9b42",
+          "source_sha256": "cd4a2c235479d91e62795239042691d797a310ff1a748887eac07de8c6fb9b42",
+          "pass": true
+        },
+        "/articles.html": {
+          "http_status": 200,
+          "bytes": 155478,
+          "content_type": "text/html",
+          "exact_match": true,
+          "live_sha256": "0f315060688884ee3a0869d877ce191a9281387550fbaa7dca8407b09ac3adca",
+          "source_sha256": "0f315060688884ee3a0869d877ce191a9281387550fbaa7dca8407b09ac3adca",
+          "pass": true
+        },
+        "/tags.html": {
+          "http_status": 200,
+          "bytes": 23421,
+          "content_type": "text/html",
+          "exact_match": true,
+          "live_sha256": "b2ec3c214e0c8d49a98745953cc46ece8d92818bbde57067d1289b9663ecbc78",
+          "source_sha256": "b2ec3c214e0c8d49a98745953cc46ece8d92818bbde57067d1289b9663ecbc78",
+          "pass": true
+        },
+        "/styles/newsroom-theme-tokens.css": {
+          "http_status": 200,
+          "bytes": 2700,
+          "content_type": "text/css",
+          "exact_match": true,
+          "live_sha256": "5a40ac8885e51122ffdb9b0db352ceef4d95fcd97c6d37df847e13ffb305bdd7",
+          "source_sha256": "5a40ac8885e51122ffdb9b0db352ceef4d95fcd97c6d37df847e13ffb305bdd7",
+          "pass": true
+        },
+        "/styles/newsroom-theme-components.css": {
+          "http_status": 200,
+          "bytes": 73842,
+          "content_type": "text/css",
+          "exact_match": true,
+          "live_sha256": "154ccffa6e92070447003914d9543dafb05a6b975937b3ed23a8c343a0d1b024",
+          "source_sha256": "154ccffa6e92070447003914d9543dafb05a6b975937b3ed23a8c343a0d1b024",
+          "pass": true
+        },
+        "/scripts/newsroom-shell.js": {
+          "http_status": 200,
+          "bytes": 14726,
+          "content_type": "text/javascript",
+          "exact_match": true,
+          "live_sha256": "4b8e662314f83f17ff5be172a6cb293f6f1e07b772f8d0b868f7a5fba48d0f7e",
+          "source_sha256": "4b8e662314f83f17ff5be172a6cb293f6f1e07b772f8d0b868f7a5fba48d0f7e",
+          "pass": true
+        },
+        "/scripts/newsroom-editorial-reusable.js": {
+          "http_status": 200,
+          "bytes": 10630,
+          "content_type": "text/javascript",
+          "exact_match": true,
+          "live_sha256": "37a3b4b754bcc04985d24e49bc464148fb35c31f0aa6853dc269ba12b203c817",
+          "source_sha256": "37a3b4b754bcc04985d24e49bc464148fb35c31f0aa6853dc269ba12b203c817",
+          "pass": true
+        }
+      }
+    }
+  ]
+}
