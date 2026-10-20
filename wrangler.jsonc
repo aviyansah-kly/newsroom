@@ -1,0 +1,10 @@
+{
+  // Newsroom CMS prototype is a static website, not a JS Worker script.
+  // Do not use "main": "index.html"; Wrangler serves this as a static asset.
+  "name": "newsroom",
+  "compatibility_date": "2026-10-20",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  }
+}
