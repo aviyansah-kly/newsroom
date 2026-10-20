@@ -3,6 +3,9 @@
 # OUT of the public asset deployment. Gitignore-style syntax.
 *
 !/*.html
+!/design-system/
+!/design-system/foundations/
+!/design-system/foundations/tokens.css
 !/styles/
 !/styles/*.css
 !/scripts/
