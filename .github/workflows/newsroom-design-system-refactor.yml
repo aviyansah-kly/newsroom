@@ -10,6 +10,7 @@ on:
       - 'design-system/component-theme-registry.json'
       - 'tests/design-system-parity.cjs'
       - 'tests/design-system-source-contract.cjs'
+      - 'tests/cloudflare-static-assets-preflight.cjs'
       - 'docs/DESIGN-SYSTEM-REFACTOR-V3.md'
       - 'wrangler.jsonc'
       - '.assetsignore'
@@ -47,6 +48,8 @@ jobs:
           node --check tests/design-system-parity.cjs
           node --check tests/design-system-source-contract.cjs
           node tests/design-system-source-contract.cjs
+          node --check tests/cloudflare-static-assets-preflight.cjs
+          node tests/cloudflare-static-assets-preflight.cjs
       - name: Install browser dependencies
         run: |
           npm install --no-save --ignore-scripts playwright@1.56.1
