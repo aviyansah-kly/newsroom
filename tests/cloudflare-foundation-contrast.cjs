@@ -10,7 +10,7 @@ const base=process.env.NR_BASE_URL||'http://127.0.0.1:8765/';
   for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
    const page=await browser.newPage({viewport});
    await page.addInitScript(()=>localStorage.setItem('newsroom:appearance','dark'));
-   await page.goto(new URL('index.html',base),{waitUntil:'domcontentloaded',timeout:60000});
+   await page.goto(new URL('index.html',base).href,{waitUntil:'domcontentloaded',timeout:60000});
    await page.waitForTimeout(500);
    const capture=()=>page.evaluate(()=>{
      const selectors=['body','.topbar','.alt-writing-card','#seoPane','#infoPane','.alt-add-menu','.seo-auto-row'];
