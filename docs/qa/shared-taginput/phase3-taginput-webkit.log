@@ -1,0 +1,20 @@
+locator.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#seoKeyword')
+    - locator resolved to <input id="seoKeyword" value="harga BBM subsidi" placeholder="Primary article keyword…"/>
+    - fill("Testing Primary Keyword")
+  - attempting fill action
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+      - waiting 100ms
+    60 × waiting for element to be visible, enabled and editable
+       - element is not visible
+     - retrying fill action
+       - waiting 500ms
+
+    at /home/runner/work/newsroom/newsroom/tests/tag-input-integration.cjs:44:13
