@@ -1,0 +1,15 @@
+Live deployment: https://newsroom.avi-yansah.workers.dev; repository commit: f1ef6be355ce66bff8f457e56d7744f331e44802
+Verification attempt 1/10
+MATCH: index.html | live=1184612 bytes sha256=bbcc00740183756e | main=1184612 bytes sha256=bbcc00740183756e | type=text/html | etag= | cf-cache=HIT
+MATCH: design-system/foundations/tokens.css | live=2899 bytes sha256=75cf58531cbfd5f0 | main=2899 bytes sha256=75cf58531cbfd5f0 | type=text/css | etag="8b7c9b5d4368bdb7809b0740b6931d65" | cf-cache=HIT
+MATCH: dashboard.html | live=15584 bytes sha256=cd4a2c235479d91e | main=15584 bytes sha256=cd4a2c235479d91e | type=text/html | etag= | cf-cache=HIT
+MATCH: articles.html | live=155478 bytes sha256=0f315060688884ee | main=155478 bytes sha256=0f315060688884ee | type=text/html | etag= | cf-cache=HIT
+MATCH: tags.html | live=23421 bytes sha256=b2ec3c214e0c8d49 | main=23421 bytes sha256=b2ec3c214e0c8d49 | type=text/html | etag= | cf-cache=HIT
+MATCH: scripts/newsroom-shell.js | live=14726 bytes sha256=4b8e662314f83f17 | main=14726 bytes sha256=4b8e662314f83f17 | type=text/javascript | etag="9283c0c22ca4abd289b1e793b5fa798d" | cf-cache=HIT
+MATCH: scripts/newsroom-editorial-reusable.js | live=10630 bytes sha256=37a3b4b754bcc049 | main=10630 bytes sha256=37a3b4b754bcc049 | type=text/javascript | etag="0d745b840bdfbfebbd0c1e23d20ea8f3" | cf-cache=HIT
+MATCH: styles/newsroom-shell.css | live=11020 bytes sha256=cfbed7e5bd69162d | main=11020 bytes sha256=cfbed7e5bd69162d | type=text/css | etag="1a86bfec437eb326b77be9b2103c05bb" | cf-cache=HIT
+MATCH: scripts/newsroom-dark-review-focus.js | live=3797 bytes sha256=3afe67a0efb3b20a | main=3797 bytes sha256=3afe67a0efb3b20a | type=text/javascript | etag="9a4aeda4537a2e49320d6d49cabd4988" | cf-cache=HIT
+MATCH: styles/newsroom-dark-mode.css | live=23837 bytes sha256=93c43adcaaa06f2b | main=23837 bytes sha256=93c43adcaaa06f2b | type=text/css | etag="a033aa2781d642e405e27d0889dbd078" | cf-cache=HIT
+MATCH: styles/newsroom-dark-mode-editor.css | live=37796 bytes sha256=2fea696ac7d4cf91 | main=37796 bytes sha256=2fea696ac7d4cf91 | type=text/css | etag="2e3f7aaefdcdf52b2ef3d10d00bcb40a" | cf-cache=HIT
+MATCH: styles/newsroom-theme-components.css | live=73842 bytes sha256=154ccffa6e920704 | main=73842 bytes sha256=154ccffa6e920704 | type=text/css | etag="137f39edb82724b93224fdbb7b54032b" | cf-cache=HIT
+PASS: public Cloudflare deployment matches all checked-out Newsroom assets
