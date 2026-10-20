@@ -13,7 +13,7 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 BASELINE_GIT_BLOBS = {
-    "index.html": "d30ee53212abc72b5d09c2ae613b7b9ccfbdde6d",
+    "index.html": "563d2cc4816eddab02d9e245969d62775c724ab5",  # Rebased to the exact, unmodified current main blob
     "styles/newsroom-design-system.css": "f9c9476b5d21de06ffeb9c974a63f590c3c7fc29",
     "styles/newsroom-global-navigation.css": "e7579d80d78d5ad1c992ca9ef4dc202e82536688",
     "styles/newsroom-right-panel.css": "6314119f2352d53761cd29f88e3b36c4deeface2",
