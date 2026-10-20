@@ -41,8 +41,10 @@ const base=process.env.NR_BASE_URL||'http://127.0.0.1:8765/';
   assert.equal(await added.count(),0);
   // Model syncing a changed SEO primary focus into the first Keywords chip.
   const seo=page.locator('#seoKeyword');
+  await page.locator('.context [data-tab="seo"]').first().evaluate(el=>el.click());
+  await seo.waitFor({state:'visible',timeout:5000});
   await seo.fill('Testing Primary Keyword');
-  await seo.dispatchEvent('input');
+  await page.locator('.context [data-tab="info"]').first().evaluate(el=>el.click());
   assert.equal(await page.locator('#nrKeywordList .tag-chip').first().innerText().then(x=>x.trim()),'Testing Primary Keyword');
   assert.equal(await page.locator('#tagList .tag-chip').count(),initialTags);
   await page.locator('#contentInitiative').selectOption('Predictive Calendar');
