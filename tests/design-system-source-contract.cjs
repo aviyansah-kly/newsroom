@@ -16,7 +16,8 @@ assert.match(html,/window\.sixdeskCloseWorkspacePopups/,'Keep the original live 
 assert.ok(shell.indexOf('styles/newsroom-theme-tokens.css')>=0);
 assert.ok(shell.indexOf('styles/newsroom-theme-tokens.css')<shell.indexOf("styles/newsroom-theme-components.css"),'Theme tokens must load before component CSS');
 assert.equal(registry.sourceOfTruth,'styles/newsroom-theme-tokens.css');
-assert.equal(registry.components.length,18);
+assert.equal(registry.components.length,19);
+assert.ok(registry.components.some(x=>x.id==='shared-tag-input-behavior'),'Phase 3 TagInput must be registered');
 assert.ok(registry.components.some(x=>x.id==='shared-icon-box'));
 assert.ok(registry.components.some(x=>x.id==='editorial-team-picker'));
 const decl=new Map();
