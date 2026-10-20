@@ -11,6 +11,8 @@ on:
       - 'tests/design-system-parity.cjs'
       - 'tests/design-system-source-contract.cjs'
       - 'docs/DESIGN-SYSTEM-REFACTOR-V3.md'
+      - 'wrangler.jsonc'
+      - '.assetsignore'
       - '.github/workflows/newsroom-design-system-refactor.yml'
   pull_request:
     paths:
@@ -49,6 +51,11 @@ jobs:
         run: |
           npm install --no-save --ignore-scripts playwright@1.56.1
           npx playwright install --with-deps chromium firefox webkit
+      - name: Validate Cloudflare static assets deployment safely (no upload)
+        run: |
+          npx --yes wrangler@4.151.2 versions upload --dry-run --outdir /tmp/newsroom-worker-dry-run
+          test -f wrangler.jsonc
+          test -f .assetsignore
       - name: Serve main baseline and isolated candidate
         run: |
           git worktree add --detach /tmp/newsroom-main-baseline origin/main
