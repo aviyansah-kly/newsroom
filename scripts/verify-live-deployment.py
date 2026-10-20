@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_URL = "https://newsroom.avi-yansah.workers.dev"
 ASSETS = (
     "index.html",
+    "design-system/foundations/tokens.css",
     "dashboard.html",
     "articles.html",
     "tags.html",
