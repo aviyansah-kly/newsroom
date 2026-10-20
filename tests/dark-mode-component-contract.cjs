@@ -26,6 +26,14 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
    return {bg:s.backgroundColor,fg:s.color,border:s.borderTopColor,outline:s.outlineColor};
   };
   const results={};
+  // Resolve the actual semantic control surface through the browser's CSS
+  // engine. The date input deliberately uses --nr-ui-control (#303740),
+  // while regular editor text inputs use --nr-ui-raised (#2B3037).
+  const controlProbe=document.createElement('span');
+  controlProbe.style.backgroundColor='var(--nr-ui-control)';
+  document.body.appendChild(controlProbe);
+  const expectedScheduleDateBackground=getComputedStyle(controlProbe).backgroundColor;
+  controlProbe.remove();
   // Render real component classes inside their actual owner context.
   const owner=document.querySelector('.alt-writing-card')||document.body;
   const block=document.createElement('div');block.className='alt-content-card';block.dataset.type='video';
@@ -79,7 +87,7 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
   results.on=cssColor('#nrSwitchProbe .switch-track');
   toggle.remove();
   block.remove();
-  return {tokens:Object.fromEntries(['--nr-ui-app','--nr-ui-canvas','--nr-ui-divider','--nr-ui-input-border','--nr-ui-toggle-off-track','--nr-ui-toggle-on-track'].map(n=>[n,token(n)])),results};
+  return {tokens:Object.fromEntries(['--nr-ui-app','--nr-ui-canvas','--nr-ui-divider','--nr-ui-control','--nr-ui-input-border','--nr-ui-toggle-off-track','--nr-ui-toggle-on-track'].map(n=>[n,token(n)])),expectedScheduleDateBackground,results};
  });
  console.log('CANONICAL_COMPONENT_AUDIT '+JSON.stringify(result));
  const d=result.results;
@@ -93,7 +101,8 @@ const browserType={chromium,firefox,webkit}[name]||chromium;
  c('slug','bg','rgb(39, 44, 50)');
  c('schedule','bg','rgb(34, 38, 44)');
  c('scheduleFields','bg','rgb(39, 44, 50)');
- c('scheduleDate','bg','rgb(43, 48, 55)');
+ assert.equal(result.tokens['--nr-ui-control'],'#303740','Control palette must preserve current main baseline');
+ c('scheduleDate','bg',result.expectedScheduleDateBackground);
  c('scheduleSummary','bg','rgb(36, 55, 43)');
  c('off','bg','rgb(70, 86, 108)');
  assert.equal(d.checked,true,'Checkbox changed ON after user click');
