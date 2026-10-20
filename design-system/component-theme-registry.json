@@ -1,6 +1,6 @@
 {
-  "version": "3.0.0-refactor-preview",
-  "status": "refactor-validation",
+  "version": "3.1.0-phase3-preview",
+  "status": "phase3-qa-only",
   "themeScope": "html[data-theme=\"dark\"]",
   "sourceOfTruth": "styles/newsroom-theme-tokens.css",
   "precedence": [
@@ -470,6 +470,40 @@
         "import-popup",
         "light-dark"
       ]
+    },
+    {
+      "id": "shared-tag-input-behavior",
+      "owner": "Editor Workspace",
+      "selectors": [
+        "#tagInput",
+        "#tagSuggestions",
+        "#tagList",
+        "#nrKeywordInput",
+        "#nrKeywordSuggestions",
+        "#nrKeywordList"
+      ],
+      "tokenRoles": [
+        "panel",
+        "control",
+        "hover",
+        "text",
+        "secondary",
+        "inputBorder",
+        "iconBoxBg",
+        "iconBoxBorder"
+      ],
+      "qa": [
+        "tag-input-unit",
+        "tag-input-integration",
+        "tags-keywords-isolation",
+        "seo-primary-sync",
+        "light-dark"
+      ],
+      "implementation": {
+        "model": "scripts/components/tag-input-model.js",
+        "keywordAdapter": "scripts/newsroom-editorial-reusable.js",
+        "existingTags": "legacy Inline Editor controller; migration pending, do not claim fully consolidated"
+      }
     }
   ],
   "protected": [
@@ -490,12 +524,20 @@
     "componentSelectors": "styles/newsroom-theme-components.css"
   },
   "migration": {
-    "phase": "P1/P2 isolated",
+    "phase": "Phase 3A isolated shared TagInput model",
     "safety": "No design values changed. No removal of legacy layout/event handlers. Merge only with baseline comparison and browser QA.",
     "doNotMergeWithout": [
       "Light/Dark computed-style parity on Dashboard, Articles, Tags, Editor Workspace",
       "Popups and user flows regressions",
       "Cloudflare build log and preview confirmation"
+    ],
+    "warning": "Keywords migrated to reusable model; original Tags remains legacy until separate behavior parity migration",
+    "gate": [
+      "No UI computed-style drift from main",
+      "Same TagInput suggestion/search behaviors",
+      "SEO primary sync and Tags data isolation",
+      "Cloudflare static asset preflight for nested model",
+      "Manual live verification before merge"
     ]
   }
 }
