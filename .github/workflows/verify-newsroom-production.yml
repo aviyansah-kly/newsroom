@@ -1,0 +1,96 @@
+name: Verify Newsroom Production Cloudflare after DS V3 merge
+on:
+  push:
+    branches: [qa/cloudflare-prod-verification-20261020]
+    paths:
+      - '.github/workflows/verify-newsroom-production.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  verify-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare deployed Cloudflare assets with merged main
+        env:
+          URL: https://newsroom.avi-yansah.workers.dev
+          MAIN_SHA: 171224eb9a456066bdc4063e2311a5798c288a85
+        run: |
+          mkdir -p docs/qa
+          python3 - <<'PY'
+          import hashlib,json,os,time,datetime
+          from urllib.request import urlopen,Request
+          from urllib.error import HTTPError,URLError
+          from pathlib import Path
+          root=Path.cwd()
+          base=os.environ['URL']
+          sha=os.environ['MAIN_SHA']
+          resources={
+            '/':None,
+            '/dashboard.html':'dashboard.html',
+            '/articles.html':'articles.html',
+            '/tags.html':'tags.html',
+            '/styles/newsroom-theme-tokens.css':'styles/newsroom-theme-tokens.css',
+            '/styles/newsroom-theme-components.css':'styles/newsroom-theme-components.css',
+            '/scripts/newsroom-shell.js':'scripts/newsroom-shell.js',
+            '/scripts/newsroom-editorial-reusable.js':'scripts/newsroom-editorial-reusable.js'
+          }
+          result={'target_commit':sha,'base_url':base,'verified_at':None,'status':'pending','attempts':[]}
+          for attempt in range(1,9):
+            check={'attempt':attempt,'resources':{}}
+            all_match=True
+            for route,local in resources.items():
+              url=base+route+('?verify='+sha[:10] if '?' not in route else '')
+              request=Request(url,headers={'User-Agent':'Newsroom-DS-V3-PostMerge-QA','Cache-Control':'no-cache','Pragma':'no-cache'})
+              try:
+                with urlopen(request,timeout=17) as r:
+                  code=r.status
+                  data=r.read()
+                  ct=r.headers.get('content-type','')
+                  record={'http_status':code,'bytes':len(data),'content_type':ct}
+                  if local:
+                    source=(root/local).read_bytes()
+                    record['exact_match']=data==source
+                    record['live_sha256']=hashlib.sha256(data).hexdigest()
+                    record['source_sha256']=hashlib.sha256(source).hexdigest()
+                  else:
+                    record['looks_html']=b'<html' in data[:2000].lower()
+                  match=code==200 and (record.get('exact_match') is True if local else record['looks_html'])
+                  record['pass']=match
+                  check['resources'][route]=record
+                  if not match:all_match=False
+              except Exception as e:
+                check['resources'][route]={'pass':False,'error':str(e)[:280]}
+                all_match=False
+            result['attempts'].append(check)
+            print('Attempt',attempt, 'PASS' if all_match else 'PENDING',flush=True)
+            if all_match:
+              result['status']='PASS'
+              break
+            if attempt<8:time.sleep(15)
+          result['verified_at']=datetime.datetime.now(datetime.timezone.utc).isoformat()
+          dest=root/'docs/qa/cloudflare-production-latest.json'
+          dest.write_text(json.dumps(result,indent=2)+'\n')
+          print('CLOUDFLARE_PRODUCTION_QA',result['status'],flush=True)
+          for p,d in result['attempts'][-1]['resources'].items():
+            print(p,'OK' if d['pass'] else 'FAILED',d.get('error',d.get('http_status')),flush=True)
+          PY
+      - name: Publish verifiable deployment result to QA branch
+        if: always()
+        run: |
+          git config user.name "newsroom-qa-bot"
+          git config user.email "newsroom-qa-bot@users.noreply.github.com"
+          if [ -f docs/qa/cloudflare-production-latest.json ]; then
+            git add docs/qa/cloudflare-production-latest.json
+            git commit -m "test(qa): report production Cloudflare status for 171224eb" || true
+            git push origin HEAD:qa/cloudflare-prod-verification-20261020
+          fi
+      - name: Fail if production is stale or unreachable
+        run: |
+          python3 - <<'PY'
+          import json
+          result=json.load(open('docs/qa/cloudflare-production-latest.json'))
+          assert result['status']=='PASS', 'Cloudflare production not verified; see docs/qa/cloudflare-production-latest.json'
+          PY
