@@ -60,6 +60,7 @@
     return field;
   }
   function keywordsFrom(tagField,initiative){
+    if(!window.NewsroomTagInputModel?.create)return null;
     // Clone exactly the Tags field DOM and styles. Never duplicate its IDs or
     // listeners: Keywords has isolated state, while Tags keeps its handlers.
     const copy=tagField.cloneNode(true);
@@ -83,9 +84,11 @@
     copy.querySelectorAll('.nr-tag-feedback').forEach(el=>el.remove());
     copy.querySelectorAll('.alt-ai-tag-suggestions').forEach(el=>{el.replaceChildren();el.classList.remove('open')});
     const source=$('#seoKeyword');
-    let values=get('nr:editorial-keywords',[]);
-    values=Array.isArray(values)?values.map(clean).filter(Boolean).slice(0,MAX):[];
-    if(!values.length&&source?.value.trim())values=[source.value.trim()];
+    const initial=get('nr:editorial-keywords',[]);
+    const seeded=Array.isArray(initial)?initial:[];
+    if(!seeded.length&&source?.value.trim())seeded.push(source.value.trim());
+    const model=window.NewsroomTagInputModel.create({initial:seeded,max:MAX,catalogue});
+    let values=model.getItems();
     const feedback=document.createElement('div');
     feedback.className='nr-tag-feedback';feedback.id='nrKeywordsFeedback';
     feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');
@@ -113,27 +116,27 @@
         button.setAttribute('aria-label','Hapus keyword '+value);
         const icon=document.createElement('i');icon.setAttribute('data-lucide','x');
         button.append(icon);
-        button.onclick=()=>{values.splice(index,1);draw();suggest();sync()};
+        button.onclick=()=>{if(model.remove(index)){values=model.getItems();draw();suggest();sync()}};
         chip.append(label,button);chips.append(chip);
       });
       status(values.length+' of '+MAX+' keywords added.');
       if(window.lucide)window.lucide.createIcons();
     }
     function add(value){
-      const next=clean(value);
-      if(!next)return false;
-      if(values.some(item=>item.toLowerCase()===next.toLowerCase())){
-        status('This keyword has already been added.',true);return false;
+      const result=model.add(value);
+      if(!result.ok){
+        if(result.reason==='duplicate')status('This keyword has already been added.',true);
+        if(result.reason==='limit')status('Maximum '+MAX+' keywords allowed.',true);
+        return false;
       }
-      if(values.length>=MAX){status('Maximum '+MAX+' keywords allowed.',true);return false}
-      values.push(next);input.value='';draw();suggest();sync();return true;
+      values=model.getItems();
+      input.value='';draw();suggest();sync();return true;
     }
     function suggest(){
       const query=clean(input.value).toLowerCase();
       menu.replaceChildren();menu.classList.remove('has-results','is-empty');
       if(!query)return;
-      const results=catalogue().filter(value=>value.toLowerCase().includes(query)&&
-        !values.some(v=>v.toLowerCase()===value.toLowerCase())).slice(0,8);
+      const results=model.suggestions(query,{count:8});
       if(!results.length||values.length>=MAX){
         const empty=document.createElement('div');empty.className='newsroom-tag-empty';
         empty.textContent=values.length>=MAX?'Maximum 5 keywords allowed.':'Keyword tidak ditemukan';
@@ -176,9 +179,8 @@
     if(source)source.addEventListener('input',()=>{
       const next=clean(source.value);
       if(next===(values[0]||''))return;
-      if(values.length)values[0]=next;
-      else if(next)values.push(next);
-      values=values.filter(Boolean);
+      model.replaceFirst(next);
+      values=model.getItems();
       draw();put('nr:editorial-keywords',values);
     });
     initiative.insertAdjacentElement('afterend',copy);
