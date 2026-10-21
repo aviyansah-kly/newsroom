@@ -1759,3 +1759,21 @@ body.alt-editor-layout #infoPane #nr-editorial-keywords .tag-wrap #nrKeywordInpu
   box-shadow:none!important;
   outline:0!important;
 }
+
+/* Dark-mode Tags/Keywords chip close-button hover parity.
+ * The legacy chip hover paints the close control white. Keep a neutral
+ * transparent action surface and the same icon ink in both components. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(#tagList,#nrKeywordList) .tag-chip > button,
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(#tagList,#nrKeywordList) .tag-chip > button:is(:hover,:focus-visible) {
+  background:transparent!important;
+  background-color:transparent!important;
+  border-color:transparent!important;
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(#tagList,#nrKeywordList) .tag-chip > button :is(svg,i) {
+  color:inherit!important;
+  stroke:currentColor!important;
+  background:transparent!important;
+  fill:none!important;
+}
