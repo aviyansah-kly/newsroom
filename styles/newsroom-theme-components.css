@@ -1605,3 +1605,29 @@ html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font
 html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font]:is(:hover,:focus-visible,.active) > span:first-child {
   color:var(--nr-ui-text,#E8EBEF)!important;
 }
+
+/* Image Block uses the SAME dark presentation tokens as Headline Image.
+ * The legacy inline stylesheet contains a more specific !important selector
+ * with #0f172a text; match that full ancestry to beat it safely.
+ */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy > strong {
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy > :is(span,small) {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions > button.newsroom-image-upload-btn {
+  background:var(--nr-ui-control,#303740)!important;
+  background-color:var(--nr-ui-control,#303740)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:var(--nr-ui-card-border,#465260)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions > button.newsroom-image-upload-btn:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover,#39424D)!important;
+  background-color:var(--nr-ui-hover,#39424D)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions > button.newsroom-image-upload-btn :is(span,svg,i) {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
