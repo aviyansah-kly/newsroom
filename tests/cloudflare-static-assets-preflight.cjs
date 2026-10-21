@@ -9,10 +9,10 @@ const config=JSON.parse(configText.replace(/^\s*\/\/.*$/gm,''));
 assert.equal(config.assets.directory,'./','Newsroom is a static website');
 assert.ok(!Object.prototype.hasOwnProperty.call(config,'main'),'Static site must not use index.html as Worker main');
 const ignore=fs.readFileSync('.assetsignore','utf8').split(/\r?\n/).map(s=>s.trim()).filter(s=>s&&!s.startsWith('#'));
-for(const entry of ['!/*.html','!/design-system/','!/design-system/foundations/','!/design-system/foundations/tokens.css','!/styles/','!/styles/*.css','!/scripts/','!/scripts/*.js','!/assets/','!/assets/**']){
+for(const entry of ['!/*.html','!/design-system/','!/design-system/foundations/','!/design-system/foundations/tokens.css','!/styles/','!/styles/*.css','!/scripts/','!/scripts/*.js','!/scripts/components/','!/scripts/components/*.js','!/assets/','!/assets/**']){
  assert.ok(ignore.includes(entry),'Public asset group must be allowed: '+entry);
 }
-const paths=new Set(['design-system/foundations/tokens.css','styles/newsroom-theme-tokens.css','styles/newsroom-theme-components.css',
+const paths=new Set(['scripts/components/tag-input-model.js','design-system/foundations/tokens.css','styles/newsroom-theme-tokens.css','styles/newsroom-theme-components.css',
  'styles/newsroom-dark-mode.css','styles/newsroom-dark-mode-editor.css',
  'scripts/newsroom-shell.js','scripts/newsroom-editorial-reusable.js']);
 const pages=['dashboard.html','articles.html','tags.html','index.html'];
@@ -35,6 +35,7 @@ assert.deepEqual(missing,[],'Missing local static assets');
 for(const p of paths){
  const allowed=p==='design-system/foundations/tokens.css'?ignore.includes('!/design-system/')&&ignore.includes('!/design-system/foundations/')&&ignore.includes('!/design-system/foundations/tokens.css'):
   p.startsWith('styles/')?ignore.includes('!/styles/*.css'):
+  p.startsWith('scripts/components/')?ignore.includes('!/scripts/components/')&&ignore.includes('!/scripts/components/*.js'):
   p.startsWith('scripts/')?ignore.includes('!/scripts/*.js'):
   p.startsWith('assets/')?ignore.includes('!/assets/**'):
   p.endsWith('.html')?ignore.includes('!/*.html'):

@@ -235,10 +235,22 @@
     // Share the real Article Type and Tags component markup and interaction
     // conventions instead of maintaining custom lookalike fields.
     if(!document.querySelector('script[data-nr-editorial-reusable]')){
-      const script=document.createElement('script');
-      script.src='scripts/newsroom-editorial-reusable.js';
-      script.setAttribute('data-nr-editorial-reusable','1');
-      document.body.appendChild(script);
+      const loadEditorial=()=>{
+        if(document.querySelector('script[data-nr-editorial-reusable]'))return;
+        const script=document.createElement('script');
+        script.src='scripts/newsroom-editorial-reusable.js';
+        script.setAttribute('data-nr-editorial-reusable','1');
+        document.body.appendChild(script);
+      };
+      if(window.NewsroomTagInputModel)loadEditorial();
+      else if(!document.querySelector('script[data-nr-tag-input-model]')){
+        const core=document.createElement('script');
+        core.src='scripts/components/tag-input-model.js';
+        core.setAttribute('data-nr-tag-input-model','1');
+        core.onload=loadEditorial;
+        core.onerror=()=>console.error('Newsroom TagInput model failed to load; editorial enhancement postponed');
+        document.body.appendChild(core);
+      }
     }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.

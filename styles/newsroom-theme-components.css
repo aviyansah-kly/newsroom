@@ -1631,3 +1631,149 @@ html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="imag
   color:inherit!important;
   stroke:currentColor!important;
 }
+
+/* Phase 3A follow-up: Tags suggestion rows, scoped to editor and dark theme.
+ * Legacy inline rules force white rows via !important. Match the real #tagSuggestions
+ * and .newsroom-tag-result selectors; leave Light Mode and interactions untouched. */
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results {
+  background:var(--nr-ui-panel,#22262C)!important;
+  border-color:var(--nr-ui-card-border,#414852)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result {
+  background:var(--nr-ui-control,#303740)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:var(--nr-ui-card-border,#414852)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover,#39424D)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result :is(span,strong,small) {
+  color:inherit!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result :is(svg,.icon,[class*="icon"]) {
+  background:transparent!important;
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+  stroke:currentColor!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-empty {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+
+/* Phase 3A parity: Tags and Keywords share neutral chip + add-icon treatments.
+ * Keep their existing DOM, event handlers and five-item limits unchanged. */
+body.alt-editor-layout :is(#tagList,#nrKeywordList,.nr-keyword-list) .tag-chip {
+  border-radius:999px!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection #tagList .tag-chip {
+  background:var(--nr-ui-control,#303740)!important;
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+  border-color:var(--nr-ui-card-border,#414852)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection #tagList .tag-chip :is(button,span,svg) {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
+body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result-icon,
+body.alt-editor-layout #nrKeywordSuggestions .newsroom-tag-result-icon {
+  background:var(--nr-icon-box-bg,#F1F5F9)!important;
+  border:1px solid var(--nr-icon-box-border,#DCE3EC)!important;
+  color:var(--nr-icon-box-ink,#64748B)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result-icon,
+html[data-theme="dark"] body.alt-editor-layout #nrKeywordSuggestions .newsroom-tag-result-icon {
+  background:var(--nr-icon-box-bg,#303740)!important;
+  border:1px solid var(--nr-icon-box-border,#465260)!important;
+  color:var(--nr-icon-box-ink,#BBC3CD)!important;
+}
+body.alt-editor-layout :is(#tagSuggestions,#nrKeywordSuggestions) .newsroom-tag-result-icon svg {
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:14px!important;
+  height:14px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:2!important;
+}
+body.alt-editor-layout :is(#tagSuggestions,#nrKeywordSuggestions) .newsroom-tag-result-icon:not(:has(svg))::before {
+  content:"+";
+  font-size:18px;
+  font-weight:500;
+  line-height:1;
+  color:inherit;
+}
+
+/* Phase 3A parity: Tags and Keywords reuse one search-input presentation.
+ * Tags has legacy #altEditorialTagsSection #tagInput rules with a separate
+ * border/background; explicitly neutralize them in both appearances.
+ * Retain existing input DOM, search handlers and focus accessibility. */
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .newsroom-tag-search {
+  display:flex!important;
+  align-items:center!important;
+  position:relative!important;
+  width:100%!important;
+  min-height:36px!important;
+  margin:0!important;
+}
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .newsroom-tag-search input[type="search"] {
+  box-sizing:border-box!important;
+  display:block!important;
+  width:100%!important;
+  height:36px!important;
+  margin:0!important;
+  padding:0 10px 0 32px!important;
+  border:1px solid transparent!important;
+  border-radius:7px!important;
+  background:transparent!important;
+  color:inherit!important;
+  box-shadow:none!important;
+  outline:0!important;
+  font-size:13px!important;
+  line-height:36px!important;
+}
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .newsroom-tag-search input[type="search"]:focus {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .tag-wrap:focus-within {
+  border-color:var(--nr-ui-focus,#3B6CF6)!important;
+  box-shadow:0 0 0 2px rgba(59,108,246,.18)!important;
+}
+
+/* Override the legacy three-ID Tags input rule at equivalent/higher specificity. */
+body.alt-editor-layout #infoPane #altEditorialTagsSection .tag-wrap #tagInput,
+body.alt-editor-layout #infoPane #nr-editorial-keywords .tag-wrap #nrKeywordInput {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+  margin:0!important;
+}
+body.alt-editor-layout #infoPane #altEditorialTagsSection .tag-wrap #tagInput:focus,
+body.alt-editor-layout #infoPane #nr-editorial-keywords .tag-wrap #nrKeywordInput:focus {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+
+/* Dark-mode Tags/Keywords chip close-button hover parity.
+ * The legacy chip hover paints the close control white. Keep a neutral
+ * transparent action surface and the same icon ink in both components. */
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(#tagList,#nrKeywordList) .tag-chip > button,
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(#tagList,#nrKeywordList) .tag-chip > button:is(:hover,:focus-visible) {
+  background:transparent!important;
+  background-color:transparent!important;
+  border-color:transparent!important;
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+  box-shadow:none!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #infoPane :is(#tagList,#nrKeywordList) .tag-chip > button :is(svg,i) {
+  color:inherit!important;
+  stroke:currentColor!important;
+  background:transparent!important;
+  fill:none!important;
+}
