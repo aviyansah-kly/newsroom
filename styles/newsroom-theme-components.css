@@ -1659,3 +1659,47 @@ html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-resu
 html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-empty {
   color:var(--nr-ui-secondary,#BBC3CD)!important;
 }
+
+/* Phase 3A parity: Tags and Keywords share neutral chip + add-icon treatments.
+ * Keep their existing DOM, event handlers and five-item limits unchanged. */
+body.alt-editor-layout :is(#tagList,#nrKeywordList,.nr-keyword-list) .tag-chip {
+  border-radius:999px!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection #tagList .tag-chip {
+  background:var(--nr-ui-control,#303740)!important;
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+  border-color:var(--nr-ui-card-border,#414852)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection #tagList .tag-chip :is(button,span,svg) {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
+html[data-theme="light"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result-icon,
+html[data-theme="light"] body.alt-editor-layout #nrKeywordSuggestions .newsroom-tag-result-icon {
+  background:var(--nr-icon-box-bg,#F1F5F9)!important;
+  border:1px solid var(--nr-icon-box-border,#DCE3EC)!important;
+  color:var(--nr-icon-box-ink,#64748B)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result-icon,
+html[data-theme="dark"] body.alt-editor-layout #nrKeywordSuggestions .newsroom-tag-result-icon {
+  background:var(--nr-icon-box-bg,#303740)!important;
+  border:1px solid var(--nr-icon-box-border,#465260)!important;
+  color:var(--nr-icon-box-ink,#BBC3CD)!important;
+}
+body.alt-editor-layout :is(#tagSuggestions,#nrKeywordSuggestions) .newsroom-tag-result-icon svg {
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:14px!important;
+  height:14px!important;
+  fill:none!important;
+  stroke:currentColor!important;
+  stroke-width:2!important;
+}
+body.alt-editor-layout :is(#tagSuggestions,#nrKeywordSuggestions) .newsroom-tag-result-icon:not(:has(svg))::before {
+  content:"+";
+  font-size:18px;
+  font-weight:500;
+  line-height:1;
+  color:inherit;
+}
