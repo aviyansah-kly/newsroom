@@ -1531,3 +1531,103 @@ html[data-theme="dark"] body.alt-editor-layout .context #seoPane
   stroke:currentColor!important;
   background:transparent!important;
 }
+
+/* Dark Mode contrast hotfix — Page Break, Image empty state, typography menu
+ * and Review & Publish readiness rows. Presentation-only; no behavior changes.
+ * Use existing editor theme tokens and keep semantic status icons unchanged.
+ */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page-break"] :is(label,.alt-card-field label,.alt-card-field strong,.alt-card-field span),
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="pagebreak"] :is(label,.alt-card-field label,.alt-card-field strong,.alt-card-field span) {
+  color:var(--nr-ui-secondary)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page-break"] :is(label,.alt-card-field label) strong,
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="pagebreak"] :is(label,.alt-card-field label) strong {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout  .alt-content-card[data-type="image"] :is(.v56-image-empty,.newsroom-image-empty,.alt-preview-empty-state,.alt-media-drop) :is(h2,h3,h4,strong,label) {
+  color:var(--nr-ui-block-title)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] :is(.v56-image-empty,.newsroom-image-empty,.alt-preview-empty-state) :is(p,small,span) {
+  color:var(--nr-ui-secondary)!important;
+}
+/* Legacy font-size popovers can be outside the sticky toolbar subtree. */
+html[data-theme="dark"] body.alt-editor-layout :is([class*="font-size-menu"],[class*="font-size-popover"],[class*="font-size-dropdown"],[class*="fontsize-menu"],[class*="size-popover"]) {
+  background:var(--nr-ui-panel)!important;
+  color:var(--nr-ui-text)!important;
+  border-color:var(--nr-ui-card-border)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is([class*="font-size-menu"],[class*="font-size-popover"],[class*="font-size-dropdown"],[class*="fontsize-menu"],[class*="size-popover"]) :is(button,[role="menuitem"],[role="option"]) {
+  background:transparent!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout :is([class*="font-size-menu"],[class*="font-size-popover"],[class*="font-size-dropdown"],[class*="fontsize-menu"],[class*="size-popover"]) :is(button,[role="menuitem"],[role="option"]):is(:hover,:focus-visible,.active,[aria-selected="true"]) {
+  background:var(--nr-ui-hover)!important;
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-ready-panel,.alt-validation-ready,.alt-validation-list) :is(.alt-validation-row,.alt-validation-ready-row,.alt-validation-item) :is(span,strong,label,p) {
+  color:var(--nr-ui-text)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-ready-panel,.alt-validation-ready,.alt-validation-list) :is(.alt-validation-row,.alt-validation-ready-row,.alt-validation-item) :is(small,.muted,.description) {
+  color:var(--nr-ui-secondary)!important;
+}
+
+/* V2.17: exact runtime selectors from index.html; preserve light theme. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page"] .alt-page-subtitle > label {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page"] .alt-page-subtitle > label .alt-required {
+  color:#F87171!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .newsroom-image-empty-copy > strong {
+  color:var(--nr-ui-block-title,#E1E8F1)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .newsroom-image-empty-copy > :is(span,small) {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu {
+  background:var(--nr-ui-panel,#22262C)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:var(--nr-ui-card-border,#465260)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.28)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font] {
+  background:transparent!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font] :is(span,.font-preview) {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font]:is(:hover,:focus-visible,.active) {
+  background:var(--nr-ui-hover,#303740)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font]:is(:hover,:focus-visible,.active) > span:first-child {
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+
+/* Image Block uses the SAME dark presentation tokens as Headline Image.
+ * The legacy inline stylesheet contains a more specific !important selector
+ * with #0f172a text; match that full ancestry to beat it safely.
+ */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy > strong {
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-copy > :is(span,small) {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions > button.newsroom-image-upload-btn {
+  background:var(--nr-ui-control,#303740)!important;
+  background-color:var(--nr-ui-control,#303740)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:var(--nr-ui-card-border,#465260)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions > button.newsroom-image-upload-btn:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover,#39424D)!important;
+  background-color:var(--nr-ui-hover,#39424D)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .v56-image-empty.newsroom-image-empty .newsroom-image-empty-actions > button.newsroom-image-upload-btn :is(span,svg,i) {
+  color:inherit!important;
+  stroke:currentColor!important;
+}
