@@ -9,7 +9,7 @@ test('legacy Tag writer is preserved and mirrored without overriding existing ha
  assert.match(source,/mirror\.reconcile\(read\(\)\)/);
  assert.match(source,/window\.__nrPhase3bTagsMirror=/);
  assert.match(source,/bindLegacyTagSuggestionClicks\(\)/);
- assert.doesNotMatch(source,/window\.newsroomTagCatalog\s*=/);
+ assert.doesNotMatch(source,/window\.newsroomTagCatalog\s*=(?!=)/);
 });
 test('adapter is loaded lazily only by editor and failures fall back to legacy Tags',()=>{
  assert.match(source,/script\.src='scripts\/components\/tag-input-legacy-adapter\.js'/);
