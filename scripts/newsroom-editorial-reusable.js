@@ -214,8 +214,47 @@
     if(!$('#nr-editorial-keywords'))keywordsFrom(tags,initiative);
     return !!$('#nr-editorial-keywords');
   }
+  // Phase 3B: non-authoritative mirror. Legacy Tags stays the only writer.
+  // Loaded lazily to avoid altering the existing Editor startup order.
+  function attachSharedTagsMirror(){
+    if(window.__nrPhase3bTagsMirror||!window.NewsroomLegacyTagAdapter?.create)return;
+    const list=$('#tagList'),input=$('#tagInput'),suggestions=$('#tagSuggestions');
+    if(!list||!input||!suggestions)return;
+    const read=()=>[...list.querySelectorAll('.tag-chip')].map(chip=>{
+      const copy=chip.cloneNode(true);
+      copy.querySelector('button')?.remove();
+      return clean(copy.textContent);
+    }).filter(Boolean);
+    const mirror=window.NewsroomLegacyTagAdapter.create({
+      initial:read(),catalogue,max:MAX
+    });
+    const synchronize=()=>mirror.reconcile(read());
+    const observer=new MutationObserver(synchronize);
+    observer.observe(list,{childList:true,subtree:true,characterData:true});
+    synchronize();
+    window.__nrPhase3bTagsMirror=Object.freeze({
+      getItems:()=>{synchronize();return mirror.getItems()},
+      suggest:query=>{synchronize();return mirror.suggestions(query)},
+      checkAdd:value=>{synchronize();return mirror.planAdd(value)},
+      disconnect:()=>observer.disconnect()
+    });
+  }
+  function bootSharedTagsMirror(){
+    if(window.__nrPhase3bTagsMirror)return;
+    if(window.NewsroomLegacyTagAdapter?.create){
+      attachSharedTagsMirror();return;
+    }
+    if(document.querySelector('script[data-nr-phase3b-tags-adapter]'))return;
+    const script=document.createElement('script');
+    script.src='scripts/components/tag-input-legacy-adapter.js';
+    script.dataset.nrPhase3bTagsAdapter='1';
+    script.onload=attachSharedTagsMirror;
+    script.onerror=()=>console.error('Phase 3B Tags adapter unavailable; legacy Tags remains active');
+    document.body.appendChild(script);
+  }
   function boot(){
     bindLegacyTagSuggestionClicks();
+    bootSharedTagsMirror();
     if(init())return;
     let attempts=0;
     const retry=setInterval(()=>{if(init()||++attempts>30)clearInterval(retry)},200);
