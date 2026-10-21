@@ -5,6 +5,8 @@ on:
       - 'scripts/components/tag-input-model.js'
       - 'scripts/components/tag-input-legacy-adapter.js'
       - 'tests/tag-input-legacy-adapter.test.cjs'
+      - 'tests/tag-input-phase3b-integration.test.cjs'
+      - 'scripts/newsroom-editorial-reusable.js'
       - '.github/workflows/newsroom-taginput-phase3b.yml'
   push:
     branches: [refactor/taginput-phase3b-legacy-tags]
@@ -17,4 +19,4 @@ jobs:
         with:
           node-version: '22'
       - name: Verify shared model and isolated legacy adapter
-        run: node --test tests/tag-input-legacy-adapter.test.cjs
+        run: node --test tests/tag-input-legacy-adapter.test.cjs tests/tag-input-phase3b-integration.test.cjs
