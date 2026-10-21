@@ -186,6 +186,23 @@
     initiative.insertAdjacentElement('afterend',copy);
     draw();return copy;
   }
+  // The legacy Tags suggestion renderer calls querySelector(...).forEach,
+  // so its per-row click handlers never attach. Delegate once instead of
+  // modifying the protected 1.18 MB inline Editor source.
+  function bindLegacyTagSuggestionClicks(){
+    if(window.__nrTagSuggestionsClickBridge)return;
+    window.__nrTagSuggestionsClickBridge=true;
+    document.addEventListener('click',event=>{
+      const target=event.target instanceof Element?event.target:null;
+      const button=target?.closest('#tagSuggestions button.newsroom-tag-result[data-add]');
+      if(!button||button.disabled)return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{
+        detail:{tag:button.dataset.add,source:'suggestion'}
+      }));
+    },true);
+  }
   function init(){
     const pane=$('#infoPane'),type=$('#articleType')?.closest('.field');
     const tags=$('#tagInput')?.closest('.field');
@@ -198,6 +215,7 @@
     return !!$('#nr-editorial-keywords');
   }
   function boot(){
+    bindLegacyTagSuggestionClicks();
     if(init())return;
     let attempts=0;
     const retry=setInterval(()=>{if(init()||++attempts>30)clearInterval(retry)},200);
