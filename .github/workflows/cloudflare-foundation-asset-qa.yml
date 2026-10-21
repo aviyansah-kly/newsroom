@@ -1,0 +1,46 @@
+name: Cloudflare Foundation CSS Asset Hotfix QA
+on:
+  push:
+    branches: [fix/cloudflare-foundation-css-asset]
+  pull_request:
+    paths:
+      - '.assetsignore'
+      - 'tests/cloudflare-static-assets-preflight.cjs'
+      - 'scripts/verify-live-deployment.py'
+      - '.github/workflows/cloudflare-foundation-asset-qa.yml'
+      - 'tests/cloudflare-foundation-contrast.cjs'
+  workflow_dispatch:
+jobs:
+  static-assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ensure foundation CSS exists and is explicitly allowed
+        run: |
+          node tests/cloudflare-static-assets-preflight.cjs
+          test -s design-system/foundations/tokens.css
+          node - <<'JS'
+          const fs=require('fs');
+          const lines=fs.readFileSync('.assetsignore','utf8').trim().split(/\r?\n/);
+          for(const pattern of ['!/design-system/','!/design-system/foundations/','!/design-system/foundations/tokens.css']){
+            if(!lines.includes(pattern))throw Error('Not allowed: '+pattern);
+          }
+          JS
+      - name: Wrangler static assets dry-run — never deploy
+        run: |
+          npx --yes wrangler@4.151.2 versions upload --dry-run --outdir /tmp/newsroom-asset-hotfix
+          test -f wrangler.jsonc
+          test -f .assetsignore
+      - name: Browser verify published CSS will not override Dark Mode
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/newsroom-foundation-http.log 2>&1 &
+          sleep 2
+          node tests/cloudflare-foundation-contrast.cjs
+      - name: Validate live verification script syntax
+        run: python3 -m py_compile scripts/verify-live-deployment.py
