@@ -210,6 +210,32 @@
       }));
     },true);
   }
+  // Phase 3B: route AI preview and Enter through the same shared guard.
+  // Legacy Editor still performs the write, draft save and SEO invalidation.
+  function bindSharedTagsInteractions(){
+    if(window.__nrPhase3bInteractionsBound)return;
+    window.__nrPhase3bInteractionsBound=true;
+    document.addEventListener('click',event=>{
+      const target=event.target instanceof Element?event.target:null;
+      const button=target?.closest('#altEditorialTagsSection .newsroom-ai-tag-preview[data-preview-tag]');
+      if(!button||button.disabled)return;
+      const mirror=window.__nrPhase3bTagsMirror;
+      if(!mirror)return;
+      const result=mirror.checkAdd(button.dataset.previewTag);
+      if(result.ok)return; // preserve the existing AI preview handler
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    },true);
+    document.addEventListener('keydown',event=>{
+      const input=event.target;
+      if(!(input instanceof Element)||input.id!=='tagInput'||event.key!=='Enter')return;
+      const selected=$('#tagSuggestions button.newsroom-tag-result[data-add]');
+      if(!selected)return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      selected.click(); // uses the same shared eligibility guard as mouse clicks
+    },true);
+  }
   function init(){
     const pane=$('#infoPane'),type=$('#articleType')?.closest('.field');
     const tags=$('#tagInput')?.closest('.field');
@@ -261,6 +287,7 @@
   }
   function boot(){
     bindLegacyTagSuggestionClicks();
+    bindSharedTagsInteractions();
     bootSharedTagsMirror();
     if(init())return;
     let attempts=0;
