@@ -15,3 +15,10 @@ test('adapter is loaded lazily only by editor and failures fall back to legacy T
  assert.match(source,/script\.src='scripts\/components\/tag-input-legacy-adapter\.js'/);
  assert.match(source,/script\.onerror=.*legacy Tags remains active/);
 });
+
+test('Tags suggestion clicks consult shared model then preserve legacy save event',()=>{
+ assert.match(source,/const mirror=window\.__nrPhase3bTagsMirror/);
+ assert.match(source,/mirror\.checkAdd\(button\.dataset\.add\)/);
+ assert.match(source,/if\(!result\.ok\)return/);
+ assert.match(source,/new CustomEvent\('newsroom:add-existing-tag'/);
+});
