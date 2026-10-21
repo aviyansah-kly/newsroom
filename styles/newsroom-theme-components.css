@@ -1570,3 +1570,38 @@ html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-vali
 html[data-theme="dark"] body.alt-editor-layout #altValidationModal :is(.alt-validation-ready-panel,.alt-validation-ready,.alt-validation-list) :is(.alt-validation-row,.alt-validation-ready-row,.alt-validation-item) :is(small,.muted,.description) {
   color:var(--nr-ui-secondary)!important;
 }
+
+/* V2.17: exact runtime selectors from index.html; preserve light theme. */
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page"] .alt-page-subtitle > label {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page"] .alt-page-subtitle > label .alt-required {
+  color:#F87171!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .newsroom-image-empty-copy > strong {
+  color:var(--nr-ui-block-title,#E1E8F1)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] .newsroom-image-empty-copy > :is(span,small) {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu {
+  background:var(--nr-ui-panel,#22262C)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:var(--nr-ui-card-border,#465260)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.28)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font] {
+  background:transparent!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:transparent!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font] :is(span,.font-preview) {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font]:is(:hover,:focus-visible,.active) {
+  background:var(--nr-ui-hover,#303740)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout .header-view-cluster .header-font-menu button[data-font]:is(:hover,:focus-visible,.active) > span:first-child {
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
