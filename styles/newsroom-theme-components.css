@@ -1703,3 +1703,42 @@ body.alt-editor-layout :is(#tagSuggestions,#nrKeywordSuggestions) .newsroom-tag-
   line-height:1;
   color:inherit;
 }
+
+/* Phase 3A parity: Tags and Keywords reuse one search-input presentation.
+ * Tags has legacy #altEditorialTagsSection #tagInput rules with a separate
+ * border/background; explicitly neutralize them in both appearances.
+ * Retain existing input DOM, search handlers and focus accessibility. */
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .newsroom-tag-search {
+  display:flex!important;
+  align-items:center!important;
+  position:relative!important;
+  width:100%!important;
+  min-height:36px!important;
+  margin:0!important;
+}
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .newsroom-tag-search input[type="search"] {
+  box-sizing:border-box!important;
+  display:block!important;
+  width:100%!important;
+  height:36px!important;
+  margin:0!important;
+  padding:0 10px 0 32px!important;
+  border:1px solid transparent!important;
+  border-radius:7px!important;
+  background:transparent!important;
+  color:inherit!important;
+  box-shadow:none!important;
+  outline:0!important;
+  font-size:13px!important;
+  line-height:36px!important;
+}
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .newsroom-tag-search input[type="search"]:focus {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
+body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keywords) .tag-wrap:focus-within {
+  border-color:var(--nr-ui-focus,#3B6CF6)!important;
+  box-shadow:0 0 0 2px rgba(59,108,246,.18)!important;
+}
