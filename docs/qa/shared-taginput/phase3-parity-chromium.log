@@ -8,10 +8,3 @@ CHECK tags.html / dark / desktop diffs=0
 CHECK index.html / dark / desktop diffs=0
 CHECK dashboard.html / light / mobile diffs=0
 CHECK articles.html / light / mobile diffs=0
-CHECK tags.html / light / mobile diffs=0
-CHECK index.html / light / mobile diffs=0
-CHECK dashboard.html / dark / mobile diffs=0
-CHECK articles.html / dark / mobile diffs=0
-CHECK tags.html / dark / mobile diffs=0
-CHECK index.html / dark / mobile diffs=0
-DESIGN_SYSTEM_PARITY {"routes":16,"tokens":53,"differences":0,"newJavascriptErrors":0,"samples":[]}
