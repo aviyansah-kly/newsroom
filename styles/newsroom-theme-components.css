@@ -1631,3 +1631,31 @@ html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="imag
   color:inherit!important;
   stroke:currentColor!important;
 }
+
+/* Phase 3A follow-up: Tags suggestion rows, scoped to editor and dark theme.
+ * Legacy inline rules force white rows via !important. Match the real #tagSuggestions
+ * and .newsroom-tag-result selectors; leave Light Mode and interactions untouched. */
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results {
+  background:var(--nr-ui-panel,#22262C)!important;
+  border-color:var(--nr-ui-card-border,#414852)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result {
+  background:var(--nr-ui-control,#303740)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+  border-color:var(--nr-ui-card-border,#414852)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result:is(:hover,:focus-visible) {
+  background:var(--nr-ui-hover,#39424D)!important;
+  color:var(--nr-ui-text,#E8EBEF)!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result :is(span,strong,small) {
+  color:inherit!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result :is(svg,.icon,[class*="icon"]) {
+  background:transparent!important;
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+  stroke:currentColor!important;
+}
+html[data-theme="dark"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-empty {
+  color:var(--nr-ui-secondary,#BBC3CD)!important;
+}
