@@ -1544,8 +1544,8 @@ html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="page
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="pagebreak"] :is(label,.alt-card-field label) strong {
   color:var(--nr-ui-text)!important;
 }
-html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] :is(.v56-image-empty,.newsroom-image-empty,.alt-preview-empty-state,.alt-content-card-body) :is(h2,h3,h4,strong,label) {
-  color:var(--nr-ui-text)!important;
+html[data-theme="dark"] body.alt-editor-layout  .alt-content-card[data-type="image"] :is(.v56-image-empty,.newsroom-image-empty,.alt-preview-empty-state,.alt-media-drop) :is(h2,h3,h4,strong,label) {
+  color:var(--nr-ui-block-title)!important;
 }
 html[data-theme="dark"] body.alt-editor-layout .alt-content-card[data-type="image"] :is(.v56-image-empty,.newsroom-image-empty,.alt-preview-empty-state) :is(p,small,span) {
   color:var(--nr-ui-secondary)!important;
