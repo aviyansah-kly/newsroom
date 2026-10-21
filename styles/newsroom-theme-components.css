@@ -1742,3 +1742,20 @@ body.alt-editor-layout #infoPane :is(#altEditorialTagsSection,#nr-editorial-keyw
   border-color:var(--nr-ui-focus,#3B6CF6)!important;
   box-shadow:0 0 0 2px rgba(59,108,246,.18)!important;
 }
+
+/* Override the legacy three-ID Tags input rule at equivalent/higher specificity. */
+body.alt-editor-layout #infoPane #altEditorialTagsSection .tag-wrap #tagInput,
+body.alt-editor-layout #infoPane #nr-editorial-keywords .tag-wrap #nrKeywordInput {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+  margin:0!important;
+}
+body.alt-editor-layout #infoPane #altEditorialTagsSection .tag-wrap #tagInput:focus,
+body.alt-editor-layout #infoPane #nr-editorial-keywords .tag-wrap #nrKeywordInput:focus {
+  background:transparent!important;
+  border-color:transparent!important;
+  box-shadow:none!important;
+  outline:0!important;
+}
