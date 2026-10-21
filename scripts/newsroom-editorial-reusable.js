@@ -198,6 +198,13 @@
       if(!button||button.disabled)return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      // Consult the shared TagInput model, while retaining the legacy event
+      // as the sole writer of article state/drafts and existing validation.
+      const mirror=window.__nrPhase3bTagsMirror;
+      if(mirror){
+        const result=mirror.checkAdd(button.dataset.add);
+        if(!result.ok)return;
+      }
       window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{
         detail:{tag:button.dataset.add,source:'suggestion'}
       }));
