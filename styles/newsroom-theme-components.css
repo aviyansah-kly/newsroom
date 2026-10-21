@@ -1674,8 +1674,8 @@ html[data-theme="dark"] body.alt-editor-layout #altEditorialTagsSection #tagList
   color:inherit!important;
   stroke:currentColor!important;
 }
-html[data-theme="light"] body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result-icon,
-html[data-theme="light"] body.alt-editor-layout #nrKeywordSuggestions .newsroom-tag-result-icon {
+body.alt-editor-layout #tagSuggestions.newsroom-tag-results .newsroom-tag-result-icon,
+body.alt-editor-layout #nrKeywordSuggestions .newsroom-tag-result-icon {
   background:var(--nr-icon-box-bg,#F1F5F9)!important;
   border:1px solid var(--nr-icon-box-border,#DCE3EC)!important;
   color:var(--nr-icon-box-ink,#64748B)!important;
