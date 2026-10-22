@@ -298,7 +298,15 @@
     const script=document.createElement('script');
     script.src='scripts/components/tag-input-legacy-adapter.js';
     script.dataset.nrPhase3bTagsAdapter='1';
-    script.onload=attachSharedTagsMirror;
+    script.onload=()=>{
+      attachSharedTagsMirror();
+      if(window.__nrPhase3bTagsMirror)return;
+      let attempts=0;
+      const retry=setInterval(()=>{
+        attachSharedTagsMirror();
+        if(window.__nrPhase3bTagsMirror||++attempts>=30)clearInterval(retry);
+      },200);
+    };
     script.onerror=()=>console.error('Phase 3B Tags adapter unavailable; legacy Tags remains active');
     document.body.appendChild(script);
   }
