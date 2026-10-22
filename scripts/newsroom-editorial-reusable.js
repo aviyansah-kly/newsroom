@@ -198,9 +198,58 @@
       if(!button||button.disabled)return;
       event.preventDefault();
       event.stopImmediatePropagation();
+      // Consult the shared TagInput model, while retaining the legacy event
+      // as the sole writer of article state/drafts and existing validation.
+      const mirror=window.__nrPhase3bTagsMirror;
+      if(mirror){
+        const result=mirror.checkAdd(button.dataset.add);
+        if(!result.ok)return;
+      }
       window.dispatchEvent(new CustomEvent('newsroom:add-existing-tag',{
         detail:{tag:button.dataset.add,source:'suggestion'}
       }));
+    },true);
+  }
+  // Phase 3B: route AI preview and Enter through the same shared guard.
+  // Legacy Editor still performs the write, draft save and SEO invalidation.
+  function bindSharedTagsInteractions(){
+    if(window.__nrPhase3bInteractionsBound)return;
+    window.__nrPhase3bInteractionsBound=true;
+    document.addEventListener('click',event=>{
+      const target=event.target instanceof Element?event.target:null;
+      const button=target?.closest('#altEditorialTagsSection .newsroom-ai-tag-preview[data-preview-tag]');
+      if(!button||button.disabled)return;
+      const mirror=window.__nrPhase3bTagsMirror;
+      if(!mirror)return;
+      const result=mirror.checkAdd(button.dataset.previewTag);
+      if(result.ok)return; // preserve the existing AI preview handler
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    },true);
+    document.addEventListener('click',event=>{
+      const target=event.target instanceof Element?event.target:null;
+      const close=target?.closest('#tagList button[data-r]');
+      if(!close)return;
+      const mirror=window.__nrPhase3bTagsMirror;
+      if(!mirror)return;
+      const position=Number(close.dataset.r);
+      const selected=mirror.getItems();
+      const item=selected[position];
+      // Validate the mutation in the shared model before allowing the
+      // legacy editor to own the article/draft/SEO write.
+      if(item===undefined||!mirror.checkRemove(position).ok){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    },true);
+    document.addEventListener('keydown',event=>{
+      const input=event.target;
+      if(!(input instanceof Element)||input.id!=='tagInput'||event.key!=='Enter')return;
+      const selected=$('#tagSuggestions button.newsroom-tag-result[data-add]');
+      if(!selected)return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      selected.click(); // uses the same shared eligibility guard as mouse clicks
     },true);
   }
   function init(){
@@ -214,8 +263,57 @@
     if(!$('#nr-editorial-keywords'))keywordsFrom(tags,initiative);
     return !!$('#nr-editorial-keywords');
   }
+  // Phase 3B: non-authoritative mirror. Legacy Tags stays the only writer.
+  // Loaded lazily to avoid altering the existing Editor startup order.
+  function attachSharedTagsMirror(){
+    if(window.__nrPhase3bTagsMirror||!window.NewsroomLegacyTagAdapter?.create)return;
+    const list=$('#tagList'),input=$('#tagInput'),suggestions=$('#tagSuggestions');
+    if(!list||!input||!suggestions)return;
+    const read=()=>[...list.querySelectorAll('.tag-chip')].map(chip=>{
+      const copy=chip.cloneNode(true);
+      copy.querySelector('button')?.remove();
+      return clean(copy.textContent);
+    }).filter(Boolean);
+    const mirror=window.NewsroomLegacyTagAdapter.create({
+      initial:read(),catalogue,max:MAX
+    });
+    const synchronize=()=>mirror.reconcile(read());
+    const observer=new MutationObserver(synchronize);
+    observer.observe(list,{childList:true,subtree:true,characterData:true});
+    synchronize();
+    window.__nrPhase3bTagsMirror=Object.freeze({
+      getItems:()=>{synchronize();return mirror.getItems()},
+      suggest:query=>{synchronize();return mirror.suggestions(query)},
+      checkAdd:value=>{synchronize();return mirror.planAdd(value)},
+      checkRemove:value=>{synchronize();return mirror.planRemove(value)},
+      disconnect:()=>observer.disconnect()
+    });
+  }
+  function bootSharedTagsMirror(){
+    if(window.__nrPhase3bTagsMirror)return;
+    if(window.NewsroomLegacyTagAdapter?.create){
+      attachSharedTagsMirror();return;
+    }
+    if(document.querySelector('script[data-nr-phase3b-tags-adapter]'))return;
+    const script=document.createElement('script');
+    script.src='scripts/components/tag-input-legacy-adapter.js';
+    script.dataset.nrPhase3bTagsAdapter='1';
+    script.onload=()=>{
+      attachSharedTagsMirror();
+      if(window.__nrPhase3bTagsMirror)return;
+      let attempts=0;
+      const retry=setInterval(()=>{
+        attachSharedTagsMirror();
+        if(window.__nrPhase3bTagsMirror||++attempts>=30)clearInterval(retry);
+      },200);
+    };
+    script.onerror=()=>console.error('Phase 3B Tags adapter unavailable; legacy Tags remains active');
+    document.body.appendChild(script);
+  }
   function boot(){
     bindLegacyTagSuggestionClicks();
+    bindSharedTagsInteractions();
+    bootSharedTagsMirror();
     if(init())return;
     let attempts=0;
     const retry=setInterval(()=>{if(init()||++attempts>30)clearInterval(retry)},200);
