@@ -15512,10 +15512,32 @@ function scheduleSave(){clearTimeout(saveTimer);const status=$('#saveStatus');st
 function refreshSaveAge(){return}
 setInterval(refreshSaveAge,30000);
 [title,dek,seoTitle,metaDesc,$('#featuredCaption'),$('#featuredCopyright'),$('#category'),$('#articleType'),$('#contentInitiative'),$('#contentType'),$('#reporter'),$('#editorName'),$('#seoKeyword')].filter(Boolean).forEach(el=>{el.oninput=()=>{growAll();scheduleSave();renderFast();scheduleHeavyRender(260)};el.onchange=()=>{scheduleSave();renderFast();scheduleHeavyRender(80)}});
-function renderTags(){$('#tagList').innerHTML=tags.map((t,i)=>'<span class="tag-chip">'+esc(t)+' <button data-r="'+i+'" aria-label="Hapus tag"><i data-lucide="x"></i></button></span>').join('');$$('[data-r]').forEach(b=>b.onclick=()=>{tags.splice(+b.dataset.r,1);if(seoAiApplied&&!seoEditedAfterAi.has('tags')){seoEditedAfterAi.add('tags');track('seo_field_edit',{field:'tags',after_ai:true})}renderTags();renderTagSuggestions();scheduleSave();renderSeoAutomation()});lucide.createIcons()}
+// Phase 3B: shared model owns interactive Tags mutations; legacy `tags`
+// remains the serialization contract for drafts and existing SEO consumers.
+let newsroomSharedTagsModel=null;
+function getNewsroomSharedTagsModel(){
+  if(!window.NewsroomTagInputModel?.create)return null;
+  if(!newsroomSharedTagsModel)newsroomSharedTagsModel=window.NewsroomTagInputModel.create({initial:tags,max:5,catalogue:()=>tagSuggestions});
+  // Legacy scenario switching and draft restoration still assign `tags`.
+  newsroomSharedTagsModel.set(tags);
+  return newsroomSharedTagsModel;
+}
+function renderTags(){
+  const model=getNewsroomSharedTagsModel();
+  if(model)tags=model.getItems();
+  $('#tagList').innerHTML=tags.map((t,i)=>'<span class="tag-chip">'+esc(t)+' <button data-r="'+i+'" aria-label="Hapus tag"><i data-lucide="x"></i></button></span>').join('');
+  $('[data-r]').forEach(b=>b.onclick=()=>{
+    const index=+b.dataset.r;
+    if(model){model.remove(index);tags=model.getItems()}else tags.splice(index,1);
+    if(seoAiApplied&&!seoEditedAfterAi.has('tags')){seoEditedAfterAi.add('tags');track('seo_field_edit',{field:'tags',after_ai:true})}
+    renderTags();renderTagSuggestions();scheduleSave();renderSeoAutomation()
+  });
+  lucide.createIcons()
+}
 function renderTagSuggestions(){
   const input=$('#tagInput'),q=(input?.value||'').trim().toLowerCase();
-  const available=tags.length>=5?[]:tagSuggestions.filter(t=>!tags.includes(t)&&(!q||t.toLowerCase().includes(q)));
+  const model=getNewsroomSharedTagsModel();
+  const available=model?model.suggestions(q,{count:8}):tags.length>=5?[]:tagSuggestions.filter(t=>!tags.includes(t)&&(!q||t.toLowerCase().includes(q)));
   const list=$('#tagSuggestions');
   if(!list)return;
   if(!q){list.innerHTML='';list.classList.remove('has-results','is-empty');return}
@@ -15534,8 +15556,9 @@ $('#tagInput').addEventListener('input',renderTagSuggestions);
 $('#tagInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault()}});
 function addExistingTag(tag,{clearSearch=true}={}){
   const value=String(tag||'').trim();
-  if(!value||tags.includes(value)||tags.length>=5)return false;
-  tags.push(value);
+  const model=getNewsroomSharedTagsModel();
+  if(model){if(!model.add(value).ok)return false;tags=model.getItems()}
+  else{if(!value||tags.includes(value)||tags.length>=5)return false;tags.push(value)}
   if(seoAiApplied&&!seoEditedAfterAi.has('tags')){
     seoEditedAfterAi.add('tags');
     track('seo_field_edit',{field:'tags',after_ai:true});
