@@ -226,6 +226,22 @@
       event.preventDefault();
       event.stopImmediatePropagation();
     },true);
+    document.addEventListener('click',event=>{
+      const target=event.target instanceof Element?event.target:null;
+      const close=target?.closest('#tagList button[data-r]');
+      if(!close)return;
+      const mirror=window.__nrPhase3bTagsMirror;
+      if(!mirror)return;
+      const position=Number(close.dataset.r);
+      const selected=mirror.getItems();
+      const item=selected[position];
+      // Validate the mutation in the shared model before allowing the
+      // legacy editor to own the article/draft/SEO write.
+      if(item===undefined||!mirror.checkRemove(position).ok){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    },true);
     document.addEventListener('keydown',event=>{
       const input=event.target;
       if(!(input instanceof Element)||input.id!=='tagInput'||event.key!=='Enter')return;
@@ -269,6 +285,7 @@
       getItems:()=>{synchronize();return mirror.getItems()},
       suggest:query=>{synchronize();return mirror.suggestions(query)},
       checkAdd:value=>{synchronize();return mirror.planAdd(value)},
+      checkRemove:value=>{synchronize();return mirror.planRemove(value)},
       disconnect:()=>observer.disconnect()
     });
   }
