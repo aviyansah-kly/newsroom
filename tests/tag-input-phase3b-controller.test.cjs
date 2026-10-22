@@ -2,27 +2,23 @@ const assert=require('node:assert/strict');
 const {test}=require('node:test');
 const fs=require('node:fs');
 const path=require('node:path');
-const source=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
-const start=source.indexOf('function getNewsroomSharedTagsModel()');
-const end=source.indexOf('function renderAiTagPreview(',start);
-const controller=source.slice(start,end);
-test('article Tags add/remove/suggestions use shared model',()=>{
- assert.ok(start>0&&end>start);
- assert.match(controller,/NewsroomTagInputModel\.create\(\{initial:tags,max:5/);
- assert.match(controller,/model\.remove\(index\)/);
- assert.match(controller,/model\.add\(value\)/);
- assert.match(controller,/model\.suggestions\(q,\{count:8\}\)/);
+const editor=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+const bridge=fs.readFileSync(path.join(__dirname,'../scripts/newsroom-editorial-reusable.js'),'utf8');
+test('protected inline editor remains unchanged and owns draft/SEO updates',()=>{
+ assert.match(editor,/function renderTags\(/);
+ assert.match(editor,/function addExistingTag\(/);
+ assert.match(editor,/scheduleSave\(\)/);
+ assert.match(editor,/renderSeoAutomation\(\)/);
+ assert.doesNotMatch(editor,/function getNewsroomSharedTagsModel\(/);
 });
-test('rendered chip close and suggestion buttons attach handlers to every result',()=>{
- assert.match(controller,/document\.querySelectorAll\('#tagList \[data-r\]'\)\.forEach/);
- assert.match(controller,/document\.querySelectorAll\('#tagSuggestions \[data-add\]'\)\.forEach/);
- assert.doesNotMatch(controller,/\$\('#tagSuggestions \[data-add\]'\)\.forEach/);
+test('external shared model validates suggestion adds, AI preview, and chip removal',()=>{
+ assert.match(bridge,/mirror\.checkAdd\(button\.dataset\.add\)/);
+ assert.match(bridge,/mirror\.checkAdd\(button\.dataset\.previewTag\)/);
+ assert.match(bridge,/mirror\.checkRemove\(position\)/);
+ assert.match(bridge,/mirror\.planRemove\(value\)/);
 });
-test('draft save and SEO tracking remain in Tags add/remove',()=>{
- assert.match(controller,/scheduleSave\(\)/);
- assert.match(controller,/renderSeoAutomation\(\)/);
- assert.match(controller,/seoEditedAfterAi\.add\('tags'\)/);
-});
-test('AI bulk Tags apply passes shared max and duplicate protections',()=>{
- assert.match(source,/\['Energi','Pertalite','Biosolar'\]\.forEach\(t=>m\.add\(t\)\)/);
+test('Enter and click use existing draft-saving Tags add event',()=>{
+ assert.match(bridge,/selected\.click\(\)/);
+ assert.match(bridge,/new CustomEvent\('newsroom:add-existing-tag'/);
+ assert.match(editor,/window\.addEventListener\('newsroom:add-existing-tag'/);
 });
