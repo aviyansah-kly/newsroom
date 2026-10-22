@@ -15512,32 +15512,10 @@ function scheduleSave(){clearTimeout(saveTimer);const status=$('#saveStatus');st
 function refreshSaveAge(){return}
 setInterval(refreshSaveAge,30000);
 [title,dek,seoTitle,metaDesc,$('#featuredCaption'),$('#featuredCopyright'),$('#category'),$('#articleType'),$('#contentInitiative'),$('#contentType'),$('#reporter'),$('#editorName'),$('#seoKeyword')].filter(Boolean).forEach(el=>{el.oninput=()=>{growAll();scheduleSave();renderFast();scheduleHeavyRender(260)};el.onchange=()=>{scheduleSave();renderFast();scheduleHeavyRender(80)}});
-// Phase 3B: shared model owns interactive Tags mutations; legacy `tags`
-// remains the serialization contract for drafts and existing SEO consumers.
-let newsroomSharedTagsModel=null;
-function getNewsroomSharedTagsModel(){
-  if(!window.NewsroomTagInputModel?.create)return null;
-  if(!newsroomSharedTagsModel)newsroomSharedTagsModel=window.NewsroomTagInputModel.create({initial:tags,max:5,catalogue:()=>tagSuggestions});
-  // Legacy scenario switching and draft restoration still assign `tags`.
-  newsroomSharedTagsModel.set(tags);
-  return newsroomSharedTagsModel;
-}
-function renderTags(){
-  const model=getNewsroomSharedTagsModel();
-  if(model)tags=model.getItems();
-  $('#tagList').innerHTML=tags.map((t,i)=>'<span class="tag-chip">'+esc(t)+' <button data-r="'+i+'" aria-label="Hapus tag"><i data-lucide="x"></i></button></span>').join('');
-  document.querySelectorAll('#tagList [data-r]').forEach(b=>b.onclick=()=>{
-    const index=+b.dataset.r;
-    if(model){model.remove(index);tags=model.getItems()}else tags.splice(index,1);
-    if(seoAiApplied&&!seoEditedAfterAi.has('tags')){seoEditedAfterAi.add('tags');track('seo_field_edit',{field:'tags',after_ai:true})}
-    renderTags();renderTagSuggestions();scheduleSave();renderSeoAutomation()
-  });
-  lucide.createIcons()
-}
+function renderTags(){$('#tagList').innerHTML=tags.map((t,i)=>'<span class="tag-chip">'+esc(t)+' <button data-r="'+i+'" aria-label="Hapus tag"><i data-lucide="x"></i></button></span>').join('');$$('[data-r]').forEach(b=>b.onclick=()=>{tags.splice(+b.dataset.r,1);if(seoAiApplied&&!seoEditedAfterAi.has('tags')){seoEditedAfterAi.add('tags');track('seo_field_edit',{field:'tags',after_ai:true})}renderTags();renderTagSuggestions();scheduleSave();renderSeoAutomation()});lucide.createIcons()}
 function renderTagSuggestions(){
   const input=$('#tagInput'),q=(input?.value||'').trim().toLowerCase();
-  const model=getNewsroomSharedTagsModel();
-  const available=model?model.suggestions(q,{count:8}):tags.length>=5?[]:tagSuggestions.filter(t=>!tags.includes(t)&&(!q||t.toLowerCase().includes(q)));
+  const available=tags.length>=5?[]:tagSuggestions.filter(t=>!tags.includes(t)&&(!q||t.toLowerCase().includes(q)));
   const list=$('#tagSuggestions');
   if(!list)return;
   if(!q){list.innerHTML='';list.classList.remove('has-results','is-empty');return}
@@ -15547,7 +15525,7 @@ function renderTagSuggestions(){
   }
   list.classList.remove('is-empty');list.classList.add('has-results');
   list.innerHTML=available.slice(0,8).map(t=>'<button class="newsroom-tag-result" type="button" data-add="'+esc(t)+'"><span>'+esc(t)+'</span><span class="newsroom-tag-result-icon"><i data-lucide="plus"></i></span></button>').join('');
-  document.querySelectorAll('#tagSuggestions [data-add]').forEach(b=>b.onclick=()=>{
+  $('#tagSuggestions [data-add]').forEach(b=>b.onclick=()=>{
     addExistingTag(b.dataset.add);
   });
   lucide.createIcons()
@@ -15556,9 +15534,8 @@ $('#tagInput').addEventListener('input',renderTagSuggestions);
 $('#tagInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault()}});
 function addExistingTag(tag,{clearSearch=true}={}){
   const value=String(tag||'').trim();
-  const model=getNewsroomSharedTagsModel();
-  if(model){if(!model.add(value).ok)return false;tags=model.getItems()}
-  else{if(!value||tags.includes(value)||tags.length>=5)return false;tags.push(value)}
+  if(!value||tags.includes(value)||tags.length>=5)return false;
+  tags.push(value);
   if(seoAiApplied&&!seoEditedAfterAi.has('tags')){
     seoEditedAfterAi.add('tags');
     track('seo_field_edit',{field:'tags',after_ai:true});
@@ -15596,7 +15573,7 @@ window.addEventListener('newsroom:add-existing-tag',e=>{
   addExistingTag(e.detail?.tag);
 });
 
-$$('[data-ai]').forEach(b=>b.onclick=()=>$('#ai-'+b.dataset.ai).classList.toggle('open'));$$('[data-apply]').forEach(b=>b.onclick=()=>{const k=b.dataset.apply;if(k==='tags'){const m=getNewsroomSharedTagsModel();if(m){['Energi','Pertalite','Biosolar'].forEach(t=>m.add(t));tags=m.getItems()}else ['Energi','Pertalite','Biosolar'].forEach(t=>!tags.includes(t)&&tags.push(t));renderTags();renderTagSuggestions();renderSeoAutomation()}if(k==='keyword')$('#seoKeyword').value='harga BBM subsidi 2026';if(k==='title')seoTitle.value='Minyak Dunia US$ 100, Purbaya Tegaskan Harga BBM Subsidi Tetap';if(k==='meta')metaDesc.value='Pemerintah menahan harga BBM subsidi di tengah lonjakan minyak dunia dengan dukungan penerimaan migas dan efisiensi anggaran.';$('#ai-'+k).classList.remove('open');scheduleSave()});
+$$('[data-ai]').forEach(b=>b.onclick=()=>$('#ai-'+b.dataset.ai).classList.toggle('open'));$$('[data-apply]').forEach(b=>b.onclick=()=>{const k=b.dataset.apply;if(k==='tags'){['Energi','Pertalite','Biosolar'].forEach(t=>!tags.includes(t)&&tags.push(t));renderTags()}if(k==='keyword')$('#seoKeyword').value='harga BBM subsidi 2026';if(k==='title')seoTitle.value='Minyak Dunia US$ 100, Purbaya Tegaskan Harga BBM Subsidi Tetap';if(k==='meta')metaDesc.value='Pemerintah menahan harga BBM subsidi di tengah lonjakan minyak dunia dengan dukungan penerimaan migas dan efisiensi anggaran.';$('#ai-'+k).classList.remove('open');scheduleSave()});
 
 // SIXDESK_SEO_AUTOMATION_JS_START
 let seoSuggestion=null,seoAiApplied=false;const seoEditedAfterAi=new Set();
