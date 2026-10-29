@@ -19,7 +19,7 @@ const seed=[
  {id:6,username:'rafi.hidayat',name:'Rafi Hidayat',displayName:'Rafi Hidayat',email:'rafi@example.com',klyId:'KLY-106',title:'Administrator',partner:'KLY',role:'Admin',grants:[{role:'Admin',channel:'News'}],active:true,verified:true,twoFactor:true,contributor:false,productManager:true,aiEditor:false,autopilot:false,expirationDate:'',updated:'29 Okt 2026'}
 ];
 let users=seed.map(x=>({...x,grants:x.grants.map(y=>({...y}))}));
-let logs=[{when:'Demo',message:'Activity Log siap digunakan untuk simulasi perubahan akun.'}],page=0,editing=null,pending=null,lastFocus=null,workingGrants=[];
+let logs=[{when:'Demo',message:'Activity Log siap digunakan untuk simulasi perubahan akun.'}],page=0,editing=null,pending=null,lastFocus=null,workingGrants=[],pendingChannelSelection=new Set();
 const $=id=>document.getElementById(id),all=selector=>[...document.querySelectorAll(selector)];
 const el=(tag,cls='',value)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(value!=null)node.textContent=value;return node};
 const icon=()=>window.lucide?.createIcons();
@@ -76,14 +76,14 @@ function renderChannels(){
  const list=$('deskOptions'),term=$('channelSearch').value.trim().toLowerCase();list.replaceChildren();
  const visible=channels.filter(c=>c.toLowerCase().includes(term));
  if(!visible.length)list.append(el('p','nr-grants-empty','Channel tidak ditemukan.'));
- for(const channel of visible){const label=el('label','nr-channel-item'),input=el('input'),span=el('span','',channel);input.type='checkbox';input.value=channel;input.checked=false;label.append(input,span);list.append(label)}
+ for(const channel of visible){const label=el('label','nr-channel-item'),input=el('input'),span=el('span','',channel);input.type='checkbox';input.value=channel;input.checked=pendingChannelSelection.has(channel);input.addEventListener('change',()=>{if(input.checked)pendingChannelSelection.add(channel);else pendingChannelSelection.delete(channel)});label.append(input,span);list.append(label)}
 }
-function selectedChannels(){return all('#deskOptions input:checked').map(node=>node.value)}
+function selectedChannels(){return [...pendingChannelSelection]}
 function addGrantFromSelection(){
  const role=$('grantRole').value,chosen=selectedChannels();
  if(!chosen.length){$('formError').textContent='Pilih minimal satu channel untuk assignment.';$('formError').hidden=false;return false}
  for(const channel of chosen)if(!workingGrants.some(item=>item.role===role&&item.channel===channel))workingGrants.push({role,channel});
- $('formError').hidden=true;renderChannels();renderGrants();return true
+ $('formError').hidden=true;pendingChannelSelection.clear();renderChannels();renderGrants();return true
 }
 function syncExpiration(){const on=$('fieldExpirationEnabled').checked;$('expirationField').hidden=!on;$('fieldExpirationDate').required=on;if(!on)$('fieldExpirationDate').value=''}
 function openDrawer(user){
@@ -95,7 +95,7 @@ function openDrawer(user){
  $('fieldActive').checked=user?.active??true;
  for(const [id,key] of [['fieldVerified','verified'],['fieldTwoFactor','twoFactor'],['fieldContributor','contributor'],['fieldProductManager','productManager'],['fieldAiEditor','aiEditor'],['fieldAutopilot','autopilot']])$(id).checked=!!user?.[key];
  $('fieldExpirationEnabled').checked=!!user?.expirationDate;$('fieldExpirationDate').value=user?.expirationDate||'';syncExpiration();
- $('fieldPassword').value='';$('channelSearch').value='';workingGrants=(user?.grants||[]).map(g=>({...g}));
+ $('fieldPassword').value='';$('channelSearch').value='';pendingChannelSelection.clear();workingGrants=(user?.grants||[]).map(g=>({...g}));
  renderChannels();renderGrants();$('formError').hidden=true;
  $('drawerBackdrop').hidden=$('userDrawer').hidden=false;document.body.classList.add('nr-modal-open');$('fieldUsername').focus()
 }
@@ -130,7 +130,7 @@ $('drawerBackdrop').addEventListener('click',closeDrawer);
 $('fieldExpirationEnabled').addEventListener('change',syncExpiration);
 $('channelSearch').addEventListener('input',renderChannels);
 $('addGrant').addEventListener('click',addGrantFromSelection);
-$('toggleAllChannels').addEventListener('click',()=>{const checkboxes=all('#deskOptions input');const next=!checkboxes.every(node=>node.checked);checkboxes.forEach(node=>node.checked=next)});
+$('toggleAllChannels').addEventListener('click',()=>{const checkboxes=all('#deskOptions input');const next=!checkboxes.every(node=>node.checked);checkboxes.forEach(node=>{node.checked=next;if(next)pendingChannelSelection.add(node.value);else pendingChannelSelection.delete(node.value)})});
 $('cancelConfirm').addEventListener('click',closeConfirm);
 $('confirmBackdrop').addEventListener('click',event=>{if(event.target===$('confirmBackdrop'))closeConfirm()});
 $('acceptConfirm').addEventListener('click',()=>{if(!pending)return;const user=users.find(u=>u.id===pending.id);if(user){if(pending.type==='delete'){users=users.filter(u=>u.id!==user.id);log('User '+user.name+' dihapus.')}else{user.active=!user.active;user.updated=formatNow();log('User '+user.name+' '+(user.active?'diaktifkan.':'dinonaktifkan.'))}page=0;draw()}closeConfirm()});
