@@ -357,3 +357,5 @@ html[data-theme="dark"] .nr-users-page .nr-permission-cell.is-allowed{color:var(
  .nr-users-page .nr-user-editor .nr-desk-options{grid-template-columns:1fr}
  .nr-users-page .nr-user-editor .nr-editor-page-header h1{font-size:23px}
 }
+
+.nr-users-page .nr-row-ellipsis{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;font-size:20px;line-height:1;font-weight:700;letter-spacing:1px;color:inherit}
