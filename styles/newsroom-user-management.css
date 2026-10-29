@@ -290,3 +290,70 @@ html[data-theme="dark"] .nr-users-page .nr-permission-cell.is-allowed{color:var(
  .nr-users-page .nr-drawer-body{padding:18px}
  .nr-users-page .nr-drawer-header,.nr-users-page .nr-drawer-footer{padding:16px 18px}
 }
+
+
+/* User Management final alignment: full-bleed table surface matching Newsroom
+   data pages; full-page Create/Edit workflow (no side drawer). */
+.nr-users-page .nr-users-table-card{padding:0!important;overflow:visible}
+.nr-users-page #panel-users .nr-users-table-scroll{margin:0;width:100%;overflow-x:auto}
+.nr-users-page #panel-users .nr-users-table thead th:first-child,
+.nr-users-page #panel-users .nr-users-table tbody td:first-child{border-left:0}
+.nr-users-page #panel-users .nr-users-table thead th:last-child,
+.nr-users-page #panel-users .nr-users-table tbody td:last-child{border-right:0}
+.nr-users-page #panel-roles .nr-roles-card{padding:24px 0 0}
+.nr-users-page #panel-roles .nr-roles-card>h2,.nr-users-page #panel-roles .nr-roles-card>p{margin-left:24px;margin-right:24px}
+.nr-users-page #panel-roles .nr-users-table-scroll{width:100%;margin:0;overflow:auto}
+.nr-users-page #panel-roles .nr-users-table{min-width:800px}
+.nr-users-page #panel-activity .nr-roles-card{padding:24px}
+.nr-users-page .nr-users-toolbar{padding:14px 18px}
+.nr-users-page .nr-users-table th{padding-left:18px;padding-right:18px}
+.nr-users-page .nr-users-table td{padding-left:18px;padding-right:18px}
+/* Reuse native Newsroom select control chevron, with explicit right inset. */
+.nr-users-page #userListPage select,
+.nr-users-page #userEditorPage select{
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:16px;
+  background-position:right 14px center;
+  padding-right:42px!important;
+}
+.nr-users-page .nr-user-editor{display:block;width:100%;max-width:1120px;margin:0 auto;padding-bottom:60px}
+.nr-users-page .nr-user-editor[hidden],.nr-users-page #userListPage[hidden]{display:none!important}
+.nr-users-page .nr-user-editor form{display:block;width:100%}
+.nr-users-page .nr-user-editor .nr-editor-page-header{
+  display:block;padding:0;margin:0 0 22px;background:transparent;border:0;
+}
+.nr-users-page .nr-user-editor .nr-editor-page-header h1{
+  margin:10px 0 4px;font-size:26px;line-height:34px;letter-spacing:-.02em;font-weight:700;color:var(--um-ink);
+}
+.nr-users-page .nr-user-editor .nr-editor-page-header p{font-size:13px;line-height:19px;color:var(--um-muted);margin:4px 0 0}
+.nr-users-page .nr-editor-back{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--nr-blue,#2563eb);font-weight:600;text-decoration:none}
+.nr-users-page .nr-editor-back svg{width:16px;height:16px}
+.nr-users-page .nr-editor-back:hover{text-decoration:underline}
+.nr-users-page .nr-user-editor .nr-drawer-body{
+  display:block;padding:28px;background:var(--um-surface);
+  border:1px solid var(--um-border);border-radius:var(--um-radius);overflow:visible
+}
+.nr-users-page .nr-user-editor .nr-form-section{margin-bottom:28px;padding-bottom:28px}
+.nr-users-page .nr-user-editor .nr-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.nr-users-page .nr-user-editor .nr-drawer-footer{
+  justify-content:flex-end;margin-top:20px;padding:0;border:0;background:transparent;
+}
+.nr-users-page .nr-user-editor .nr-grants-list{max-height:none}
+.nr-users-page .nr-user-editor .nr-desk-options{grid-template-columns:repeat(3,minmax(0,1fr));max-height:280px}
+.nr-users-page .nr-user-editor .nr-grant-builder{max-width:800px}
+.nr-users-page .nr-user-editor .nr-form-grid>label{min-width:0}
+.nr-users-page .nr-user-editor .nr-password-field input:disabled{
+  opacity:.7;cursor:not-allowed;background:var(--um-subtle)
+}
+@media(max-width:850px){
+ .nr-users-page .nr-user-editor .nr-desk-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ .nr-users-page #panel-roles .nr-roles-card>h2,.nr-users-page #panel-roles .nr-roles-card>p{margin-left:16px;margin-right:16px}
+ .nr-users-page .nr-user-editor .nr-form-grid{grid-template-columns:1fr}
+ .nr-users-page .nr-user-editor .nr-form-grid .nr-form-wide{grid-column:1}
+ .nr-users-page .nr-user-editor .nr-drawer-body{padding:18px}
+ .nr-users-page .nr-user-editor .nr-desk-options{grid-template-columns:1fr}
+ .nr-users-page .nr-user-editor .nr-editor-page-header h1{font-size:23px}
+}
