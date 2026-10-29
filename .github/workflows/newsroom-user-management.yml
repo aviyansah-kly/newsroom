@@ -1,0 +1,26 @@
+name: Newsroom User Management QA
+on:
+  push:
+    branches: [feature/user-management-page]
+  pull_request:
+    paths:
+      - 'users.html'
+      - 'scripts/newsroom-user-management.js'
+      - 'styles/newsroom-user-management.css'
+      - 'scripts/newsroom-global-navigation.js'
+      - 'tests/user-management-smoke.cjs'
+      - '.github/workflows/newsroom-user-management.yml'
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax
+        run: |
+          node --check scripts/newsroom-user-management.js
+          node --check scripts/newsroom-global-navigation.js
+      - name: Static QA
+        run: node --test tests/user-management-smoke.cjs
