@@ -86,7 +86,7 @@ const {chromium}=require('playwright');
   await page.locator('#userForm button[type="submit"]').click();
   await page.locator('#userSearch').fill('QA Example Edited');
   assert.equal(await page.locator('#userRows tr').count(),1,'edit user works');
-  await page.getByRole('button',{name:'Aksi lainnya untuk QA Example Edited'}).click();
+  await page.getByRole('button',{name:'More options for QA Example Edited'}).click();
   await page.getByRole('button',{name:'Nonaktifkan User',exact:true}).click();
   assert.equal(await page.locator('#confirmBackdrop').isVisible(),true,'confirmation opens');
   await page.locator('#acceptConfirm').click();
