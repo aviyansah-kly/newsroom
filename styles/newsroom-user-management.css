@@ -185,3 +185,108 @@ html[data-theme="dark"] .nr-users-page .nr-permission-cell.is-allowed{color:var(
  .nr-users-page .nr-user-identity strong{font-size:14px}
  .nr-users-page .nr-users-table-scroll{overflow-x:auto}
 }
+
+
+/* Phase 2 User Management — canonical Newsroom table/form refinement.
+ * Table geometry follows Articles index and Tag Management (single separators,
+ * compact actions, 14px primary text, 12px metadata), no new palette values. */
+.nr-users-page .nr-users-container{max-width:1440px}
+.nr-users-page .nr-users-table{min-width:1030px;line-height:1.5}
+.nr-users-page .nr-users-table th{height:44px;padding:10px 16px;font-size:12px;letter-spacing:0;font-weight:700}
+.nr-users-page .nr-users-table td{height:76px;padding:12px 16px;font-size:14px}
+.nr-users-page .nr-users-table th:nth-child(1){width:29%}
+.nr-users-page .nr-users-table th:nth-child(2){width:16%}
+.nr-users-page .nr-users-table th:nth-child(3){width:22%}
+.nr-users-page .nr-users-table th:nth-child(4){width:11%}
+.nr-users-page .nr-users-table th:nth-child(5){width:13%}
+.nr-users-page .nr-users-table th:nth-child(6){width:9%;text-align:right}
+.nr-users-page .nr-user-identity .nr-identity-copy{display:block;min-width:0}
+.nr-users-page .nr-user-identity strong{font-size:14px;line-height:20px}
+.nr-users-page .nr-user-identity small{font-size:12px;line-height:17px;margin-top:2px}
+.nr-users-page .nr-channel-summary{display:block;font-size:12px;color:var(--um-muted);margin-top:5px;line-height:17px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nr-users-page .nr-row-actions{position:relative;gap:6px}
+.nr-users-page .nr-row-actions .nr-btn{min-height:36px;height:36px;min-width:36px;padding:0 10px;font-size:12px;background:var(--um-surface);color:var(--um-ink);border:1px solid var(--um-border);border-radius:7px}
+.nr-users-page .nr-row-actions .nr-btn:hover{background:var(--um-hover)}
+.nr-users-page .nr-row-actions .nr-row-more{width:36px;padding:0}
+.nr-users-page .nr-row-more svg{width:16px;height:16px}
+.nr-users-page .nr-row-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:25;width:192px;padding:6px;border:1px solid var(--um-border);border-radius:9px;background:var(--um-surface);box-shadow:var(--nr-shadow-md,0 10px 30px rgba(15,23,42,.08));text-align:left}
+.nr-users-page .nr-row-menu[hidden]{display:none!important}
+.nr-users-page .nr-row-menu-item{display:block;width:100%;min-height:38px;padding:9px 10px;text-align:left;font-size:13px;font-weight:550;border:0;background:transparent;color:var(--um-ink);border-radius:6px;cursor:pointer}
+.nr-users-page .nr-row-menu-item:hover{background:var(--um-hover)}
+.nr-users-page .nr-row-menu-item.is-danger{color:var(--nr-red,#dc2626)}
+.nr-users-page .nr-role-chip{font-size:12px;min-height:27px}
+.nr-users-page .nr-user-status{min-height:27px;font-size:12px}
+.nr-users-page .nr-roles-card .nr-users-table th:first-child{width:33%}
+.nr-users-page .nr-roles-card .nr-users-table th:not(:first-child){width:13.4%;text-align:center}
+.nr-users-page .nr-roles-card .nr-users-table td{height:56px}
+.nr-users-page .nr-users-toolbar select{min-width:138px;font-size:13px}
+.nr-users-page .nr-users-toolbar .nr-users-search{min-width:240px}
+.nr-users-page .nr-user-drawer{width:min(680px,100%);max-width:100vw}
+.nr-users-page .nr-drawer-header{padding:22px 28px}
+.nr-users-page .nr-drawer-eyebrow{display:block;color:var(--um-muted);font-size:12px;font-weight:600;margin-bottom:6px}
+.nr-users-page .nr-drawer-body{display:block;padding:22px 28px 28px}
+.nr-users-page .nr-form-section{padding:0 0 26px;margin:0 0 26px;border-bottom:1px solid var(--um-border)}
+.nr-users-page .nr-form-section:last-of-type{border-bottom:0;margin-bottom:0;padding-bottom:12px}
+.nr-users-page .nr-form-section-head{margin-bottom:19px}
+.nr-users-page .nr-form-section-head h3{color:var(--um-ink);font-size:16px;line-height:24px;font-weight:700;margin:0}
+.nr-users-page .nr-form-section-head p{color:var(--um-muted);font-size:12px;line-height:1.6;margin:4px 0 0}
+.nr-users-page .nr-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px 14px}
+.nr-users-page .nr-form-grid>label,.nr-users-page .nr-form-section>label:not(.nr-status-field),
+.nr-users-page .nr-grant-builder>label{display:flex;flex-direction:column;align-items:stretch;gap:8px;color:var(--um-ink);font-size:13px;font-weight:650;min-width:0}
+.nr-users-page .nr-form-grid .nr-form-wide{grid-column:1/-1}
+.nr-users-page .nr-form-section input:not([type=checkbox]),.nr-users-page .nr-form-section select{width:100%;height:42px;padding:0 12px;border:1px solid var(--um-border);border-radius:8px;background:var(--um-input);color:var(--um-ink);font-size:14px;font-weight:400}
+.nr-users-page .nr-form-section input:focus-visible,.nr-users-page .nr-form-section select:focus-visible{border-color:var(--um-focus)}
+.nr-users-page .nr-form-section input[type=checkbox]{width:17px;height:17px;accent-color:var(--nr-orange,#f4511e);cursor:pointer}
+.nr-users-page .nr-form-section em{font-style:normal;color:var(--nr-orange,#f4511e)}
+.nr-users-page .nr-field-optional{font-size:12px;color:var(--um-muted);font-weight:400}
+.nr-users-page .nr-grants-heading{display:flex;justify-content:space-between;align-items:center;margin-top:20px;margin-bottom:10px;gap:12px}
+.nr-users-page .nr-grants-heading strong{font-size:13px}
+.nr-users-page .nr-grants-heading span{font-size:12px;color:var(--um-muted)}
+.nr-users-page .nr-grants-list{display:grid;gap:8px;max-height:200px;overflow:auto}
+.nr-users-page .nr-grant-item{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;padding:9px 12px;background:var(--um-subtle);border:1px solid var(--um-border);border-radius:8px}
+.nr-users-page .nr-grant-item strong{display:block;font-size:13px;line-height:18px}
+.nr-users-page .nr-grant-item small{display:block;font-size:12px;line-height:18px;color:var(--um-muted);margin-top:2px}
+.nr-users-page .nr-grant-item .nr-icon-button{display:grid;place-items:center;width:32px;height:32px;min-width:32px;padding:0;border:1px solid var(--um-border);background:var(--um-surface)}
+.nr-users-page .nr-grant-item .nr-icon-button svg{width:15px;height:15px}
+.nr-users-page .nr-grants-empty{color:var(--um-muted);font-size:12px;padding:14px;border:1px dashed var(--um-border);border-radius:8px;margin:0}
+.nr-users-page .nr-grant-builder{margin-top:14px;padding:16px;border:1px solid var(--um-border);border-radius:9px;background:var(--um-subtle)}
+.nr-users-page .nr-grant-builder select,.nr-users-page .nr-grant-builder input:not([type=checkbox]){background:var(--um-input)}
+.nr-users-page .nr-category-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:18px;margin-bottom:10px;font-size:13px;font-weight:650}
+.nr-users-page .nr-inline-link{border:0;background:none;color:var(--nr-blue,#2563eb);font-size:12px;font-weight:650;cursor:pointer}
+.nr-users-page .nr-category-search{display:flex!important;flex-direction:row!important;align-items:center!important;gap:8px!important;height:42px;padding:0 12px;border:1px solid var(--um-border);border-radius:8px;background:var(--um-input)}
+.nr-users-page .nr-category-search svg{width:17px;height:17px;flex:none;color:var(--um-muted)}
+.nr-users-page .nr-category-search input{flex:1;min-width:0;height:38px!important;border:0!important;outline:none!important;box-shadow:none!important;padding:0!important;background:transparent!important}
+.nr-users-page .nr-desk-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:208px;margin:12px 0;overflow-y:auto;align-content:start}
+.nr-users-page .nr-desk-options .nr-channel-item{display:flex;align-items:center;gap:8px;min-height:40px;margin:0;padding:8px 10px;border:1px solid var(--um-border);border-radius:7px;background:var(--um-surface);font-size:12px;font-weight:500;cursor:pointer}
+.nr-users-page .nr-desk-options .nr-channel-item:has(input:checked){border-color:var(--um-focus);background:var(--um-hover)}
+.nr-users-page .nr-desk-options .nr-channel-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nr-users-page .nr-grant-builder .nr-btn{min-height:38px;margin-top:4px;font-size:13px;border:1px solid var(--um-border);border-radius:8px;background:var(--um-surface);color:var(--um-ink)}
+.nr-users-page .nr-grant-builder .nr-btn svg{width:15px;height:15px}
+.nr-users-page .nr-status-field{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:18px;min-height:66px;border-bottom:1px solid var(--um-border);padding:12px 0}
+.nr-users-page .nr-status-field strong{font-size:13px}
+.nr-users-page .nr-status-field small{font-size:12px;line-height:18px}
+.nr-users-page .nr-expiration-field{margin:14px 0}
+.nr-users-page .nr-expiration-field[hidden]{display:none!important}
+.nr-users-page .nr-feature-flags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;margin-top:20px}
+.nr-users-page .nr-feature-flags h4{grid-column:1/-1;font-size:13px;margin:0 0 3px;font-weight:700}
+.nr-users-page .nr-feature-flags label{display:flex;align-items:center;gap:9px;min-height:37px;padding:8px 10px;border:1px solid var(--um-border);border-radius:7px;font-size:12px;cursor:pointer}
+.nr-users-page .nr-password-field{margin-top:18px;font-size:13px}
+.nr-users-page .nr-password-field small{font-size:12px;font-weight:400;color:var(--um-muted);line-height:1.55}
+.nr-users-page .nr-drawer-footer{padding:17px 28px}
+.nr-users-page .nr-drawer-footer .nr-btn{min-height:42px;font-size:14px}
+@media(max-width:720px){
+ .nr-users-page .nr-users-table th:nth-child(1){width:auto}
+ .nr-users-page #panel-users .nr-users-table td:nth-child(2),.nr-users-page #panel-users .nr-users-table td:nth-child(3),
+ .nr-users-page #panel-users .nr-users-table td:nth-child(4),.nr-users-page #panel-users .nr-users-table td:nth-child(5){min-width:0}
+ .nr-users-page #panel-users .nr-users-table td:nth-child(3) .nr-channel-summary{white-space:normal}
+ .nr-users-page #panel-users .nr-users-table td:last-child .nr-row-actions{justify-content:flex-start}
+ .nr-users-page .nr-row-menu{left:0;right:auto}
+}
+@media(max-width:560px){
+ .nr-users-page .nr-form-grid{grid-template-columns:1fr}
+ .nr-users-page .nr-form-grid .nr-form-wide{grid-column:auto}
+ .nr-users-page .nr-desk-options{grid-template-columns:1fr}
+ .nr-users-page .nr-feature-flags{grid-template-columns:1fr}
+ .nr-users-page .nr-drawer-body{padding:18px}
+ .nr-users-page .nr-drawer-header,.nr-users-page .nr-drawer-footer{padding:16px 18px}
+}
