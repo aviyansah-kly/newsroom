@@ -165,3 +165,23 @@ html[data-theme="dark"] .nr-users-page .nr-permission-cell.is-allowed{color:var(
 @media(prefers-reduced-motion:reduce){
   .nr-users-page *{scroll-behavior:auto!important;transition:none!important}
 }
+
+/* On narrow screens, prioritize a readable per-user record over a tiny
+ * horizontally scrolling six-column table. Permissions retains scroll. */
+@media(max-width:720px){
+ .nr-users-page #panel-users .nr-users-table{min-width:0;display:block;width:100%}
+ .nr-users-page #panel-users .nr-users-table thead{display:none}
+ .nr-users-page #panel-users .nr-users-table tbody{display:grid;gap:12px;padding:12px}
+ .nr-users-page #panel-users .nr-users-table tr{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;border:1px solid var(--um-border);border-radius:9px;background:var(--um-surface);padding:14px}
+ .nr-users-page #panel-users .nr-users-table tr:hover{background:var(--um-surface)}
+ .nr-users-page #panel-users .nr-users-table td{height:auto;display:flex;align-items:center;justify-content:space-between;min-width:0;padding:9px 0;border-bottom:1px solid var(--um-border);font-size:13px;text-align:left}
+ .nr-users-page #panel-users .nr-users-table td:first-child{grid-column:1/-1;padding:0 0 14px;margin-bottom:3px}
+ .nr-users-page #panel-users .nr-users-table td:nth-child(2),.nr-users-page #panel-users .nr-users-table td:nth-child(3),.nr-users-page #panel-users .nr-users-table td:nth-child(4),.nr-users-page #panel-users .nr-users-table td:nth-child(5){display:block}
+ .nr-users-page #panel-users .nr-users-table td:nth-child(n+2):before{content:attr(data-label);display:block;color:var(--um-muted);font-size:12px;font-weight:550;margin-bottom:7px}
+ .nr-users-page #panel-users .nr-users-table td:last-child{grid-column:1/-1;display:block;border-bottom:0;padding-bottom:0;padding-top:14px}
+ .nr-users-page #panel-users .nr-users-table td:last-child:before{margin-bottom:9px}
+ .nr-users-page #panel-users .nr-row-actions{justify-content:flex-start;flex-wrap:wrap}
+ .nr-users-page #panel-users .nr-row-actions .nr-icon-button{min-height:40px;font-size:13px}
+ .nr-users-page .nr-user-identity strong{font-size:14px}
+ .nr-users-page .nr-users-table-scroll{overflow-x:auto}
+}
