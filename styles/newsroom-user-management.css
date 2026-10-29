@@ -359,3 +359,80 @@ html[data-theme="dark"] .nr-users-page .nr-permission-cell.is-allowed{color:var(
 }
 
 .nr-users-page .nr-row-ellipsis{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;font-size:20px;line-height:1;font-weight:700;letter-spacing:1px;color:inherit}
+
+
+/* User Management — compact, reusable listing pagination */
+.nr-users-page .nr-users-footer{gap:16px;padding:14px 18px;min-height:70px}
+.nr-users-page .nr-pagination{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.nr-users-page .nr-page-numbers{display:flex;gap:5px;align-items:center}
+.nr-users-page .nr-pagination .nr-btn{
+ display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ min-height:36px;height:36px;border:1px solid var(--um-border);
+ border-radius:var(--nr-radius-md,8px);padding:0 12px;background:var(--um-surface);
+ color:var(--um-ink);font-size:12px;line-height:1;font-weight:650
+}
+.nr-users-page .nr-pagination .nr-page-number{min-width:36px;width:36px;padding:0}
+.nr-users-page .nr-pagination .nr-page-number.active{
+ background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);
+ color:#fff
+}
+.nr-users-page .nr-pagination .nr-btn:disabled{opacity:.45;cursor:not-allowed}
+.nr-users-page .nr-pagination .nr-btn:not(:disabled):not(.active):hover{background:var(--um-hover)}
+.nr-users-page .nr-pagination-arrow{display:inline-flex;align-items:center;font-size:22px;line-height:1;font-weight:500}
+.nr-users-page .nr-page-ellipsis{display:inline-block;padding:0 5px;font-size:13px;color:var(--um-muted)}
+.nr-users-page .nr-pagination-summary{font-size:12px;color:var(--um-muted);font-variant-numeric:tabular-nums}
+.nr-users-page .nr-access-section .nr-primary-role{
+ display:flex;flex-wrap:wrap;align-items:end;gap:12px 18px;
+ padding:0 0 22px;margin-bottom:18px;border-bottom:1px solid var(--um-border)
+}
+.nr-users-page .nr-access-section .nr-primary-role label{display:grid;gap:8px;width:min(280px,100%);font-size:13px;font-weight:650}
+.nr-users-page .nr-access-section .nr-primary-role p{font-size:12px;line-height:1.55;color:var(--um-muted);margin:0;flex:1 1 260px}
+.nr-users-page .nr-access-layout{display:grid;grid-template-columns:minmax(0, .85fr) minmax(0,1.15fr);gap:14px;align-items:start}
+.nr-users-page .nr-access-panel{
+ min-width:0;overflow:hidden;border:1px solid var(--um-border);border-radius:var(--nr-radius-lg,10px);
+ background:var(--um-surface)
+}
+.nr-users-page .nr-access-panel-head{display:flex;align-items:start;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--um-border)}
+.nr-users-page .nr-access-panel-head h4{font-size:14px;line-height:22px;font-weight:700;margin:0;color:var(--um-ink)}
+.nr-users-page .nr-access-panel-head p{margin:4px 0 0;font-size:12px;line-height:1.55;color:var(--um-muted)}
+.nr-users-page .nr-access-count{background:var(--um-subtle);border:1px solid var(--um-border);border-radius:6px;padding:5px 8px;white-space:nowrap;color:var(--um-muted);font-size:12px;font-weight:600}
+.nr-users-page .nr-access-panel .nr-grants-list{max-height:340px;min-height:126px;overflow:auto;padding:12px;gap:7px}
+.nr-users-page .nr-access-panel .nr-grant-item{
+ margin:0;min-height:51px;padding:9px 12px;gap:10px;
+ border:1px solid var(--um-border);background:var(--um-subtle);border-radius:8px
+}
+.nr-users-page .nr-grant-details{display:flex;gap:4px 10px;align-items:center;flex-wrap:wrap}
+.nr-users-page .nr-grant-details .nr-grant-role{display:inline-flex;padding:5px 8px;background:var(--um-surface);border:1px solid var(--um-border);border-radius:6px;font-size:12px}
+.nr-users-page .nr-grant-details small{font-size:12px;color:var(--um-muted);margin:0}
+.nr-users-page .nr-access-panel .nr-grants-empty{border:0;text-align:center;line-height:1.55;padding:26px 16px;margin:0}
+.nr-users-page .nr-access-panel .nr-grant-builder{border:0;border-radius:0;padding:16px 18px;background:transparent;margin:0;max-width:none}
+.nr-users-page .nr-access-panel .nr-grant-builder>label{font-size:13px;font-weight:650}
+.nr-users-page .nr-access-panel .nr-category-heading{margin:16px 0 10px;font-size:13px}
+.nr-users-page .nr-access-panel .nr-desk-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;max-height:188px;margin:0;padding:10px;overflow:auto;align-content:start}
+.nr-users-page .nr-channel-picker{border:1px solid var(--um-border);border-radius:8px;margin-top:10px;background:var(--um-subtle)}
+.nr-users-page .nr-channel-picker .nr-channel-item{min-height:36px;padding:7px 9px;background:var(--um-surface);font-size:12px;line-height:1.5}
+.nr-users-page .nr-access-panel-footer{
+ display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:14px
+}
+.nr-users-page .nr-selected-count{color:var(--um-muted);font-size:12px;font-weight:550}
+.nr-users-page .nr-access-panel-footer .nr-btn{margin:0;min-height:38px;padding:0 14px;font-size:13px}
+.nr-users-page .nr-access-panel-footer .nr-btn.nr-btn-primary{background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);color:#fff}
+.nr-users-page .nr-access-panel-footer .nr-btn:disabled{opacity:.45;cursor:not-allowed}
+.nr-users-page .nr-access-panel .nr-inline-link{font-size:12px}
+html[data-theme="dark"] .nr-users-page .nr-pagination .nr-page-number.active{
+ background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);color:#fff
+}
+@media(max-width:900px){
+ .nr-users-page .nr-access-layout{grid-template-columns:1fr}
+ .nr-users-page .nr-access-panel .nr-desk-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:600px){
+ .nr-users-page .nr-users-footer{justify-content:center;padding:14px 10px}
+ .nr-users-page .nr-pagination-summary{width:100%;text-align:center}
+ .nr-users-page .nr-pagination{justify-content:center}
+ .nr-users-page .nr-pagination .nr-btn{padding:0 9px}
+ .nr-users-page .nr-access-panel-head{padding:14px}
+ .nr-users-page .nr-access-panel .nr-grant-builder{padding:14px}
+ .nr-users-page .nr-access-panel .nr-desk-options{grid-template-columns:1fr}
+ .nr-users-page .nr-access-panel-footer{flex-wrap:wrap}
+}
