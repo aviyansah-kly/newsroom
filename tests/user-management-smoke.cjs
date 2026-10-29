@@ -7,16 +7,17 @@ const css=fs.readFileSync('styles/newsroom-user-management.css','utf8');
 const nav=fs.readFileSync('scripts/newsroom-global-navigation.js','utf8');
 
 test('Users, permissions, activity, dialog and CRUD controls exist',()=>{
- for(const id of ['userRows','userSearch','roleFilter','statusFilter','panel-users','panel-roles','panel-activity','userDrawer','userForm','confirmBackdrop']){
+ for(const id of ['userRows','userSearch','roleFilter','statusFilter','panel-users','panel-roles','panel-activity','userEditorPage','userForm','confirmBackdrop']){
    assert.ok(html.includes('id="'+id+'"'),id);
  }
  assert.match(html,/role="tabpanel"/);
- assert.match(js,/function openDrawer/);
+ assert.match(js,/function openEditor/);
  assert.match(js,/function save/);
  assert.match(js,/function confirmAction/);
 });
 test('prototype remains dummy-only with no backend or account mutation',()=>{
- assert.match(html,/data dummy/);
+ assert.doesNotMatch(html,/Prototype menggunakan data dummy/);
+ assert.doesNotMatch(html,/drawerBackdrop|userDrawer/);
  assert.doesNotMatch(js,/fetch\(|XMLHttpRequest|localStorage|sessionStorage/);
 });
 test('table has stable widths, 14px row content, legible action controls',()=>{
@@ -54,4 +55,14 @@ test('legacy CMS account fields and per-channel role controls exist',()=>{
 test('No passwords persisted in user state and role/category assignments are isolated',()=>{
  assert.match(js,/workingGrants\.map\(g=>\(\{\.\.\.g\}\)\)/);
  assert.match(js,/\$\('fieldPassword'\)\.value=''/);
+});
+
+test('form is full-page, no drawer, and navigation supports browser back',()=>{
+ assert.match(html,/id="userListPage"/);
+ assert.match(html,/id="userEditorPage"/);
+ assert.doesNotMatch(html,/class="nr-user-drawer"/);
+ assert.match(js,/history\.pushState/);
+ assert.match(js,/popstate/);
+ assert.match(css,/\.nr-users-table-card\{padding:0!important/);
+ assert.match(css,/background-position:right 14px center/);
 });
