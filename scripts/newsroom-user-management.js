@@ -91,7 +91,7 @@ function renderGrants(){
  workingGrants.forEach((grant,index)=>{
   const row=el('div','nr-grant-item'),details=el('span','nr-grant-details');
   details.append(el('strong','nr-grant-role',grant.role),el('small','',grant.channel));
-  const remove=el('button','nr-icon-button'),x=el('i');x.setAttribute('data-lucide','x');remove.append(x);remove.type='button';
+  const remove=el('button','nr-icon-button'),x=el('span','nr-remove-grant-icon','×');x.setAttribute('aria-hidden','true');remove.append(x);remove.type='button';
   remove.setAttribute('aria-label','Hapus '+grant.role+' dari '+grant.channel);
   remove.addEventListener('click',()=>{workingGrants.splice(index,1);renderGrants()});
   row.append(details,remove);list.append(row)
