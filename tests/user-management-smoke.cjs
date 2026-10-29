@@ -24,7 +24,7 @@ test('table has stable widths, 14px row content, legible action controls',()=>{
  assert.match(css,/\.nr-users-table td\{[^}]*font-size:14px/);
  assert.match(css,/\.nr-users-table th:nth-child\(6\)/);
  assert.match(css,/\.nr-row-actions/);
- assert.match(js,/data-label/);
+ assert.match(js,/dataset\.label/);
 });
 test('mobile users become labeled cards and permissions remain horizontally scrollable',()=>{
  assert.match(css,/@media\(max-width:720px\)/);
