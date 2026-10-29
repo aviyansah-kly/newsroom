@@ -62,7 +62,7 @@ function draw(){
   const updated=cell(user.updated,'Updated At');
   const action=cell(undefined,'Manage'),buttons=el('div','nr-row-actions'),edit=el('button','nr-btn nr-row-edit'),more=el('button','nr-btn nr-row-more'),menu=el('div','nr-row-menu');
   edit.type=more.type='button';edit.append(el('span','', 'Edit'));edit.setAttribute('aria-label','Edit '+user.name);edit.addEventListener('click',()=>openEditor(user));
-  more.setAttribute('aria-label','Aksi lainnya untuk '+user.name);more.setAttribute('aria-haspopup','true');more.setAttribute('aria-expanded','false');
+  more.setAttribute('aria-label','More options for '+user.name);more.setAttribute('aria-haspopup','true');more.setAttribute('aria-expanded','false');
   const dots=el('span','nr-row-ellipsis','···');dots.setAttribute('aria-hidden','true');more.append(dots);
   const toggle=el('button','nr-row-menu-item',(user.active?'Nonaktifkan User':'Aktifkan User')),remove=el('button','nr-row-menu-item is-danger','Hapus User');
   toggle.type=remove.type='button';toggle.addEventListener('click',()=>{hideMenus();confirmAction(user,'toggle')});remove.addEventListener('click',()=>{hideMenus();confirmAction(user,'delete')});menu.append(toggle,remove);menu.hidden=true;
