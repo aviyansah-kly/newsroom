@@ -113,7 +113,7 @@ function closeEditor(navigate=true){$('userEditorPage').hidden=true;$('userListP
  if(navigate&&new URLSearchParams(location.search).has('view'))history.pushState({userView:false},'','users.html');
  window.scrollTo(0,0);lastFocus?.focus()}
 function confirmAction(user,type){pending={id:user.id,type};$('confirmTitle').textContent=type==='delete'?'Hapus User?':user.active?'Nonaktifkan User?':'Aktifkan User?';
- $('confirmDescription').textContent=(type==='delete'?'User '+user.name+' akan dihapus.':user.active?'Akses '+user.name+' akan dinonaktifkan.':'Akses '+user.name+' akan diaktifkan.');$('confirmBackdrop').hidden=false;$('acceptConfirm').textContent=type==='delete'?'Hapus User':'Konfirmasi';$('cancelConfirm').focus()
+ $('confirmDescription').textContent=(type==='delete'?'User '+user.name+' akan dihapus.':user.active?'Akun '+user.name+' akan dinonaktifkan.':'Akun '+user.name+' akan diaktifkan.');$('confirmBackdrop').hidden=false;$('acceptConfirm').textContent=type==='delete'?'Hapus User':'Konfirmasi';$('cancelConfirm').focus()
 }
 function closeConfirm(){$('confirmBackdrop').hidden=true;pending=null}
 function save(event){
