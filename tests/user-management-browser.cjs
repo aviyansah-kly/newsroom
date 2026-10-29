@@ -28,6 +28,12 @@ const {chromium}=require('playwright');
   }else{
     const table=page.locator('.nr-users-table').first();
     assert.equal(await table.evaluate(node=>getComputedStyle(node).tableLayout),'fixed','column widths stable');
+    const gap=await page.locator('#panel-users').evaluate(panel=>{
+       const card=panel.querySelector('.nr-users-table-card').getBoundingClientRect();
+       const table=panel.querySelector('.nr-users-table').getBoundingClientRect();
+       return Math.abs(card.left-table.left);
+    });
+    assert.ok(gap<=3,'table is flush to card border');
   }
   fs.mkdirSync('qa-screenshots',{recursive:true});
   await page.screenshot({path:'qa-screenshots/users-'+theme+'-'+viewport.width+'.png',fullPage:true});
@@ -36,7 +42,12 @@ const {chromium}=require('playwright');
   await page.getByRole('tab',{name:'Activity Log'}).click();
   await page.getByRole('tab',{name:'Users',exact:true}).click();
   await page.locator('#addUser').click();
-  assert.equal(await page.locator('#userDrawer').isVisible(),true,'drawer opens');
+  assert.equal(await page.locator('#userEditorPage').isVisible(),true,'full-page form opens');
+  assert.equal(await page.locator('#userListPage').isVisible(),false,'list is hidden while editing');
+  assert.match(page.url(),/view=add/,'create form has addressable URL');
+  assert.equal(await page.locator('#drawerBackdrop').count(),0,'no drawer backdrop');
+  const selectInset=await page.locator('#fieldRole').evaluate(node=>parseFloat(getComputedStyle(node).paddingRight));
+  assert.ok(selectInset>=40,'dropdown chevron has safe right inset');
   await page.locator('#fieldUsername').fill('qa.example');
   await page.locator('#fieldName').fill('QA Example');
   await page.locator('#fieldDisplayName').fill('QA Example');
@@ -53,8 +64,9 @@ const {chromium}=require('playwright');
   assert.equal(await page.locator('#expirationField').isVisible(),true,'expiration date revealed');
   await page.locator('#fieldExpirationDate').fill('2027-12-31');
   await page.locator('#fieldVerified').check();
-  await page.screenshot({path:'qa-screenshots/user-drawer-'+theme+'-'+viewport.width+'.png',fullPage:true});
+  await page.screenshot({path:'qa-screenshots/user-form-'+theme+'-'+viewport.width+'.png',fullPage:true});
   await page.locator('#userForm button[type="submit"]').click();
+  assert.equal(await page.locator('#userEditorPage').isVisible(),false,'returns to user list on save');
   assert.equal(await page.locator('#totalCount').textContent(),'7','add user works');
   await page.locator('#userSearch').fill('QA Example');
   assert.equal(await page.locator('#userRows tr').count(),1,'search filters');
