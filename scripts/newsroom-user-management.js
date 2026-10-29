@@ -113,7 +113,7 @@ function closeEditor(navigate=true){$('userEditorPage').hidden=true;$('userListP
  if(navigate&&new URLSearchParams(location.search).has('view'))history.pushState({userView:false},'','users.html');
  window.scrollTo(0,0);lastFocus?.focus()}
 function confirmAction(user,type){pending={id:user.id,type};$('confirmTitle').textContent=type==='delete'?'Hapus User?':user.active?'Nonaktifkan User?':'Aktifkan User?';
- $('confirmDescription').textContent=(type==='delete'?'User '+user.name+' akan dihapus.':user.active?'Akses '+user.name+' akan dinonaktifkan.':'Akses '+user.name+' akan diaktifkan.')+'';$('confirmBackdrop').hidden=false;$('acceptConfirm').textContent=type==='delete'?'Hapus User':'Konfirmasi';$('cancelConfirm').focus()
+ $('confirmDescription').textContent=(type==='delete'?'User '+user.name+' akan dihapus.':user.active?'Akses '+user.name+' akan dinonaktifkan.':'Akses '+user.name+' akan diaktifkan.');$('confirmBackdrop').hidden=false;$('acceptConfirm').textContent=type==='delete'?'Hapus User':'Konfirmasi';$('cancelConfirm').focus()
 }
 function closeConfirm(){$('confirmBackdrop').hidden=true;pending=null}
 function save(event){
@@ -137,8 +137,8 @@ all('[data-tab]').forEach(tab=>tab.addEventListener('click',()=>{all('[data-tab]
 ['userSearch','roleFilter','statusFilter','channelFilter'].forEach(id=>$(id).addEventListener(id==='userSearch'?'input':'change',()=>{page=0;draw()}));
 $('prevPage').addEventListener('click',()=>{page--;draw()});$('nextPage').addEventListener('click',()=>{page++;draw()});
 $('addUser').addEventListener('click',()=>openEditor());$('userForm').addEventListener('submit',save);
-for(const id of ['closeDrawer','cancelDrawer'])$(id).addEventListener('click',closeDrawer);
-$('drawerBackdrop').addEventListener('click',closeDrawer);
+$('cancelDrawer').addEventListener('click',()=>closeEditor());
+$('backToUsers').addEventListener('click',event=>{event.preventDefault();closeEditor()});
 $('fieldExpirationEnabled').addEventListener('change',syncExpiration);
 $('channelSearch').addEventListener('input',renderChannels);
 $('addGrant').addEventListener('click',addGrantFromSelection);
