@@ -436,3 +436,6 @@ html[data-theme="dark"] .nr-users-page .nr-pagination .nr-page-number.active{
  .nr-users-page .nr-access-panel .nr-desk-options{grid-template-columns:1fr}
  .nr-users-page .nr-access-panel-footer{flex-wrap:wrap}
 }
+
+.nr-users-page .nr-grant-item .nr-remove-grant-icon{display:grid;place-items:center;width:17px;height:17px;font-size:20px;font-weight:500;line-height:1;color:var(--um-muted)}
+.nr-users-page .nr-grant-item .nr-icon-button:hover .nr-remove-grant-icon{color:var(--um-ink)}
