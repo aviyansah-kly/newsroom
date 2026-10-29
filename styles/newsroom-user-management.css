@@ -209,7 +209,7 @@ html[data-theme="dark"] .nr-users-page .nr-permission-cell.is-allowed{color:var(
 .nr-users-page .nr-row-actions .nr-btn:hover{background:var(--um-hover)}
 .nr-users-page .nr-row-actions .nr-row-more{width:36px;padding:0}
 .nr-users-page .nr-row-more svg{width:16px;height:16px}
-.nr-users-page .nr-row-menu{position:absolute;right:0;top:calc(100% + 6px);z-index:25;width:192px;padding:6px;border:1px solid var(--um-border);border-radius:9px;background:var(--um-surface);box-shadow:var(--nr-shadow-md,0 10px 30px rgba(15,23,42,.08));text-align:left}
+.nr-users-page .nr-row-menu{position:fixed;right:auto;top:auto;z-index:1005;width:192px;padding:6px;border:1px solid var(--um-border);border-radius:9px;background:var(--um-surface);box-shadow:var(--nr-shadow-md,0 10px 30px rgba(15,23,42,.08));text-align:left}
 .nr-users-page .nr-row-menu[hidden]{display:none!important}
 .nr-users-page .nr-row-menu-item{display:block;width:100%;min-height:38px;padding:9px 10px;text-align:left;font-size:13px;font-weight:550;border:0;background:transparent;color:var(--um-ink);border-radius:6px;cursor:pointer}
 .nr-users-page .nr-row-menu-item:hover{background:var(--um-hover)}
