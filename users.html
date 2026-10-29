@@ -6,7 +6,14 @@
 
 <div class="nr-users-stats"><article class="nr-card"><span>Total User</span><strong id="totalCount">0</strong></article><article class="nr-card"><span>User Aktif</span><strong id="activeCount">0</strong></article><article class="nr-card"><span>User Nonaktif</span><strong id="inactiveCount">0</strong></article></div>
 <div class="nr-users-tabs" role="tablist" aria-label="User Management"><button class="active" data-tab="users" role="tab" aria-selected="true">Users</button><button data-tab="roles" role="tab" aria-selected="false">Roles & Permissions</button><button data-tab="activity" role="tab" aria-selected="false">Activity Log</button></div>
-<section id="panel-users" role="tabpanel" class="nr-users-panel"><div class="nr-card nr-users-table-card"><div class="nr-users-toolbar"><label class="nr-users-search"><i data-lucide="search"></i><input id="userSearch" type="search" placeholder="Cari username, nama, atau email…" aria-label="Cari User"></label><select id="roleFilter" aria-label="Filter Role"><option value="">Semua Role</option></select><select id="statusFilter" aria-label="Filter Status"><option value="">Semua Status</option><option value="active">Aktif</option><option value="inactive">Nonaktif</option></select><select id="channelFilter" aria-label="Filter Channel"><option value="">Semua Channel</option></select><span id="resultCount" class="nr-users-meta"></span></div><div class="nr-users-table-scroll"><table class="nr-users-table"><thead><tr><th scope="col">User</th><th scope="col">Display Name</th><th scope="col">Roles & Channels</th><th scope="col">Status</th><th scope="col">Updated At</th><th scope="col">Aksi</th></tr></thead><tbody id="userRows"></tbody></table></div><div id="usersEmpty" class="nr-users-empty" hidden>Tidak ada user sesuai filter.</div><div class="nr-users-footer"><span id="paginationText"></span><div><button class="nr-btn" id="prevPage">Sebelumnya</button><button class="nr-btn" id="nextPage">Berikutnya</button></div></div></div></section>
+<section id="panel-users" role="tabpanel" class="nr-users-panel"><div class="nr-card nr-users-table-card"><div class="nr-users-toolbar"><label class="nr-users-search"><i data-lucide="search"></i><input id="userSearch" type="search" placeholder="Cari username, nama, atau email…" aria-label="Cari User"></label><select id="roleFilter" aria-label="Filter Role"><option value="">Semua Role</option></select><select id="statusFilter" aria-label="Filter Status"><option value="">Semua Status</option><option value="active">Aktif</option><option value="inactive">Nonaktif</option></select><select id="channelFilter" aria-label="Filter Channel"><option value="">Semua Channel</option></select><span id="resultCount" class="nr-users-meta"></span></div><div class="nr-users-table-scroll"><table class="nr-users-table"><thead><tr><th scope="col">User</th><th scope="col">Display Name</th><th scope="col">Roles & Channels</th><th scope="col">Status</th><th scope="col">Updated At</th><th scope="col">Manage</th></tr></thead><tbody id="userRows"></tbody></table></div><div id="usersEmpty" class="nr-users-empty" hidden>Tidak ada user sesuai filter.</div><div class="nr-users-footer">
+ <span id="paginationText" class="nr-pagination-summary" aria-live="polite"></span>
+ <nav class="nr-pagination" aria-label="User pagination">
+  <button type="button" class="nr-btn nr-page-step" id="prevPage" aria-label="Previous page"><span class="nr-pagination-arrow" aria-hidden="true">‹</span><span>Previous</span></button>
+  <div id="pageNumbers" class="nr-page-numbers" aria-label="Pages"></div>
+  <button type="button" class="nr-btn nr-page-step" id="nextPage" aria-label="Next page"><span>Next</span><span class="nr-pagination-arrow" aria-hidden="true">›</span></button>
+ </nav>
+</div></div></section>
 <section id="panel-roles" role="tabpanel" class="nr-users-panel" hidden><div class="nr-card nr-roles-card"><h2>Roles & Permissions</h2><p>Contoh matriks akses awal. Izin final perlu disetujui editorial dan diterapkan server-side oleh tim IT.</p><div class="nr-users-table-scroll"><table class="nr-users-table nr-permissions"><thead><tr><th>Permission</th><th>Writer</th><th>Editor</th><th>Redpel</th><th>SEO</th><th>Admin</th></tr></thead><tbody id="permissionRows"></tbody></table></div></div></section>
 <section id="panel-activity" role="tabpanel" class="nr-users-panel" hidden><div class="nr-card nr-roles-card"><h2>Activity Log</h2><p>Riwayat perubahan data dan status pengguna.</p><ul id="activityItems" class="nr-activity-items"></ul></div></section>
 </section>
@@ -28,16 +35,26 @@
      <label class="nr-form-wide">Partner <select id="fieldPartner"><option value="">Tidak Ada Partner</option><option value="KLY">KLY</option><option value="Liputan6">Liputan6</option><option value="External">External Partner</option></select></label>
     </div>
    </section>
-   <section class="nr-form-section" aria-labelledby="accessTitle"><div class="nr-form-section-head"><h3 id="accessTitle">Roles & Channels</h3><p>Satu user dapat menangani beberapa role dan channel.</p></div>
-    <label>Primary Role <em>*</em><select id="fieldRole" required></select></label>
-    <div class="nr-grants-heading"><strong>Assignment Role</strong><span id="grantsCount">0 assignment</span></div>
-    <div id="grantsList" class="nr-grants-list" aria-live="polite"></div>
-    <div class="nr-grant-builder">
-     <label>Role untuk Assignment<select id="grantRole"></select></label>
-     <div class="nr-category-heading"><span>Channel / Category <em>*</em></span><button type="button" id="toggleAllChannels" class="nr-inline-link">Pilih Semua</button></div>
-     <label class="nr-category-search"><i data-lucide="search"></i><input id="channelSearch" type="search" placeholder="Cari channel / category…" aria-label="Cari channel"></label>
-     <div id="deskOptions" class="nr-desk-options" role="group" aria-label="Daftar Channel"></div>
-     <button type="button" id="addGrant" class="nr-btn nr-btn-secondary"><i data-lucide="plus"></i> Tambah Assignment</button>
+   <section class="nr-form-section nr-access-section" aria-labelledby="accessTitle">
+    <div class="nr-form-section-head"><h3 id="accessTitle">Roles & Channels</h3><p>Assign permissions for the channels this user manages.</p></div>
+    <div class="nr-primary-role"><label for="fieldRole">Primary Role <em>*</em><select id="fieldRole" required></select></label>
+      <p>Used as the main role shown in the user list. Access is determined by the assignments below.</p>
+    </div>
+    <div class="nr-access-layout">
+     <section class="nr-access-panel nr-current-access" aria-labelledby="currentAccessTitle">
+      <div class="nr-access-panel-head"><div><h4 id="currentAccessTitle">Assigned Access</h4><p>Existing roles for each channel.</p></div><span id="grantsCount" class="nr-access-count">0 assigned</span></div>
+      <div id="grantsList" class="nr-grants-list" aria-live="polite"></div>
+     </section>
+     <section class="nr-access-panel nr-add-access" aria-labelledby="addAccessTitle">
+      <div class="nr-access-panel-head"><div><h4 id="addAccessTitle">Add Channel Access</h4><p>Choose a role and select one or more channels.</p></div></div>
+      <div class="nr-grant-builder">
+       <label for="grantRole">Role <select id="grantRole"></select></label>
+       <div class="nr-category-heading"><span>Channels <em>*</em></span><button type="button" id="toggleAllChannels" class="nr-inline-link">Select All</button></div>
+       <label class="nr-category-search"><i data-lucide="search"></i><input id="channelSearch" type="search" placeholder="Search channels…" aria-label="Search channels"></label>
+       <div class="nr-channel-picker"><div id="deskOptions" class="nr-desk-options" role="group" aria-label="Available channels"></div></div>
+       <div class="nr-access-panel-footer"><span id="selectedChannelsCount" class="nr-selected-count" aria-live="polite">0 channels selected</span><button type="button" id="addGrant" class="nr-btn nr-btn-primary" disabled><i data-lucide="plus"></i> Add Access</button></div>
+      </div>
+     </section>
     </div>
    </section>
    <section class="nr-form-section" aria-labelledby="statusTitle"><div class="nr-form-section-head"><h3 id="statusTitle">Account Settings</h3><p>Status, keamanan, dan izin khusus akun.</p></div>
