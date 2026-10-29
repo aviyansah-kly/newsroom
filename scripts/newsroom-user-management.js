@@ -30,8 +30,23 @@ function drawLog(){const list=$('activityItems');list.replaceChildren();if(!logs
 function filtered(){const query=$('userSearch').value.trim().toLowerCase(),role=$('roleFilter').value,status=$('statusFilter').value,channel=$('channelFilter').value;
  return users.filter(u=>(!query||[u.username,u.name,u.displayName,u.email,u.klyId].join(' ').toLowerCase().includes(query))&&(!role||(u.role===role||u.grants.some(g=>g.role===role)))&&(!status||(status==='active')===u.active)&&(!channel||u.grants.some(g=>g.channel===channel)))}
 function cell(text,label){const td=el('td','',text);if(label)td.dataset.label=label;return td}
+function drawPagination(total,max){
+ const nav=$('pageNumbers');nav.replaceChildren();
+ if(!total){const empty=el('span','nr-current-page','—');nav.append(empty);return}
+ const maxVisible=5,start=Math.max(0,Math.min(page-2,max-maxVisible+1)),end=Math.min(max,start+maxVisible-1);
+ const addNumber=n=>{
+  const button=el('button','nr-btn nr-page-number'+(n===page?' active':''),String(n+1));
+  button.type='button';button.setAttribute('aria-label','Go to page '+(n+1));
+  if(n===page)button.setAttribute('aria-current','page');
+  button.addEventListener('click',()=>{page=n;draw()});
+  nav.append(button);
+ };
+ if(start>0){addNumber(0);if(start>1)nav.append(el('span','nr-page-ellipsis','…'))}
+ for(let i=start;i<=end;i++)addNumber(i);
+ if(end<max){if(end<max-1)nav.append(el('span','nr-page-ellipsis','…'));addNumber(max)}
+}
 function draw(){
- const list=$('userRows'),items=filtered(),limit=10,max=Math.max(0,Math.ceil(items.length/limit)-1);
+ const list=$('userRows'),items=filtered(),limit=5,max=Math.max(0,Math.ceil(items.length/limit)-1);
  page=Math.max(0,Math.min(page,max));list.replaceChildren();
  for(const user of items.slice(page*limit,page*limit+limit)){
   const tr=el('tr');
@@ -45,7 +60,7 @@ function draw(){
   access.append(role,channel);
   const status=cell(undefined,'Status');status.append(el('span','nr-user-status '+(user.active?'active':'inactive'),user.active?'Aktif':'Nonaktif'));
   const updated=cell(user.updated,'Updated At');
-  const action=cell(undefined,'Aksi'),buttons=el('div','nr-row-actions'),edit=el('button','nr-btn nr-row-edit'),more=el('button','nr-btn nr-row-more'),menu=el('div','nr-row-menu');
+  const action=cell(undefined,'Manage'),buttons=el('div','nr-row-actions'),edit=el('button','nr-btn nr-row-edit'),more=el('button','nr-btn nr-row-more'),menu=el('div','nr-row-menu');
   edit.type=more.type='button';edit.append(el('span','', 'Edit'));edit.setAttribute('aria-label','Edit '+user.name);edit.addEventListener('click',()=>openEditor(user));
   more.setAttribute('aria-label','Aksi lainnya untuk '+user.name);more.setAttribute('aria-haspopup','true');more.setAttribute('aria-expanded','false');
   const dots=el('span','nr-row-ellipsis','···');dots.setAttribute('aria-hidden','true');more.append(dots);
@@ -65,15 +80,17 @@ function draw(){
  $('totalCount').textContent=users.length;$('activeCount').textContent=users.filter(u=>u.active).length;$('inactiveCount').textContent=users.filter(u=>!u.active).length;
  $('resultCount').textContent=items.length+' user';$('usersEmpty').hidden=items.length>0;
  $('paginationText').textContent=items.length?'Menampilkan '+(page*limit+1)+'–'+Math.min(items.length,(page+1)*limit)+' dari '+items.length+' user':'0 user';
- $('prevPage').disabled=page===0;$('nextPage').disabled=page>=max;icon();
+ $('prevPage').disabled=page===0;$('nextPage').disabled=page>=max;
+ drawPagination(items.length,max);icon();
 }
 function hideMenus(){all('.nr-row-menu').forEach(node=>node.hidden=true);all('.nr-row-more').forEach(node=>node.setAttribute('aria-expanded','false'))}
 function renderGrants(){
  const list=$('grantsList');list.replaceChildren();$('grantsCount').textContent=workingGrants.length+' assignment';
- if(!workingGrants.length)list.append(el('p','nr-grants-empty','Belum ada assignment. Pilih role dan channel di bawah.'));
+ if(!workingGrants.length)list.append(el('p','nr-grants-empty','No access assigned yet. Choose a role and channels to get started.'));
+ $('grantsCount').textContent=workingGrants.length+' assigned';
  workingGrants.forEach((grant,index)=>{
-  const row=el('div','nr-grant-item'),details=el('span');
-  details.append(el('strong','',grant.role),el('small','',grant.channel));
+  const row=el('div','nr-grant-item'),details=el('span','nr-grant-details');
+  details.append(el('strong','nr-grant-role',grant.role),el('small','',grant.channel));
   const remove=el('button','nr-icon-button'),x=el('i');x.setAttribute('data-lucide','x');remove.append(x);remove.type='button';
   remove.setAttribute('aria-label','Hapus '+grant.role+' dari '+grant.channel);
   remove.addEventListener('click',()=>{workingGrants.splice(index,1);renderGrants()});
@@ -84,7 +101,14 @@ function renderChannels(){
  const list=$('deskOptions'),term=$('channelSearch').value.trim().toLowerCase();list.replaceChildren();
  const visible=channels.filter(c=>c.toLowerCase().includes(term));
  if(!visible.length)list.append(el('p','nr-grants-empty','Channel tidak ditemukan.'));
- for(const channel of visible){const label=el('label','nr-channel-item'),input=el('input'),span=el('span','',channel);input.type='checkbox';input.value=channel;input.checked=pendingChannelSelection.has(channel);input.addEventListener('change',()=>{if(input.checked)pendingChannelSelection.add(channel);else pendingChannelSelection.delete(channel)});label.append(input,span);list.append(label)}
+ for(const channel of visible){const label=el('label','nr-channel-item'),input=el('input'),span=el('span','',channel);input.type='checkbox';input.value=channel;input.checked=pendingChannelSelection.has(channel);input.addEventListener('change',()=>{if(input.checked)pendingChannelSelection.add(channel);else pendingChannelSelection.delete(channel);updateChannelSelection()});label.append(input,span);list.append(label)}
+ updateChannelSelection();
+}
+function updateChannelSelection(){
+ const count=pendingChannelSelection.size,visible=all('#deskOptions input'),allChecked=visible.length>0&&visible.every(c=>c.checked);
+ $('selectedChannelsCount').textContent=count+' channel'+(count===1?'':'s')+' selected';
+ $('addGrant').disabled=count===0;
+ $('toggleAllChannels').textContent=allChecked?'Clear Visible':'Select All';
 }
 function selectedChannels(){return [...pendingChannelSelection]}
 function addGrantFromSelection(){
@@ -121,7 +145,7 @@ function save(event){
  const error=$('formError');error.hidden=true;
  if(!username||!email||!name||!displayName||!$('fieldEmail').checkValidity()||!$('fieldUsername').checkValidity()){error.textContent='Lengkapi Username, Full Name, Display Name dan Email yang valid.';error.hidden=false;return}
  if(users.some(u=>u.id!==editing&&(u.username.toLowerCase()===username.toLowerCase()||u.email.toLowerCase()===email))){error.textContent='Username atau Email sudah digunakan.';error.hidden=false;return}
- if(selectedChannels().length)addGrantFromSelection();
+ if(selectedChannels().length){error.textContent='Click Add Access to apply your selected channels before saving.';error.hidden=false;return}
  if(!workingGrants.length){error.textContent='Tambahkan minimal satu Role & Channel Assignment.';error.hidden=false;return}
  if($('fieldExpirationEnabled').checked&&!expirationDate){error.textContent='Isi Expiration Date terlebih dahulu.';error.hidden=false;return}
  const data={username,email,name,displayName,role,klyId:$('fieldKlyId').value.trim(),title:$('fieldTitle').value.trim(),partner:$('fieldPartner').value,grants:workingGrants.map(g=>({...g})),active:$('fieldActive').checked,expirationDate,
@@ -142,7 +166,7 @@ $('backToUsers').addEventListener('click',event=>{event.preventDefault();closeEd
 $('fieldExpirationEnabled').addEventListener('change',syncExpiration);
 $('channelSearch').addEventListener('input',renderChannels);
 $('addGrant').addEventListener('click',addGrantFromSelection);
-$('toggleAllChannels').addEventListener('click',()=>{const checkboxes=all('#deskOptions input');const next=!checkboxes.every(node=>node.checked);checkboxes.forEach(node=>{node.checked=next;if(next)pendingChannelSelection.add(node.value);else pendingChannelSelection.delete(node.value)})});
+$('toggleAllChannels').addEventListener('click',()=>{const checkboxes=all('#deskOptions input');const next=!checkboxes.every(node=>node.checked);checkboxes.forEach(node=>{node.checked=next;if(next)pendingChannelSelection.add(node.value);else pendingChannelSelection.delete(node.value)});updateChannelSelection()});
 $('cancelConfirm').addEventListener('click',closeConfirm);
 $('confirmBackdrop').addEventListener('click',event=>{if(event.target===$('confirmBackdrop'))closeConfirm()});
 $('acceptConfirm').addEventListener('click',()=>{if(!pending)return;const user=users.find(u=>u.id===pending.id);if(user){if(pending.type==='delete'){users=users.filter(u=>u.id!==user.id);log('User '+user.name+' dihapus.')}else{user.active=!user.active;user.updated=formatNow();log('User '+user.name+' '+(user.active?'diaktifkan.':'dinonaktifkan.'))}page=0;draw()}closeConfirm()});
