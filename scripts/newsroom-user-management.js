@@ -19,14 +19,14 @@ const seed=[
  {id:6,username:'rafi.hidayat',name:'Rafi Hidayat',displayName:'Rafi Hidayat',email:'rafi@example.com',klyId:'KLY-106',title:'Administrator',partner:'KLY',role:'Admin',grants:[{role:'Admin',channel:'News'}],active:true,verified:true,twoFactor:true,contributor:false,productManager:true,aiEditor:false,autopilot:false,expirationDate:'',updated:'29 Okt 2026'}
 ];
 let users=seed.map(x=>({...x,grants:x.grants.map(y=>({...y}))}));
-let logs=[{when:'Demo',message:'Activity Log siap digunakan untuk simulasi perubahan akun.'}],page=0,editing=null,pending=null,lastFocus=null,workingGrants=[],pendingChannelSelection=new Set();
+let logs=[],page=0,editing=null,pending=null,lastFocus=null,workingGrants=[],pendingChannelSelection=new Set();
 const $=id=>document.getElementById(id),all=selector=>[...document.querySelectorAll(selector)];
 const el=(tag,cls='',value)=>{const node=document.createElement(tag);if(cls)node.className=cls;if(value!=null)node.textContent=value;return node};
 const icon=()=>window.lucide?.createIcons();
 const uniqueChannels=u=>[...new Set(u.grants.map(g=>g.channel))];
 const formatNow=()=>new Date().toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'});
 function log(message){logs.unshift({when:formatNow(),message});drawLog()}
-function drawLog(){const list=$('activityItems');list.replaceChildren();logs.forEach(item=>{const li=el('li'),time=el('strong','',item.when),message=el('p','',item.message);li.append(time,message);list.append(li)})}
+function drawLog(){const list=$('activityItems');list.replaceChildren();if(!logs.length)list.append(el('li','nr-activity-empty','Belum ada aktivitas tercatat.'));logs.forEach(item=>{const li=el('li'),time=el('strong','',item.when),message=el('p','',item.message);li.append(time,message);list.append(li)})}
 function filtered(){const query=$('userSearch').value.trim().toLowerCase(),role=$('roleFilter').value,status=$('statusFilter').value,channel=$('channelFilter').value;
  return users.filter(u=>(!query||[u.username,u.name,u.displayName,u.email,u.klyId].join(' ').toLowerCase().includes(query))&&(!role||(u.role===role||u.grants.some(g=>g.role===role)))&&(!status||(status==='active')===u.active)&&(!channel||u.grants.some(g=>g.channel===channel)))}
 function cell(text,label){const td=el('td','',text);if(label)td.dataset.label=label;return td}
@@ -46,7 +46,7 @@ function draw(){
   const status=cell(undefined,'Status');status.append(el('span','nr-user-status '+(user.active?'active':'inactive'),user.active?'Aktif':'Nonaktif'));
   const updated=cell(user.updated,'Updated At');
   const action=cell(undefined,'Aksi'),buttons=el('div','nr-row-actions'),edit=el('button','nr-btn nr-row-edit'),more=el('button','nr-btn nr-row-more'),menu=el('div','nr-row-menu');
-  edit.type=more.type='button';edit.append(el('span','', 'Edit'));edit.setAttribute('aria-label','Edit '+user.name);edit.addEventListener('click',()=>openDrawer(user));
+  edit.type=more.type='button';edit.append(el('span','', 'Edit'));edit.setAttribute('aria-label','Edit '+user.name);edit.addEventListener('click',()=>openEditor(user));
   more.setAttribute('aria-label','Aksi lainnya untuk '+user.name);more.setAttribute('aria-haspopup','true');more.setAttribute('aria-expanded','false');
   const dots=el('i');dots.setAttribute('data-lucide','ellipsis');more.append(dots);
   const toggle=el('button','nr-row-menu-item',(user.active?'Nonaktifkan User':'Aktifkan User')),remove=el('button','nr-row-menu-item is-danger','Hapus User');
@@ -94,7 +94,7 @@ function addGrantFromSelection(){
  $('formError').hidden=true;pendingChannelSelection.clear();renderChannels();renderGrants();return true
 }
 function syncExpiration(){const on=$('fieldExpirationEnabled').checked;$('expirationField').hidden=!on;$('fieldExpirationDate').required=on;if(!on)$('fieldExpirationDate').value=''}
-function openDrawer(user){
+function openEditor(user,navigate=true){
  lastFocus=document.activeElement;editing=user?.id??null;
  $('drawerTitle').textContent=user?'Edit User':'Tambah User';
  const form=$('userForm');form.reset();$('fieldUsername').value=user?.username||'';$('fieldName').value=user?.name||'';$('fieldEmail').value=user?.email||'';
@@ -105,11 +105,15 @@ function openDrawer(user){
  $('fieldExpirationEnabled').checked=!!user?.expirationDate;$('fieldExpirationDate').value=user?.expirationDate||'';syncExpiration();
  $('fieldPassword').value='';$('channelSearch').value='';pendingChannelSelection.clear();workingGrants=(user?.grants||[]).map(g=>({...g}));
  renderChannels();renderGrants();$('formError').hidden=true;
- $('drawerBackdrop').hidden=$('userDrawer').hidden=false;document.body.classList.add('nr-modal-open');$('fieldUsername').focus()
+ $('userListPage').hidden=true;$('userEditorPage').hidden=false;
+ if(navigate)history.pushState({userView:true},'',user?'users.html?view=edit&id='+encodeURIComponent(user.id):'users.html?view=add');
+ window.scrollTo(0,0);$('fieldUsername').focus()
 }
-function closeDrawer(){$('drawerBackdrop').hidden=$('userDrawer').hidden=true;document.body.classList.remove('nr-modal-open');lastFocus?.focus()}
+function closeEditor(navigate=true){$('userEditorPage').hidden=true;$('userListPage').hidden=false;
+ if(navigate&&new URLSearchParams(location.search).has('view'))history.pushState({userView:false},'','users.html');
+ window.scrollTo(0,0);lastFocus?.focus()}
 function confirmAction(user,type){pending={id:user.id,type};$('confirmTitle').textContent=type==='delete'?'Hapus User?':user.active?'Nonaktifkan User?':'Aktifkan User?';
- $('confirmDescription').textContent=(type==='delete'?'User '+user.name+' akan dihapus dari daftar demo.':user.active?'Akses '+user.name+' akan dinonaktifkan.':'Akses '+user.name+' akan diaktifkan.')+' Tindakan ini hanya berlaku untuk prototype.';$('confirmBackdrop').hidden=false;$('acceptConfirm').textContent=type==='delete'?'Hapus User':'Konfirmasi';$('cancelConfirm').focus()
+ $('confirmDescription').textContent=(type==='delete'?'User '+user.name+' akan dihapus.':user.active?'Akses '+user.name+' akan dinonaktifkan.':'Akses '+user.name+' akan diaktifkan.')+'';$('confirmBackdrop').hidden=false;$('acceptConfirm').textContent=type==='delete'?'Hapus User':'Konfirmasi';$('cancelConfirm').focus()
 }
 function closeConfirm(){$('confirmBackdrop').hidden=true;pending=null}
 function save(event){
@@ -124,7 +128,7 @@ function save(event){
  verified:$('fieldVerified').checked,twoFactor:$('fieldTwoFactor').checked,contributor:$('fieldContributor').checked,productManager:$('fieldProductManager').checked,aiEditor:$('fieldAiEditor').checked,autopilot:$('fieldAutopilot').checked,updated:formatNow()};
  if(editing!=null){Object.assign(users.find(u=>u.id===editing),data);log('User '+name+' diperbarui.')}else{users.unshift({...data,id:Math.max(0,...users.map(u=>u.id))+1});log('User '+name+' ditambahkan.')}
  /* Never save, log, or send password: credentials belong to the backend. */
- $('fieldPassword').value='';page=0;draw();closeDrawer()
+ $('fieldPassword').value='';page=0;draw();closeEditor()
 }
 roles.forEach(role=>{for(const id of ['roleFilter','fieldRole','grantRole'])$(id).add(new Option(role,role))});
 channels.forEach(channel=>$('channelFilter').add(new Option(channel,channel)));
@@ -132,7 +136,7 @@ const permissions=$('permissionRows');rights.forEach(([name,allowed])=>{const ro
 all('[data-tab]').forEach(tab=>tab.addEventListener('click',()=>{all('[data-tab]').forEach(button=>{button.classList.toggle('active',button===tab);button.setAttribute('aria-selected',String(button===tab))});['users','roles','activity'].forEach(key=>{$('panel-'+key).hidden=key!==tab.dataset.tab})}));
 ['userSearch','roleFilter','statusFilter','channelFilter'].forEach(id=>$(id).addEventListener(id==='userSearch'?'input':'change',()=>{page=0;draw()}));
 $('prevPage').addEventListener('click',()=>{page--;draw()});$('nextPage').addEventListener('click',()=>{page++;draw()});
-$('addUser').addEventListener('click',()=>openDrawer());$('userForm').addEventListener('submit',save);
+$('addUser').addEventListener('click',()=>openEditor());$('userForm').addEventListener('submit',save);
 for(const id of ['closeDrawer','cancelDrawer'])$(id).addEventListener('click',closeDrawer);
 $('drawerBackdrop').addEventListener('click',closeDrawer);
 $('fieldExpirationEnabled').addEventListener('change',syncExpiration);
@@ -143,6 +147,10 @@ $('cancelConfirm').addEventListener('click',closeConfirm);
 $('confirmBackdrop').addEventListener('click',event=>{if(event.target===$('confirmBackdrop'))closeConfirm()});
 $('acceptConfirm').addEventListener('click',()=>{if(!pending)return;const user=users.find(u=>u.id===pending.id);if(user){if(pending.type==='delete'){users=users.filter(u=>u.id!==user.id);log('User '+user.name+' dihapus.')}else{user.active=!user.active;user.updated=formatNow();log('User '+user.name+' '+(user.active?'diaktifkan.':'dinonaktifkan.'))}page=0;draw()}closeConfirm()});
 document.addEventListener('click',event=>{if(!event.target.closest('.nr-row-actions'))hideMenus()});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'){hideMenus();if(!$('confirmBackdrop').hidden)closeConfirm();else if(!$('userDrawer').hidden)closeDrawer()}});
-drawLog();draw();icon();
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){hideMenus();if(!$('confirmBackdrop').hidden)closeConfirm();else if(!$('userEditorPage').hidden)closeEditor()}});
+function showViewFromUrl(){const query=new URLSearchParams(location.search),mode=query.get('view');
+ if(mode==='add'){openEditor(null,false)}else if(mode==='edit'){const user=users.find(u=>String(u.id)===query.get('id'));if(user)openEditor(user,false);else closeEditor(false)}else closeEditor(false)
+}
+window.addEventListener('popstate',showViewFromUrl);
+drawLog();draw();showViewFromUrl();icon();
 })();
