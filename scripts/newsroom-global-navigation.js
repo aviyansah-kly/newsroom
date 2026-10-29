@@ -12,7 +12,7 @@
     document.head.append(style);
   }
   const leaf=(window.location.pathname.split('/').pop()||'index.html');
-  const page=leaf==='dashboard.html'?'Dashboard':leaf==='tags.html'?'Tags':leaf==='users.html'?'User Management':'Articles';
+  const page=document.body.classList.contains('nr-users-page')?'User Management':leaf==='dashboard.html'?'Dashboard':leaf==='tags.html'?'Tags':(leaf==='users.html'||leaf==='users')?'User Management':'Articles';
   if(document.body.classList.contains('alt-editor-layout')){
     // Render the same canonical brand/site selector and navigation in Editor.
     // Executed immediately after Editor shell markup, before its interaction scripts.
@@ -62,6 +62,8 @@
   template.querySelectorAll('[data-item]').forEach(item=>{
     const name=item.getAttribute('data-item');
     item.classList.toggle('active',name===page);
+    if(name===page)item.setAttribute('aria-current','page');
+    else item.removeAttribute('aria-current');
     if(routes[name] && item.tagName==='BUTTON'){
       const anchor=document.createElement('a');
       anchor.href=routes[name];anchor.className=item.className;anchor.setAttribute('data-item',name);
