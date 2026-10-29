@@ -31,7 +31,7 @@ function filtered(){const query=$('userSearch').value.trim().toLowerCase(),role=
  return users.filter(u=>(!query||[u.username,u.name,u.displayName,u.email,u.klyId].join(' ').toLowerCase().includes(query))&&(!role||(u.role===role||u.grants.some(g=>g.role===role)))&&(!status||(status==='active')===u.active)&&(!channel||u.grants.some(g=>g.channel===channel)))}
 function cell(text,label){const td=el('td','',text);if(label)td.dataset.label=label;return td}
 function draw(){
- const list=$('userRows'),items=filtered(),limit=6,max=Math.max(0,Math.ceil(items.length/limit)-1);
+ const list=$('userRows'),items=filtered(),limit=10,max=Math.max(0,Math.ceil(items.length/limit)-1);
  page=Math.max(0,Math.min(page,max));list.replaceChildren();
  for(const user of items.slice(page*limit,page*limit+limit)){
   const tr=el('tr');
@@ -51,7 +51,15 @@ function draw(){
   const dots=el('i');dots.setAttribute('data-lucide','ellipsis');more.append(dots);
   const toggle=el('button','nr-row-menu-item',(user.active?'Nonaktifkan User':'Aktifkan User')),remove=el('button','nr-row-menu-item is-danger','Hapus User');
   toggle.type=remove.type='button';toggle.addEventListener('click',()=>{hideMenus();confirmAction(user,'toggle')});remove.addEventListener('click',()=>{hideMenus();confirmAction(user,'delete')});menu.append(toggle,remove);menu.hidden=true;
-  more.addEventListener('click',event=>{event.stopPropagation();const next=menu.hidden;hideMenus();menu.hidden=!next;more.setAttribute('aria-expanded',String(next))});
+  more.addEventListener('click',event=>{
+    event.stopPropagation();const next=menu.hidden;hideMenus();
+    if(next){
+      const rect=more.getBoundingClientRect();
+      menu.style.left=Math.max(10,Math.min(window.innerWidth-204,rect.right-192))+'px';
+      menu.style.top=(rect.bottom+110>window.innerHeight?Math.max(10,rect.top-100):rect.bottom+6)+'px';
+    }
+    menu.hidden=!next;more.setAttribute('aria-expanded',String(next))
+  });
   buttons.append(edit,more,menu);action.append(buttons);tr.append(userCell,display,access,status,updated,action);list.append(tr);
  }
  $('totalCount').textContent=users.length;$('activeCount').textContent=users.filter(u=>u.active).length;$('inactiveCount').textContent=users.filter(u=>!u.active).length;
