@@ -66,3 +66,14 @@ test('form is full-page, no drawer, and navigation supports browser back',()=>{
  assert.match(css,/\.nr-users-table-card\{padding:0!important/);
  assert.match(css,/background-position:right 14px center/);
 });
+
+test('Manage header, numbered page buttons and split channel access panels',()=>{
+ assert.match(html,/<th scope="col">Manage<\/th>/);
+ assert.doesNotMatch(html,/<th scope="col">Aksi<\/th>/);
+ for(const id of ['pageNumbers','prevPage','nextPage','selectedChannelsCount','grantsList','addGrant'])assert.ok(html.includes('id="'+id+'"'),id);
+ assert.match(html,/nr-access-layout/);
+ assert.match(js,/function drawPagination/);
+ assert.match(js,/function updateChannelSelection/);
+ assert.match(css,/\.nr-access-layout\{display:grid/);
+ assert.match(css,/\.nr-pagination \.nr-page-number\.active/);
+});
