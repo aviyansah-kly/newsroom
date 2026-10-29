@@ -13,7 +13,7 @@ test('Users, permissions, activity, dialog and CRUD controls exist',()=>{
  assert.match(html,/role="tabpanel"/);
  assert.match(js,/function openDrawer/);
  assert.match(js,/function save/);
- assert.match(js,/function confirmToggle/);
+ assert.match(js,/function confirmAction/);
 });
 test('prototype remains dummy-only with no backend or account mutation',()=>{
  assert.match(html,/data dummy/);
@@ -39,4 +39,19 @@ test('uses Newsroom design tokens, handles dark mode and selected navigation',()
  assert.match(nav,/aria-current/);
  assert.match(nav,/User Management/);
  assert.match(nav,/users.html/);
+});
+
+test('legacy CMS account fields and per-channel role controls exist',()=>{
+ for(const id of ['fieldUsername','fieldDisplayName','fieldKlyId','fieldTitle','fieldPartner',
+  'fieldVerified','fieldTwoFactor','fieldContributor','fieldProductManager','fieldAiEditor','fieldAutopilot',
+  'fieldExpirationEnabled','fieldExpirationDate','fieldPassword','grantRole','deskOptions','grantsList','addGrant']){
+  assert.ok(html.includes('id="'+id+'"'),id);
+ }
+ assert.match(js,/function addGrantFromSelection/);
+ assert.match(js,/pendingChannelSelection/);
+ assert.match(js,/function confirmAction/);
+});
+test('No passwords persisted in user state and role/category assignments are isolated',()=>{
+ assert.match(js,/workingGrants\.map\(g=>\(\{\.\.\.g\}\)\)/);
+ assert.match(js,/\$\('fieldPassword'\)\.value=''/);
 });
