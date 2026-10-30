@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="styles/newsroom-design-system.css">
 <link rel="stylesheet" href="styles/newsroom-shell.css">
 <link rel="stylesheet" href="styles/newsroom-global-navigation.css">
+<link rel="stylesheet" href="styles/newsroom-tags-workflows.css">
 <script src="https://unpkg.com/lucide@latest"></script>
 <style>
 .tag-overview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
@@ -194,6 +195,44 @@
   </div>
 </div>
 
+<!-- Tag merge workflow: selection and confirmation are independent of editing a tag. -->
+<div class="nr-modal-backdrop" id="mergeTagModal" aria-hidden="true">
+ <div class="nr-modal-card tag-workflow-dialog" role="dialog" aria-modal="true" aria-labelledby="mergeDialogTitle" aria-describedby="mergeDialogDescription">
+  <div class="nr-modal-head"><strong id="mergeDialogTitle">Merge Tag</strong><button class="nr-btn nr-btn-icon" id="mergeDialogClose" type="button" aria-label="Close merge dialog"><i data-lucide="x"></i></button></div>
+  <div class="nr-modal-body">
+   <p class="tag-workflow-description" id="mergeDialogDescription">Select a destination tag. Articles using the source tag will reference the destination after merging.</p>
+   <div class="tag-merge-source"><span>Source Tag</span><strong id="mergeSourceName"></strong><small id="mergeSourceUsage"></small></div>
+   <div class="nr-field"><label for="mergeTargetSearch">Merge Into <span class="tag-required">*</span></label>
+    <div class="tag-target-search"><i data-lucide="search"></i><input id="mergeTargetSearch" autocomplete="off" type="search" placeholder="Search destination tag…" aria-controls="mergeTargetResults"></div>
+    <div class="tag-target-results" id="mergeTargetResults" role="listbox" aria-label="Available destination tags"></div>
+   </div>
+   <div class="tag-merge-selection" id="mergeTargetSummary" hidden><span>Selected Destination</span><strong id="mergeTargetName"></strong><small id="mergeDestinationUsage"></small></div>
+   <p class="tag-workflow-warning"><i data-lucide="alert-triangle"></i><span>The source tag will be removed after merging. Review the destination before confirming.</span></p>
+   <p class="tag-workflow-error" id="mergeError" role="alert" hidden></p>
+  </div>
+  <div class="nr-modal-foot"><button class="nr-btn" type="button" id="mergeCancel">Cancel</button><button class="nr-btn nr-btn-primary" type="button" id="mergeConfirm" disabled>Merge Tag</button></div>
+ </div>
+</div>
+<!-- Topic editorial fields are available only while the Topic status is active. -->
+<div class="nr-modal-backdrop" id="topicEditorModal" aria-hidden="true">
+ <div class="nr-modal-card tag-workflow-dialog tag-topic-dialog" role="dialog" aria-modal="true" aria-labelledby="topicEditorTitle">
+  <div class="nr-modal-head"><div><strong id="topicEditorTitle">Edit Topic Content</strong><small id="topicEditorTagName"></small></div><button class="nr-btn nr-btn-icon" id="topicDialogClose" type="button" aria-label="Close topic editor"><i data-lucide="x"></i></button></div>
+  <form id="topicEditorForm">
+   <div class="nr-modal-body">
+    <div class="nr-field"><label for="topicTitle">Topic Title <span class="tag-required">*</span></label><input id="topicTitle" maxlength="160" required placeholder="Topic page headline"></div>
+    <div class="nr-field"><label for="topicIntro">Topic Description <span class="tag-required">*</span></label><textarea id="topicIntro" rows="3" maxlength="500" required placeholder="Short introduction for this topic"></textarea></div>
+    <div class="nr-field"><label for="topicBody">Topic Content</label><textarea id="topicBody" rows="5" placeholder="Add editorial content or contextual information…"></textarea></div>
+    <div class="tag-topic-extra">
+     <div class="nr-field"><label for="topicSeoTitle">SEO Title</label><input id="topicSeoTitle" maxlength="160" placeholder="Custom search title"></div>
+     <div class="nr-field"><label for="topicSeoDescription">SEO Description</label><textarea id="topicSeoDescription" rows="2" maxlength="320" placeholder="Short search description"></textarea></div>
+    </div>
+    <p class="tag-workflow-error" id="topicError" role="alert" hidden></p>
+   </div>
+   <div class="nr-modal-foot"><button class="nr-btn" type="button" id="topicCancel">Cancel</button><button class="nr-btn nr-btn-primary" type="submit">Save Topic Content</button></div>
+  </form>
+ </div>
+</div>
+
 <script>
 const data=[
 {name:'Harga BBM',slug:'harga-bbm',usage:246,topic:true,program:false,brand:false},
@@ -225,7 +264,7 @@ function filtered(){
 }
 function render(){
  const rows=filtered();
- $('#tagRows').innerHTML=rows.map(x=>'<tr data-row="'+x._i+'"><td><input class="tag-check row-check" type="checkbox" data-index="'+x._i+'"></td><td><div class="tag-name"><span class="tag-name-icon"><i data-lucide="tag"></i></span><span><strong>'+esc(x.name)+'</strong><small>ID TAG-'+String(x._i+101).padStart(4,'0')+'</small></span></div></td><td><span class="tag-slug">'+esc(x.slug)+'</span></td><td><span class="tag-usage">'+x.usage+' articles</span></td><td>'+statusPill(x.topic,'Topic','topic',x._i)+'</td><td>'+statusPill(x.program,'Program','program',x._i)+'</td><td>'+statusPill(x.brand,'Brand','brand',x._i)+'</td><td><div class="row-actions"><button class="row-action edit-tag" data-index="'+x._i+'" title="Edit tag"><i data-lucide="pencil"></i><span>Edit</span></button></div></td></tr>').join('');
+ $('#tagRows').innerHTML=rows.map(x=>'<tr data-row="'+x._i+'"><td><input class="tag-check row-check" type="checkbox" data-index="'+x._i+'"></td><td><div class="tag-name"><span class="tag-name-icon"><i data-lucide="tag"></i></span><span><strong>'+esc(x.name)+'</strong><small>ID TAG-'+String(x._i+101).padStart(4,'0')+'</small></span></div></td><td><span class="tag-slug">'+esc(x.slug)+'</span></td><td><span class="tag-usage">'+x.usage+' articles</span></td><td>'+statusPill(x.topic,'Topic','topic',x._i)+'</td><td>'+statusPill(x.program,'Program','program',x._i)+'</td><td>'+statusPill(x.brand,'Brand','brand',x._i)+'</td><td><div class="row-actions"><button class="row-action edit-tag" data-index="'+x._i+'" title="Edit tag"><i data-lucide="pencil"></i><span>Edit</span></button><button class="row-action merge-tag" data-index="'+x._i+'" title="Merge this tag into another tag"><i data-lucide="git-merge"></i><span>Merge</span></button>'+(x.topic?'<button class="row-action topic-edit-action" data-index="'+x._i+'" title="Edit Topic content"><i data-lucide="file-pen-line"></i><span>Edit Topic</span></button>':'')+'</div></td></tr>').join('');
  $('#resultCount').textContent='Showing '+rows.length+' tags';
  $('#tableWrap').style.display=rows.length?'block':'none';$('#emptyState').style.display=rows.length?'none':'block';
  bindRows();lucide.createIcons();updateBulk();
@@ -247,6 +286,93 @@ $('#modalClose').onclick=$('#modalCancel').onclick=closeModal;
 $('#tagModal').onclick=e=>{if(e.target.id==='tagModal')closeModal()};
 $('#tagName').addEventListener('input',()=>{if(editing<0)$('#tagSlug').value=slugify($('#tagName').value)});
 $('#modalSave').onclick=()=>{const name=$('#tagName').value.trim(),slug=$('#tagSlug').value.trim();if(!name||!slug)return;if(editing>=0){Object.assign(data[editing],{name,slug,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked})}else data.unshift({name,slug,usage:0,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked});closeModal();render()};
+
+/* Review additions: merge Tag and manage active Topic editorial content.
+   Prototype state only; backend reference rewrites must be transactional. */
+let mergingIndex=-1,mergeDestinationIndex=-1,topicEditingIndex=-1,previousWorkflowFocus=null;
+const modalNode=id=>document.getElementById(id);
+function openWorkflow(id,focusSelector){
+ previousWorkflowFocus=document.activeElement;
+ const dialog=modalNode(id);dialog.classList.add('open');dialog.setAttribute('aria-hidden','false');
+ requestAnimationFrame(()=>dialog.querySelector(focusSelector)?.focus());
+}
+function closeWorkflow(id){const dialog=modalNode(id);dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true');previousWorkflowFocus?.focus()}
+function openMergeModal(index){
+ if(index<0||index>=data.length)return;
+ mergingIndex=index;mergeDestinationIndex=-1;
+ modalNode('mergeSourceName').textContent=data[index].name;
+ modalNode('mergeSourceUsage').textContent=data[index].usage+' article references';
+ modalNode('mergeTargetSearch').value='';
+ modalNode('mergeTargetSummary').hidden=true;
+ modalNode('mergeConfirm').disabled=true;
+ modalNode('mergeError').hidden=true;
+ renderMergeTargets();openWorkflow('mergeTagModal','#mergeTargetSearch');
+}
+function renderMergeTargets(){
+ const q=modalNode('mergeTargetSearch').value.trim().toLocaleLowerCase(),target=modalNode('mergeTargetResults');
+ target.replaceChildren();
+ const matches=data.map((tag,index)=>({...tag,index})).filter(tag=>tag.index!==mergingIndex&&(!q||tag.name.toLocaleLowerCase().includes(q)||tag.slug.toLocaleLowerCase().includes(q))).slice(0,12);
+ if(!matches.length){const p=document.createElement('p');p.className='tag-merge-empty';p.textContent='No matching destination tags.';target.append(p);return}
+ for(const tag of matches){
+  const button=document.createElement('button');button.type='button';button.className='tag-merge-option'+(mergeDestinationIndex===tag.index?' selected':'');
+  button.setAttribute('role','option');button.setAttribute('aria-selected',String(mergeDestinationIndex===tag.index));
+  const title=document.createElement('span');title.textContent=tag.name;
+  const meta=document.createElement('small');meta.textContent=tag.slug+' · '+tag.usage+' articles';
+  button.append(title,meta);button.addEventListener('click',()=>{
+   mergeDestinationIndex=tag.index;
+   modalNode('mergeTargetName').textContent=tag.name;
+   modalNode('mergeDestinationUsage').textContent=tag.usage+' existing article references';
+   modalNode('mergeTargetSummary').hidden=false;
+   modalNode('mergeConfirm').disabled=false;
+   modalNode('mergeError').hidden=true;renderMergeTargets();
+  });target.append(button)
+ }
+}
+function mergeSelectedTag(){
+ const source=data[mergingIndex],destination=data[mergeDestinationIndex];
+ if(!source||!destination||mergingIndex===mergeDestinationIndex){modalNode('mergeError').textContent='Choose a different destination tag.';modalNode('mergeError').hidden=false;return}
+ // Preserve the destination taxonomy settings and topic content.
+ // Article references are represented by usage counts until backend integration.
+ destination.usage+=source.usage;
+ if(!destination.topicContent&&source.topicContent&&destination.topic)destination.topicContent={...source.topicContent};
+ data.splice(mergingIndex,1);
+ closeWorkflow('mergeTagModal');mergingIndex=-1;mergeDestinationIndex=-1;
+ $('#tagSearch').value='';$('#statusFilter').value='all';$('#typeFilter').value='all';render();
+}
+function openTopicEditor(index){
+ if(index<0||!data[index]?.topic)return;
+ topicEditingIndex=index;const tag=data[index],content=tag.topicContent||{};
+ modalNode('topicEditorTagName').textContent=tag.name;
+ modalNode('topicTitle').value=content.title||tag.name;
+ modalNode('topicIntro').value=content.intro||'';
+ modalNode('topicBody').value=content.body||'';
+ modalNode('topicSeoTitle').value=content.seoTitle||'';
+ modalNode('topicSeoDescription').value=content.seoDescription||'';
+ modalNode('topicError').hidden=true;openWorkflow('topicEditorModal','#topicTitle');
+}
+function saveTopicContent(event){
+ event.preventDefault();
+ const tag=data[topicEditingIndex];if(!tag?.topic){modalNode('topicError').textContent='Activate Topic before editing its content.';modalNode('topicError').hidden=false;return}
+ const title=modalNode('topicTitle').value.trim(),intro=modalNode('topicIntro').value.trim();
+ if(!title||!intro){modalNode('topicError').textContent='Topic Title and Topic Description are required.';modalNode('topicError').hidden=false;return}
+ tag.topicContent={title,intro,body:modalNode('topicBody').value.trim(),seoTitle:modalNode('topicSeoTitle').value.trim(),seoDescription:modalNode('topicSeoDescription').value.trim()};
+ closeWorkflow('topicEditorModal');topicEditingIndex=-1;render();
+}
+modalNode('mergeTargetSearch').addEventListener('input',renderMergeTargets);
+modalNode('mergeConfirm').addEventListener('click',mergeSelectedTag);
+modalNode('topicEditorForm').addEventListener('submit',saveTopicContent);
+for(const [id,dialog] of [['mergeCancel','mergeTagModal'],['mergeDialogClose','mergeTagModal'],['topicCancel','topicEditorModal'],['topicDialogClose','topicEditorModal']]){
+ modalNode(id).addEventListener('click',()=>closeWorkflow(dialog));
+}
+for(const id of ['mergeTagModal','topicEditorModal']){
+ modalNode(id).addEventListener('click',event=>{if(event.target===modalNode(id))closeWorkflow(id)});
+}
+document.addEventListener('keydown',event=>{
+ if(event.key!=='Escape')return;
+ if(modalNode('topicEditorModal').classList.contains('open')){event.preventDefault();closeWorkflow('topicEditorModal')}
+ else if(modalNode('mergeTagModal').classList.contains('open')){event.preventDefault();closeWorkflow('mergeTagModal')}
+});
+
 ['tagSearch','statusFilter','typeFilter'].forEach(id=>$('#'+id).addEventListener(id==='tagSearch'?'input':'change',render));
 $('#checkAll').onchange=e=>{$$('.row-check').forEach(c=>c.checked=e.target.checked);updateBulk()};
 function bulkSet(v){$$('.row-check:checked').forEach(c=>{const x=data[+c.dataset.index];x.topic=v;x.program=v;x.brand=v});render()}
