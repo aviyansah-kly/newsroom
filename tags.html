@@ -296,7 +296,7 @@ const modalNode=id=>document.getElementById(id);
 function openWorkflow(id,focusSelector){
  previousWorkflowFocus=document.activeElement;
  const dialog=modalNode(id);dialog.classList.add('open');dialog.setAttribute('aria-hidden','false');
- requestAnimationFrame(()=>dialog.querySelector(focusSelector)?.focus());
+ dialog.querySelector(focusSelector)?.focus();
 }
 function closeWorkflow(id){const dialog=modalNode(id);dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true');previousWorkflowFocus?.focus()}
 function openMergeModal(index){
