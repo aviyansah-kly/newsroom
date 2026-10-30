@@ -561,7 +561,8 @@ html[data-theme="dark"] .nr-users-page .nr-pagination .nr-page-number.active{
  padding-right:42px
 }
 .nr-users-page .nr-access-section .nr-primary-role .nr-primary-role-hint{
- margin:0;max-width:520px;font-size:12px;line-height:18px;color:var(--um-muted)
+ flex:none;align-self:flex-start;margin:0;max-width:520px;
+ font-size:12px;line-height:18px;color:var(--um-muted)
 }
 .nr-users-page .nr-access-layout{
  grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
