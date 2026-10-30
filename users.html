@@ -37,16 +37,14 @@
    </section>
    <section class="nr-form-section nr-access-section" aria-labelledby="accessTitle">
     <div class="nr-form-section-head"><h3 id="accessTitle">Roles & Channels</h3><p>Assign permissions for the channels this user manages.</p></div>
-    <div class="nr-primary-role"><label for="fieldRole"><span class="nr-field-label">Primary Role <em>*</em></span><select id="fieldRole" required></select></label>
-      <p>Used as the main role shown in the user list. Access is determined by the assignments below.</p>
+    <div class="nr-primary-role">
+      <div class="nr-primary-role-heading"><label for="fieldRole" class="nr-field-label">Primary Role <em>*</em></label><p>Default role displayed in the user list.</p></div>
+      <select id="fieldRole" required aria-describedby="primaryRoleHint"></select>
+      <p class="nr-primary-role-hint" id="primaryRoleHint">Channel-specific permissions are managed below.</p>
     </div>
     <div class="nr-access-layout">
-     <section class="nr-access-panel nr-current-access" aria-labelledby="currentAccessTitle">
-      <div class="nr-access-panel-head"><div><h4 id="currentAccessTitle">Assigned Access</h4><p>Existing roles for each channel.</p></div><span id="grantsCount" class="nr-access-count">0 assigned</span></div>
-      <div id="grantsList" class="nr-grants-list" aria-live="polite"></div>
-     </section>
      <section class="nr-access-panel nr-add-access" aria-labelledby="addAccessTitle">
-      <div class="nr-access-panel-head"><div><h4 id="addAccessTitle">Add Channel Access</h4><p>Choose a role and select one or more channels.</p></div></div>
+      <div class="nr-access-panel-head"><div><h4 id="addAccessTitle">Add Channel Access</h4><p>Select a role and the channels to assign.</p></div></div>
       <div class="nr-grant-builder">
        <label for="grantRole"><span class="nr-field-label">Role</span><select id="grantRole"></select></label>
        <div class="nr-category-heading"><span>Channels <em>*</em></span><button type="button" id="toggleAllChannels" class="nr-inline-link">Select All</button></div>
@@ -54,6 +52,10 @@
        <div class="nr-channel-picker"><div id="deskOptions" class="nr-desk-options" role="group" aria-label="Available channels"></div></div>
        <div class="nr-access-panel-footer"><span id="selectedChannelsCount" class="nr-selected-count" aria-live="polite">0 channels selected</span><button type="button" id="addGrant" class="nr-btn nr-btn-primary" disabled><i data-lucide="plus"></i> Add Access</button></div>
       </div>
+     </section>
+     <section class="nr-access-panel nr-current-access" aria-labelledby="currentAccessTitle">
+      <div class="nr-access-panel-head"><div><h4 id="currentAccessTitle">Assigned Access</h4><p>Review or remove granted access.</p></div><span id="grantsCount" class="nr-access-count">0 assigned</span></div>
+      <div id="grantsList" class="nr-grants-list" aria-live="polite"></div>
      </section>
     </div>
    </section>
