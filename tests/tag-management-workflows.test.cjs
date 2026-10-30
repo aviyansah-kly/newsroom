@@ -6,7 +6,7 @@ const css=fs.readFileSync('styles/newsroom-tags-workflows.css','utf8');
 test('Merge Tag offers source and searched destination with explicit confirmation',()=>{
  for(const id of ['mergeTagModal','mergeTargetSearch','mergeTargetResults','mergeSourceName','mergeTargetName','mergeConfirm'])assert.ok(page.includes('id="'+id+'"'),id);
  assert.match(page,/tag\.index!==mergingIndex/);
- assert.match(page,/mergeDestinationIndex===mergingIndex/);
+ assert.match(page,/mergingIndex===mergeDestinationIndex/);
  assert.match(page,/destination\.usage\+=source\.usage/);
  assert.match(page,/data\.splice\(mergingIndex,1\)/);
 });
