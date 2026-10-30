@@ -73,6 +73,18 @@
 @media(max-width:1100px){.tag-overview{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.tag-overview{grid-template-columns:1fr 1fr}.tag-toolbar{align-items:stretch}.tag-search{min-width:100%}.tag-count{margin-left:0}.status-grid{grid-template-columns:1fr}.tag-footer{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.tag-overview{grid-template-columns:1fr}}
+/* Status selection in Add/Edit Tag — shared Newsroom input sizing and tokens */
+.tags-page #tagModal .status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tags-page #tagModal .status-card{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:9px;min-width:0;min-height:44px;padding:10px 12px;margin:0;border:1px solid var(--nr-border);border-radius:8px;background:var(--nr-surface);color:var(--nr-text);font-size:13px;font-weight:500;line-height:20px;cursor:pointer;transition:background .15s,border-color .15s}
+.tags-page #tagModal .status-card:hover{background:var(--nr-hover)}
+.tags-page #tagModal .status-card:has(input:checked){border-color:var(--nr-orange);background:var(--nr-orange-soft)}
+.tags-page #tagModal .status-card:focus-within{outline:2px solid var(--nr-orange);outline-offset:2px}
+.tags-page #tagModal .status-card input[type="checkbox"]{appearance:none;-webkit-appearance:none;display:grid;place-items:center;position:static;flex:0 0 16px;width:16px!important;height:16px!important;min-width:16px;min-height:16px;margin:0!important;padding:0!important;border:1.5px solid var(--nr-input);border-radius:4px;background:var(--nr-surface);box-shadow:none;cursor:pointer}
+.tags-page #tagModal .status-card input[type="checkbox"]:checked{background:var(--nr-orange);border-color:var(--nr-orange)}
+.tags-page #tagModal .status-card input[type="checkbox"]:checked::after{content:"";display:block;width:8px;height:5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg)}
+.tags-page #tagModal .status-card input[type="checkbox"]:focus-visible{outline:2px solid var(--nr-orange);outline-offset:2px}
+@media(max-width:480px){.tags-page #tagModal .status-grid{grid-template-columns:1fr}}
+html[data-theme="dark"] .tags-page #tagModal .status-card:has(input:checked){background:var(--nr-orange-soft);border-color:var(--nr-orange)}
 </style>
 </head>
 <body class="nr-app tags-page">
@@ -85,66 +97,7 @@
 </header>
 
 <div class="nr-sidebar-backdrop" id="sidebarBackdrop"></div>
-<aside class="nr-sidebar" id="sidebar">
-  <div class="nr-sidebar-head">
-    <div><strong>CMS Menu</strong><span>Editorial and distribution tools.</span></div>
-    <button type="button" id="sidebarToggle" aria-label="Collapse sidebar"><i data-lucide="panel-left-close"></i></button>
-  </div>
-  <div class="nr-sidebar-search"><i data-lucide="search"></i><input id="sidebarSearch" type="search" placeholder="Search CMS menu…"></div>
-  <div class="nr-sidebar-scroll">
-    <div class="nr-nav-cluster" data-cluster>
-      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="layout-dashboard"></i><strong>Workspace</strong></span><i data-lucide="chevron-down"></i></button>
-      <div class="nr-nav-items">
-        <a class="nr-nav-item" href="dashboard.html" data-item="Dashboard"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
-        <a class="nr-nav-item" href="index.html" data-item="Articles"><i data-lucide="newspaper"></i><span>Articles</span></a>
-        <button class="nr-nav-item" type="button" data-item="Autopilot Articles"><i data-lucide="bot"></i><span>Autopilot Articles</span></button>
-        <button class="nr-nav-item" type="button" data-item="Rewrite Articles"><i data-lucide="wand-sparkles"></i><span>Rewrite Articles</span></button>
-        <button class="nr-nav-item" type="button" data-item="Distributed Articles"><i data-lucide="send"></i><span>Distributed Articles</span></button>
-      </div>
-    </div>
-    <div class="nr-nav-cluster" data-cluster>
-      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="images"></i><strong>Media & Live</strong></span><i data-lucide="chevron-down"></i></button>
-      <div class="nr-nav-items">
-        <button class="nr-nav-item" type="button" data-item="Images"><i data-lucide="image"></i><span>Images</span></button>
-        <button class="nr-nav-item" type="button" data-item="Photo Galleries"><i data-lucide="gallery-horizontal"></i><span>Photo Galleries</span></button>
-        <button class="nr-nav-item" type="button" data-item="Video Galleries"><i data-lucide="clapperboard"></i><span>Video Galleries</span></button>
-      </div>
-    </div>
-    <div class="nr-nav-cluster" data-cluster>
-      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="sparkles"></i><strong>AI & Intelligence</strong></span><i data-lucide="chevron-down"></i></button>
-      <div class="nr-nav-items">
-        <button class="nr-nav-item" type="button" data-item="Persona"><i data-lucide="user-round-cog"></i><span>Persona</span></button>
-        <button class="nr-nav-item" type="button" data-item="SEO Recommendation"><i data-lucide="search-check"></i><span>SEO Recommendation</span></button>
-        <button class="nr-nav-item" type="button" data-item="Topical Hub"><i data-lucide="network"></i><span>Topical Hub</span></button>
-      </div>
-    </div>
-    <div class="nr-nav-cluster open" data-cluster>
-      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="tags"></i><strong>Taxonomy &amp; Reference</strong></span><i data-lucide="chevron-down"></i></button>
-      <div class="nr-nav-items">
-        <button class="nr-nav-item" type="button" data-item="Figures"><i data-lucide="users"></i><span>Figures</span></button>
-        <button class="nr-nav-item" type="button" data-item="Football"><i data-lucide="trophy"></i><span>Football</span></button>
-        <button class="nr-nav-item" type="button" data-item="Selected Tags"><i data-lucide="tags"></i><span>Selected Tags</span></button>
-        <a class="nr-nav-item active" href="tags.html" data-item="Tags"><i data-lucide="tag"></i><span>Tags</span></a>
-      </div>
-    </div>
-    <div class="nr-nav-cluster" data-cluster>
-      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="shield-check"></i><strong>Editorial Governance</strong></span><i data-lucide="chevron-down"></i></button>
-      <div class="nr-nav-items">
-        <button class="nr-nav-item" type="button" data-item="CG Articles"><i data-lucide="shield-alert"></i><span>CG Articles</span></button>
-        <button class="nr-nav-item" type="button" data-item="Comments"><i data-lucide="message-square"></i><span>Comments</span></button>
-      </div>
-    </div>
-    <div class="nr-nav-cluster" data-cluster>
-      <button class="nr-nav-cluster-head" type="button"><span><i data-lucide="megaphone"></i><strong>Distribution & Promotion</strong></span><i data-lucide="chevron-down"></i></button>
-      <div class="nr-nav-items">
-        <button class="nr-nav-item" type="button" data-item="Headlines"><i data-lucide="panel-top"></i><span>Headlines</span></button>
-        <button class="nr-nav-item" type="button" data-item="Push Notification"><i data-lucide="bell-ring"></i><span>Push Notification</span></button>
-      </div>
-    </div>
-  </div>
-  <div class="nr-sidebar-bottom"></div>
-</aside>
-
+<aside class="nr-sidebar" id="sidebar"></aside>
 <script src="scripts/newsroom-global-navigation.js"></script>
 <main class="nr-page">
   <div class="nr-container">
