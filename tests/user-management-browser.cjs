@@ -24,6 +24,16 @@ const {chromium}=require('playwright');
   const font=parseFloat(await first.evaluate(node=>getComputedStyle(node).fontSize));
   assert.ok(font>=13,'readable table text');
   assert.equal(await page.locator('[data-item="User Management"].active').count(),1,'active sidebar');
+  const sidebarItems=await page.locator('#sidebar [data-item]').allTextContents();
+  assert.ok(sidebarItems.includes('Articles'),'sidebar retains canonical Articles item');
+  assert.ok(sidebarItems.includes('Tags'),'sidebar retains canonical Tags item');
+  assert.ok(sidebarItems.includes('User Management'),'User Management is in shared sidebar');
+  const articleSidebar=await context.newPage();
+  await articleSidebar.goto('http://127.0.0.1:8765/articles.html',{waitUntil:'domcontentloaded'});
+  const articleItems=await articleSidebar.locator('#sidebar [data-item]').allTextContents();
+  assert.deepEqual(sidebarItems.map(x=>x.trim()),articleItems.map(x=>x.trim()),'User Management uses the same sidebar order as Articles');
+  await articleSidebar.close();
+
   if(viewport.width<720){
     const trDisplay=await page.locator('#userRows tr').first().evaluate(node=>getComputedStyle(node).display);
     assert.equal(trDisplay,'grid','mobile records stack into cards');
@@ -52,6 +62,25 @@ const {chromium}=require('playwright');
   assert.equal(await page.locator('#userListPage').isVisible(),false,'list is hidden while editing');
   assert.match(page.url(),/view=add/,'create form has addressable URL');
   assert.equal(await page.locator('#drawerBackdrop').count(),0,'no drawer backdrop');
+  const positions=await page.evaluate(()=>{
+   const added=document.querySelector('.nr-add-access').getBoundingClientRect();
+   const assigned=document.querySelector('.nr-current-access').getBoundingClientRect();
+   return {addedX:added.left,assignedX:assigned.left,addedY:added.top,assignedY:assigned.top};
+  });
+  if(viewport.width>900){
+   assert.ok(positions.addedX<positions.assignedX,'Add Channel Access is on the left');
+   assert.ok(Math.abs(positions.addedY-positions.assignedY)<5,'access panels top-align');
+  }else{
+   assert.ok(positions.addedY<positions.assignedY,'Add Channel Access appears before Assigned Access on mobile');
+  }
+  const primaryLayout=await page.locator('.nr-primary-role').evaluate(node=>({
+    direction:getComputedStyle(node).flexDirection,
+    width:node.getBoundingClientRect().width,
+    selectWidth:node.querySelector('select').getBoundingClientRect().width
+  }));
+  assert.equal(primaryLayout.direction,'column','primary role is a compact stacked field');
+  assert.ok(primaryLayout.selectWidth<=340,'primary select remains compact');
+  assert.equal(await page.locator('.nr-access-layout > .nr-access-panel').first().getAttribute('class'), 'nr-access-panel nr-add-access','DOM and keyboard order start with Add Channel Access');
   const selectInset=await page.locator('#fieldRole').evaluate(node=>parseFloat(getComputedStyle(node).paddingRight));
   assert.ok(selectInset>=40,'dropdown chevron has safe right inset');
   for(const id of ['fieldUsername','fieldEmail','fieldName','fieldDisplayName','fieldRole']){
