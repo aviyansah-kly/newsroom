@@ -1,0 +1,54 @@
+/* Tag Management workflows — shared Newsroom controls and semantic theme tokens. */
+.tags-page .row-actions{align-items:center;gap:6px;flex-wrap:nowrap}
+.tags-page .row-action{height:34px;padding:0 9px;white-space:nowrap;font-size:12px;background:var(--nr-surface);color:var(--nr-text-2)}
+.tags-page .row-action:hover{background:var(--nr-hover);color:var(--nr-text)}
+.tags-page .row-action.topic-edit-action{color:var(--nr-blue);border-color:var(--nr-border)}
+.tags-page .row-action:focus-visible,.tags-page .tag-merge-option:focus-visible,.tags-page .nr-modal-card button:focus-visible{outline:2px solid var(--nr-blue);outline-offset:2px}
+.tags-page .tag-table th:last-child{min-width:246px}
+.tags-page .nr-modal-backdrop{z-index:600;padding:16px;overflow-y:auto}
+.tags-page .tag-workflow-dialog{width:min(520px,100%);max-height:min(90vh,920px);display:flex;flex-direction:column;background:var(--nr-surface);color:var(--nr-text);border:1px solid var(--nr-border)}
+.tags-page .tag-workflow-dialog .nr-modal-body{overflow-y:auto;padding:18px;gap:16px}
+.tags-page .tag-topic-dialog{width:min(640px,100%)}
+.tags-page .tag-workflow-dialog .nr-modal-head{flex:none;padding:15px 18px}
+.tags-page .tag-workflow-dialog .nr-modal-head strong{font-size:16px;font-weight:700}
+.tags-page .tag-workflow-dialog .nr-modal-head small{display:block;margin-top:3px;font-size:12px;color:var(--nr-muted)}
+.tags-page .tag-workflow-dialog .nr-modal-foot{flex:none;padding:13px 18px}
+.tags-page .tag-workflow-description{font-size:13px;line-height:1.6;color:var(--nr-text-2);margin:0}
+.tags-page .tag-merge-source,.tags-page .tag-merge-selection{display:grid;gap:4px;padding:12px 14px;border:1px solid var(--nr-border);border-radius:8px;background:var(--nr-soft)}
+.tags-page .tag-merge-source span,.tags-page .tag-merge-selection span{font-size:12px;color:var(--nr-muted)}
+.tags-page .tag-merge-source strong,.tags-page .tag-merge-selection strong{font-size:14px;font-weight:650}
+.tags-page .tag-merge-source small,.tags-page .tag-merge-selection small{font-size:12px;color:var(--nr-muted)}
+.tags-page .tag-merge-selection[hidden]{display:none}
+.tags-page .tag-workflow-dialog .nr-field label{font-size:13px;font-weight:650;color:var(--nr-text)}
+.tags-page .tag-workflow-dialog .nr-field input,.tags-page .tag-workflow-dialog .nr-field textarea{
+ width:100%;max-width:100%;min-height:40px;padding:10px 12px;border:1px solid var(--nr-input);
+ border-radius:8px;background:var(--nr-surface);color:var(--nr-text);
+ outline:0;font-size:14px;line-height:1.5;resize:vertical
+}
+.tags-page .tag-workflow-dialog .nr-field input:focus,.tags-page .tag-workflow-dialog .nr-field textarea:focus{border-color:var(--nr-blue);box-shadow:0 0 0 2px var(--nr-blue-soft)}
+.tags-page .tag-target-search{position:relative}
+.tags-page .tag-target-search svg{position:absolute;left:12px;top:12px;width:16px;height:16px;color:var(--nr-muted);pointer-events:none}
+.tags-page .tag-target-search input{padding-left:38px!important}
+.tags-page .tag-target-results{max-height:200px;overflow:auto;margin-top:9px;border:1px solid var(--nr-border);border-radius:8px;background:var(--nr-surface)}
+.tags-page .tag-merge-option{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:46px;padding:10px 12px;border:0;border-bottom:1px solid var(--nr-border);text-align:left;background:transparent;color:var(--nr-text);font-size:13px;cursor:pointer}
+.tags-page .tag-merge-option:last-child{border-bottom:0}
+.tags-page .tag-merge-option small{font-size:12px;color:var(--nr-muted);white-space:nowrap}
+.tags-page .tag-merge-option:hover{background:var(--nr-hover)}
+.tags-page .tag-merge-option.selected{background:var(--nr-blue-soft);color:var(--nr-text)}
+.tags-page .tag-merge-option.selected:before{content:'✓';font-weight:700;color:var(--nr-blue)}
+.tags-page .tag-merge-empty{padding:20px 12px;text-align:center;font-size:13px;color:var(--nr-muted);margin:0}
+.tags-page .tag-workflow-warning{display:flex;gap:9px;align-items:flex-start;padding:11px 12px;border:1px solid var(--nr-border);border-radius:8px;background:var(--nr-soft);color:var(--nr-text-2);font-size:12px;line-height:1.55;margin:0}
+.tags-page .tag-workflow-warning svg{flex:none;width:17px;height:17px;color:var(--nr-orange)}
+.tags-page .tag-required{color:var(--nr-orange);font-weight:700}
+.tags-page .tag-workflow-error{color:var(--nr-red);font-size:12px;margin:0}
+.tags-page .tag-workflow-error[hidden]{display:none}
+.tags-page .tag-topic-extra{display:grid;gap:14px;padding-top:14px;border-top:1px solid var(--nr-border)}
+.tags-page .tag-workflow-dialog button:disabled{opacity:.5;cursor:not-allowed}
+html[data-theme="dark"] .tags-page .tag-workflow-dialog,
+html[data-theme="dark"] .tags-page .tag-target-results{background:var(--nr-surface);color:var(--nr-text)}
+html[data-theme="dark"] .tags-page .tag-workflow-dialog .nr-field input,
+html[data-theme="dark"] .tags-page .tag-workflow-dialog .nr-field textarea{background:var(--nr-input-surface);border-color:var(--nr-input-boundary);color:var(--nr-text)}
+html[data-theme="dark"] .tags-page .tag-merge-option.selected{background:var(--nr-blue-soft)}
+html[data-theme="dark"] .tags-page .nr-modal-card .nr-btn:not(.nr-btn-primary){background:var(--nr-surface);border-color:var(--nr-border);color:var(--nr-text)}
+html[data-theme="dark"] .tags-page .row-action{background:var(--nr-surface);border-color:var(--nr-border);color:var(--nr-text-2)}
+@media(max-width:720px){.tags-page .tag-workflow-dialog{max-height:92vh}.tags-page .tag-merge-option{align-items:flex-start;flex-direction:column;gap:3px}.tags-page .row-actions{gap:4px}.tags-page .row-action{padding:0 7px}.tags-page .tag-table th:last-child{min-width:230px}}
