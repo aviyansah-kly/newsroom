@@ -16,6 +16,8 @@ const {chromium}=require('playwright');
   assert.equal(await page.locator('#tagRows tr').count(),12);
   const initial=page.locator('#tagRows tr').filter({hasText:'Harga BBM'});
   await initial.getByRole('button',{name:'Merge'}).click();
+  const debugState=await page.evaluate(()=>({classes:document.querySelector('#mergeTagModal').className,aria:document.querySelector('#mergeTagModal').getAttribute('aria-hidden'),display:getComputedStyle(document.querySelector('#mergeTagModal')).display,onclick:typeof document.querySelector('.merge-tag').onclick}));
+  console.log('Merge modal state',JSON.stringify(debugState),'Page errors:',errors.join(' | '));
   assert.equal(await page.locator('#mergeTagModal').isVisible(),true);
   assert.equal(await page.locator('#mergeConfirm').isDisabled(),true);
   await page.locator('#mergeTargetSearch').fill('Harga BBM');
