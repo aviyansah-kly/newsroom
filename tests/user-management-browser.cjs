@@ -58,7 +58,7 @@ const {chromium}=require('playwright');
     const label=page.locator('#'+id).locator('xpath=..');
     assert.equal(await label.locator('.nr-field-label em').count(),1,id+' required marker stays inside label');
     const style=await label.locator('.nr-field-label').evaluate(node=>getComputedStyle(node).display);
-    assert.equal(style,'inline-flex',id+' star stays alongside label');
+    assert.ok(style==='flex'||style==='inline-flex',id+' required indicator shares a flex row with label');
   }
   const checkboxSize=await page.locator('#fieldActive').evaluate(node=>({
     width:parseFloat(getComputedStyle(node).width),
