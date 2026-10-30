@@ -542,3 +542,48 @@ html[data-theme="dark"] .nr-users-page .nr-pagination .nr-page-number.active{
  .nr-users-page .nr-settings-grid,.nr-users-page .nr-account-section .nr-feature-flags{grid-template-columns:1fr}
  .nr-users-page .nr-grant-chip-name{white-space:normal}
 }
+
+
+/* Roles & Channels review: form-first flow and a compact Primary Role control.
+   Retain existing shared Newsroom font, borders, and semantic theme tokens. */
+.nr-users-page .nr-access-section .nr-primary-role{
+ display:flex;flex-direction:column;align-items:flex-start;
+ gap:7px;margin:0 0 18px;padding:0 0 18px;
+ border-bottom:1px solid var(--um-border);
+}
+.nr-users-page .nr-access-section .nr-primary-role .nr-field-label{
+ display:inline-flex;align-items:center;gap:4px;
+ width:auto;max-width:none;min-height:18px;
+ font-size:13px;line-height:18px;font-weight:650
+}
+.nr-users-page .nr-access-section .nr-primary-role select{
+ width:min(340px,100%);height:42px;flex:none;
+ padding-right:42px
+}
+.nr-users-page .nr-access-section .nr-primary-role .nr-primary-role-hint{
+ margin:0;max-width:520px;font-size:12px;line-height:18px;color:var(--um-muted)
+}
+.nr-users-page .nr-access-layout{
+ grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+ align-items:start;gap:14px
+}
+.nr-users-page .nr-access-layout .nr-add-access{grid-column:1;grid-row:1}
+.nr-users-page .nr-access-layout .nr-current-access{grid-column:2;grid-row:1}
+.nr-users-page .nr-access-layout .nr-current-access .nr-grants-list{
+ padding:0 12px;max-height:330px
+}
+.nr-users-page .nr-access-layout .nr-add-access .nr-grant-builder{max-width:none}
+.nr-users-page .nr-access-layout .nr-add-access .nr-desk-options{
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ max-height:212px
+}
+@media(max-width:900px){
+ .nr-users-page .nr-access-layout{grid-template-columns:minmax(0,1fr)}
+ .nr-users-page .nr-access-layout .nr-add-access{grid-column:1;grid-row:1}
+ .nr-users-page .nr-access-layout .nr-current-access{grid-column:1;grid-row:2}
+ .nr-users-page .nr-access-layout .nr-add-access .nr-desk-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+ .nr-users-page .nr-access-section .nr-primary-role select{width:100%}
+ .nr-users-page .nr-access-layout .nr-add-access .nr-desk-options{grid-template-columns:1fr}
+}
