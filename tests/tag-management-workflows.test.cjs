@@ -22,3 +22,9 @@ test('new interactions inherit theme tokens and mobile modal',()=>{
  assert.match(css,/@media\(max-width:720px\)/);
  assert.match(page,/styles\/newsroom-tags-workflows\.css/);
 });
+test('all Tags row actions bind across every row',()=>{
+ for(const selector of ['edit-tag','merge-tag','topic-edit-action']){
+  assert.ok(page.includes("$$('."+selector+"').forEach"),'missing querySelectorAll for '+selector);
+  assert.ok(!page.includes(" $('."+selector+"').forEach"),'incorrect single selector for '+selector);
+ }
+});
