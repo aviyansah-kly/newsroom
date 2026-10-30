@@ -271,9 +271,9 @@ function render(){
 }
 function bindRows(){
  $$('.status-toggle').forEach(b=>b.onclick=()=>{const i=+b.dataset.index,key=b.dataset.toggle;data[i][key]=!data[i][key];render()});
- $('.edit-tag').forEach(b=>b.onclick=()=>openModal(+b.dataset.index));
- $('.merge-tag').forEach(b=>b.onclick=()=>openMergeModal(+b.dataset.index));
- $('.topic-edit-action').forEach(b=>b.onclick=()=>openTopicEditor(+b.dataset.index));
+ $$('.edit-tag').forEach(b=>b.onclick=()=>openModal(+b.dataset.index));
+ $$('.merge-tag').forEach(b=>b.onclick=()=>openMergeModal(+b.dataset.index));
+ $$('.topic-edit-action').forEach(b=>b.onclick=()=>openTopicEditor(+b.dataset.index));
  $$('.row-check').forEach(c=>c.onchange=updateBulk);
 }
 function updateBulk(){
