@@ -1,0 +1,50 @@
+name: Newsroom User Management QA
+on:
+  push:
+    branches: [feature/user-management-page]
+  pull_request:
+    paths:
+      - 'users.html'
+      - 'scripts/newsroom-user-management.js'
+      - 'styles/newsroom-user-management.css'
+      - 'scripts/newsroom-global-navigation.js'
+      - 'tests/user-management-smoke.cjs'
+      - 'tests/user-management-browser.cjs'
+      - '.github/workflows/newsroom-user-management.yml'
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check syntax
+        run: |
+          node --check scripts/newsroom-user-management.js
+          node --check scripts/newsroom-global-navigation.js
+      - name: Static QA
+        run: node --test tests/user-management-smoke.cjs
+  browser-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium QA runtime
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test Light/Dark desktop/mobile UI and user interactions
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-users-http.log 2>&1 &
+          node tests/user-management-browser.cjs
+      - name: Upload visual QA snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsroom-user-management-visual-qa
+          path: qa-screenshots/
+          if-no-files-found: ignore
