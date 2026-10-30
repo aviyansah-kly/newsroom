@@ -79,6 +79,16 @@ const {chromium}=require('playwright');
     selectWidth:node.querySelector('select').getBoundingClientRect().width
   }));
   assert.equal(primaryLayout.direction,'column','primary role is a compact stacked field');
+  const primarySpacing=await page.evaluate(()=>{
+   const primary=document.querySelector('.nr-primary-role').getBoundingClientRect();
+   const hint=document.querySelector('.nr-primary-role-hint').getBoundingClientRect();
+   const access=document.querySelector('.nr-access-layout').getBoundingClientRect();
+   return {hintHeight:hint.height, primaryHeight:primary.height, gap:access.top-primary.bottom};
+  });
+  assert.ok(primarySpacing.hintHeight<=36,'primary hint must not stretch into a tall empty area');
+  assert.ok(primarySpacing.primaryHeight<140,'Primary Role should stay compact');
+  assert.ok(primarySpacing.gap<35,'panels follow Primary Role without blank whitespace');
+
   assert.ok(primaryLayout.selectWidth<=340,'primary select remains compact');
   assert.equal(await page.locator('.nr-access-layout > .nr-access-panel').first().getAttribute('class'), 'nr-access-panel nr-add-access','DOM and keyboard order start with Add Channel Access');
   const selectInset=await page.locator('#fieldRole').evaluate(node=>parseFloat(getComputedStyle(node).paddingRight));
