@@ -26,18 +26,18 @@
   <div class="nr-drawer-body">
    <section class="nr-form-section" aria-labelledby="identityTitle"><div class="nr-form-section-head"><h3 id="identityTitle">Informasi Akun</h3><p>Data identitas yang tampil pada Newsroom.</p></div>
     <div class="nr-form-grid">
-     <label>Username <em>*</em><input id="fieldUsername" required maxlength="50" pattern="[A-Za-z0-9._-]+" placeholder="contoh: andi.pratama"></label>
-     <label>Email <em>*</em><input type="email" id="fieldEmail" required placeholder="nama@perusahaan.com"></label>
-     <label>Full Name <em>*</em><input id="fieldName" required maxlength="100" placeholder="Nama lengkap"></label>
-     <label>Display Name <em>*</em><input id="fieldDisplayName" required maxlength="100" placeholder="Nama yang tampil di artikel"></label>
-     <label>KLY ID <span class="nr-field-optional">(Opsional)</span><input id="fieldKlyId" maxlength="32" placeholder="KLY-123"></label>
-     <label>Title <span class="nr-field-optional">(Opsional)</span><input id="fieldTitle" maxlength="80" placeholder="Jabatan / posisi"></label>
-     <label class="nr-form-wide">Partner <select id="fieldPartner"><option value="">Tidak Ada Partner</option><option value="KLY">KLY</option><option value="Liputan6">Liputan6</option><option value="External">External Partner</option></select></label>
+     <label><span class="nr-field-label">Username <em>*</em></span><input id="fieldUsername" required maxlength="50" pattern="[A-Za-z0-9._-]+" placeholder="contoh: andi.pratama"></label>
+     <label><span class="nr-field-label">Email <em>*</em></span><input type="email" id="fieldEmail" required placeholder="nama@perusahaan.com"></label>
+     <label><span class="nr-field-label">Full Name <em>*</em></span><input id="fieldName" required maxlength="100" placeholder="Nama lengkap"></label>
+     <label><span class="nr-field-label">Display Name <em>*</em></span><input id="fieldDisplayName" required maxlength="100" placeholder="Nama yang tampil di artikel"></label>
+     <label><span class="nr-field-label">KLY ID <span class="nr-field-optional">(Opsional)</span></span><input id="fieldKlyId" maxlength="32" placeholder="KLY-123"></label>
+     <label><span class="nr-field-label">Title <span class="nr-field-optional">(Opsional)</span></span><input id="fieldTitle" maxlength="80" placeholder="Jabatan / posisi"></label>
+     <label class="nr-form-wide"><span class="nr-field-label">Partner</span><select id="fieldPartner"><option value="">Tidak Ada Partner</option><option value="KLY">KLY</option><option value="Liputan6">Liputan6</option><option value="External">External Partner</option></select></label>
     </div>
    </section>
    <section class="nr-form-section nr-access-section" aria-labelledby="accessTitle">
     <div class="nr-form-section-head"><h3 id="accessTitle">Roles & Channels</h3><p>Assign permissions for the channels this user manages.</p></div>
-    <div class="nr-primary-role"><label for="fieldRole">Primary Role <em>*</em><select id="fieldRole" required></select></label>
+    <div class="nr-primary-role"><label for="fieldRole"><span class="nr-field-label">Primary Role <em>*</em></span><select id="fieldRole" required></select></label>
       <p>Used as the main role shown in the user list. Access is determined by the assignments below.</p>
     </div>
     <div class="nr-access-layout">
@@ -48,7 +48,7 @@
      <section class="nr-access-panel nr-add-access" aria-labelledby="addAccessTitle">
       <div class="nr-access-panel-head"><div><h4 id="addAccessTitle">Add Channel Access</h4><p>Choose a role and select one or more channels.</p></div></div>
       <div class="nr-grant-builder">
-       <label for="grantRole">Role <select id="grantRole"></select></label>
+       <label for="grantRole"><span class="nr-field-label">Role</span><select id="grantRole"></select></label>
        <div class="nr-category-heading"><span>Channels <em>*</em></span><button type="button" id="toggleAllChannels" class="nr-inline-link">Select All</button></div>
        <label class="nr-category-search"><i data-lucide="search"></i><input id="channelSearch" type="search" placeholder="Search channels…" aria-label="Search channels"></label>
        <div class="nr-channel-picker"><div id="deskOptions" class="nr-desk-options" role="group" aria-label="Available channels"></div></div>
@@ -57,14 +57,31 @@
      </section>
     </div>
    </section>
-   <section class="nr-form-section" aria-labelledby="statusTitle"><div class="nr-form-section-head"><h3 id="statusTitle">Account Settings</h3><p>Status, keamanan, dan izin khusus akun.</p></div>
-    <label class="nr-status-field"><span><strong>Active</strong><small>Izinkan akun mengakses Newsroom.</small></span><input id="fieldActive" type="checkbox" checked></label>
-    <label class="nr-status-field"><span><strong>Verified</strong><small>Status verifikasi identitas akun.</small></span><input id="fieldVerified" type="checkbox"></label>
-    <label class="nr-status-field"><span><strong>2FA</strong><small>Status autentikasi dua faktor.</small></span><input id="fieldTwoFactor" type="checkbox"></label>
-    <label class="nr-status-field"><span><strong>Set Expiration Date</strong><small>Batasi masa berlaku akses akun.</small></span><input id="fieldExpirationEnabled" type="checkbox"></label>
-    <label id="expirationField" class="nr-expiration-field" hidden>Expiration Date <em>*</em><input id="fieldExpirationDate" type="date"></label>
-    <div class="nr-feature-flags"><h4>Special Access</h4><label><input type="checkbox" id="fieldContributor"> Contributor</label><label><input type="checkbox" id="fieldProductManager"> Product Manager</label><label><input type="checkbox" id="fieldAiEditor"> AI Editor</label><label><input type="checkbox" id="fieldAutopilot"> Auto Pilot Editor</label></div>
-    <label class="nr-password-field">Password <span class="nr-field-optional">(Managed by IT)</span><input id="fieldPassword" type="password" disabled autocomplete="new-password" placeholder="Dikelola oleh tim IT"><small>Password dikelola melalui sistem autentikasi.</small></label>
+   <section class="nr-form-section nr-account-section" aria-labelledby="statusTitle">
+    <div class="nr-form-section-head"><h3 id="statusTitle">Account Settings</h3><p>Manage account availability, security, and additional capabilities.</p></div>
+    <div class="nr-account-group">
+     <div class="nr-account-group-head"><h4>Account Status</h4><p>Control access and verification for this user.</p></div>
+     <div class="nr-settings-grid">
+      <label class="nr-status-field"><span><strong>Active</strong><small>Allow access to Newsroom.</small></span><input id="fieldActive" type="checkbox" checked></label>
+      <label class="nr-status-field"><span><strong>Verified</strong><small>Account identity is verified.</small></span><input id="fieldVerified" type="checkbox"></label>
+      <label class="nr-status-field"><span><strong>Two-Factor Authentication</strong><small>Require an additional security step.</small></span><input id="fieldTwoFactor" type="checkbox"></label>
+      <label class="nr-status-field"><span><strong>Account Expiration</strong><small>Set a date when access ends.</small></span><input id="fieldExpirationEnabled" type="checkbox"></label>
+     </div>
+     <label id="expirationField" class="nr-expiration-field" hidden><span class="nr-field-label">Expiration Date <em>*</em></span><input id="fieldExpirationDate" type="date"></label>
+    </div>
+    <div class="nr-account-group">
+     <div class="nr-account-group-head"><h4>Special Permissions</h4><p>Enable additional features only when needed.</p></div>
+     <div class="nr-feature-flags">
+      <label><input type="checkbox" id="fieldContributor"><span>Contributor</span></label>
+      <label><input type="checkbox" id="fieldProductManager"><span>Product Manager</span></label>
+      <label><input type="checkbox" id="fieldAiEditor"><span>AI Editor</span></label>
+      <label><input type="checkbox" id="fieldAutopilot"><span>Auto Pilot Editor</span></label>
+     </div>
+    </div>
+    <div class="nr-account-group nr-account-credentials">
+     <div class="nr-account-group-head"><h4>Login Credentials</h4><p>Password changes are managed by IT through the authentication system.</p></div>
+     <label class="nr-password-field"><span class="nr-field-label">Password <span class="nr-field-optional">(Managed by IT)</span></span><input id="fieldPassword" type="password" disabled autocomplete="new-password" placeholder="Managed by IT"></label>
+    </div>
    </section>
    <p id="formError" class="nr-form-error" role="alert" hidden></p>
   </div>
