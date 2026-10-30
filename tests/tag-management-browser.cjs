@@ -41,6 +41,7 @@ const {chromium}=require('playwright');
   await page.locator('#topicSeoDescription').fill('Informasi tentang industri migas terkini.');
   await page.screenshot({path:'qa-screenshots/tags/topic-'+theme+'-'+width+'.png',fullPage:true});
   await page.locator('#topicEditorForm button[type=submit]').click();
+  console.log('TOPIC CHECK',theme,width,JSON.stringify(await page.evaluate(()=>({valid:document.querySelector('#topicEditorForm').checkValidity(),classes:document.querySelector('#topicEditorModal').className,display:getComputedStyle(document.querySelector('#topicEditorModal')).display,style:getComputedStyle(document.querySelector('#topicEditorModal')).visibility,title:document.querySelector('#topicTitle').value,intro:document.querySelector('#topicIntro').value,formErrors:document.querySelector('#topicError').textContent}))),errors.join('|'));
   assert.equal(await page.locator('#topicEditorModal').isVisible(),false);
   await dest.getByRole('button',{name:'Edit Topic'}).click();
   assert.equal(await page.locator('#topicTitle').inputValue(),'Migas Indonesia','topic saved and reloaded');
