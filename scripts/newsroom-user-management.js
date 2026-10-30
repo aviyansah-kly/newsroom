@@ -84,18 +84,50 @@ function draw(){
  drawPagination(items.length,max);icon();
 }
 function hideMenus(){all('.nr-row-menu').forEach(node=>node.hidden=true);all('.nr-row-more').forEach(node=>node.setAttribute('aria-expanded','false'))}
+const expandedGrantRoles=new Set();
 function renderGrants(){
- const list=$('grantsList');list.replaceChildren();$('grantsCount').textContent=workingGrants.length+' assignment';
- if(!workingGrants.length)list.append(el('p','nr-grants-empty','No access assigned yet. Choose a role and channels to get started.'));
+ const list=$('grantsList');list.replaceChildren();
  $('grantsCount').textContent=workingGrants.length+' assigned';
- workingGrants.forEach((grant,index)=>{
-  const row=el('div','nr-grant-item'),details=el('span','nr-grant-details');
-  details.append(el('strong','nr-grant-role',grant.role),el('small','',grant.channel));
-  const remove=el('button','nr-icon-button'),x=el('span','nr-remove-grant-icon','×');x.setAttribute('aria-hidden','true');remove.append(x);remove.type='button';
-  remove.setAttribute('aria-label','Hapus '+grant.role+' dari '+grant.channel);
-  remove.addEventListener('click',()=>{workingGrants.splice(index,1);renderGrants()});
-  row.append(details,remove);list.append(row)
- });icon()
+ if(!workingGrants.length){
+  list.append(el('p','nr-grants-empty','No access assigned yet. Choose a role and channels to get started.'));
+  return;
+ }
+ const grouped=new Map();
+ for(const grant of workingGrants){
+  if(!grouped.has(grant.role))grouped.set(grant.role,[]);
+  grouped.get(grant.role).push(grant);
+ }
+ for(const [role,grants] of grouped){
+  const group=el('div','nr-grant-group'),head=el('div','nr-grant-group-head'),name=el('strong','',role);
+  const count=el('span','nr-grant-group-count',grants.length+' channel'+(grants.length===1?'':'s'));
+  head.append(name,count);group.append(head);
+  const chips=el('div','nr-grant-chips');
+  const expanded=expandedGrantRoles.has(role);
+  const visible=expanded?grants:grants.slice(0,4);
+  for(const grant of visible){
+   const item=el('span','nr-grant-item nr-grant-chip'),label=el('span','nr-grant-chip-name',grant.channel);
+   const remove=el('button','nr-grant-remove','×');remove.type='button';
+   remove.setAttribute('aria-label','Remove '+role+' access for '+grant.channel);
+   remove.addEventListener('click',()=>{
+    const index=workingGrants.findIndex(item=>item.role===grant.role&&item.channel===grant.channel);
+    if(index>=0)workingGrants.splice(index,1);
+    if(!workingGrants.some(item=>item.role===role))expandedGrantRoles.delete(role);
+    renderGrants();
+   });
+   item.append(label,remove);chips.append(item);
+  }
+  if(grants.length>4){
+   const more=el('button','nr-grant-expand',expanded?'Show less':'+'+(grants.length-4)+' more');
+   more.type='button';more.setAttribute('aria-expanded',String(expanded));
+   more.setAttribute('aria-label',(expanded?'Collapse':'Expand')+' '+role+' channels');
+   more.addEventListener('click',()=>{
+    if(expanded)expandedGrantRoles.delete(role);else expandedGrantRoles.add(role);
+    renderGrants();
+   });
+   chips.append(more);
+  }
+  group.append(chips);list.append(group);
+ }
 }
 function renderChannels(){
  const list=$('deskOptions'),term=$('channelSearch').value.trim().toLowerCase();list.replaceChildren();
@@ -127,7 +159,7 @@ function openEditor(user,navigate=true){
  $('fieldActive').checked=user?.active??true;
  for(const [id,key] of [['fieldVerified','verified'],['fieldTwoFactor','twoFactor'],['fieldContributor','contributor'],['fieldProductManager','productManager'],['fieldAiEditor','aiEditor'],['fieldAutopilot','autopilot']])$(id).checked=!!user?.[key];
  $('fieldExpirationEnabled').checked=!!user?.expirationDate;$('fieldExpirationDate').value=user?.expirationDate||'';syncExpiration();
- $('fieldPassword').value='';$('channelSearch').value='';pendingChannelSelection.clear();workingGrants=(user?.grants||[]).map(g=>({...g}));
+ $('fieldPassword').value='';$('channelSearch').value='';pendingChannelSelection.clear();expandedGrantRoles.clear();workingGrants=(user?.grants||[]).map(g=>({...g}));
  renderChannels();renderGrants();$('formError').hidden=true;
  $('userListPage').hidden=true;$('userEditorPage').hidden=false;
  if(navigate)history.pushState({userView:true},'',user?'users.html?view=edit&id='+encodeURIComponent(user.id):'users.html?view=add');
