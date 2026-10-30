@@ -176,7 +176,7 @@
       </div>
       <div class="empty-state" id="emptyState"><i data-lucide="search-x"></i><strong>No tags found</strong><div>Try another keyword or filter.</div></div>
       <div class="tag-footer">
-        <span class="tag-count">12 of 128 tags</span>
+        <span class="tag-count" id="tagFooterCount">12 of 128 tags</span>
         <div class="pagination"><button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button><button class="page-btn">4</button><button class="page-btn" aria-label="Next page"><i data-lucide="chevron-right"></i></button></div>
       </div>
     </section>
@@ -250,7 +250,7 @@ const data=[
 ];
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let editing=-1;
+let editing=-1,totalTagCount=128;
 function statusPill(on,label,key,i){return '<button class="status-toggle '+(on?'on':'')+'" type="button" data-toggle="'+key+'" data-index="'+i+'" aria-pressed="'+on+'"><span class="status-dot"></span>'+label+'</button>'}
 function filtered(){
  const q=$('#tagSearch').value.trim().toLowerCase(),status=$('#statusFilter').value,type=$('#typeFilter').value;
@@ -266,6 +266,8 @@ function render(){
  const rows=filtered();
  $('#tagRows').innerHTML=rows.map(x=>'<tr data-row="'+x._i+'"><td><input class="tag-check row-check" type="checkbox" data-index="'+x._i+'"></td><td><div class="tag-name"><span class="tag-name-icon"><i data-lucide="tag"></i></span><span><strong>'+esc(x.name)+'</strong><small>ID TAG-'+String(x._i+101).padStart(4,'0')+'</small></span></div></td><td><span class="tag-slug">'+esc(x.slug)+'</span></td><td><span class="tag-usage">'+x.usage+' articles</span></td><td>'+statusPill(x.topic,'Topic','topic',x._i)+'</td><td>'+statusPill(x.program,'Program','program',x._i)+'</td><td>'+statusPill(x.brand,'Brand','brand',x._i)+'</td><td><div class="row-actions"><button class="row-action edit-tag" data-index="'+x._i+'" title="Edit tag"><i data-lucide="pencil"></i><span>Edit</span></button><button class="row-action merge-tag" data-index="'+x._i+'" title="Merge this tag into another tag"><i data-lucide="git-merge"></i><span>Merge</span></button>'+(x.topic?'<button class="row-action topic-edit-action" data-index="'+x._i+'" title="Edit Topic content"><i data-lucide="file-pen-line"></i><span>Edit Topic</span></button>':'')+'</div></td></tr>').join('');
  $('#resultCount').textContent='Showing '+rows.length+' tags';
+ $('#totalTags').textContent=String(totalTagCount);
+ $('#tagFooterCount').textContent=rows.length+' of '+totalTagCount+' tags';
  $('#tableWrap').style.display=rows.length?'block':'none';$('#emptyState').style.display=rows.length?'none':'block';
  bindRows();lucide.createIcons();updateBulk();
 }
@@ -287,7 +289,7 @@ $('#addTagBtn').onclick=()=>openModal();
 $('#modalClose').onclick=$('#modalCancel').onclick=closeModal;
 $('#tagModal').onclick=e=>{if(e.target.id==='tagModal')closeModal()};
 $('#tagName').addEventListener('input',()=>{if(editing<0)$('#tagSlug').value=slugify($('#tagName').value)});
-$('#modalSave').onclick=()=>{const name=$('#tagName').value.trim(),slug=$('#tagSlug').value.trim();if(!name||!slug)return;if(editing>=0){Object.assign(data[editing],{name,slug,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked})}else data.unshift({name,slug,usage:0,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked});closeModal();render()};
+$('#modalSave').onclick=()=>{const name=$('#tagName').value.trim(),slug=$('#tagSlug').value.trim();if(!name||!slug)return;if(editing>=0){Object.assign(data[editing],{name,slug,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked})}else{data.unshift({name,slug,usage:0,topic:$('#modalTopic').checked,program:$('#modalProgram').checked,brand:$('#modalBrand').checked});totalTagCount++}closeModal();render()};
 
 /* Review additions: merge Tag and manage active Topic editorial content.
    Prototype state only; backend reference rewrites must be transactional. */
@@ -337,7 +339,7 @@ function mergeSelectedTag(){
  // Article references are represented by usage counts until backend integration.
  destination.usage+=source.usage;
  if(!destination.topicContent&&source.topicContent&&destination.topic)destination.topicContent={...source.topicContent};
- data.splice(mergingIndex,1);
+ data.splice(mergingIndex,1);totalTagCount=Math.max(0,totalTagCount-1);
  closeWorkflow('mergeTagModal');mergingIndex=-1;mergeDestinationIndex=-1;
  $('#tagSearch').value='';$('#statusFilter').value='all';$('#typeFilter').value='all';render();
 }
