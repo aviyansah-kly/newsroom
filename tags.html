@@ -251,9 +251,15 @@ const modalNode=id=>document.getElementById(id);
 function openWorkflow(id,focusSelector){
  previousWorkflowFocus=document.activeElement;
  const dialog=modalNode(id);dialog.classList.add('open');dialog.setAttribute('aria-hidden','false');
- dialog.querySelector(focusSelector)?.focus();
+ document.body.classList.add('nr-workflow-modal-open');
+ const inner=dialog.querySelector('.nr-modal-body');if(inner)inner.scrollTop=0;
+ dialog.querySelector(focusSelector)?.focus({preventScroll:true});
 }
-function closeWorkflow(id){const dialog=modalNode(id);dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true');previousWorkflowFocus?.focus()}
+function closeWorkflow(id){
+ const dialog=modalNode(id);dialog.classList.remove('open');dialog.setAttribute('aria-hidden','true');
+ if(!document.querySelector('#mergeTagModal.open,#topicEditorModal.open'))document.body.classList.remove('nr-workflow-modal-open');
+ previousWorkflowFocus?.focus({preventScroll:true});
+}
 function openMergeModal(index){
  if(index<0||index>=data.length)return;
  mergingIndex=index;mergeDestinationIndex=-1;
