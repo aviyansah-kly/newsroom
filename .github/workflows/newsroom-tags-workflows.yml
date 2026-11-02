@@ -1,0 +1,44 @@
+name: Newsroom Tags Merge & Topic QA
+on:
+  push:
+    branches: [feature/tags-merge-topic-content]
+  pull_request:
+    paths:
+      - 'tags.html'
+      - 'styles/newsroom-tags-workflows.css'
+      - 'tests/tag-management-workflows.test.cjs'
+      - 'tests/tag-management-browser.cjs'
+      - '.github/workflows/newsroom-tags-workflows.yml'
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Static regression
+        run: node --test tests/tag-management-workflows.test.cjs
+  browser-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chromium QA runtime
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Test Merge Tag, Topic content and responsive themes
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-tags.log 2>&1 &
+          node tests/tag-management-browser.cjs
+      - name: Upload visual QA snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: newsroom-tags-merge-topic-qa
+          path: qa-screenshots/tags/
+          if-no-files-found: ignore
