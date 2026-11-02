@@ -52,3 +52,12 @@ html[data-theme="dark"] .tags-page .tag-merge-option.selected{background:var(--n
 html[data-theme="dark"] .tags-page .nr-modal-card .nr-btn:not(.nr-btn-primary){background:var(--nr-surface);border-color:var(--nr-border);color:var(--nr-text)}
 html[data-theme="dark"] .tags-page .row-action{background:var(--nr-surface);border-color:var(--nr-border);color:var(--nr-text-2)}
 @media(max-width:720px){.tags-page .tag-workflow-dialog{max-height:92vh}.tags-page .tag-merge-option{align-items:flex-start;flex-direction:column;gap:3px}.tags-page .row-actions{gap:4px}.tags-page .row-action{padding:0 7px}.tags-page .tag-table th:last-child{min-width:230px}}
+
+/* Keep Edit Topic header/actions visible while scrolling long content. */
+body.nr-workflow-modal-open{overflow:hidden}
+.tags-page #topicEditorModal.nr-modal-backdrop.open{display:flex;align-items:center;justify-content:center;overflow-y:auto;overscroll-behavior:contain;padding:16px}
+.tags-page #topicEditorModal .tag-topic-dialog{display:flex;flex-direction:column;width:min(640px,100%);max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);min-height:0;overflow:hidden}
+.tags-page #topicEditorForm{display:flex;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden}
+.tags-page #topicEditorForm>.nr-modal-body{display:grid;flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:18px;align-content:start}
+.tags-page #topicEditorForm>.nr-modal-foot{flex:0 0 auto;background:var(--nr-surface);position:relative;z-index:1}
+@media(max-width:720px){.tags-page #topicEditorModal.nr-modal-backdrop.open{padding:12px}.tags-page #topicEditorModal .tag-topic-dialog{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}}
