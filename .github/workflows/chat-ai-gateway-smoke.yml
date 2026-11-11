@@ -1,0 +1,28 @@
+name: Chat AI gateway smoke
+
+on:
+  pull_request:
+    paths:
+      - scripts/newsroom-shell.js
+      - tests/chat-ai-gateway-smoke.cjs
+      - .github/workflows/chat-ai-gateway-smoke.yml
+  workflow_dispatch:
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser test runtime
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Verify Chat AI launcher opens existing agent on desktop/mobile
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-http.log 2>&1 &
+          sleep 2
+          node tests/chat-ai-gateway-smoke.cjs

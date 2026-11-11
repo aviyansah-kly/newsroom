@@ -252,6 +252,25 @@
         document.body.appendChild(core);
       }
     }
+    // The unified CMS sidebar hides the obsolete .utility-rail. The approved
+    // floating AI launcher was nested inside that rail, so it vanished too.
+    // Reparent the EXISTING trigger: keep its original openAgent click handler
+    // and #agentDock intact; don't introduce another chat UI or backend.
+    if(document.body.classList.contains('alt-editor-layout')){
+      const launcher=document.getElementById('railAI');
+      const dock=document.getElementById('agentDock');
+      if(launcher && dock){
+        if(launcher.parentElement!==document.body)document.body.appendChild(launcher);
+        launcher.setAttribute('type','button');
+        launcher.setAttribute('aria-label','Buka Chat AI');
+        launcher.setAttribute('aria-controls','agentDock');
+        const label=launcher.querySelector('.rail-label');
+        if(label)label.textContent='Chat AI';
+        const syncExpanded=()=>launcher.setAttribute('aria-expanded',String(dock.classList.contains('open')));
+        syncExpanded();
+        new MutationObserver(syncExpanded).observe(dock,{attributes:true,attributeFilter:['class']});
+      }
+    }
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
     document.querySelectorAll('.nr-topbar > .nr-user').forEach(el=>el.remove());
