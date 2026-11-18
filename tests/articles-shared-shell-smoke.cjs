@@ -50,7 +50,16 @@ const { chromium } = require('playwright');
     await page.locator('#sidebarToggle').click();
     await page.waitForTimeout(350); // wait for the approved 180ms sidebar width transition
     const collapsed = await page.locator('.nr-sidebar').evaluate(el => el.getBoundingClientRect().width);
-    if (Math.abs(collapsed - 64) > 2) throw Error('Shared sidebar collapse width incorrect: ' + collapsed);
+    if (Math.abs(collapsed - 64) > 2) {
+      const diagnosis = await page.evaluate(() => ({
+        bodyClass: document.body.className,
+        storedCollapsed: localStorage.getItem('newsroom:sidebar-collapsed'),
+        sidebarStyleWidth: getComputedStyle(document.querySelector('.nr-sidebar')).width,
+        toggleExists: !!document.getElementById('sidebarToggle'),
+        sidebarOuterHTML: document.querySelector('.nr-sidebar')?.outerHTML.slice(0, 300)
+      }));
+      throw Error('Shared sidebar collapse width incorrect: ' + collapsed + ' ' + JSON.stringify(diagnosis));
+    }
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator('#mobileMenu').click();
