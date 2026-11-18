@@ -1,4 +1,5 @@
 const { chromium } = require('playwright');
+const { mkdirSync } = require('node:fs');
 
 (async () => {
   const browser = await chromium.launch({ headless: true, args: ['--no-sandbox'] });
@@ -17,6 +18,8 @@ const { chromium } = require('playwright');
         site: document.querySelector('#newsroomSiteCurrent img')?.getAttribute('src')
       };
     });
+    mkdirSync('artifacts', { recursive: true });
+    await page.screenshot({ path: 'artifacts/editor-sidebar-reference.png' });
     if (JSON.stringify(editor.rail) !== JSON.stringify(['dashboard','admin']))
       throw Error('Latest Editor two-column sidebar groups missing: ' + JSON.stringify(editor.rail));
 
@@ -50,6 +53,15 @@ const { chromium } = require('playwright');
       throw Error('Header logo / site selector differs from Editor');
     if ((await page.locator('#sidebar .nr-account').count()) !== 1) throw Error('Account footer missing');
 
+    await page.screenshot({ path: 'artifacts/articles-sidebar-light.png' });
+    await page.evaluate(() => { document.documentElement.dataset.theme = 'dark' });
+    await page.waitForTimeout(150);
+    await page.screenshot({ path: 'artifacts/articles-sidebar-dark.png' });
+    const darkNav = await page.locator('#sidebar .nr-nav-content').evaluate(el => getComputedStyle(el).backgroundColor);
+    await page.evaluate(() => { document.documentElement.dataset.theme = 'light' });
+    const lightNav = await page.locator('#sidebar .nr-nav-content').evaluate(el => getComputedStyle(el).backgroundColor);
+    if (darkNav === lightNav) throw Error('Dark and light sidebar use identical background ' + darkNav);
+
     // The rail really switches Dashboard/Admin; it is not a decorative placeholder.
     await page.locator('#sidebar [data-nav-group="admin"]').click();
     if (!await page.locator('#sidebar .nr-nav-list[data-group="admin"] [data-admin-menu="Users"]').isVisible())
@@ -82,6 +94,7 @@ const { chromium } = require('playwright');
     if (!await page.locator('#sidebar .nr-nav-content').isVisible())
       throw Error('Mobile should show both rail and menu');
     if (!await page.locator('#newArticleBtn').isVisible()) throw Error('New Article hidden on mobile');
+    await page.screenshot({ path: 'artifacts/articles-sidebar-mobile.png' });
     await page.locator('#sidebarBackdrop').click({ position: { x: 380, y: 400 } });
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     if (overflow > 3) throw Error('Horizontal overflow: ' + overflow);
