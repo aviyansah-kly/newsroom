@@ -15,8 +15,11 @@ const { chromium } = require('playwright');
     await page.waitForSelector('.nr-header-page-actions #newArticleMenu', { timeout: 20000 });
 
     const articleNav = await page.locator('.nr-sidebar [data-item]').evaluateAll(nodes => nodes.map(node => node.getAttribute('data-item')));
-    if (JSON.stringify(editorNav) !== JSON.stringify(articleNav))
+    if (JSON.stringify(editorNav) !== JSON.stringify(articleNav)) {
+      console.log('Editor nav:', JSON.stringify(editorNav));
+      console.log('Articles nav:', JSON.stringify(articleNav));
       throw Error('Article List menu order differs from Editor Workspace');
+    }
     if (await page.locator('.nr-sidebar [data-item="Articles"].active').count() !== 1)
       throw Error('Article List current page is not active in shared sidebar');
     if (await page.locator('.nr-topbar .newsroom-header-brand img').getAttribute('src') !== editorBrand)
