@@ -1,0 +1,30 @@
+name: Article List shared shell parity
+
+on:
+  pull_request:
+    paths:
+      - articles.html
+      - scripts/articles-shared-shell.js
+      - styles/articles-shared-shell.css
+      - tests/articles-shared-shell-smoke.cjs
+      - .github/workflows/articles-shared-shell-parity.yml
+  workflow_dispatch:
+
+jobs:
+  chromium-parity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Check Article List and Editor shared chrome
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-http.log 2>&1 &
+          sleep 2
+          node tests/articles-shared-shell-smoke.cjs
