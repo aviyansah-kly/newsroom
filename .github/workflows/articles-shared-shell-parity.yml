@@ -8,8 +8,11 @@ on:
       - styles/articles-shared-shell.css
       - tests/articles-shared-shell-smoke.cjs
       - tests/articles-tools-refinement-smoke.cjs
+      - tests/articles-preview-dummy-smoke.cjs
       - scripts/articles-tools-refinement.js
+      - scripts/articles-preview-dummy.js
       - styles/articles-tools-refinement.css
+      - styles/articles-preview-dummy.css
       - .github/workflows/articles-shared-shell-parity.yml
   workflow_dispatch:
 
@@ -32,6 +35,7 @@ jobs:
           sleep 2
           node tests/articles-shared-shell-smoke.cjs
           node tests/articles-tools-refinement-smoke.cjs
+          node tests/articles-preview-dummy-smoke.cjs
       - name: Upload Editor and Article List comparison screenshots
         if: always()
         uses: actions/upload-artifact@v4
