@@ -183,9 +183,13 @@
     menu.setAttribute('aria-label', 'Tools Artikel');
     menu.setAttribute('aria-modal', 'false');
     const render = (focusKey) => {
+      // Do not jump to the top of a long popup after toggling a setting.
+      const previousScroll = focusKey ? (menu.querySelector('.nr-tools-scroll')?.scrollTop || 0) : 0;
       menu.innerHTML = menuHTML(row, state);
       if (window.lucide?.createIcons) window.lucide.createIcons({nodes: [menu]});
       position(menu, trigger);
+      const nextScroll = menu.querySelector('.nr-tools-scroll');
+      if (nextScroll) nextScroll.scrollTop = previousScroll;
       if (focusKey) {
         const next = menu.querySelector('[data-tools-toggle="' + focusKey + '"], [data-tools-disclosure="' + focusKey + '"], [data-tools-command="' + focusKey + '"]');
         next?.focus({preventScroll:true});
