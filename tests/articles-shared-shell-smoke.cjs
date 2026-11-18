@@ -48,6 +48,7 @@ const { chromium } = require('playwright');
       throw Error('Regular Article destination missing from dropdown');
 
     await page.locator('#sidebarToggle').click();
+    await page.waitForTimeout(350); // wait for the approved 180ms sidebar width transition
     const collapsed = await page.locator('.nr-sidebar').evaluate(el => el.getBoundingClientRect().width);
     if (Math.abs(collapsed - 64) > 2) throw Error('Shared sidebar collapse width incorrect: ' + collapsed);
 
