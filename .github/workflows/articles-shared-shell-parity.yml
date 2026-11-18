@@ -28,3 +28,11 @@ jobs:
           python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/newsroom-http.log 2>&1 &
           sleep 2
           node tests/articles-shared-shell-smoke.cjs
+      - name: Upload Editor and Article List comparison screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: articles-editor-sidebar-comparison
+          path: artifacts/
+          if-no-files-found: ignore
+          retention-days: 7
