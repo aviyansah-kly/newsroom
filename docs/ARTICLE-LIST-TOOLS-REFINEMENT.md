@@ -4,7 +4,7 @@
 The Tools dropdown in `articles.html` was visually crowded, used nested fly-out menus, repeated on/off indicators, mixed technical controls with editorial actions, and could extend off the viewport. An earlier sequence of inline scripts rebuilt the menu multiple times, making state difficult to reason about.
 
 ## New feature branch implementation
-The single-purpose `scripts/articles-tools-refinement.js` re-renders the final Tools popup after existing inline demo initialization. Layout/semantics are isolated in `styles/articles-tools-refinement.css`.
+The single-purpose `scripts/articles-tools-refinement.js` replaces the **legacy menu node only** after existing inline demo initialization. This is required because `scripts/article-editorial-refinement.js` attaches an old `stopImmediatePropagation` handler to the original popup, which would otherwise swallow new option clicks. The parent Tools trigger, article rows and CMS navigation remain unchanged. Layout/semantics are isolated in `styles/articles-tools-refinement.css`.
 
 - [x] Compact header with article title and status.
 - [x] Clear groups: Aksi Artikel, Penempatan, Pengaturan Lanjutan.
