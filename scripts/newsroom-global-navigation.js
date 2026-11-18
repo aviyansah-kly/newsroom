@@ -59,6 +59,17 @@
     .replace(/data-cms-item/g,'data-item');
   const template=document.createElement('div');
   template.innerHTML=nav;
+  // Editor exposes Dashboard before Articles in its real navigation. The
+  // standard-page renderer previously skipped it; keep one canonical order.
+  const mainNav=template.querySelector('.nr-nav-items');
+  if(mainNav&&!mainNav.querySelector('[data-item="Dashboard"]')){
+    const dashboard=document.createElement('a');
+    dashboard.href='dashboard.html';
+    dashboard.className='nr-nav-item';
+    dashboard.setAttribute('data-item','Dashboard');
+    dashboard.innerHTML='<i data-lucide="layout-dashboard"></i><span>Dashboard</span>';
+    mainNav.prepend(dashboard);
+  }
   template.querySelectorAll('[data-item]').forEach(item=>{
     const name=item.getAttribute('data-item');
     item.classList.toggle('active',name===page);
