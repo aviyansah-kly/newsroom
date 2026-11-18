@@ -51,40 +51,32 @@
     '<span class="nr-tools-check" aria-hidden="true">' + (on ? icon('check') : '') + '</span></button>';
 
   function menuHTML(row, s) {
-    const title = row.dataset.title || row.querySelector('.article-title')?.textContent || 'Artikel';
-    const status = s.published ? 'Published' : (row.dataset.status === 'review' ? 'Ready to Review' :
-      row.dataset.status === 'scheduled' ? 'Scheduled' : 'Draft');
     return '' +
-      '<div class="nr-tools-header"><div><strong>Tools Artikel</strong>' +
-      '<p title="' + escapeHTML(title) + '">' + escapeHTML(title) + '</p></div>' +
+      '<div class="nr-tools-header"><strong>Settings</strong>' +
       '<button type="button" class="nr-tools-close" data-tools-command="close" aria-label="Tutup Tools">' + icon('x') + '</button></div>' +
       '<div class="nr-tools-scroll">' +
         '<div class="nr-tools-section"><span class="nr-tools-label">Aksi Artikel</span>' +
-          '<div class="nr-tools-meta"><span>Status</span><span class="nr-tools-status' +
-          (s.published ? ' published' : '') + '">' + status + '</span></div>' +
-          '<button type="button" class="nr-tools-link" data-tools-command="open-url">' +
-          icon('external-link') + '<span>Buka URL Artikel</span>' + icon('arrow-up-right') + '</button>' +
-          toggleRow('distribute', 'Distribusi', 'Aktifkan distribusi artikel', 'send', s.distribute) +
+          toggleRow('distribute', 'Distribusi', '', 'send', s.distribute) +
         '</div>' +
         '<div class="nr-tools-section"><span class="nr-tools-label">Penempatan</span>' +
           '<div class="nr-tools-field"><div class="nr-tools-field-head">' + icon('panel-top') +
-          '<span><strong>Headline</strong><small>Tampilkan di halaman pilihan</small></span></div>' +
+          '<span><strong>Headline</strong></span></div>' +
           '<div class="nr-tools-choices">' +
             choice('headlineHome', 'Homepage', 'house', s.headlineHome) +
             choice('headlineTV', 'TV', 'tv', s.headlineTV) +
           '</div></div>' +
           '<div class="nr-tools-field"><div class="nr-tools-field-head">' + icon('pin') +
-          '<span><strong>Pin Artikel</strong><small>Prioritaskan posisi artikel</small></span></div>' +
+          '<span><strong>Pin Artikel</strong></span></div>' +
           '<div class="nr-tools-choices">' +
             choice('pinHome', 'Homepage', 'house', s.pinHome) +
             choice('pinTV', 'TV', 'tv', s.pinTV) +
           '</div></div>' +
           toggleRow('curated', 'Curated', '', 'badge-check', s.curated) +
-          toggleRow('exclude', 'Exclude', 'Kecualikan dari penempatan', 'ban', s.exclude) +
+          toggleRow('exclude', 'Exclude', '', 'ban', s.exclude) +
         '</div>' +
         '<div class="nr-tools-section"><span class="nr-tools-label">Pengaturan Lanjutan</span>' +
           '<button class="nr-tools-disclosure" type="button" data-tools-disclosure="advanced" aria-expanded="' + s.advanced + '">' +
-          icon('badge-dollar-sign') + '<span><strong>Monetisasi & Konten</strong><small>Konten dewasa dan penempatan iklan</small></span>' +
+          icon('badge-dollar-sign') + '<span><strong>Monetisasi & Konten</strong></span>' +
           icon(s.advanced ? 'chevron-up' : 'chevron-down') + '</button>' +
           (s.advanced ? '<div class="nr-tools-disclosure-content">' +
             toggleRow('adult', 'Konten Dewasa', '', 'shield-alert', s.adult) +
@@ -92,24 +84,22 @@
             toggleRow('adsMobile', 'Iklan Mobile', '', 'smartphone', s.adsMobile) +
             '</div>' : '') +
           '<button class="nr-tools-disclosure" type="button" data-tools-disclosure="technical" aria-expanded="' + s.technical + '">' +
-          icon('wrench') + '<span><strong>Teknis</strong><small>Feedback, cache, dan pengujian</small></span>' +
+          icon('wrench') + '<span><strong>Teknis</strong></span>' +
           icon(s.technical ? 'chevron-up' : 'chevron-down') + '</button>' +
           (s.technical ? '<div class="nr-tools-disclosure-content">' +
             toggleRow('feedback', 'Feedback', '', 'message-square', s.feedback) +
             toggleRow('varnish', 'Bypass Varnish', '', 'refresh-cw-off', s.varnish) +
-            '<button class="nr-tools-link" type="button" data-tools-command="google-tools">' + icon('flask-conical') +
-            '<span>Google Testing Tools</span>' + icon('arrow-up-right') + '</button></div>' : '') +
+            '</div>' : '') +
         '</div>' +
         (s.published ? '<div class="nr-tools-section nr-tools-danger-section">' +
           (s.confirmUnpublish ?
-            '<div class="nr-tools-confirm"><strong>Batalkan publikasi?</strong><p>Perubahan ini hanya simulasi UI.</p>' +
+            '<div class="nr-tools-confirm"><strong>Batalkan publikasi artikel?</strong>' +
             '<div><button type="button" data-tools-command="cancel-unpublish">Batal</button>' +
             '<button type="button" class="nr-tools-confirm-danger" data-tools-command="confirm-unpublish">Ya, Unpublish</button></div></div>' :
             '<button type="button" class="nr-tools-unpublish" data-tools-command="unpublish">' +
             icon('globe-2') + '<span>Unpublish Artikel</span></button>') +
           '</div>' : '') +
-      '</div>' +
-      '<div class="nr-tools-footer">' + icon('info') + '<span>Preview interaktif · perubahan belum disimpan ke CMS</span></div>';
+      '</div>';
   }
 
   function announce(text) {
