@@ -16,7 +16,7 @@ The single-purpose `scripts/articles-tools-refinement.js` replaces the **legacy 
 - [x] Popup is viewport anchored, max-height constrained with its own scroll; switch changes preserve scroll and focus.
 - [x] Button aria-pressed/aria-expanded, Escape close, status feedback and Light/Dark semantic CSS.
 - [x] Unsupported external URL/tools show an honest preview message, not fake navigation.
-- [ ] Browser smoke green for all controls including desktop 1440, mobile 390, Dark Mode, status and persistence.
+- [x] Browser smoke PASS for all controls including desktop 1440, mobile 390, Dark Mode, status and persistence — GitHub Actions run 44234064987 (includes screenshot artifacts).
 - [ ] Product Design visual comparison / signoff, merge and production deployment.
 
 ## Explicit behavior boundaries
