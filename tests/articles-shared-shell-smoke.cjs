@@ -5,77 +5,88 @@ const { chromium } = require('playwright');
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
   try {
     await page.goto('http://127.0.0.1:8765/index.html', { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForSelector('#cmsNavDrawer [data-cms-item="Articles"]', { timeout: 20000 });
-    const editorNav = await page.locator('#cmsNavDrawer [data-cms-item]').evaluateAll(nodes => nodes.map(node => node.getAttribute('data-cms-item')));
-    const editorBrand = await page.locator('.newsroom-header-left .newsroom-header-brand img').getAttribute('src');
-    const editorSite = await page.locator('#newsroomSiteCurrent img').getAttribute('src');
+    await page.waitForSelector('#cmsNavDrawer.nr-unified-nav .nr-nav-rail [data-nav-group="admin"]', { timeout: 20000 });
+    const editor = await page.evaluate(() => {
+      const sidebar = document.querySelector('#cmsNavDrawer.nr-unified-nav');
+      return {
+        nav: [...sidebar.querySelectorAll('.nr-nav-list[data-group="dashboard"] [data-cms-item]')].map(el => el.dataset.cmsItem),
+        rail: [...sidebar.querySelectorAll('.nr-nav-rail [data-nav-group]')].map(el => el.dataset.navGroup),
+        width: sidebar.getBoundingClientRect().width,
+        railWidth: sidebar.querySelector('.nr-nav-rail').getBoundingClientRect().width,
+        brand: document.querySelector('.newsroom-header-left .newsroom-header-brand img')?.getAttribute('src'),
+        site: document.querySelector('#newsroomSiteCurrent img')?.getAttribute('src')
+      };
+    });
+    if (JSON.stringify(editor.rail) !== JSON.stringify(['dashboard','admin']))
+      throw Error('Latest Editor two-column sidebar groups missing: ' + JSON.stringify(editor.rail));
 
     await page.goto('http://127.0.0.1:8765/articles.html', { waitUntil: 'domcontentloaded', timeout: 45000 });
-    await page.waitForSelector('.nr-sidebar [data-item="Articles"]', { timeout: 20000 });
+    await page.waitForSelector('#sidebar.nr-unified-nav .nr-nav-rail [data-nav-group="admin"]', { timeout: 20000 });
     await page.waitForSelector('.nr-header-page-actions #newArticleMenu', { timeout: 20000 });
+    await page.waitForSelector('.nr-account', { timeout: 15000 });
 
-    const articleNav = await page.locator('.nr-sidebar [data-item]').evaluateAll(nodes => nodes.map(node => node.getAttribute('data-item')));
-    if (JSON.stringify(editorNav) !== JSON.stringify(articleNav)) {
-      console.log('Editor nav:', JSON.stringify(editorNav));
-      console.log('Articles nav:', JSON.stringify(articleNav));
-      throw Error('Article List menu order differs from Editor Workspace');
-    }
-    if (await page.locator('.nr-sidebar [data-item="Articles"].active').count() !== 1)
-      throw Error('Article List current page is not active in shared sidebar');
-    if (await page.locator('.nr-topbar .newsroom-header-brand img').getAttribute('src') !== editorBrand)
-      throw Error('Header brand differs from Editor');
-    if (await page.locator('#newsroomSiteCurrent img').getAttribute('src') !== editorSite)
-      throw Error('Site switcher differs from Editor');
-    if (await page.locator('.nr-topbar .nr-header-page-actions #newArticleBtn').count() !== 1)
-      throw Error('New Article action not in shared header');
-    if (await page.locator('.article-page-head #newArticleBtn').count())
-      throw Error('Duplicate New Article action remains in page heading');
-    if (await page.locator('.nr-account').count() !== 1)
-      throw Error('Shared sidebar account footer missing');
-
-    const desktop = await page.evaluate(() => {
-      const header = document.querySelector('.nr-topbar').getBoundingClientRect();
-      const sidebar = document.querySelector('.nr-sidebar').getBoundingClientRect();
-      return { headerHeight: header.height, sidebarWidth: sidebar.width };
+    const article = await page.evaluate(() => {
+      const sidebar = document.querySelector('#sidebar.nr-unified-nav');
+      return {
+        nav: [...sidebar.querySelectorAll('.nr-nav-list[data-group="dashboard"] [data-item]')].map(el => el.dataset.item),
+        rail: [...sidebar.querySelectorAll('.nr-nav-rail [data-nav-group]')].map(el => el.dataset.navGroup),
+        width: sidebar.getBoundingClientRect().width,
+        railWidth: sidebar.querySelector('.nr-nav-rail').getBoundingClientRect().width,
+        headerHeight: document.querySelector('.nr-topbar').getBoundingClientRect().height
+      };
     });
-    if (Math.abs(desktop.headerHeight - 68) > 1 || Math.abs(desktop.sidebarWidth - 248) > 2)
-      throw Error('Shared shell geometry mismatch ' + JSON.stringify(desktop));
+    if (JSON.stringify(editor.nav) !== JSON.stringify(article.nav))
+      throw Error('Article List nav differs from Editor: ' + JSON.stringify({editor: editor.nav, articles: article.nav}));
+    if (JSON.stringify(editor.rail) !== JSON.stringify(article.rail))
+      throw Error('Two-column rail groups do not match Editor');
+    if (Math.abs(article.width - 274) > 2 || Math.abs(editor.width - article.width) > 2 ||
+        Math.abs(article.railWidth - 66) > 2 || Math.abs(editor.railWidth - article.railWidth) > 2 ||
+        Math.abs(article.headerHeight - 68) > 1)
+      throw Error('Latest two-column sidebar geometry mismatch: ' + JSON.stringify({ editor, article }));
+    if ((await page.locator('#sidebar .nr-nav-list[data-group="dashboard"] [data-item="Articles"].active').count()) !== 1)
+      throw Error('Articles is not active in the Dashboard group');
+    if ((await page.locator('.nr-topbar .newsroom-header-brand img').getAttribute('src')) !== editor.brand ||
+        (await page.locator('#newsroomSiteCurrent img').getAttribute('src')) !== editor.site)
+      throw Error('Header logo / site selector differs from Editor');
+    if ((await page.locator('#sidebar .nr-account').count()) !== 1) throw Error('Account footer missing');
+
+    // The rail really switches Dashboard/Admin; it is not a decorative placeholder.
+    await page.locator('#sidebar [data-nav-group="admin"]').click();
+    if (!await page.locator('#sidebar .nr-nav-list[data-group="admin"] [data-admin-menu="Users"]').isVisible())
+      throw Error('Admin group did not open');
+    if (await page.locator('#sidebar .nr-nav-list[data-group="dashboard"]').isVisible())
+      throw Error('Dashboard list remains visible while Admin is selected');
+    await page.locator('#sidebar [data-nav-group="dashboard"]').click();
 
     await page.locator('#newArticleBtn').click();
-    if (!await page.locator('.article-new-popover').isVisible())
-      throw Error('Existing New Article dropdown stopped opening');
+    if (!await page.locator('.article-new-popover').isVisible()) throw Error('New Article dropdown no longer opens');
     if (!await page.locator('.article-new-option[href="index.html"]').isVisible())
-      throw Error('Regular Article destination missing from dropdown');
+      throw Error('New Article destination missing');
 
-    // The Editor and Article List intentionally share persisted sidebar state.
-    // Normalize the starting state before asserting that a click collapses it.
+    // Persisted state is shared by CMS pages, so normalize before checking collapse.
     await page.evaluate(() => {
       document.body.classList.remove('nr-sidebar-collapsed');
       localStorage.setItem('newsroom:sidebar-collapsed', '0');
     });
     await page.locator('#sidebarToggle').click();
-    await page.waitForTimeout(350); // wait for the approved 180ms sidebar width transition
-    const collapsed = await page.locator('.nr-sidebar').evaluate(el => el.getBoundingClientRect().width);
-    if (Math.abs(collapsed - 64) > 2) {
-      const diagnosis = await page.evaluate(() => ({
-        bodyClass: document.body.className,
-        storedCollapsed: localStorage.getItem('newsroom:sidebar-collapsed'),
-        sidebarStyleWidth: getComputedStyle(document.querySelector('.nr-sidebar')).width,
-        toggleExists: !!document.getElementById('sidebarToggle'),
-        sidebarOuterHTML: document.querySelector('.nr-sidebar')?.outerHTML.slice(0, 300)
-      }));
-      throw Error('Shared sidebar collapse width incorrect: ' + collapsed + ' ' + JSON.stringify(diagnosis));
-    }
+    await page.waitForTimeout(350);
+    const collapsed = await page.locator('#sidebar').evaluate(el => el.getBoundingClientRect().width);
+    if (Math.abs(collapsed - 66) > 2 || await page.locator('#sidebar .nr-nav-content').isVisible())
+      throw Error('Two-column nav collapse should show rail only, 66px: ' + collapsed);
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.locator('#mobileMenu').click();
-    if (!await page.locator('.nr-sidebar').isVisible()) throw Error('Mobile sidebar failed to open');
-    if (!await page.locator('#newArticleBtn').isVisible()) throw Error('Header action invisible on mobile');
+    await page.waitForTimeout(250);
+    const mobileLeft = await page.locator('#sidebar').evaluate(el => el.getBoundingClientRect().left);
+    if (mobileLeft < -2) throw Error('Mobile sidebar is offscreen after opening: ' + mobileLeft);
+    if (!await page.locator('#sidebar .nr-nav-content').isVisible())
+      throw Error('Mobile should show both rail and menu');
+    if (!await page.locator('#newArticleBtn').isVisible()) throw Error('New Article hidden on mobile');
     await page.locator('#sidebarBackdrop').click({ position: { x: 380, y: 400 } });
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-    if (overflow > 3) throw Error('Unexpected horizontal overflow on phone ' + overflow);
+    if (overflow > 3) throw Error('Horizontal overflow: ' + overflow);
 
-    console.log('PASS: header identity, exact sidebar IA, account, active page, 68/248/64 layout, New Article dropdown and mobile');
+    console.log('PASS: Article List matches latest Editor two-column sidebar (274px + 66px rail), groups, menu, header, account, collapse and mobile.');
   } finally {
     await browser.close();
   }
