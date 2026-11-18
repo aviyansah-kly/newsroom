@@ -17,6 +17,12 @@ const { mkdirSync } = require('node:fs');
     await page.waitForTimeout(120);
     const menu = published.locator('.nr-tools-menu');
     if (!await menu.isVisible()) throw Error('Tools menu does not open');
+    const words = (await menu.textContent()).trim();
+    for (const redundant of ['Tools Artikel','Preview interaktif','Buka URL Artikel','Google Testing Tools','Status','belum tersimpan ke CMS']) {
+      if (words.includes(redundant)) throw Error('Redundant or unavailable Tools wording remains: '+redundant);
+    }
+    if (!words.includes('Distribusi') || !words.includes('Headline') || !words.includes('Pin Artikel'))
+      throw Error('Essential editorial Tools controls were removed');
     if (await menu.locator('.nr-tools-field').count() !== 2)
       throw Error('Headline and Pin Article must show inline');
     if (await menu.locator('.article-action-submenu').count())
