@@ -47,6 +47,12 @@ const { chromium } = require('playwright');
     if (!await page.locator('.article-new-option[href="index.html"]').isVisible())
       throw Error('Regular Article destination missing from dropdown');
 
+    // The Editor and Article List intentionally share persisted sidebar state.
+    // Normalize the starting state before asserting that a click collapses it.
+    await page.evaluate(() => {
+      document.body.classList.remove('nr-sidebar-collapsed');
+      localStorage.setItem('newsroom:sidebar-collapsed', '0');
+    });
     await page.locator('#sidebarToggle').click();
     await page.waitForTimeout(350); // wait for the approved 180ms sidebar width transition
     const collapsed = await page.locator('.nr-sidebar').evaluate(el => el.getBoundingClientRect().width);
