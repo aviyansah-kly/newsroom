@@ -11,7 +11,7 @@
 - [x] Move the existing New Article dropdown into the shared header action slot without recreating its handlers
 - [x] Retain sidebar search/collapse, account dropdown, theme controller, Article List search/filter and pagination code
 - [x] Add scoped desktop/mobile and Light/Dark styling for the header New Article action
-- [ ] Chromium browser parity test pass
+- [x] Chromium browser parity passed — GitHub Actions run 44231697635 (Editor menu order, 68/248/64 geometry, dropdown, mobile)
 - [ ] Visual review against the existing Editor at desktop and mobile, Light/Dark
 - [ ] Confirm current production URL is serving the new commit
 - [ ] Final Product Design approval and merge
