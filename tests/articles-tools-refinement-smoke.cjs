@@ -10,7 +10,8 @@ const { mkdirSync } = require('node:fs');
   try {
     await page.goto('http://127.0.0.1:8765/articles.html', {waitUntil:'domcontentloaded',timeout:45000});
     await page.waitForSelector('.nr-tools-menu', {timeout:20000});
-    const published = page.locator('.article-row[data-status="published"]').first();
+    await page.locator('.article-row[data-status="published"]').first().evaluate(el => el.dataset.toolsQa = 'published');
+    const published = page.locator('.article-row[data-tools-qa="published"]');
     const menuButton = published.locator('.article-more-btn');
     await menuButton.click();
     await page.waitForTimeout(120);
