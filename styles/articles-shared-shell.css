@@ -1,0 +1,48 @@
+/* Article List uses the Editor's canonical 68px shared header and sidebar.
+   Only page-specific actions live here; identity, navigation and theme
+   remain owned by newsroom-global-navigation.css / newsroom-shell.css. */
+body.articles-page .nr-topbar .nr-header-page-actions {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-right: 12px;
+}
+body.articles-page .nr-topbar #newArticleBtn {
+  min-height: 38px;
+  white-space: nowrap;
+}
+body.articles-page .nr-topbar .article-new-popover {
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 120;
+  background: var(--nr-ui-panel, var(--nr-surface, #fff));
+  border-color: var(--nr-ui-card-border, var(--nr-border, #e2e8f0));
+}
+html[data-theme="dark"] body.articles-page .nr-topbar .article-new-option {
+  background: var(--nr-ui-panel, var(--nr-surface));
+  color: var(--nr-ui-text, var(--nr-text));
+}
+html[data-theme="dark"] body.articles-page .nr-topbar .article-new-option:hover {
+  background: var(--nr-ui-control, #303740);
+}
+body.articles-page .nr-topbar .article-new-menu:focus-within .article-new-popover {
+  isolation: isolate;
+}
+@media (max-width: 760px) {
+  body.articles-page .nr-topbar .nr-header-page-actions { padding-right: 8px; }
+  body.articles-page .nr-topbar #newArticleBtn {
+    min-width: 40px;
+    justify-content: center;
+    padding: 0 10px;
+  }
+  body.articles-page .nr-topbar #newArticleBtn > span { display: none; }
+}
+@media (max-width: 420px) {
+  body.articles-page .nr-topbar #newArticleBtn > svg:last-child { display: none; }
+  body.articles-page .nr-topbar #newArticleBtn { width: 40px; padding: 0; }
+  body.articles-page .nr-topbar .article-new-popover {
+    width: min(236px, calc(100vw - 24px));
+  }
+}
