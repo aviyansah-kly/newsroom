@@ -109,7 +109,8 @@ body.nr-app.articles-page.nr-sidebar-collapsed .nr-sidebar.nr-unified-nav .nr-na
     width:min(274px,86vw)!important;
     grid-template-columns:66px minmax(0,1fr)!important;
   }
-  body.nr-app.articles-page .nr-sidebar.nr-unified-nav .nr-nav-content {display:flex!important}
+  body.nr-app.articles-page .nr-sidebar.nr-unified-nav .nr-nav-content,
+  body.nr-app.articles-page.nr-sidebar-collapsed .nr-sidebar.nr-unified-nav .nr-nav-content {display:flex!important}
   body.nr-app.articles-page .nr-page,
   body.nr-app.articles-page.nr-sidebar-collapsed .nr-page {
     margin-left:0!important;width:100%!important;
