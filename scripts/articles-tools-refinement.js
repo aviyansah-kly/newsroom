@@ -173,9 +173,15 @@
 
   rows.forEach(row => {
     const more = row.querySelector('.article-more');
-    const menu = more?.querySelector('.article-row-menu');
+    const legacyMenu = more?.querySelector('.article-row-menu');
     const trigger = more?.querySelector('.article-more-btn');
-    if (!menu || !trigger) return;
+    if (!legacyMenu || !trigger) return;
+    // The legacy refinement script binds a stopImmediatePropagation() click
+    // handler directly to the old menu. Replace that node (not its parent)
+    // so only this controller receives Tools clicks.
+    const menu = legacyMenu.cloneNode(false);
+    legacyMenu.replaceWith(menu);
+    menu.classList.remove('nr-editorial-menu');
     const state = initialState(row);
     states.set(row, state);
     menu.classList.add('nr-tools-menu');
