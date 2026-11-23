@@ -68,15 +68,17 @@
       panel = document.createElement('div');
       panel.className = 'nr-external-pick';
       panel.setAttribute('aria-live', 'polite');
-      meta.after(panel);
+      // Inline with existing metadata instead of allocating an extra content row.
+      meta.appendChild(panel);
     }
+    if (panel.parentElement !== meta) meta.appendChild(panel);
     panel.replaceChildren();
     if (!isDraft) return;
 
     const state = document.createElement('span');
     state.className = 'nr-pick-status ' + (available ? 'is-available' : mine ? 'is-mine' : 'is-locked');
-    state.textContent = available ? 'Tersedia' :
-      mine ? 'Anda menangani' : 'Ditangani ' + owner;
+    state.textContent = available ? 'Available' :
+      mine ? 'Assigned to You' : 'Assigned to ' + owner;
     panel.appendChild(state);
 
     if (available || mine) {
@@ -85,8 +87,8 @@
       // Reuse the existing Design System button; compact is only a scoped size variant.
       button.className = 'nr-btn nr-pick-button ' + (mine ? 'is-release' : 'is-claim');
       button.dataset.pickAction = mine ? 'release' : 'pick';
-      button.textContent = mine ? 'Lepaskan' : 'Ambil';
-      button.setAttribute('aria-label',(mine?'Lepaskan penanganan artikel: ':'Ambil artikel untuk ditangani: ')+(row.dataset.title || 'Draft'));
+      button.textContent = mine ? 'Release' : 'Assign to Me';
+      button.setAttribute('aria-label',(mine?'Release article assignment: ':'Assign article to me: ')+(row.dataset.title || 'Draft'));
       panel.appendChild(button);
     } else {
       // Owner is already visible in the status and Reporter/Editor column.
@@ -103,9 +105,9 @@
       // Editor. Preview via eye remains available.
       menuTrigger.disabled = !mine;
       menuTrigger.setAttribute('aria-label', mine ?
-        'Settings Artikel (Demo)' : 'Settings terkunci — Pick Artikel terlebih dahulu');
+        'Settings Artikel (Demo)' : 'Settings terkunci — Assign to Me terlebih dahulu');
       menuTrigger.title = mine ? 'Settings Artikel (Demo)' :
-        (available ? 'Ambil artikel sebelum mengedit' : 'Sedang ditangani '+owner);
+        (available ? 'Assign to Me sebelum mengedit' : 'Assigned to '+owner);
       const wrapper = menuTrigger.closest('.article-more');
       if (wrapper && !mine) wrapper.classList.remove('open');
     }
@@ -131,18 +133,18 @@
     if (button.dataset.pickAction === 'pick') {
       if (pickedBy) {
         // Race-safe for local interactions only; server must enforce 409.
-        announce('Artikel sedang ditangani ' + pickedBy);
+        announce('Artikel sudah ditugaskan ke ' + pickedBy);
         return;
       }
       row.dataset.pickedBy = CURRENT_EDITOR;
-      announce('Artikel sekarang ditangani Anda (Demo)');
+      announce('Artikel sudah ditugaskan kepada Anda (Demo)');
     } else if (button.dataset.pickAction === 'release') {
       if (pickedBy !== CURRENT_EDITOR) {
-        announce('Hanya Editor yang menangani artikel dapat melepaskannya');
+        announce('Hanya Editor yang ditugaskan dapat melepaskan artikel');
         return;
       }
       delete row.dataset.pickedBy;
-      announce('Artikel kembali tersedia (Demo)');
+      announce('Artikel kembali tersedia untuk ditugaskan (Demo)');
     }
     render(row);
     refreshFilter();
