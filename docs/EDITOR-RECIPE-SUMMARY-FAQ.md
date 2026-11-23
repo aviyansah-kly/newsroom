@@ -9,7 +9,7 @@ Add three optional editorial forms **in the middle writing column** of the legac
 - [x] **Summary** is optional and manually editable. Generate AI displays a separate preview based solely on existing Short Desc or article content; **Use Suggestion** is required to insert into the field.
 - [x] **FAQ** is optional. Editor may Add/Remove questions and answers. Generate AI prepares suggested FAQ questions with answers based on existing editor text; **Use Suggestions** must be clicked to add them.
 - [x] AI buttons are clearly labeled **AI Demo Suggestion** in generated panels and do not invoke a real model, API or external network.
-- [x] Local drafts are persisted to browser localStorage (`newsroom:editor-enrichment:v1`); this is not the CMS backend. Existing autosave/publish remains untouched.
+- [x] Local drafts are persisted to browser localStorage (key prefix `newsroom:editor-enrichment:v1:` scoped to the article's story ID); this is not the CMS backend. Existing autosave/publish remains untouched.
 - [x] Component isolated as `scripts/newsroom-editor-enrichment.js` + `styles/newsroom-editor-enrichment.css` and mounted inside `.workspace > section > .paper`; no new global components are introduced.
 - [x] Targeted Chromium QA **PASSED**: GitHub Actions run 45131682474. Checks Single/Listicle JSON-LD, AI review-before-apply, FAQ list edits, local persistence, Dark Mode, responsive/mobile; screenshot artifact `newsroom-editor-enrichment-qa` attached.
 - [ ] Visual Design approval of isolated branch preview. The main Newsroom Worker was deliberately not updated.
