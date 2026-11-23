@@ -24,10 +24,12 @@ body.articles-page .article-meta .nr-external-source {
   font-size:11px;font-weight:700;line-height:16px;
   white-space:nowrap;
 }
-/* One concise assignment line; reuse DS text, border, radius and button styles. */
-body.articles-page .nr-external-pick {
-  display:flex;align-items:center;flex-wrap:wrap;
-  gap:6px;margin-top:5px;min-height:26px;
+/* Inline metadata means claim actions never create a fourth article-text row.
+   Keep Source + assignment in the same wrapping metadata flow as ordinary rows. */
+body.articles-page .article-meta > .nr-external-pick {
+  display:inline-flex;align-items:center;flex:0 0 auto;flex-wrap:nowrap;
+  min-width:0;max-width:100%;gap:7px;
+  margin:0!important;padding:0!important;min-height:34px;
 }
 body.articles-page .nr-pick-status {
   display:inline-flex;align-items:center;gap:6px;
@@ -47,13 +49,13 @@ body.articles-page .nr-pick-status.is-mine {
 }
 body.articles-page .nr-pick-status.is-mine::before {background:var(--nr-blue,#2563eb)}
 body.articles-page .nr-pick-status.is-locked::before {background:var(--nr-orange,#f4511e)}
-/* Small button variant follows the existing .nr-btn component instead of a
-   custom large filled control: 26px / 12px / DS radius and theme tokens. */
+/* Between the old oversized button and the overcompact 26px variant:
+   34px matches surrounding editorial controls, with standard DS text size. */
 body.articles-page .nr-pick-button.nr-btn {
-  height:26px!important;min-height:26px!important;width:auto!important;
-  padding:0 9px!important;
-  gap:4px;border-radius:var(--nr-radius-sm,6px)!important;
-  font-family:inherit;font-size:12px!important;font-weight:600!important;
+  height:34px!important;min-height:34px!important;width:auto!important;
+  padding:0 12px!important;
+  gap:6px;border-radius:var(--nr-radius-md,8px)!important;
+  font-family:inherit;font-size:13px!important;font-weight:600!important;
   line-height:18px!important;box-shadow:none!important;
   white-space:nowrap;cursor:pointer;
 }
@@ -93,7 +95,7 @@ body.articles-page .article-filter-grid {
   align-items:end;
 }
 @media(max-width:760px) {
-  body.articles-page .nr-external-pick {gap:6px}
+  body.articles-page .article-meta > .nr-external-pick {gap:6px}
   body.articles-page .article-row[data-source] .article-description {
     display:block!important;
   }
