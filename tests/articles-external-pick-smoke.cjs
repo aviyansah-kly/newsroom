@@ -52,6 +52,22 @@ const { mkdirSync } = require('node:fs');
     }));
     if (!claimInline.insideMetadata || claimInline.marginTop > 1)
       throw Error('Assignment must align with article metadata, not create extra row: '+JSON.stringify(claimInline));
+    const spacing = await page.evaluate(() => {
+      const external = document.querySelector('.article-row[data-source="harga"]');
+      const regular = document.querySelector('.article-row:not([data-source])');
+      const calc = row => {
+        const description = row.querySelector('.article-description').getBoundingClientRect();
+        const metadata = row.querySelector('.article-meta').getBoundingClientRect();
+        return { gap: metadata.top - description.bottom, height: row.getBoundingClientRect().height };
+      };
+      const sourceChip = external.querySelector('.nr-external-source').getBoundingClientRect();
+      const assignment = external.querySelector('.nr-external-pick').getBoundingClientRect();
+      return {external:calc(external),regular:calc(regular),sourceY:sourceChip.top,assignmentY:assignment.top};
+    });
+    if (Math.abs(spacing.sourceY - spacing.assignmentY) > 4 ||
+        Math.abs(spacing.external.gap - spacing.regular.gap) > 4 ||
+        spacing.external.height > spacing.regular.height + 14)
+      throw Error('External row spacing differs from regular listing: '+JSON.stringify(spacing));
     const geometry=await pick.evaluate(el => ({
       height:el.getBoundingClientRect().height,
       font:getComputedStyle(el).fontSize,
