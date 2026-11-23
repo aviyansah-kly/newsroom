@@ -48,7 +48,28 @@ body.alt-editor-layout .nr-enrich-enable {
   font-size:12px;line-height:18px;font-weight:600;
   color:var(--nr-ui-secondary,var(--nr-text-2,#475569));cursor:pointer;flex:none;
 }
-body.alt-editor-layout .nr-enrich-enable input {width:16px;height:16px;margin:0;accent-color:var(--nr-orange,#f4511e);cursor:pointer}
+/* Newsroom checkbox contract — 16px control, subtle outline and orange selected state. */
+body.alt-editor-layout .nr-enrich-enable input[type="checkbox"] {
+  -webkit-appearance:none;appearance:none;
+  width:16px;height:16px;min-width:16px;flex:0 0 16px;margin:0;
+  display:grid;place-content:center;
+  border:1px solid var(--nr-ui-input-border,var(--nr-input,#cbd5e1));
+  border-radius:4px;background:var(--nr-ui-raised,var(--nr-surface,#fff));
+  color:#fff;cursor:pointer;
+  transition:background-color .14s ease,border-color .14s ease;
+}
+body.alt-editor-layout .nr-enrich-enable input[type="checkbox"]::before {
+  content:"";width:10px;height:10px;background:currentColor;
+  clip-path:polygon(13% 43%,0% 60%,39% 100%,100% 16%,83% 0%,37% 68%);
+  transform:scale(0);transform-origin:center;transition:transform .12s ease;
+}
+body.alt-editor-layout .nr-enrich-enable input[type="checkbox"]:checked {
+  background:var(--nr-orange,#f4511e);border-color:var(--nr-orange,#f4511e);
+}
+body.alt-editor-layout .nr-enrich-enable input[type="checkbox"]:checked::before {transform:scale(1)}
+body.alt-editor-layout .nr-enrich-enable input[type="checkbox"]:focus-visible {
+  outline:2px solid var(--nr-ui-focus,var(--nr-blue,#2563eb));outline-offset:2px;
+}
 body.alt-editor-layout .nr-enrich-body {
   padding:16px 18px 18px;min-width:0;
 }
@@ -233,12 +254,12 @@ body.alt-editor-layout .nr-enrich-details summary {
   font-size:13px;font-weight:700;cursor:pointer;list-style:none;
 }
 body.alt-editor-layout .nr-enrich-details summary::-webkit-details-marker{display:none}
-body.alt-editor-layout .nr-enrich-details summary::after {
-  content:"";width:8px;height:8px;flex:none;
-  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
-  transform:rotate(45deg);transition:transform .2s ease;
+body.alt-editor-layout .nr-enrich-details summary .nr-enrich-chevron {
+  display:block;width:12px;height:12px;flex:0 0 12px;
+  color:var(--nr-ui-muted,var(--nr-muted,#64748b));
+  stroke-width:1.8;transition:transform .18s ease;
 }
-body.alt-editor-layout .nr-enrich-details[open] summary::after{transform:rotate(225deg)}
+body.alt-editor-layout .nr-enrich-details[open] summary .nr-enrich-chevron{transform:rotate(180deg)}
 body.alt-editor-layout .nr-enrich-details-body {
   border-top:1px solid var(--nr-ui-divider,var(--nr-border,#e2e8f0));
   padding:12px;
