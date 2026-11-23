@@ -41,7 +41,7 @@ body.alt-editor-layout .nr-enrich-optional {
   display:inline-flex;align-items:center;
   padding:2px 7px;border-radius:5px;
   background:var(--nr-ui-control,var(--nr-soft,#f1f5f9));color:var(--nr-ui-muted,var(--nr-muted,#64748b));
-  font-size:11px;line-height:15px;font-weight:500;
+  font-size:12px;line-height:16px;font-weight:500;
 }
 body.alt-editor-layout .nr-enrich-enable {
   display:inline-flex;align-items:center;gap:8px;
@@ -61,12 +61,12 @@ body.alt-editor-layout .nr-enrich-type {
 }
 body.alt-editor-layout .nr-editor-enrichment .nr-btn {
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
-  min-height:34px;height:34px;width:auto;max-width:100%;
-  padding:0 12px;border-radius:var(--nr-radius-md,8px);
+  min-height:var(--nr-control-h,40px);height:var(--nr-control-h,40px);width:auto;max-width:100%;
+  padding:0 13px;border-radius:var(--nr-radius-md,8px);
   border:1px solid var(--nr-ui-control-border,var(--nr-border,#e2e8f0));
   background:var(--nr-ui-panel,var(--nr-surface,#fff));
   color:var(--nr-ui-text,var(--nr-text,#0f172a));
-  font:600 12px/18px Inter,system-ui,sans-serif;
+  font:600 13px/20px Inter,system-ui,sans-serif;
   white-space:nowrap;cursor:pointer;box-shadow:none;
 }
 body.alt-editor-layout .nr-editor-enrichment .nr-btn:hover {
@@ -76,7 +76,17 @@ body.alt-editor-layout .nr-editor-enrichment .nr-btn:focus-visible,
 body.alt-editor-layout .nr-editor-enrichment :is(input,textarea):focus-visible {
   outline:2px solid var(--nr-ui-focus,var(--nr-blue,#2563eb));outline-offset:2px;
 }
-body.alt-editor-layout .nr-editor-enrichment .nr-btn svg {width:15px;height:15px;flex:none}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn svg {width:16px;height:16px;flex:none}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn.nr-btn-primary {
+  color:#fff;background:var(--nr-orange,#f4511e);
+  border-color:var(--nr-orange,#f4511e);
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn.nr-btn-primary:hover {
+  color:#fff;background:var(--nr-orange-hover,#df4315);
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn:disabled {
+  cursor:not-allowed;opacity:.5;
+}
 body.alt-editor-layout .nr-enrich-modes {display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:var(--nr-ui-control,var(--nr-soft,#f1f5f9))}
 body.alt-editor-layout .nr-enrich-modes .nr-btn {height:30px;min-height:30px;padding:0 12px;border:0;background:transparent}
 body.alt-editor-layout .nr-enrich-modes .nr-btn.is-selected {
@@ -177,7 +187,7 @@ body.alt-editor-layout .nr-enrich-assist,
 body.alt-editor-layout .nr-enrich-live,
 body.alt-editor-layout .nr-enrich-notice {
   display:block;margin:9px 0 0;color:var(--nr-ui-muted,var(--nr-muted,#64748b));
-  font-size:11px;line-height:17px;
+  font-size:12px;line-height:18px;
 }
 body.alt-editor-layout .nr-enrich-live:empty {display:none}
 body.alt-editor-layout .nr-enrich-output {
@@ -209,3 +219,29 @@ body.alt-editor-layout #nrRecipeJSON {
 @media(prefers-reduced-motion:reduce) {
   body.alt-editor-layout .nr-editor-enrichment * {transition:none!important}
 }
+/* Recipe fields that follow the historical structured-data reference. */
+body.alt-editor-layout .nr-enrich-details {
+  min-width:0;margin-top:12px;
+  border:1px solid var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  border-radius:var(--nr-radius-md,8px);
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+}
+body.alt-editor-layout .nr-enrich-details summary {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;min-height:40px;padding:9px 12px;
+  color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font-size:13px;font-weight:700;cursor:pointer;list-style:none;
+}
+body.alt-editor-layout .nr-enrich-details summary::-webkit-details-marker{display:none}
+body.alt-editor-layout .nr-enrich-details summary::after {
+  content:"";width:8px;height:8px;flex:none;
+  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg);transition:transform .2s ease;
+}
+body.alt-editor-layout .nr-enrich-details[open] summary::after{transform:rotate(225deg)}
+body.alt-editor-layout .nr-enrich-details-body {
+  border-top:1px solid var(--nr-ui-divider,var(--nr-border,#e2e8f0));
+  padding:12px;
+}
+body.alt-editor-layout .nr-enrich-details .nr-enrich-add{margin-top:10px}
+body.alt-editor-layout .nr-enrich-field :is(input,textarea):disabled{opacity:.65;cursor:not-allowed}
