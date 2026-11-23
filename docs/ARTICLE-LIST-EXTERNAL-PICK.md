@@ -15,7 +15,8 @@
 - [x] Claim/release updates owner display and My Articles ownership dataset; filter state refreshes. Page-local state resets on reload.
 - [x] Light/Dark and mobile layout for source and claim chips. User feedback and keyboard focus provided.
 - [x] Existing status tab counts reflect the extra demo drafts.
-- [ ] Browser smoke and visual QA (desktop/mobile/Light/Dark) passed for the latest commit.
+- [x] Browser smoke PASSED for Source+Pick combinations, claim/release, already-picked lock, row counts, desktop/mobile, and inherited sidebar/Tools/Preview regressions (GitHub Actions run 45123094654). Screenshot artifact attached.
+- [ ] Manual Product Design visual QA in Cloudflare branch preview (including Dark Mode), separate from the passing browser smoke.
 - [ ] Product Design and Editorial approval on pick/timeout/transfer rules.
 - [ ] API integration and production rollout.
 
