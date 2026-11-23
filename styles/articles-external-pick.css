@@ -24,47 +24,60 @@ body.articles-page .article-meta .nr-external-source {
   font-size:11px;font-weight:700;line-height:16px;
   white-space:nowrap;
 }
+/* One concise assignment line; reuse DS text, border, radius and button styles. */
 body.articles-page .nr-external-pick {
   display:flex;align-items:center;flex-wrap:wrap;
-  gap:7px;margin-top:8px;min-height:30px;
+  gap:6px;margin-top:5px;min-height:26px;
 }
 body.articles-page .nr-pick-status {
-  display:inline-flex;align-items:center;gap:5px;
-  min-height:25px;padding:4px 8px;border-radius:999px;
-  font-size:11px;line-height:15px;font-weight:650;
-  border:1px solid var(--nr-border,#e2e8f0);
-  background:var(--nr-hover,#f8fafc);color:var(--nr-muted,#64748b);
+  display:inline-flex;align-items:center;gap:6px;
+  min-height:24px;padding:0;
+  font-size:12px;line-height:17px;font-weight:500;
+  color:var(--nr-muted,#64748b);
 }
-body.articles-page .nr-pick-status:before {
-  content:"";width:6px;height:6px;border-radius:50%;flex:none;background:#94a3b8;
+body.articles-page .nr-pick-status::before {
+  content:"";width:6px;height:6px;flex:none;
+  background:var(--nr-muted,#94a3b8);border-radius:50%;
 }
-body.articles-page .nr-pick-status.is-available:before {background:#0d9488}
+body.articles-page .nr-pick-status.is-available::before {
+  background:var(--nr-green,#16a34a);
+}
 body.articles-page .nr-pick-status.is-mine {
-  border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8;
+  color:var(--nr-blue,#2563eb);font-weight:600;
 }
-body.articles-page .nr-pick-status.is-mine:before {background:#2563eb}
-body.articles-page .nr-pick-status.is-locked {
-  border-color:#fed7aa;background:#fff7ed;color:#9a3412;
-}
-body.articles-page .nr-pick-status.is-locked:before {background:#f97316}
-body.articles-page .nr-pick-button {
-  display:inline-flex;align-items:center;justify-content:center;
-  min-height:29px;padding:5px 10px;border-radius:7px;
-  border:1px solid var(--nr-pick-brand,#2563eb);
-  background:var(--nr-pick-brand,#2563eb);color:#fff;
-  font-family:inherit;font-size:11px;line-height:17px;font-weight:700;
+body.articles-page .nr-pick-status.is-mine::before {background:var(--nr-blue,#2563eb)}
+body.articles-page .nr-pick-status.is-locked::before {background:var(--nr-orange,#f4511e)}
+/* Small button variant follows the existing .nr-btn component instead of a
+   custom large filled control: 26px / 12px / DS radius and theme tokens. */
+body.articles-page .nr-pick-button.nr-btn {
+  height:26px!important;min-height:26px!important;width:auto!important;
+  padding:0 9px!important;
+  gap:4px;border-radius:var(--nr-radius-sm,6px)!important;
+  font-family:inherit;font-size:12px!important;font-weight:600!important;
+  line-height:18px!important;box-shadow:none!important;
   white-space:nowrap;cursor:pointer;
 }
-body.articles-page .nr-pick-button:hover {filter:brightness(.94)}
+body.articles-page .nr-pick-button.is-claim {
+  border-color:var(--nr-border,#e2e8f0)!important;
+  background:var(--nr-surface,#fff)!important;
+  color:var(--nr-blue,#2563eb)!important;
+}
+body.articles-page .nr-pick-button.is-claim:hover {
+  border-color:var(--nr-blue,#2563eb)!important;
+  background:var(--nr-blue-soft,#eff6ff)!important;
+}
 body.articles-page .nr-pick-button.is-release {
-  color:var(--nr-pick-brand,#2563eb);background:transparent;
-  border-color:#bfdbfe;
+  background:transparent!important;
+  border-color:transparent!important;
+  color:var(--nr-muted,#64748b)!important;
+}
+body.articles-page .nr-pick-button.is-release:hover {
+  background:var(--nr-hover,#f1f5f9)!important;
+  color:var(--nr-text,#0f172a)!important;
 }
 body.articles-page .nr-pick-button:focus-visible {
-  outline:2px solid var(--nr-pick-brand,#2563eb);outline-offset:2px;
-}
-body.articles-page .nr-pick-locked-note {
-  font-size:11px;line-height:17px;color:var(--nr-muted,#64748b);
+  outline:2px solid var(--nr-blue,#2563eb)!important;
+  outline-offset:2px!important;
 }
 body.articles-page .article-row[data-source] .article-more-btn:disabled,
 body.articles-page .article-row[data-source] .article-action-menu-btn:disabled {
@@ -81,7 +94,6 @@ body.articles-page .article-filter-grid {
 }
 @media(max-width:760px) {
   body.articles-page .nr-external-pick {gap:6px}
-  body.articles-page .nr-pick-locked-note {width:100%}
   body.articles-page .article-row[data-source] .article-description {
     display:block!important;
   }
@@ -92,15 +104,11 @@ html[data-theme="dark"] body.articles-page .nr-external-thumb {
 html[data-theme="dark"] body.articles-page .nr-external-source {
   background:#362947;border-color:#614c82;color:#e1d1ff;
 }
-html[data-theme="dark"] body.articles-page .nr-pick-status.is-available {
-  background:#253633;border-color:#376156;color:#a0ead5;
-}
-html[data-theme="dark"] body.articles-page .nr-pick-status.is-mine {
-  background:#263952;border-color:#45628b;color:#a9ccff;
-}
-html[data-theme="dark"] body.articles-page .nr-pick-status.is-locked {
-  background:#422e25;border-color:#805039;color:#ffcf9d;
+/* All assignment controls inherit the same Light/Dark semantic DS variables.
+   No hardcoded per-mode status boxes are necessary. */
+html[data-theme="dark"] body.articles-page .nr-pick-button.is-claim {
+  color:var(--nr-interactive,#93c5fd)!important;
 }
 html[data-theme="dark"] body.articles-page .nr-pick-button.is-release {
-  background:transparent;border-color:#45628b;color:#b1d0ff;
+  color:var(--nr-muted,#9ca3af)!important;
 }
