@@ -18,15 +18,20 @@
     .filter(row => row.dataset.source !== 'manual');
 
   function reflectOwner(row, editor) {
-    // Actual reporter/editor identity stays backend-owned. For DEMO external
-    // rows the ownership cell serves as the claim assignee field.
-    const owner = row.querySelector('.article-reporter-cell');
-    if (owner) {
-      const name = owner.querySelector('strong');
-      const label = owner.querySelector('span');
-      if (name) name.textContent = editor || 'Belum Ada Editor';
-      if (label) label.textContent = editor ? 'Editor · Draft Eksternal' : 'Draft Eksternal';
+    // The existing Reporter / Editor cell is the natural home of assignment.
+    // Keeping controls out of article copy preserves uniform row spacing.
+    const owner = row.querySelector('.article-owner, .article-reporter-cell');
+    if (!owner) return null;
+    const name = owner.querySelector('strong');
+    const label = owner.querySelector('span');
+    const mine = editor === CURRENT_EDITOR;
+    if (name) name.textContent = editor || 'Unassigned';
+    if (label) {
+      label.textContent = !editor ? 'Available' : mine ? 'Assigned to You' : 'Assigned';
+      label.className = 'nr-assignment-state ' + (!editor ? 'is-available' : mine ? 'is-mine' : 'is-locked');
+      label.title = editor && !mine ? 'Assigned to ' + editor : label.textContent;
     }
+    return owner;
   }
 
   function announce(text) {
@@ -69,41 +74,31 @@
     }
     chip.textContent = 'Sumber: ' + (SOURCE_LABELS[source] || source.toUpperCase());
 
+    // Assignment belongs to Reporter / Editor, never below the article title.
+    const ownerCell = reflectOwner(row, owner);
     let panel = row.querySelector('.nr-external-pick');
-    if (!panel) {
+    if (!panel && ownerCell) {
       panel = document.createElement('div');
       panel.className = 'nr-external-pick';
       panel.setAttribute('aria-live', 'polite');
-      // Inline with existing metadata instead of allocating an extra content row.
-      meta.appendChild(panel);
+      ownerCell.appendChild(panel);
     }
-    if (panel.parentElement !== meta) meta.appendChild(panel);
-    panel.replaceChildren();
+    if (panel && panel.parentElement !== ownerCell) ownerCell?.appendChild(panel);
+    panel?.replaceChildren();
     if (!isDraft) return;
 
-    const state = document.createElement('span');
-    state.className = 'nr-pick-status ' + (available ? 'is-available' : mine ? 'is-mine' : 'is-locked');
-    state.textContent = available ? 'Available' :
-      mine ? 'Assigned to You' : 'Assigned to ' + owner;
-    panel.appendChild(state);
-
-    if (available || mine) {
+    if (panel && (available || mine)) {
       const button = document.createElement('button');
       button.type = 'button';
-      // Reuse the existing Design System button; compact is only a scoped size variant.
       button.className = 'nr-btn nr-pick-button ' + (mine ? 'is-release' : 'is-claim');
       button.dataset.pickAction = mine ? 'release' : 'pick';
       button.textContent = mine ? 'Release' : 'Assign to Me';
       button.setAttribute('aria-label',(mine?'Release article assignment: ':'Assign article to me: ')+(row.dataset.title || 'Draft'));
       panel.appendChild(button);
-    } else {
-      // Owner is already visible in the status and Reporter/Editor column.
-      // Avoid a second repetitive warning line that makes the row too tall.
     }
-
-    // Ownership filter and My Articles should reflect the current Pick (demo).
+    // Assigned to someone else: owner name + Assigned label are sufficient.
+    // Keep the button absent and disable Settings, while Preview stays active.
     row.dataset.owner = mine ? 'me' : 'team';
-    reflectOwner(row,owner);
 
     const menuTrigger = row.querySelector('.article-more-btn');
     if (menuTrigger) {
