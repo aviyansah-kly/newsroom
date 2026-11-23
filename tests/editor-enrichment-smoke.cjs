@@ -25,6 +25,8 @@ const {mkdirSync}=require('node:fs');
   if(checkboxStyle.width!=='16px'||checkboxStyle.height!=='16px'||checkboxStyle.radius!=='4px'||checkboxStyle.appearance!=='none')
     throw Error('Recipe checkbox must use Newsroom 16px DS control, got '+JSON.stringify(checkboxStyle));
   await recipeCheckbox.check();
+  // Respect the Design System's 140ms checkbox transition before asserting the final selected color.
+  await page.waitForTimeout(220);
   const checkedBackground=await recipeCheckbox.evaluate(el=>getComputedStyle(el).backgroundColor);
   if(checkedBackground==='rgba(0, 0, 0, 0)'||checkedBackground==='rgb(255, 255, 255)')
     throw Error('Recipe checkbox selected state is missing colored background');
