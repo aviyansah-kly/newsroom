@@ -16,6 +16,7 @@
           '<label class="nr-enrich-enable"><input type="checkbox" id="nrRecipeEnabled"><span>Enable</span></label></div>'+
         '<div class="nr-enrich-body" id="nrRecipeBody" hidden>'+
           '<div class="nr-enrich-toolbar"><div class="nr-enrich-modes" role="group" aria-label="Recipe Mode"><button type="button" class="nr-btn is-selected" data-recipe-mode="single" aria-pressed="true">Single</button><button type="button" class="nr-btn" data-recipe-mode="listicle" aria-pressed="false">Listicle</button></div><span class="nr-enrich-type">schema.org/Recipe</span><button type="button" class="nr-btn" id="nrRecipeGenerate"><i data-lucide="braces"></i><span>Generate Schema</span></button></div>'+
+          '<div class="nr-enrich-schema-base"><label class="nr-enrich-field"><span>@context</span><input type="text" value="https://schema.org" readonly aria-label="Schema Context"></label><label class="nr-enrich-field"><span>@type</span><input type="text" value="Recipe" readonly aria-label="Schema Type"></label></div>'+
           '<div id="nrRecipeItems" class="nr-enrich-items"></div>'+
           '<button type="button" id="nrAddRecipe" class="nr-btn nr-enrich-add" hidden><i data-lucide="plus"></i><span>Add Recipe</span></button>'+
           '<div class="nr-enrich-output" id="nrRecipeOutput" hidden><div class="nr-enrich-output-head"><strong>JSON-LD Preview</strong><button class="nr-btn" type="button" id="nrRecipeCopy"><i data-lucide="copy"></i><span>Copy</span></button></div><pre id="nrRecipeJSON" tabindex="0"></pre></div>'+
