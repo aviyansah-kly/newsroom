@@ -1,0 +1,140 @@
+/* Source and Pick Article — Article List demo UI, scoped by source data.
+   Reuse existing row/grid; do not add a new fixed table column. */
+/* Existing legacy Article List uses display:grid!important, so the hidden
+   attribute needs an equally strong rule for combined source/status filtering. */
+body.articles-page .article-row[hidden] {display:none!important}
+body.articles-page .nr-external-draft {
+  --nr-pick-brand:var(--nr-blue,#2563eb);
+}
+body.articles-page .nr-external-thumb {
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(140deg,#eaf1ff,#f0f4fa);
+  border:1px solid #d9e5f8;color:#3b67a9;
+}
+body.articles-page .nr-external-thumb svg {
+  width:25px;height:25px;
+}
+body.articles-page .article-row[data-source] .article-description {
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+body.articles-page .article-meta .nr-external-source {
+  display:inline-flex;align-items:center;
+  padding:0 6px;border:1px solid #d9d5fc;
+  border-radius:var(--nr-radius-sm,6px);background:#f5f3ff;color:#6d42b5;
+  font-size:11px;font-weight:700;line-height:16px;
+  white-space:nowrap;
+}
+/* Assignment controls live in the existing Reporter / Editor column.
+   Article copy only contains Source, matching ordinary row height & spacing. */
+body.articles-page .article-owner .nr-external-pick,
+body.articles-page .article-reporter-cell .nr-external-pick {
+  display:flex;align-items:center;justify-content:flex-start;
+  gap:6px;margin-top:2px;min-height:34px;
+}
+body.articles-page .nr-external-pick[hidden] {display:none!important}
+body.articles-page .nr-assignment-state {
+  display:block;
+  color:var(--nr-muted,#64748b);
+  font-size:12px;line-height:15px;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+body.articles-page .nr-assignment-state.is-available {
+  color:var(--nr-muted,#64748b);
+}
+body.articles-page .nr-assignment-state.is-mine {
+  color:var(--nr-blue,#2563eb);font-weight:600;
+}
+body.articles-page .nr-assignment-state.is-locked {
+  color:var(--nr-text-2,#475569);
+}
+/* Between the old oversized button and the overcompact 26px variant:
+   34px matches surrounding editorial controls, with standard DS text size. */
+body.articles-page .nr-pick-button.nr-btn {
+  height:34px!important;min-height:34px!important;width:auto!important;
+  padding:0 12px!important;
+  gap:6px;border-radius:var(--nr-radius-md,8px)!important;
+  font-family:inherit;font-size:13px!important;font-weight:600!important;
+  line-height:18px!important;box-shadow:none!important;
+  white-space:nowrap;cursor:pointer;
+}
+body.articles-page .nr-pick-button.is-claim {
+  border-color:var(--nr-border,#e2e8f0)!important;
+  background:var(--nr-surface,#fff)!important;
+  color:var(--nr-blue,#2563eb)!important;
+}
+body.articles-page .nr-pick-button.is-claim:hover {
+  border-color:var(--nr-blue,#2563eb)!important;
+  background:var(--nr-blue-soft,#eff6ff)!important;
+}
+body.articles-page .nr-pick-button.is-release {
+  background:transparent!important;
+  border-color:transparent!important;
+  color:var(--nr-muted,#64748b)!important;
+}
+body.articles-page .nr-pick-button.is-release:hover {
+  background:var(--nr-hover,#f1f5f9)!important;
+  color:var(--nr-text,#0f172a)!important;
+}
+body.articles-page .nr-pick-button:focus-visible {
+  outline:2px solid var(--nr-blue,#2563eb)!important;
+  outline-offset:2px!important;
+}
+body.articles-page .article-row[data-source] .article-more-btn:disabled,
+body.articles-page .article-row[data-source] .article-action-menu-btn:disabled {
+  cursor:not-allowed!important;opacity:.42!important;pointer-events:none!important;
+}
+body.articles-page .article-row[data-source] .article-actions-cell .article-preview-btn {
+  pointer-events:auto!important;opacity:1!important;
+}
+body.articles-page .article-row[data-source] .article-copy {
+  min-width:0;
+}
+body.articles-page .article-filter-grid {
+  align-items:end;
+}
+@media(max-width:760px) {
+  body.articles-page .article-owner .nr-external-pick {margin-top:2px}
+  body.articles-page .article-row[data-source] .article-description {
+    display:block!important;
+  }
+}
+/* The base Article List hides Reporter/Editor on <=1180px. External
+   drafts still require a visible ownership action on tablet and phone.
+   Place it in an explicit second grid line rather than squeezing article copy. */
+@media(max-width:1180px) {
+  body.articles-page .article-row.nr-external-draft .article-owner,
+  body.articles-page .article-row.nr-external-draft .article-reporter-cell {
+    display:flex!important;flex-direction:row;align-items:center;flex-wrap:wrap;
+    grid-column:2/-1;grid-row:2;
+    min-width:0;gap:4px 10px;padding:2px 0 0!important;
+    width:auto;max-width:100%;background:transparent;
+  }
+  body.articles-page .article-row.nr-external-draft .article-owner strong,
+  body.articles-page .article-row.nr-external-draft .article-reporter-cell strong {
+    width:auto;max-width:100%;margin:0;font-size:12px;line-height:18px;
+  }
+  body.articles-page .article-row.nr-external-draft .nr-assignment-state {
+    display:inline-flex;align-items:center;margin:0;
+    font-size:12px;line-height:18px;
+  }
+  body.articles-page .article-row.nr-external-draft .nr-external-pick {
+    display:inline-flex;min-height:34px;margin:0;
+  }
+  body.articles-page .article-row.nr-external-draft .nr-external-pick[hidden] {
+    display:none!important;
+  }
+}
+html[data-theme="dark"] body.articles-page .nr-external-thumb {
+  background:linear-gradient(140deg,#29354b,#252a34);border-color:#3b4d67;color:#a4c6ff;
+}
+html[data-theme="dark"] body.articles-page .nr-external-source {
+  background:#362947;border-color:#614c82;color:#e1d1ff;
+}
+/* All assignment controls inherit the same Light/Dark semantic DS variables.
+   No hardcoded per-mode status boxes are necessary. */
+html[data-theme="dark"] body.articles-page .nr-pick-button.is-claim {
+  color:var(--nr-interactive,#93c5fd)!important;
+}
+html[data-theme="dark"] body.articles-page .nr-pick-button.is-release {
+  color:var(--nr-muted,#9ca3af)!important;
+}

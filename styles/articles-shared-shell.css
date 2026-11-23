@@ -1,0 +1,76 @@
+/* Shared AppHeader/Nav are unmodified. New Article belongs to the page
+   heading. Tools heading and row actions use the same grid track. */
+body.articles-page .article-page-head {
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  flex-wrap:wrap;
+  gap:16px;
+}
+body.articles-page .article-page-head > div:first-child {min-width:0;flex:1 1 280px}
+body.articles-page .article-page-head .article-head-actions {
+  display:flex;align-items:center;justify-content:flex-end;
+  gap:8px;margin-left:auto;flex:0 0 auto;
+}
+body.articles-page .article-page-head #newArticleBtn {
+  min-height:40px;
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:7px;white-space:nowrap;
+}
+body.articles-page .article-page-head .article-new-popover {
+  z-index:170;right:0;top:calc(100% + 8px);
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+  border-color:var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+}
+html[data-theme="dark"] body.articles-page .article-new-option {
+  background:var(--nr-ui-panel,var(--nr-surface,#22262c));
+  color:var(--nr-ui-text,var(--nr-text,#e8ebef));
+}
+html[data-theme="dark"] body.articles-page .article-new-option:hover {
+  background:var(--nr-ui-control,#303740);
+}
+
+/* Tools is the last grid track. Center its label over the buttons to avoid
+   the off-axis right-edge appearance highlighted in the user screenshot. */
+@media (min-width:761px) {
+  body.articles-page .article-list-head > span:last-child {
+    text-align:center!important;justify-self:stretch;align-self:center;
+  }
+  body.articles-page .article-actions-cell {
+    justify-self:stretch!important;
+    justify-content:center!important;
+    align-items:flex-start!important;
+    width:100%!important;
+    gap:6px!important;
+  }
+  body.articles-page .article-actions-cell .article-more {
+    margin:0!important;justify-self:auto!important;flex:none;
+  }
+}
+/* Desktop/mobile both keep the controls at consistent heights. */
+body.articles-page .article-actions-cell :is(.article-preview-btn,.article-action-menu-btn) {
+  height:36px!important;
+  align-self:flex-start!important;
+}
+@media (max-width:760px) {
+  body.articles-page .article-page-head {
+    flex-direction:row!important;align-items:center!important;
+  }
+  body.articles-page .article-page-head .article-head-actions {
+    width:auto!important;max-width:100%;margin-left:auto;
+  }
+  body.articles-page .article-head-actions .nr-btn {
+    flex:none!important;
+  }
+  body.articles-page .article-actions-cell {justify-content:flex-end!important}
+}
+@media (max-width:480px) {
+  body.articles-page .article-page-head > div:first-child {flex-basis:160px}
+  body.articles-page .article-page-head #newArticleBtn {
+    min-width:40px;min-height:38px;padding:0 10px;
+  }
+  body.articles-page .article-page-head #newArticleBtn span {display:none}
+  body.articles-page .article-page-head .article-new-popover {
+    width:min(236px,calc(100vw - 24px));
+  }
+}
