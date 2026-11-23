@@ -18,6 +18,8 @@ const {mkdirSync}=require('node:fs');
   const faq=page.locator('#nrFaqCard');
   if(await page.locator('#nrRecipeBody').isVisible())throw Error('Optional recipe must start disabled');
   await recipe.locator('#nrRecipeEnabled').check();
+  if(await recipe.locator('.nr-enrich-schema-base input[readonly]').count()!==2)
+    throw Error('Recipe must display read-only @context and @type fields');
   if(!await page.locator('#nrRecipeBody').isVisible())throw Error('Enable recipe did not reveal form');
   await recipe.locator('[data-recipe-field="name"]').first().fill('Nasi Goreng Rumahan');
   await recipe.locator('[data-recipe-field="ingredients"]').first().fill('Nasi putih\nTelur\nMinyak');
