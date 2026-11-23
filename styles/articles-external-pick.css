@@ -24,31 +24,29 @@ body.articles-page .article-meta .nr-external-source {
   font-size:11px;font-weight:700;line-height:16px;
   white-space:nowrap;
 }
-/* Inline metadata means claim actions never create a fourth article-text row.
-   Keep Source + assignment in the same wrapping metadata flow as ordinary rows. */
-body.articles-page .article-meta > .nr-external-pick {
-  display:inline-flex;align-items:center;flex:0 0 auto;flex-wrap:nowrap;
-  min-width:0;max-width:100%;gap:7px;
-  margin:0!important;padding:0!important;min-height:34px;
+/* Assignment controls live in the existing Reporter / Editor column.
+   Article copy only contains Source, matching ordinary row height & spacing. */
+body.articles-page .article-owner .nr-external-pick,
+body.articles-page .article-reporter-cell .nr-external-pick {
+  display:flex;align-items:center;justify-content:flex-start;
+  gap:6px;margin-top:6px;min-height:34px;
 }
-body.articles-page .nr-pick-status {
-  display:inline-flex;align-items:center;gap:6px;
-  min-height:24px;padding:0;
+body.articles-page .nr-external-pick[hidden] {display:none!important}
+body.articles-page .nr-assignment-state {
+  display:block;
+  color:var(--nr-muted,#64748b);
   font-size:12px;line-height:17px;font-weight:500;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+body.articles-page .nr-assignment-state.is-available {
   color:var(--nr-muted,#64748b);
 }
-body.articles-page .nr-pick-status::before {
-  content:"";width:6px;height:6px;flex:none;
-  background:var(--nr-muted,#94a3b8);border-radius:50%;
-}
-body.articles-page .nr-pick-status.is-available::before {
-  background:var(--nr-green,#16a34a);
-}
-body.articles-page .nr-pick-status.is-mine {
+body.articles-page .nr-assignment-state.is-mine {
   color:var(--nr-blue,#2563eb);font-weight:600;
 }
-body.articles-page .nr-pick-status.is-mine::before {background:var(--nr-blue,#2563eb)}
-body.articles-page .nr-pick-status.is-locked::before {background:var(--nr-orange,#f4511e)}
+body.articles-page .nr-assignment-state.is-locked {
+  color:var(--nr-text-2,#475569);
+}
 /* Between the old oversized button and the overcompact 26px variant:
    34px matches surrounding editorial controls, with standard DS text size. */
 body.articles-page .nr-pick-button.nr-btn {
@@ -95,7 +93,7 @@ body.articles-page .article-filter-grid {
   align-items:end;
 }
 @media(max-width:760px) {
-  body.articles-page .article-meta > .nr-external-pick {gap:6px}
+  body.articles-page .article-owner .nr-external-pick {margin-top:6px}
   body.articles-page .article-row[data-source] .article-description {
     display:block!important;
   }
