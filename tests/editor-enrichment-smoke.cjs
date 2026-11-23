@@ -27,9 +27,26 @@ const {mkdirSync}=require('node:fs');
   await recipe.locator('[data-recipe-field="cuisine"]').first().fill('Indonesian');
   await recipe.locator('[data-recipe-field="prep"]').first().fill('10');
   await recipe.locator('[data-recipe-field="cook"]').first().fill('15');
+  await recipe.locator('[data-recipe-field="datePublished"]').first().fill('2026-11-23');
+  await recipe.locator('[data-recipe-field="description"]').first().fill('Resep praktis nasi goreng.');
+  await recipe.locator('.nr-enrich-details').filter({hasText:'Author'}).locator('summary').click();
+  await recipe.locator('[data-recipe-field="authorName"]').first().fill('Dewi Santoso');
+  await recipe.locator('.nr-enrich-details').filter({hasText:'Aggregate Rating'}).locator('summary').click();
+  await recipe.locator('[data-recipe-field="ratingValue"]').first().fill('4.5');
+  await recipe.locator('[data-recipe-field="reviewCount"]').first().fill('12');
+  await recipe.locator('.nr-enrich-details').filter({hasText:'Nutrition'}).locator('summary').click();
+  await recipe.locator('[data-recipe-field="servingSize"]').first().fill('1 porsi');
+  await recipe.locator('[data-recipe-field="calories"]').first().fill('200 calories');
+  await recipe.locator('[data-add-ingredient]').first().click();
+  await recipe.locator('[data-recipe-ingredient]').first().fill('Garam');
+  const schemaButtonStyle=await recipe.locator('#nrRecipeGenerate').evaluate(el=>({
+    height:getComputedStyle(el).height,fontSize:getComputedStyle(el).fontSize
+  }));
+  if(schemaButtonStyle.height!=='40px'||schemaButtonStyle.fontSize!=='13px')
+    throw Error('Schema action must use canonical Newsroom 40px / 13px button, received '+JSON.stringify(schemaButtonStyle));
   await recipe.locator('#nrRecipeGenerate').click();
   let schema=JSON.parse(await recipe.locator('#nrRecipeJSON').textContent());
-  if(schema['@context']!=='https://schema.org'||schema['@type']!=='Recipe'||schema.name!=='Nasi Goreng Rumahan'||schema.recipeIngredient.length!==3||schema.recipeInstructions.length!==2||schema.totalTime!=='PT25M')throw Error('Invalid Single Recipe JSON-LD '+JSON.stringify(schema));
+  if(schema['@context']!=='https://schema.org'||schema['@type']!=='Recipe'||schema.name!=='Nasi Goreng Rumahan'||schema.recipeIngredient.length!==4||schema.recipeInstructions.length!==2||schema.totalTime!=='PT25M'||schema.author?.name!=='Dewi Santoso'||schema.datePublished!=='2026-11-23'||schema.aggregateRating?.ratingValue!==4.5||schema.nutrition?.calories!=='200 calories')throw Error('Invalid Single Recipe JSON-LD '+JSON.stringify(schema));
   await recipe.locator('[data-recipe-mode="listicle"]').click();
   if(!await recipe.locator('#nrAddRecipe').isVisible())throw Error('Listicle must allow adding recipes');
   await recipe.locator('#nrAddRecipe').click();
@@ -74,6 +91,8 @@ const {mkdirSync}=require('node:fs');
   await page.waitForSelector('#nrEditorialEnrichment');
   if(!await page.locator('#nrRecipeEnabled').isChecked())throw Error('Recipe enabled state not preserved in demo');
   if(await page.locator('[data-recipe-item]').count()!==2)throw Error('Listicle recipe fields not persisted');
+  if((await page.locator('[data-recipe-ingredient]').first().inputValue())!=='Garam')throw Error('Dynamic ingredient did not persist');
+  if((await page.locator('[data-recipe-field="authorName"]').first().inputValue())!=='Dewi Santoso')throw Error('Author details not persisted');
   if((await page.locator('#nrSummary').inputValue())!==summaryDraft)throw Error('Summary draft not persisted');
   if(await page.locator('[data-faq-item]').count()!==proposedFaqCount)throw Error('FAQ drafts not persisted');
   await page.evaluate(()=>{document.documentElement.dataset.theme='dark'});
