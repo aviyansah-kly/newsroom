@@ -19,8 +19,8 @@ body.articles-page .article-row[data-source] .article-description {
 }
 body.articles-page .article-meta .nr-external-source {
   display:inline-flex;align-items:center;
-  padding:3px 8px;border:1px solid #d9d5fc;
-  border-radius:6px;background:#f5f3ff;color:#6d42b5;
+  padding:0 6px;border:1px solid #d9d5fc;
+  border-radius:var(--nr-radius-sm,6px);background:#f5f3ff;color:#6d42b5;
   font-size:11px;font-weight:700;line-height:16px;
   white-space:nowrap;
 }
