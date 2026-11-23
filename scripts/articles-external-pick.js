@@ -54,6 +54,12 @@
     const copy = row.querySelector('.article-copy');
     if (!copy || !meta) return;
 
+    // Draft already appears in the Status column. Removing this duplicate
+    // helper text leaves enough width for Source + assignment on one line.
+    const duplicateDraftLabel = [...meta.children].find(el =>
+      el.tagName === 'SPAN' && el.textContent.trim() === 'Belum dipublikasikan');
+    if (duplicateDraftLabel) duplicateDraftLabel.remove();
+
     let chip = row.querySelector('.nr-external-source');
     if (!chip) {
       chip = document.createElement('span');
