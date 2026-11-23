@@ -1,7 +1,7 @@
 # Editor Workspace — Recipe Schema, Summary and FAQ
 
 ## Scope
-Add three optional editorial forms **in the middle writing column** of the legacy Newsroom Editor at `index.html`, underneath the writing surface. Reuse existing Design System semantics and Light/Dark Mode. Do not change right-hand Article Settings, left navigation, Publish validation or the main Newsroom production worker until approved.
+Add three optional editorial forms **in the middle writing column** of the legacy Newsroom Editor on the Editor page, underneath the writing surface. Reuse existing Design System semantics and Light/Dark Mode. Do not change right-hand Article Settings, left navigation, Publish validation or the main Newsroom production worker until approved.
 
 ## Implemented
 - [x] **Recipe Schema** is opt-in. Editor can toggle Enable, select Single or Listicle, edit Name, Image URL, Recipe Category, Recipe Cuisine, Keywords, Recipe Yield, Prep/Cook Time (minutes), Ingredients and Instructions.
@@ -10,8 +10,8 @@ Add three optional editorial forms **in the middle writing column** of the legac
 - [x] **FAQ** is optional. Editor may Add/Remove questions and answers. Generate AI prepares suggested FAQ questions with answers based on existing editor text; **Use Suggestions** must be clicked to add them.
 - [x] AI buttons are clearly labeled **AI Demo Suggestion** in generated panels and do not invoke a real model, API or external network.
 - [x] Local drafts are persisted to browser localStorage (key prefix `newsroom:editor-enrichment:v1:` scoped to the article's story ID); this is not the CMS backend. Existing autosave/publish remains untouched.
-- [x] Component isolated as `scripts/newsroom-editor-enrichment.js` + `styles/newsroom-editor-enrichment.css` and mounted inside `.workspace > section > .paper`; no new global components are introduced.
-- [x] Targeted Chromium QA **PASSED**: GitHub Actions run 45131682474. Checks Single/Listicle JSON-LD, AI review-before-apply, FAQ list edits, local persistence, Dark Mode, responsive/mobile; screenshot artifact `newsroom-editor-enrichment-qa` attached.
+- [x] Component isolated as `scripts/newsroom-editor-enrichment.js` + `styles/newsroom-editor-enrichment.css` and mounted inside `.workspace > section > .paper` by a scoped loader in `scripts/newsroom-shell.js`; `index.html` remains byte-for-byte identical to the approved main baseline.
+- [x] Targeted Chromium QA **PASSED** after switching to the scoped shell loader: GitHub Actions run 45133078005 (push) and 45133084279 (pull request). Checks Single/Listicle JSON-LD, AI review-before-apply, FAQ list edits, local persistence, Dark Mode, responsive/mobile; screenshot artifact `newsroom-editor-enrichment-qa` attached.
 - [ ] Visual Design approval of isolated branch preview. The main Newsroom Worker was deliberately not updated.
 - [ ] Backend AI integration, schema publication workflow, and API persistence.
 
@@ -27,5 +27,6 @@ Preview follows schema.org Recipe, with `@context`, `@type`, name, optional imag
 
 ## Review
 - Branch: `feature/editor-recipe-summary-faq` based on `main`.
-- Files: `index.html`, `styles/newsroom-editor-enrichment.css`, `scripts/newsroom-editor-enrichment.js`, `tests/editor-enrichment-smoke.cjs`.
+- Files: `scripts/newsroom-shell.js`, `scripts/newsroom-editor-enrichment.js`, `styles/newsroom-editor-enrichment.css`, `tests/editor-enrichment-smoke.cjs`, `.github/workflows/editor-enrichment-smoke.yml`.
+- Static theme contract/audit passes and the index baseline is restored. Other repository-wide browser regression workflows remain red because their `ubuntu-latest` runners resolve to Ubuntu 26.04, which the pinned Playwright version does not support; these workflows fail before browser assertions execute. The feature-specific Chromium suite uses Ubuntu 24.04 and passes.
 - Do not merge/deploy to the existing Newsroom production Worker without Product Design approval.
