@@ -84,6 +84,19 @@ body.alt-editor-layout .nr-enrich-modes .nr-btn.is-selected {
   background:var(--nr-ui-panel,var(--nr-surface,#fff));
   box-shadow:0 1px 3px rgba(15,23,42,.1);
 }
+body.alt-editor-layout .nr-enrich-schema-base {
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+  padding:12px;margin-bottom:14px;
+  border:1px solid var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  border-radius:var(--nr-radius-md,8px);
+  background:var(--nr-ui-control,var(--nr-soft,#f8fafc));
+}
+body.alt-editor-layout .nr-enrich-schema-base input[readonly] {
+  background:var(--nr-ui-control,var(--nr-soft,#f8fafc));
+  border-color:var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  color:var(--nr-ui-secondary,var(--nr-text-2,#475569));
+  cursor:default;
+}
 body.alt-editor-layout .nr-enrich-items {display:grid;gap:12px}
 body.alt-editor-layout .nr-enrich-recipe-item,
 body.alt-editor-layout .nr-enrich-faq-item {
@@ -188,6 +201,7 @@ body.alt-editor-layout #nrRecipeJSON {
   body.alt-editor-layout .nr-enrich-head {align-items:flex-start;flex-wrap:wrap;padding:13px 14px}
   body.alt-editor-layout .nr-enrich-body {padding:12px 14px 14px}
   body.alt-editor-layout .nr-enrich-field-grid {grid-template-columns:1fr;gap:12px}
+  body.alt-editor-layout .nr-enrich-schema-base {grid-template-columns:1fr}
   body.alt-editor-layout .nr-enrich-type {min-width:100%}
   body.alt-editor-layout .nr-enrich-toolbar {gap:8px}
   body.alt-editor-layout .nr-enrich-card {border-radius:8px}
