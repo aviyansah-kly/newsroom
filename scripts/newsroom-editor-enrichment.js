@@ -1,0 +1,254 @@
+/* Newsroom Editor — Recipe Schema / Summary / FAQ (isolated demo).
+ * Never sends data to an AI service or publishes schema; local draft only.
+ */
+(function () {
+  'use strict';
+  const KEY='newsroom:editor-enrichment:v1';
+  function init() {
+    const paper=document.querySelector('body.alt-editor-layout .workspace > section > .paper');
+    if (!paper || document.getElementById('nrEditorialEnrichment')) return;
+    const root=document.createElement('div');
+    root.id='nrEditorialEnrichment';
+    root.className='nr-editor-enrichment';
+    root.innerHTML=
+      '<section class="nr-enrich-card" id="nrRecipeCard">'+
+        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="chef-hat"></i></span><div><h2>Recipe Schema</h2><p>Structured data untuk artikel resep.</p></div></div>'+
+          '<label class="nr-enrich-enable"><input type="checkbox" id="nrRecipeEnabled"><span>Enable</span></label></div>'+
+        '<div class="nr-enrich-body" id="nrRecipeBody" hidden>'+
+          '<div class="nr-enrich-toolbar"><div class="nr-enrich-modes" role="group" aria-label="Recipe Mode"><button type="button" class="nr-btn is-selected" data-recipe-mode="single" aria-pressed="true">Single</button><button type="button" class="nr-btn" data-recipe-mode="listicle" aria-pressed="false">Listicle</button></div><span class="nr-enrich-type">schema.org/Recipe</span><button type="button" class="nr-btn" id="nrRecipeGenerate"><i data-lucide="braces"></i><span>Generate Schema</span></button></div>'+
+          '<div id="nrRecipeItems" class="nr-enrich-items"></div>'+
+          '<button type="button" id="nrAddRecipe" class="nr-btn nr-enrich-add" hidden><i data-lucide="plus"></i><span>Add Recipe</span></button>'+
+          '<div class="nr-enrich-output" id="nrRecipeOutput" hidden><div class="nr-enrich-output-head"><strong>JSON-LD Preview</strong><button class="nr-btn" type="button" id="nrRecipeCopy"><i data-lucide="copy"></i><span>Copy</span></button></div><pre id="nrRecipeJSON" tabindex="0"></pre></div>'+
+          '<div class="nr-enrich-notice" id="nrRecipeFeedback" role="status" aria-live="polite">Schema is not published from this prototype.</div>'+
+        '</div>'+
+      '</section>'+
+      '<section class="nr-enrich-card" id="nrSummaryCard">'+
+        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="file-text"></i></span><div><h2>Summary <span class="nr-enrich-optional">Optional</span></h2><p>Ringkasan tambahan untuk kebutuhan editorial.</p></div></div><button type="button" class="nr-btn nr-enrich-ai" data-generate="summary"><i data-lucide="sparkles"></i><span>Generate AI</span></button></div>'+
+        '<div class="nr-enrich-body"><label class="nr-enrich-field"><span>Summary</span><textarea id="nrSummary" rows="4" placeholder="Tulis summary artikel…"></textarea></label><div class="nr-enrich-suggestion" id="nrSummarySuggestion" hidden><div class="nr-enrich-suggest-head"><strong>AI Demo Suggestion</strong><button type="button" class="nr-btn" id="nrSummaryApply">Use Suggestion</button></div><p id="nrSummaryDraft"></p></div><p class="nr-enrich-assist">Generate AI menggunakan teks artikel sebagai simulasi. Editor tetap memeriksa hasilnya.</p><span class="nr-enrich-live" id="nrSummaryFeedback" role="status" aria-live="polite"></span></div>'+
+      '</section>'+
+      '<section class="nr-enrich-card" id="nrFaqCard">'+
+        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="messages-square"></i></span><div><h2>FAQ <span class="nr-enrich-optional">Optional</span></h2><p>Pertanyaan dan jawaban untuk pembaca.</p></div></div><button type="button" class="nr-btn nr-enrich-ai" data-generate="faq"><i data-lucide="sparkles"></i><span>Generate AI</span></button></div>'+
+        '<div class="nr-enrich-body"><div id="nrFaqItems" class="nr-enrich-faq-list"></div><button type="button" id="nrFaqAdd" class="nr-btn nr-enrich-add"><i data-lucide="plus"></i><span>Add Question</span></button>'+
+          '<div class="nr-enrich-suggestion" id="nrFaqSuggestion" hidden><div class="nr-enrich-suggest-head"><strong>AI Demo Suggestion</strong><button type="button" class="nr-btn" id="nrFaqApply">Use Suggestions</button></div><div id="nrFaqDraft"></div></div>'+
+          '<p class="nr-enrich-assist">FAQ bersifat opsional. Tinjau semua jawaban sebelum digunakan.</p><span class="nr-enrich-live" id="nrFaqFeedback" role="status" aria-live="polite"></span></div>'+
+      '</section>';
+    paper.appendChild(root);
+    const q=sel=>root.querySelector(sel);
+    const qa=sel=>[...root.querySelectorAll(sel)];
+    let recipeMode='single',recipeDraft=[],faqDraft=[],summarySuggestion='';
+    let recipeCount=0,faqCount=0;
+    const icons=node=>{if(window.lucide?.createIcons)window.lucide.createIcons({nodes:[node]});};
+    const docTitle=()=>document.getElementById('title')?.value.trim()||'';
+    const docDek=()=>document.getElementById('dek')?.value.trim()||'';
+    function excerpt(){
+      const rich=document.querySelector('#tiptap-editor .tiptap-editor, #tiptap-editor [contenteditable="true"]');
+      const raw=(rich?.innerText||'').replace(/\s+/g,' ').trim();
+      return raw.length>35?raw.slice(0,850):'';
+    }
+    function field(name,label,options){
+      const wrap=document.createElement('label');wrap.className='nr-enrich-field';
+      const span=document.createElement('span');span.textContent=label;wrap.appendChild(span);
+      const input=document.createElement(options?.multiline?'textarea':'input');
+      input.dataset.recipeField=name;
+      if(options?.multiline)input.rows=3;
+      else input.type=options?.type||'text';
+      input.placeholder=options?.placeholder||'';
+      if(options?.type==='number'){input.min='0';input.step='1';}
+      wrap.appendChild(input);
+      return wrap;
+    }
+    function newRecipe(data) {
+      const card=document.createElement('div');card.className='nr-enrich-recipe-item';
+      card.dataset.recipeItem=String(++recipeCount);
+      const header=document.createElement('div');header.className='nr-enrich-item-head';
+      const title=document.createElement('strong');title.className='nr-enrich-recipe-name';header.appendChild(title);
+      const remove=document.createElement('button');remove.type='button';remove.className='nr-btn nr-enrich-remove';remove.dataset.removeRecipe='';remove.textContent='Remove';header.appendChild(remove);card.appendChild(header);
+      const grid=document.createElement('div');grid.className='nr-enrich-field-grid';
+      const defs=[
+        ['name','Name',{placeholder:'Nama resep'}],['image','Image URL',{type:'url',placeholder:'https://…'}],
+        ['category','Recipe Category',{placeholder:'Main course, dessert, dll.'}],['cuisine','Recipe Cuisine',{placeholder:'Indonesian'}],
+        ['keywords','Keywords',{placeholder:'Pisahkan dengan koma'}],['yield','Recipe Yield',{placeholder:'4 porsi'}],
+        ['prep','Prep Time (Minutes)',{type:'number',placeholder:'15'}],['cook','Cook Time (Minutes)',{type:'number',placeholder:'30'}],
+        ['ingredients','Ingredients',{multiline:true,placeholder:'Satu bahan per baris'}],
+        ['instructions','Instructions',{multiline:true,placeholder:'Satu langkah per baris'}]
+      ];
+      defs.forEach(([key,label,opts])=>{
+        const box=field(key,label,opts);
+        if(opts.multiline)box.classList.add('nr-enrich-field-wide');
+        const input=box.querySelector('input,textarea');
+        input.value=data?.[key]||'';
+        grid.appendChild(box);
+      });
+      card.appendChild(grid);q('#nrRecipeItems').appendChild(card);
+      updateRecipeLabels();return card;
+    }
+    function updateRecipeLabels(){
+      const items=qa('[data-recipe-item]');
+      items.forEach((card,i)=>{
+        card.querySelector('.nr-enrich-recipe-name').textContent=recipeMode==='single'?'Recipe':'Recipe '+(i+1);
+        card.querySelector('[data-remove-recipe]').hidden=recipeMode==='single' || items.length===1;
+      });
+    }
+    function getRecipes(){
+      return qa('[data-recipe-item]').map(card=>{
+        const obj={};card.querySelectorAll('[data-recipe-field]').forEach(el=>obj[el.dataset.recipeField]=el.value.trim());
+        return obj;
+      });
+    }
+    function setMode(mode){
+      recipeMode=mode==='listicle'?'listicle':'single';
+      qa('[data-recipe-mode]').forEach(btn=>{
+        const active=btn.dataset.recipeMode===recipeMode;
+        btn.classList.toggle('is-selected',active);btn.setAttribute('aria-pressed',String(active));
+      });
+      q('#nrAddRecipe').hidden=recipeMode!=='listicle';
+      if(recipeMode==='single')qa('[data-recipe-item]').slice(1).forEach(el=>el.remove());
+      if(!q('[data-recipe-item]'))newRecipe();
+      updateRecipeLabels();
+      q('#nrRecipeOutput').hidden=true;
+      save();
+    }
+    function newFaq(data){
+      const card=document.createElement('div');card.className='nr-enrich-faq-item';card.dataset.faqItem=String(++faqCount);
+      const head=document.createElement('div');head.className='nr-enrich-item-head';
+      const title=document.createElement('strong');title.className='nr-enrich-faq-label';head.appendChild(title);
+      const remove=document.createElement('button');remove.type='button';remove.className='nr-btn nr-enrich-remove';
+      remove.dataset.removeFaq='';remove.textContent='Remove';head.appendChild(remove);card.appendChild(head);
+      for(const [key,label,placeholder] of [['question','Question','Tulis pertanyaan…'],['answer','Answer','Tulis jawaban…']]){
+        const wrap=field(key,label,{multiline:key==='answer',placeholder});
+        wrap.querySelector('input,textarea').dataset.faqField=key;
+        wrap.querySelector('input,textarea').removeAttribute('data-recipe-field');
+        if(key==='answer')wrap.querySelector('textarea').rows=3;
+        wrap.querySelector('input,textarea').value=data?.[key]||'';
+        card.appendChild(wrap);
+      }
+      q('#nrFaqItems').appendChild(card);updateFaqLabels();return card;
+    }
+    function updateFaqLabels(){
+      qa('[data-faq-item]').forEach((card,i)=>card.querySelector('.nr-enrich-faq-label').textContent='Question '+(i+1));
+    }
+    function getFAQs(){return qa('[data-faq-item]').map(card=>({
+      question:card.querySelector('[data-faq-field="question"]').value.trim(),
+      answer:card.querySelector('[data-faq-field="answer"]').value.trim()
+    }));}
+    function getData(){return {recipeEnabled:q('#nrRecipeEnabled').checked,recipeMode,recipes:getRecipes(),summary:q('#nrSummary').value,faqs:getFAQs()};}
+    function save(){
+      try{localStorage.setItem(KEY,JSON.stringify(getData()));}catch(err){}
+    }
+    let existing={};
+    try{existing=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(err){}
+    (Array.isArray(existing.recipes)&&existing.recipes.length?existing.recipes:[{}]).forEach(newRecipe);
+    q('#nrSummary').value=typeof existing.summary==='string'?existing.summary:'';
+    (Array.isArray(existing.faqs)?existing.faqs:[]).forEach(newFaq);
+    q('#nrRecipeEnabled').checked=!!existing.recipeEnabled;
+    q('#nrRecipeBody').hidden=!q('#nrRecipeEnabled').checked;
+    setMode(existing.recipeMode);
+    root.addEventListener('input',event=>{
+      if(event.target.matches('input,textarea')){save();q('#nrRecipeOutput').hidden=true;}
+    });
+    root.addEventListener('change',event=>{
+      if(event.target.id==='nrRecipeEnabled')q('#nrRecipeBody').hidden=!event.target.checked;
+      if(event.target.matches('input,textarea'))save();
+    });
+    root.addEventListener('click',event=>{
+      const button=event.target.closest('button');
+      if(!button||!root.contains(button))return;
+      if(button.dataset.recipeMode){setMode(button.dataset.recipeMode);return;}
+      if(button.id==='nrAddRecipe'){newRecipe({});save();return;}
+      if(button.hasAttribute('data-remove-recipe')){
+        if(qa('[data-recipe-item]').length<=1)return;
+        button.closest('[data-recipe-item]')?.remove();updateRecipeLabels();save();return;
+      }
+      if(button.id==='nrFaqAdd'){newFaq({});save();return;}
+      if(button.hasAttribute('data-remove-faq')){
+        button.closest('[data-faq-item]')?.remove();updateFaqLabels();save();return;
+      }
+      if(button.id==='nrRecipeGenerate'){generateRecipe();return;}
+      if(button.id==='nrRecipeCopy'){
+        const value=q('#nrRecipeJSON').textContent||'';
+        if(!value)return;
+        if(navigator.clipboard?.writeText)navigator.clipboard.writeText(value).then(
+          ()=>q('#nrRecipeFeedback').textContent='JSON-LD copied (preview only).',
+          ()=>q('#nrRecipeFeedback').textContent='Copy unavailable. Select the JSON text.'
+        );
+        else q('#nrRecipeFeedback').textContent='Select the JSON text to copy.';
+        return;
+      }
+      if(button.dataset.generate==='summary'){suggestSummary();return;}
+      if(button.dataset.generate==='faq'){suggestFAQ();return;}
+      if(button.id==='nrSummaryApply'){
+        q('#nrSummary').value=summarySuggestion;q('#nrSummarySuggestion').hidden=true;
+        save();q('#nrSummaryFeedback').textContent='Summary suggestion applied. Review before use.';return;
+      }
+      if(button.id==='nrFaqApply'){
+        faqDraft.forEach(item=>newFaq(item));q('#nrFaqSuggestion').hidden=true;
+        save();q('#nrFaqFeedback').textContent='FAQ suggestions added. Review before use.';return;
+      }
+    });
+    function schemaRecipe(r){
+      const result={'@type':'Recipe',name:r.name};
+      if(r.image)result.image=r.image;
+      if(r.category)result.recipeCategory=r.category;
+      if(r.cuisine)result.recipeCuisine=r.cuisine;
+      if(r.keywords)result.keywords=r.keywords;
+      if(r.yield)result.recipeYield=r.yield;
+      for(const [key,value] of [['prepTime',r.prep],['cookTime',r.cook]]){
+        if(value){const n=Number(value);if(Number.isFinite(n)&&n>=0)result[key]='PT'+Math.round(n)+'M';}
+      }
+      if(r.prep&&r.cook)result.totalTime='PT'+Math.round(Number(r.prep)+Number(r.cook))+'M';
+      result.recipeIngredient=r.ingredients.split('\n').map(x=>x.trim()).filter(Boolean);
+      result.recipeInstructions=r.instructions.split('\n').map(x=>x.trim()).filter(Boolean).map(text=>({'@type':'HowToStep',text}));
+      return result;
+    }
+    function generateRecipe(){
+      const recipes=getRecipes(),feedback=q('#nrRecipeFeedback');
+      if(!recipes.every(r=>r.name && r.ingredients && r.instructions)){
+        feedback.textContent='Lengkapi Name, Ingredients, dan Instructions untuk setiap resep.';
+        q('#nrRecipeOutput').hidden=true;return;
+      }
+      if(recipes.some(r=>r.image && !/^https:\/\/\S+$/i.test(r.image))){
+        feedback.textContent='Image URL harus berupa tautan HTTPS yang valid.';
+        q('#nrRecipeOutput').hidden=true;return;
+      }
+      const array=recipes.map(schemaRecipe);
+      const result=recipeMode==='listicle'?{'@context':'https://schema.org','@graph':array}:{'@context':'https://schema.org',...array[0]};
+      q('#nrRecipeJSON').textContent=JSON.stringify(result,null,2);
+      q('#nrRecipeOutput').hidden=false;
+      feedback.textContent='JSON-LD preview generated. Belum dipublikasikan ke CMS.';
+    }
+    function suggestSummary(){
+      const context=docDek()||excerpt();
+      if(context.length<25){
+        q('#nrSummaryFeedback').textContent='Isi Short Desc atau konten artikel sebelum Generate AI.';
+        q('#nrSummarySuggestion').hidden=true;return;
+      }
+      summarySuggestion=context.slice(0,360).trim().replace(/\s+\S*$/,'').trim()||context;
+      q('#nrSummaryDraft').textContent=summarySuggestion;
+      q('#nrSummarySuggestion').hidden=false;
+      q('#nrSummaryFeedback').textContent='Simulasi AI: teks bersumber dari artikel, bukan layanan AI live.';
+    }
+    function suggestFAQ(){
+      const title=docTitle(),dek=docDek(),content=excerpt();
+      if(!title || (dek||content).length<25){
+        q('#nrFaqFeedback').textContent='Isi judul dan Short Desc atau konten artikel sebelum Generate AI.';
+        q('#nrFaqSuggestion').hidden=true;return;
+      }
+      faqDraft=[{question:'Apa informasi utama yang disampaikan artikel ini?',answer:(dek||content).slice(0,420)}];
+      if(content.length>60&&content.toLowerCase()!==(dek||'').toLowerCase()){
+        faqDraft.push({question:'Apa konteks tambahan yang dijelaskan dalam artikel?',answer:content.slice(0,420)});
+      }
+      q('#nrFaqDraft').replaceChildren();
+      faqDraft.forEach((item,i)=>{
+        const box=document.createElement('div');box.className='nr-enrich-faq-preview';
+        const strong=document.createElement('strong');strong.textContent=(i+1)+'. '+item.question;
+        const p=document.createElement('p');p.textContent=item.answer;
+        box.append(strong,p);q('#nrFaqDraft').appendChild(box);
+      });
+      q('#nrFaqSuggestion').hidden=false;
+      q('#nrFaqFeedback').textContent='Simulasi AI: jawaban disusun dari teks yang tersedia, bukan AI live.';
+    }
+    icons(root);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+  else init();
+})();
