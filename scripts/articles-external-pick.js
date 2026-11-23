@@ -94,6 +94,8 @@
       panel.appendChild(lock);
     }
 
+    // Ownership filter and My Articles should reflect the current Pick (demo).
+    row.dataset.owner = mine ? 'me' : 'team';
     reflectOwner(row,owner);
 
     const menuTrigger = row.querySelector('.article-more-btn');
@@ -145,6 +147,7 @@
     }
     render(row);
     refreshFilter();
+    if (!row.hidden) row.querySelector('.nr-pick-button')?.focus({preventScroll:true});
   });
 
   list.addEventListener('click', event => {
