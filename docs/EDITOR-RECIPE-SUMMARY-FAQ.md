@@ -11,8 +11,8 @@ Add three optional editorial forms **in the middle writing column** of the legac
 - [x] AI buttons are clearly labeled **AI Demo Suggestion** in generated panels and do not invoke a real model, API or external network.
 - [x] Local drafts are persisted to browser localStorage (`newsroom:editor-enrichment:v1`); this is not the CMS backend. Existing autosave/publish remains untouched.
 - [x] Component isolated as `scripts/newsroom-editor-enrichment.js` + `styles/newsroom-editor-enrichment.css` and mounted inside `.workspace > section > .paper`; no new global components are introduced.
-- [ ] Automated Chromium QA passing (Single/Listicle JSON-LD, AI review-before-apply, persistence, Dark Mode and mobile).
-- [ ] Visual Design approval of isolated branch preview.
+- [x] Targeted Chromium QA **PASSED**: GitHub Actions run 45131682474. Checks Single/Listicle JSON-LD, AI review-before-apply, FAQ list edits, local persistence, Dark Mode, responsive/mobile; screenshot artifact `newsroom-editor-enrichment-qa` attached.
+- [ ] Visual Design approval of isolated branch preview. The main Newsroom Worker was deliberately not updated.
 - [ ] Backend AI integration, schema publication workflow, and API persistence.
 
 ## Recipe JSON-LD scope
