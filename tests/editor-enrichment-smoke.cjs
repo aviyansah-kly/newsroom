@@ -43,8 +43,13 @@ const {mkdirSync}=require('node:fs');
   if(await chevrons.count()!==5)throw Error('Recipe section disclosure arrows must be Lucide icons');
   const arrowSize=await chevrons.first().evaluate(el=>{
     const rect=el.getBoundingClientRect();
+    const summary=el.closest('summary'),details=el.closest('details');
     return {width:rect.width,height:rect.height,cssWidth:getComputedStyle(el).width,
-      cssHeight:getComputedStyle(el).height,display:getComputedStyle(el).display};
+      cssHeight:getComputedStyle(el).height,display:getComputedStyle(el).display,
+      connected:el.isConnected,svgOuter:el.outerHTML.slice(0,320),
+      summaryRect:summary?.getBoundingClientRect().toJSON(),summaryDisplay:summary?getComputedStyle(summary).display:'',
+      detailsOpen:details?.open,detailsDisplay:details?getComputedStyle(details).display:'',
+      cardDisplay:getComputedStyle(el.closest('[data-recipe-item]')).display};
   });
   if(Math.abs(arrowSize.width-12)>1||Math.abs(arrowSize.height-12)>1)
     throw Error('Recipe disclosure arrow should render at DS 12px size: '+JSON.stringify(arrowSize));
