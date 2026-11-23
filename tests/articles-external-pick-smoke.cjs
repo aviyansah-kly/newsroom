@@ -82,6 +82,7 @@ const { mkdirSync } = require('node:fs');
     if (await page.locator('.article-row:not([hidden])').count() !== 0)
       throw Error('Release should refresh Pick filter and remove the row from Mine');
 
+    await page.locator('#filterBtn').click();
     await page.locator('#resetFilters').click();
     if (await page.locator('.article-row:not([hidden])').count() !== 16)
       throw Error('Reset Filters should restore all manual + external demo articles');
