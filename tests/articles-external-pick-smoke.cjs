@@ -22,10 +22,9 @@ const { mkdirSync } = require('node:fs');
     const gempa = page.locator('.article-row[data-source="gempa"]');
     const harga = page.locator('.article-row[data-source="harga"]');
 
-    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Nadia Prameswari'))
-      throw Error('KIRA draft should show fictional editor name Nadia Prameswari');
-    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Assigned to Nadia Prameswari'))
-      throw Error('Assigned draft must clearly show the other Editor');
+    if (!(await kira.locator('.article-owner strong').textContent()).includes('Nadia Prameswari') ||
+        !(await kira.locator('.article-owner .nr-assignment-state').textContent()).includes('Assigned'))
+      throw Error('KIRA draft should show Nadia Prameswari as assigned Editor');
     if (await kira.locator('.nr-pick-locked-note').count())
       throw Error('Redundant extra locked-note should not occupy another row');
     if (await kira.locator('[data-pick-action="pick"]').count())
@@ -44,14 +43,13 @@ const { mkdirSync } = require('node:fs');
     if ((await pick.textContent()).trim() !== 'Assign to Me' ||
         !await pick.evaluate(el => el.classList.contains('nr-btn')))
       throw Error('Claim action must use Design System button and clear Assign to Me wording');
-    const claimInline = await harga.locator('.nr-external-pick').evaluate(el => ({
-      insideMetadata: el.parentElement?.classList.contains('article-meta'),
-      marginTop: parseFloat(getComputedStyle(el).marginTop),
-      metaBottom: el.parentElement?.getBoundingClientRect().bottom,
-      parentBottom: el.getBoundingClientRect().bottom
+    const claimInOwner = await harga.locator('.nr-external-pick').evaluate(el => ({
+      insideOwner: el.parentElement?.classList.contains('article-owner'),
+      inArticleCopy: !!el.closest('.article-copy')
     }));
-    if (!claimInline.insideMetadata || claimInline.marginTop > 1)
-      throw Error('Assignment must align with article metadata, not create extra row: '+JSON.stringify(claimInline));
+    if (!claimInOwner.insideOwner || claimInOwner.inArticleCopy ||
+        (await harga.locator('.article-meta .nr-external-pick').count()) !== 0)
+      throw Error('Assignment controls belong in Reporter/Editor column: '+JSON.stringify(claimInOwner));
     const spacing = await page.evaluate(() => {
       const external = document.querySelector('.article-row[data-source="harga"]');
       const regular = document.querySelector('.article-row:not([data-source])');
@@ -60,13 +58,13 @@ const { mkdirSync } = require('node:fs');
         const metadata = row.querySelector('.article-meta').getBoundingClientRect();
         return { gap: metadata.top - description.bottom, height: row.getBoundingClientRect().height };
       };
-      const sourceChip = external.querySelector('.nr-external-source').getBoundingClientRect();
+      const ownerCell = external.querySelector('.article-owner').getBoundingClientRect();
       const assignment = external.querySelector('.nr-external-pick').getBoundingClientRect();
-      return {external:calc(external),regular:calc(regular),sourceY:sourceChip.top,assignmentY:assignment.top};
+      return {external:calc(external),regular:calc(regular),assignmentInsideOwner:assignment.left >= ownerCell.left && assignment.right <= ownerCell.right+1};
     });
-    if (Math.abs(spacing.sourceY - spacing.assignmentY) > 4 ||
+    if (!spacing.assignmentInsideOwner ||
         Math.abs(spacing.external.gap - spacing.regular.gap) > 4 ||
-        spacing.external.height > spacing.regular.height + 14)
+        spacing.external.height > spacing.regular.height + 4)
       throw Error('External row spacing differs from regular listing: '+JSON.stringify(spacing));
     const geometry=await pick.evaluate(el => ({
       height:el.getBoundingClientRect().height,
@@ -85,10 +83,10 @@ const { mkdirSync } = require('node:fs');
     const release=harga.locator('[data-pick-action="release"]');
     if ((await release.textContent()).trim() !== 'Release')
       throw Error('Release action should use concise Release wording');
-    if (!(await harga.locator('.nr-pick-status').textContent()).includes('Assigned to You'))
+    if (!(await harga.locator('.article-owner .nr-assignment-state').textContent()).includes('Assigned to You'))
       throw Error('After claiming, status must read Assigned to You');
     await release.click();
-    if (!(await harga.locator('.nr-pick-status').textContent()).includes('Available'))
+    if (!(await harga.locator('.article-owner .nr-assignment-state').textContent()).includes('Available'))
       throw Error('After releasing, status must read Available');
     if (await harga.getAttribute('data-picked-by') ||
         await harga.getAttribute('data-owner') !== 'team' ||
