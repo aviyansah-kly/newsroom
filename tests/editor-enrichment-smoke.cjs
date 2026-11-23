@@ -17,6 +17,8 @@ const {mkdirSync}=require('node:fs');
   const summary=page.locator('#nrSummaryCard');
   const faq=page.locator('#nrFaqCard');
   if(await page.locator('#nrRecipeBody').isVisible())throw Error('Optional recipe must start disabled');
+  if(await page.locator('#nrSummaryBody').isVisible())throw Error('Optional Summary must start disabled');
+  if(await page.locator('#nrFaqBody').isVisible())throw Error('Optional FAQ must start disabled');
   const recipeCheckbox=recipe.locator('#nrRecipeEnabled');
   const checkboxStyle=await recipeCheckbox.evaluate(el=>({
     width:getComputedStyle(el).width,height:getComputedStyle(el).height,
@@ -85,14 +87,49 @@ const {mkdirSync}=require('node:fs');
   // still has its original demo content after boot/autosave.
   await page.locator('#title').fill('Pemerintah Mengumumkan Kebijakan Harga Energi');
   await page.locator('#dek').fill('Pemerintah menjelaskan kebijakan terbaru mengenai harga energi dan menegaskan bahwa redaksi perlu memverifikasi detail informasi sebelum tayang.');
-  const before=await summary.locator('#nrSummary').inputValue();
+  // Recipe section Generate AI is isolated, source-grounded and requires editor acceptance.
+  const firstRecipe=recipe.locator('[data-recipe-item]').first();
+  if(await firstRecipe.locator('[data-recipe-generate]').count()!==6)
+    throw Error('Recipe Details and each collapsible section require a Generate AI action');
+  await firstRecipe.locator('[data-recipe-generate="details"]').click();
+  if(!await firstRecipe.locator('.nr-enrich-basic-body [data-recipe-preview]').isVisible())
+    throw Error('Recipe Details must display a reviewable AI Demo preview');
+  const originalName=await firstRecipe.locator('[data-recipe-field="name"]').inputValue();
+  if(originalName!=='Nasi Goreng Rumahan')
+    throw Error('Recipe AI must not overwrite existing editor input before acceptance');
+  await firstRecipe.locator('.nr-enrich-basic-body [data-recipe-apply]').click();
+  if((await firstRecipe.locator('[data-recipe-field="name"]').inputValue())!=='Pemerintah Mengumumkan Kebijakan Harga Energi')
+    throw Error('Recipe AI Demo suggestion must apply only after Use Suggestions');
+  await firstRecipe.locator('[data-recipe-generate="rating"]').click();
+  if(await firstRecipe.locator('.nr-enrich-details [data-recipe-apply]').count())
+    throw Error('Recipe AI must not fabricate rating data');
+  // Summary is opt-in and uses repeatable points instead of a single textarea.
+  await summary.locator('#nrSummaryEnabled').check();
+  if(!await summary.locator('#nrSummaryBody').isVisible())
+    throw Error('Enabling Summary must reveal point editor');
+  if(await summary.locator('[data-summary-item]').count()!==1)
+    throw Error('Enabling a blank Summary should create Point 1');
+  await summary.locator('[data-summary-point]').first().fill('Manual editorial point.');
+  await summary.locator('#nrSummaryAdd').click();
+  await summary.locator('[data-summary-point]').nth(1).fill('Second manual editorial point.');
   await summary.locator('[data-generate="summary"]').click();
-  if(!await summary.locator('#nrSummarySuggestion').isVisible())throw Error('Summary Generate AI demo must show preview');
-  if(await summary.locator('#nrSummary').inputValue()!==before)throw Error('AI demo must not overwrite editor text without approval');
+  if(!await summary.locator('#nrSummarySuggestion').isVisible())
+    throw Error('Summary Generate AI demo must show reviewable points');
+  if((await summary.locator('[data-summary-point]').first().inputValue())!=='Manual editorial point.')
+    throw Error('AI demo must not overwrite manual Summary points');
   const summaryDraft=await summary.locator('#nrSummaryDraft').textContent();
-  if(!summaryDraft.includes('Pemerintah'))throw Error('Summary suggestion should use current Short Desc text');
+  if(!summaryDraft.includes('Pemerintah'))throw Error('Summary suggestion should use article text');
+  const proposedSummaryCount=await summary.locator('#nrSummaryDraft p').count();
   await summary.locator('#nrSummaryApply').click();
-  if((await summary.locator('#nrSummary').inputValue())!==summaryDraft)throw Error('Summary Use Suggestion must apply exactly the reviewed draft');
+  if(await summary.locator('[data-summary-item]').count()!==2+proposedSummaryCount)
+    throw Error('Summary AI suggestions must append points after approval');
+  const acceptedSummaryPoint=await summary.locator('[data-summary-point]').nth(2).inputValue();
+  if(!acceptedSummaryPoint.includes('Pemerintah'))throw Error('Accepted summary must contain source text');
+  await summary.locator('[data-summary-item]').nth(1).locator('[data-remove-summary]').click();
+  if(await summary.locator('[data-summary-item]').count()!==1+proposedSummaryCount)
+    throw Error('Remove Summary Point failed');
+  await faq.locator('#nrFaqEnabled').check();
+  if(!await faq.locator('#nrFaqBody').isVisible())throw Error('Enabling FAQ must reveal form');
   await faq.locator('[data-generate="faq"]').click();
   if(!await faq.locator('#nrFaqSuggestion').isVisible())throw Error('FAQ Generate AI demo must show preview');
   if(await faq.locator('[data-faq-item]').count())throw Error('FAQ should not be auto inserted until accepted');
@@ -114,8 +151,18 @@ const {mkdirSync}=require('node:fs');
   if(await page.locator('[data-recipe-item]').count()!==2)throw Error('Listicle recipe fields not persisted');
   if((await page.locator('[data-recipe-ingredient]').first().inputValue())!=='Garam')throw Error('Dynamic ingredient did not persist');
   if((await page.locator('[data-recipe-field="authorName"]').first().inputValue())!=='Dewi Santoso')throw Error('Author details not persisted');
-  if((await page.locator('#nrSummary').inputValue())!==summaryDraft)throw Error('Summary draft not persisted');
+  if(!await page.locator('#nrSummaryEnabled').isChecked())throw Error('Summary enable state not persisted');
+  if(!await page.locator('#nrFaqEnabled').isChecked())throw Error('FAQ enable state not persisted');
+  if((await page.locator('[data-summary-point]').nth(1).inputValue())!==acceptedSummaryPoint)
+    throw Error('Approved Summary point not persisted');
+  if(await page.locator('[data-summary-item]').count()!==1+proposedSummaryCount)
+    throw Error('Summary points not persisted');
   if(await page.locator('[data-faq-item]').count()!==proposedFaqCount)throw Error('FAQ drafts not persisted');
+  await page.locator('#nrFaqEnabled').uncheck();
+  if(await page.locator('#nrFaqBody').isVisible())throw Error('Disabling FAQ must hide its form');
+  await page.locator('#nrFaqEnabled').check();
+  if(await page.locator('[data-faq-item]').count()!==proposedFaqCount)
+    throw Error('Disabling FAQ must not discard manual draft');
   await page.evaluate(()=>{document.documentElement.dataset.theme='dark'});
   await page.waitForTimeout(160);
   const color=await page.locator('#nrSummaryCard').evaluate(el=>getComputedStyle(el).backgroundColor);
@@ -127,6 +174,6 @@ const {mkdirSync}=require('node:fs');
   if(!await page.locator('#nrSummaryCard [data-generate="summary"]').isVisible())throw Error('Generate AI hidden on mobile');
   await page.screenshot({path:'artifacts/editor-enrichment-mobile.png',fullPage:true});
   if(errors.length)throw Error('Browser errors: '+errors.slice(0,4).join('; '));
-  console.log('PASS: Recipe Schema Single/Listicle JSON-LD, Summary/FAQ AI review flow, local draft, Dark Mode, mobile');
+  console.log('PASS: Recipe Single/Listicle, section AI preview, Summary points, FAQ opt-in, persistence, Design System, Dark Mode, mobile');
  }finally{await browser.close();}
 })().catch(err=>{console.error(err.stack||err);process.exitCode=1});
