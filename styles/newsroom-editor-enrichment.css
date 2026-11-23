@@ -1,0 +1,197 @@
+/* Newsroom Editorial Workspace — scoped structured-content forms.
+   Reuse Newsroom semantic Design System tokens in Light/Dark Modes.
+   No changes to the page header, navigation, editor toolbar or right panel. */
+body.alt-editor-layout .nr-editor-enrichment {
+  width:100%;min-width:0;max-width:100%;box-sizing:border-box;
+  display:grid;gap:16px;margin:24px 0 10px;
+  font-family:Inter,system-ui,sans-serif;color:var(--nr-ui-text,var(--nr-text,#0f172a));
+}
+body.alt-editor-layout .nr-editor-enrichment * {box-sizing:border-box}
+body.alt-editor-layout .nr-editor-enrichment [hidden] {display:none!important}
+body.alt-editor-layout .nr-enrich-card {
+  min-width:0;width:100%;padding:0!important;overflow:hidden;
+  border:1px solid var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  border-radius:var(--nr-radius-lg,10px);
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+  box-shadow:var(--nr-shadow-sm,0 1px 3px rgba(15,23,42,.05));
+}
+body.alt-editor-layout .nr-enrich-head {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:16px 18px;
+  border-bottom:1px solid var(--nr-ui-divider,var(--nr-border,#e2e8f0));
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+}
+body.alt-editor-layout .nr-enrich-heading {display:flex;align-items:center;gap:10px;min-width:0}
+body.alt-editor-layout .nr-enrich-heading-icon {
+  flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:8px;
+  border:1px solid var(--nr-icon-box-border,var(--nr-border,#e2e8f0));
+  background:var(--nr-icon-box-bg,var(--nr-soft,#f1f5f9));color:var(--nr-icon-box-ink,var(--nr-muted,#64748b));
+}
+body.alt-editor-layout .nr-enrich-heading-icon svg {width:16px;height:16px}
+body.alt-editor-layout .nr-enrich-heading h2 {
+  display:flex;align-items:center;flex-wrap:wrap;gap:8px;
+  margin:0;color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font-size:14px;line-height:20px;font-weight:700;
+}
+body.alt-editor-layout .nr-enrich-heading p {
+  margin:2px 0 0;color:var(--nr-ui-muted,var(--nr-muted,#64748b));
+  font-size:12px;line-height:18px;
+}
+body.alt-editor-layout .nr-enrich-optional {
+  display:inline-flex;align-items:center;
+  padding:2px 7px;border-radius:5px;
+  background:var(--nr-ui-control,var(--nr-soft,#f1f5f9));color:var(--nr-ui-muted,var(--nr-muted,#64748b));
+  font-size:11px;line-height:15px;font-weight:500;
+}
+body.alt-editor-layout .nr-enrich-enable {
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:12px;line-height:18px;font-weight:600;
+  color:var(--nr-ui-secondary,var(--nr-text-2,#475569));cursor:pointer;flex:none;
+}
+body.alt-editor-layout .nr-enrich-enable input {width:16px;height:16px;margin:0;accent-color:var(--nr-orange,#f4511e);cursor:pointer}
+body.alt-editor-layout .nr-enrich-body {
+  padding:16px 18px 18px;min-width:0;
+}
+body.alt-editor-layout .nr-enrich-toolbar {
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;
+}
+body.alt-editor-layout .nr-enrich-type {
+  flex:1;color:var(--nr-ui-muted,var(--nr-muted,#64748b));
+  font-size:12px;line-height:18px;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn {
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:34px;height:34px;width:auto;max-width:100%;
+  padding:0 12px;border-radius:var(--nr-radius-md,8px);
+  border:1px solid var(--nr-ui-control-border,var(--nr-border,#e2e8f0));
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+  color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font:600 12px/18px Inter,system-ui,sans-serif;
+  white-space:nowrap;cursor:pointer;box-shadow:none;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn:hover {
+  background:var(--nr-ui-hover,var(--nr-hover,#f1f5f9));
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn:focus-visible,
+body.alt-editor-layout .nr-editor-enrichment :is(input,textarea):focus-visible {
+  outline:2px solid var(--nr-ui-focus,var(--nr-blue,#2563eb));outline-offset:2px;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-btn svg {width:15px;height:15px;flex:none}
+body.alt-editor-layout .nr-enrich-modes {display:inline-flex;gap:2px;padding:3px;border-radius:9px;background:var(--nr-ui-control,var(--nr-soft,#f1f5f9))}
+body.alt-editor-layout .nr-enrich-modes .nr-btn {height:30px;min-height:30px;padding:0 12px;border:0;background:transparent}
+body.alt-editor-layout .nr-enrich-modes .nr-btn.is-selected {
+  color:var(--nr-ui-focus,var(--nr-blue,#2563eb));
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+  box-shadow:0 1px 3px rgba(15,23,42,.1);
+}
+body.alt-editor-layout .nr-enrich-items {display:grid;gap:12px}
+body.alt-editor-layout .nr-enrich-recipe-item,
+body.alt-editor-layout .nr-enrich-faq-item {
+  padding:14px;min-width:0;
+  border:1px solid var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  border-radius:var(--nr-radius-md,8px);
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+}
+body.alt-editor-layout .nr-enrich-item-head {
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-bottom:12px;
+}
+body.alt-editor-layout .nr-enrich-item-head strong {
+  color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font-size:13px;line-height:18px;font-weight:700;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-enrich-remove {
+  height:30px;min-height:30px;padding:0 8px;
+  color:var(--nr-ui-muted,var(--nr-muted,#64748b));
+  border-color:transparent;background:transparent;
+}
+body.alt-editor-layout .nr-enrich-field-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px 14px}
+body.alt-editor-layout .nr-enrich-field {display:flex;flex-direction:column;gap:6px;min-width:0}
+body.alt-editor-layout .nr-enrich-field-wide {grid-column:1/-1}
+body.alt-editor-layout .nr-enrich-field > span {
+  color:var(--nr-ui-secondary,var(--nr-text-2,#475569));
+  font-size:12px;line-height:17px;font-weight:600;
+}
+body.alt-editor-layout .nr-enrich-field :is(input,textarea) {
+  width:100%;min-width:0;height:38px;min-height:38px;
+  margin:0;padding:9px 11px;
+  border:1px solid var(--nr-ui-input-border,var(--nr-input,#cbd5e1));
+  border-radius:var(--nr-radius-md,8px);
+  outline:none;box-shadow:none;
+  background:var(--nr-ui-raised,var(--nr-surface,#fff));
+  color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font:400 13px/19px Inter,system-ui,sans-serif;
+}
+body.alt-editor-layout .nr-enrich-field textarea {
+  height:auto;min-height:90px;resize:vertical;white-space:pre-wrap;
+}
+body.alt-editor-layout .nr-enrich-field :is(input,textarea)::placeholder {
+  color:var(--nr-ui-placeholder,var(--nr-muted,#94a3b8));opacity:1;
+}
+body.alt-editor-layout .nr-enrich-add {margin-top:12px}
+body.alt-editor-layout .nr-enrich-faq-list {display:grid;gap:10px}
+body.alt-editor-layout .nr-enrich-faq-item {display:grid;gap:12px}
+body.alt-editor-layout .nr-enrich-faq-item .nr-enrich-item-head {margin-bottom:0}
+body.alt-editor-layout .nr-enrich-ai {
+  flex:none;color:var(--nr-ui-purple-text,#7857c0)!important;
+  border-color:var(--nr-ui-purple-border,#d9cafa)!important;
+  background:var(--nr-ui-purple-bg,#f8f5ff)!important;
+}
+body.alt-editor-layout .nr-enrich-ai svg {color:inherit}
+body.alt-editor-layout .nr-enrich-ai:hover {filter:brightness(.98)}
+body.alt-editor-layout .nr-enrich-suggestion {
+  margin-top:12px;padding:12px;
+  border:1px solid var(--nr-ui-purple-border,#d9cafa);
+  border-radius:var(--nr-radius-md,8px);
+  background:var(--nr-ui-purple-bg,#f8f5ff);
+}
+body.alt-editor-layout .nr-enrich-suggest-head {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px;
+}
+body.alt-editor-layout .nr-enrich-suggest-head strong {
+  font-size:12px;line-height:18px;color:var(--nr-ui-purple-text,#7857c0);
+}
+body.alt-editor-layout .nr-enrich-suggestion p {
+  margin:0;color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font-size:12px;line-height:19px;overflow-wrap:anywhere;
+}
+body.alt-editor-layout .nr-enrich-faq-preview {padding:9px 0;border-top:1px solid var(--nr-ui-purple-border,#d9cafa)}
+body.alt-editor-layout .nr-enrich-faq-preview strong {
+  display:block;margin-bottom:3px;color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font-size:12px;line-height:18px;
+}
+body.alt-editor-layout .nr-enrich-assist,
+body.alt-editor-layout .nr-enrich-live,
+body.alt-editor-layout .nr-enrich-notice {
+  display:block;margin:9px 0 0;color:var(--nr-ui-muted,var(--nr-muted,#64748b));
+  font-size:11px;line-height:17px;
+}
+body.alt-editor-layout .nr-enrich-live:empty {display:none}
+body.alt-editor-layout .nr-enrich-output {
+  margin-top:12px;border:1px solid var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  border-radius:var(--nr-radius-md,8px);
+  background:var(--nr-ui-control,var(--nr-soft,#f8fafc));
+  overflow:hidden;
+}
+body.alt-editor-layout .nr-enrich-output-head {
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-bottom:1px solid var(--nr-ui-divider,var(--nr-border,#e2e8f0));
+}
+body.alt-editor-layout .nr-enrich-output-head strong {font-size:12px;line-height:18px}
+body.alt-editor-layout #nrRecipeJSON {
+  display:block;width:100%;max-height:340px;overflow:auto;
+  padding:14px;margin:0;color:var(--nr-ui-text,var(--nr-text,#0f172a));
+  font:400 12px/19px ui-monospace,SFMono-Regular,Consolas,monospace;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+}
+@media(max-width:700px) {
+  body.alt-editor-layout .nr-enrich-head {align-items:flex-start;flex-wrap:wrap;padding:13px 14px}
+  body.alt-editor-layout .nr-enrich-body {padding:12px 14px 14px}
+  body.alt-editor-layout .nr-enrich-field-grid {grid-template-columns:1fr;gap:12px}
+  body.alt-editor-layout .nr-enrich-type {min-width:100%}
+  body.alt-editor-layout .nr-enrich-toolbar {gap:8px}
+  body.alt-editor-layout .nr-enrich-card {border-radius:8px}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.alt-editor-layout .nr-editor-enrichment * {transition:none!important}
+}
