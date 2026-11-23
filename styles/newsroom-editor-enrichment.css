@@ -291,3 +291,59 @@ body.alt-editor-layout .nr-enrich-ingredient-row input:focus-visible {
 @media(max-width:500px) {
   body.alt-editor-layout .nr-enrich-ingredient-row {align-items:flex-start;flex-wrap:wrap}
 }
+
+/* Optional Summary point editor uses the same semantic field and card surfaces. */
+body.alt-editor-layout .nr-enrich-point-list {display:grid;gap:10px}
+body.alt-editor-layout .nr-enrich-point-item {
+  min-width:0;padding:12px;
+  border:1px solid var(--nr-ui-card-border,var(--nr-border,#e2e8f0));
+  border-radius:var(--nr-radius-md,8px);
+  background:var(--nr-ui-panel,var(--nr-surface,#fff));
+}
+body.alt-editor-layout .nr-enrich-point-item .nr-enrich-item-head {margin-bottom:8px}
+body.alt-editor-layout .nr-enrich-point-item .nr-enrich-field textarea {min-height:66px}
+body.alt-editor-layout .nr-enrich-point-preview {display:grid;gap:6px}
+body.alt-editor-layout .nr-enrich-point-preview p {
+  padding:7px 0;
+  border-bottom:1px solid var(--nr-ui-purple-border,#d9cafa);
+}
+body.alt-editor-layout .nr-enrich-point-preview p:last-child {border:0}
+body.alt-editor-layout .nr-enrich-basic-head {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin:4px 0 12px;
+}
+body.alt-editor-layout .nr-enrich-basic-head strong {
+  font-size:13px;line-height:18px;font-weight:700;
+  color:var(--nr-ui-text,var(--nr-text,#0f172a));
+}
+body.alt-editor-layout .nr-enrich-basic-body {min-width:0}
+body.alt-editor-layout .nr-enrich-details {position:relative}
+body.alt-editor-layout .nr-enrich-details summary {
+  padding-right:158px;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-enrich-section-generate {
+  position:absolute;top:4px;right:34px;z-index:1;
+  width:auto;height:32px;min-height:32px;padding:0 8px;
+  font-size:12px;line-height:18px;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-enrich-basic-head .nr-enrich-section-generate{
+  position:static;
+}
+body.alt-editor-layout .nr-editor-enrichment .nr-enrich-section-generate svg {width:13px;height:13px}
+body.alt-editor-layout .nr-enrich-preview-row {
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  border-top:1px solid var(--nr-ui-purple-border,#d9cafa);
+  padding:6px 0;
+}
+body.alt-editor-layout .nr-enrich-preview-row:first-of-type{border-top:0}
+body.alt-editor-layout .nr-enrich-details summary:focus-visible{
+  outline:2px solid var(--nr-ui-focus,var(--nr-blue,#2563eb));
+  outline-offset:-2px;
+}
+@media(max-width:500px){
+  body.alt-editor-layout .nr-enrich-details summary {padding-right:151px}
+  body.alt-editor-layout .nr-editor-enrichment .nr-enrich-section-generate {
+    right:30px;padding:0 6px;
+  }
+  body.alt-editor-layout .nr-enrich-basic-head{flex-wrap:wrap}
+}
