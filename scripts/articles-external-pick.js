@@ -85,6 +85,7 @@
     }
     if (panel && panel.parentElement !== ownerCell) ownerCell?.appendChild(panel);
     panel?.replaceChildren();
+    if (panel) panel.hidden = !isDraft || (!available && !mine);
     if (!isDraft) return;
 
     if (panel && (available || mine)) {
