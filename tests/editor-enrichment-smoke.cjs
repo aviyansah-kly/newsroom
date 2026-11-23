@@ -17,10 +17,29 @@ const {mkdirSync}=require('node:fs');
   const summary=page.locator('#nrSummaryCard');
   const faq=page.locator('#nrFaqCard');
   if(await page.locator('#nrRecipeBody').isVisible())throw Error('Optional recipe must start disabled');
-  await recipe.locator('#nrRecipeEnabled').check();
+  const recipeCheckbox=recipe.locator('#nrRecipeEnabled');
+  const checkboxStyle=await recipeCheckbox.evaluate(el=>({
+    width:getComputedStyle(el).width,height:getComputedStyle(el).height,
+    radius:getComputedStyle(el).borderRadius,appearance:getComputedStyle(el).appearance
+  }));
+  if(checkboxStyle.width!=='16px'||checkboxStyle.height!=='16px'||checkboxStyle.radius!=='4px'||checkboxStyle.appearance!=='none')
+    throw Error('Recipe checkbox must use Newsroom 16px DS control, got '+JSON.stringify(checkboxStyle));
+  await recipeCheckbox.check();
+  const checkedBackground=await recipeCheckbox.evaluate(el=>getComputedStyle(el).backgroundColor);
+  if(checkedBackground==='rgba(0, 0, 0, 0)'||checkedBackground==='rgb(255, 255, 255)')
+    throw Error('Recipe checkbox selected state is missing colored background');
+  if(!await page.locator('#nrRecipeBody').isVisible())throw Error('Recipe checkbox did not reveal enabled form');
+  await recipeCheckbox.uncheck();
+  if(await page.locator('#nrRecipeBody').isVisible())throw Error('Unchecking Recipe did not collapse the form');
+  await recipeCheckbox.check();
   if(await recipe.locator('.nr-enrich-schema-base input[readonly]').count()!==2)
     throw Error('Recipe must display read-only @context and @type fields');
   if(!await page.locator('#nrRecipeBody').isVisible())throw Error('Enable recipe did not reveal form');
+  const chevrons=recipe.locator('.nr-enrich-details summary svg.nr-enrich-chevron');
+  if(await chevrons.count()!==5)throw Error('Recipe section disclosure arrows must be Lucide icons');
+  const arrowSize=await chevrons.first().evaluate(el=>({width:getComputedStyle(el).width,height:getComputedStyle(el).height}));
+  if(arrowSize.width!=='12px'||arrowSize.height!=='12px')
+    throw Error('Recipe disclosure arrow should match DS 12px size: '+JSON.stringify(arrowSize));
   await recipe.locator('[data-recipe-field="name"]').first().fill('Nasi Goreng Rumahan');
   await recipe.locator('[data-recipe-field="ingredients"]').first().fill('Nasi putih\nTelur\nMinyak');
   await recipe.locator('[data-recipe-field="instructions"]').first().fill('Panaskan minyak.\nTumis dan aduk nasi.');
