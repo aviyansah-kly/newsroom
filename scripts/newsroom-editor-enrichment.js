@@ -86,7 +86,17 @@
         });
       }
       renderFields(defs,grid);
-      card.appendChild(grid);
+      const basicHead=document.createElement('div');
+      basicHead.className='nr-enrich-basic-head';
+      const basicTitle=document.createElement('strong');basicTitle.textContent='Recipe Details';
+      const basicGenerate=document.createElement('button');basicGenerate.type='button';
+      basicGenerate.className='nr-btn nr-enrich-ai nr-enrich-section-generate';
+      basicGenerate.dataset.recipeGenerate='details';
+      basicGenerate.innerHTML='<i data-lucide="sparkles"></i><span>Generate AI</span>';
+      basicHead.append(basicTitle,basicGenerate);
+      const basicBody=document.createElement('div');basicBody.className='nr-enrich-basic-body';
+      basicBody.appendChild(grid);
+      card.append(basicHead,basicBody);
       function detailGroup(title,fields,openByDefault=false){
         const details=document.createElement('details');
         details.className='nr-enrich-details';
@@ -98,6 +108,14 @@
         chevron.setAttribute('aria-hidden','true');
         heading.append(headingText,chevron);
         details.appendChild(heading);
+        const generate=document.createElement('button');generate.type='button';
+        generate.className='nr-btn nr-enrich-ai nr-enrich-section-generate';
+        generate.dataset.recipeGenerate=title==='Recipe Ingredients'?'ingredients':
+          title==='Recipe Instructions'?'instructions':title==='Aggregate Rating'?'rating':
+          title==='Nutrition'?'nutrition':'author';
+        generate.innerHTML='<i data-lucide="sparkles"></i><span>Generate AI</span>';
+        generate.setAttribute('aria-label','Generate AI Demo for '+title);
+        details.appendChild(generate);
         const body=document.createElement('div');body.className='nr-enrich-details-body';
         const inner=document.createElement('div');inner.className='nr-enrich-field-grid';
         renderFields(fields,inner);body.appendChild(inner);
@@ -140,6 +158,7 @@
         ['instructions','Instructions (One Step Per Line)',{multiline:true,placeholder:'Satu langkah per baris'}]
       ],true);
       q('#nrRecipeItems').appendChild(card);
+      icons(card);
       updateRecipeLabels();return card;
     }
     function newIngredientRow(list,value=''){
@@ -293,6 +312,22 @@
       if(button.hasAttribute('data-remove-faq')){
         button.closest('[data-faq-item]')?.remove();updateFaqLabels();save();return;
       }
+      if(button.hasAttribute('data-recipe-generate')){
+        suggestRecipeSection(button);return;
+      }
+      if(button.hasAttribute('data-recipe-apply')){
+        const panel=button.closest('.nr-enrich-suggestion');
+        const card=button.closest('[data-recipe-item]');
+        const fields=panel?.recipeSuggestions||{};
+        if(!card||!Object.keys(fields).length)return;
+        for(const [fieldName,value] of Object.entries(fields)){
+          const input=card.querySelector('[data-recipe-field="'+fieldName+'"]');
+          if(input)input.value=value;
+        }
+        panel.hidden=true;save();q('#nrRecipeOutput').hidden=true;
+        q('#nrRecipeFeedback').textContent='AI Demo suggestions applied. Check recipe facts before use.';
+        return;
+      }
       if(button.id==='nrRecipeGenerate'){generateRecipe();return;}
       if(button.id==='nrRecipeCopy'){
         const value=q('#nrRecipeJSON').textContent||'';
@@ -317,6 +352,71 @@
         save();q('#nrFaqFeedback').textContent='FAQ suggestions added. Review before use.';return;
       }
     });
+    // Scoped preview-only suggestions: no network calls, no data invented for
+    // ratings, nutrition, authors or recipe steps that are absent in the article.
+    function structuredLines(kind){
+      const rich=document.querySelector('#tiptap-editor .tiptap-editor, #tiptap-editor [contenteditable="true"]');
+      const lines=(rich?.innerText||'').split(/\n/).map(x=>x.trim()).filter(Boolean);
+      const heading=kind==='ingredients'
+        ?/^(?:bahan(?:-bahan)?|ingredients|komposisi)\s*:?$/i
+        :/^(?:cara membuat|cara memasak|langkah(?:-langkah)?(?: pembuatan)?|instructions)\s*:?$/i;
+      const stop=/^(?:bahan(?:-bahan)?|ingredients|komposisi|cara membuat|cara memasak|langkah(?:-langkah)?(?: pembuatan)?|instructions|tips|nutrition|informasi gizi)\s*:?$/i;
+      const picked=[];let inside=false;
+      for(const line of lines){
+        if(heading.test(line)){inside=true;continue;}
+        if(!inside)continue;
+        if(stop.test(line))break;
+        const clean=line.replace(/^(?:[-•*]|\d+[.)])\s*/,'').trim();
+        if(clean.length>2 && clean.length<=300)picked.push(clean);
+        if(picked.length>=10)break;
+      }
+      return picked;
+    }
+    function suggestRecipeSection(button){
+      if(!q('#nrRecipeEnabled').checked)return;
+      const card=button.closest('[data-recipe-item]');
+      if(!card)return;
+      const kind=button.dataset.recipeGenerate;
+      const container=kind==='details'?card.querySelector('.nr-enrich-basic-body'):
+        button.closest('.nr-enrich-details')?.querySelector('.nr-enrich-details-body');
+      if(!container)return;
+      container.querySelector('.nr-enrich-suggestion[data-recipe-preview]')?.remove();
+      const suggestions={};
+      if(kind==='details'){
+        if(docTitle())suggestions.name=docTitle();
+        if(docDek())suggestions.description=docDek();
+      }else if(kind==='ingredients'||kind==='instructions'){
+        const lines=structuredLines(kind);
+        if(lines.length)suggestions[kind]=lines.join('\n');
+      }
+      const preview=document.createElement('div');
+      preview.className='nr-enrich-suggestion';preview.dataset.recipePreview='';
+      const header=document.createElement('div');header.className='nr-enrich-suggest-head';
+      const heading=document.createElement('strong');heading.textContent='AI Demo Suggestion';
+      header.appendChild(heading);preview.appendChild(header);
+      const keys=Object.keys(suggestions);
+      if(keys.length){
+        for(const key of keys){
+          const p=document.createElement('p');p.className='nr-enrich-preview-row';
+          p.textContent=(key==='name'?'Name':key==='description'?'Description':
+            key==='ingredients'?'Recipe Ingredients':'Recipe Instructions')+': '+suggestions[key];
+          preview.appendChild(p);
+        }
+        const apply=document.createElement('button');apply.type='button';
+        apply.className='nr-btn nr-enrich-apply';apply.dataset.recipeApply='';
+        apply.textContent='Use Suggestions';header.appendChild(apply);
+        preview.recipeSuggestions=suggestions;
+      }else{
+        const note=document.createElement('p');
+        note.textContent=kind==='author'?'Nama penulis tidak dapat dipastikan dari artikel. Isi manual.':
+          kind==='rating'?'Rating dan jumlah ulasan harus berasal dari data terverifikasi. Isi manual.':
+          kind==='nutrition'?'Informasi gizi memerlukan data terverifikasi. Isi manual.':
+          'Tidak ditemukan informasi '+(kind==='ingredients'?'bahan':'langkah resep')+
+          ' yang terstruktur dalam artikel. Isi manual.';
+        preview.appendChild(note);
+      }
+      container.appendChild(preview);
+    }
     function schemaRecipe(r){
       const result={'@type':'Recipe',name:r.name};
       if(r.image)result.image=r.image;
