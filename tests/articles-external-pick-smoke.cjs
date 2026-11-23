@@ -22,8 +22,8 @@ const { mkdirSync } = require('node:fs');
     const gempa = page.locator('.article-row[data-source="gempa"]');
     const harga = page.locator('.article-row[data-source="harga"]');
 
-    if (!(await kira.locator('.article-owner strong').textContent()).includes('Nadia Prameswari') ||
-        !(await kira.locator('.article-owner .nr-assignment-state').textContent()).includes('Assigned'))
+    if (!(await kira.locator('.article-owner strong, .article-reporter-cell strong').textContent()).includes('Nadia Prameswari') ||
+        !(await kira.locator('.nr-assignment-state').textContent()).includes('Assigned'))
       throw Error('KIRA draft should show Nadia Prameswari as assigned Editor');
     if (await kira.locator('.nr-pick-locked-note').count())
       throw Error('Redundant extra locked-note should not occupy another row');
@@ -44,7 +44,7 @@ const { mkdirSync } = require('node:fs');
         !await pick.evaluate(el => el.classList.contains('nr-btn')))
       throw Error('Claim action must use Design System button and clear Assign to Me wording');
     const claimInOwner = await harga.locator('.nr-external-pick').evaluate(el => ({
-      insideOwner: el.parentElement?.classList.contains('article-owner'),
+      insideOwner: el.parentElement?.matches('.article-owner, .article-reporter-cell'),
       inArticleCopy: !!el.closest('.article-copy')
     }));
     if (!claimInOwner.insideOwner || claimInOwner.inArticleCopy ||
@@ -58,7 +58,7 @@ const { mkdirSync } = require('node:fs');
         const metadata = row.querySelector('.article-meta').getBoundingClientRect();
         return { gap: metadata.top - description.bottom, height: row.getBoundingClientRect().height };
       };
-      const ownerCell = external.querySelector('.article-owner').getBoundingClientRect();
+      const ownerCell = external.querySelector('.article-owner, .article-reporter-cell').getBoundingClientRect();
       const assignment = external.querySelector('.nr-external-pick').getBoundingClientRect();
       return {external:calc(external),regular:calc(regular),assignmentInsideOwner:assignment.left >= ownerCell.left && assignment.right <= ownerCell.right+1};
     });
@@ -83,10 +83,10 @@ const { mkdirSync } = require('node:fs');
     const release=harga.locator('[data-pick-action="release"]');
     if ((await release.textContent()).trim() !== 'Release')
       throw Error('Release action should use concise Release wording');
-    if (!(await harga.locator('.article-owner .nr-assignment-state').textContent()).includes('Assigned to You'))
+    if (!(await harga.locator('.nr-assignment-state').textContent()).includes('Assigned to You'))
       throw Error('After claiming, status must read Assigned to You');
     await release.click();
-    if (!(await harga.locator('.article-owner .nr-assignment-state').textContent()).includes('Available'))
+    if (!(await harga.locator('.nr-assignment-state').textContent()).includes('Available'))
       throw Error('After releasing, status must read Available');
     if (await harga.getAttribute('data-picked-by') ||
         await harga.getAttribute('data-owner') !== 'team' ||
