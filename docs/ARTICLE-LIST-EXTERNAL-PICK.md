@@ -9,13 +9,13 @@
 - [x] Status Pick dropdown: Semua Status Pick, Belum Dipick, Dipick Saya, Dipick Editor Lain.
 - [x] Existing Search, Status, Site, Category and Ownership can be combined with Source/Pick filters. Reset clears them together; active filter counter includes them.
 - [x] Six labeled **dummy** external drafts added without replacing the original ten article samples. Each external row has a source tag and claim status.
-- [x] Demo examples: KIRA is Picked by Editor X, Gempa is Picked by Saya QA (current demo user), four others begin Available.
-- [x] Available draft: Pick Artikel. Mine: Dipick oleh Anda + Lepas Pick. Other Editor: Dipick oleh Editor X + disabled Settings.
+- [x] Demo examples: KIRA is handled by Nadia Prameswari, Gempa is handled by Raka Pratama (current fictional demo actor), four others begin Available.
+- [x] Available draft: compact `Tersedia` + `Ambil` action. Mine: `Ditangani Anda` + `Lepaskan` secondary action. Other Editor: `Ditangani Nadia Prameswari` with disabled Settings and no redundant warning text. Controls reuse shared `.nr-btn` Design System with scoped 26px size variant.
 - [x] Settings disabled for Available/Other on **external drafts only**. Preview remains available; title click opens the correct read-only dummy Preview instead of a generic Editor route.
 - [x] Claim/release updates owner display and My Articles ownership dataset; filter state refreshes. Page-local state resets on reload.
-- [x] Light/Dark and mobile layout for source and claim chips. User feedback and keyboard focus provided.
+- [x] Light/Dark and mobile layout for source and claim chips. Compact 26px `.nr-btn` controls with 12px typography and DS tokens. User feedback and keyboard focus provided.
 - [x] Existing status tab counts reflect the extra demo drafts.
-- [x] Browser smoke PASSED for Source+Pick combinations, claim/release, already-picked lock, row counts, desktop/mobile, and inherited sidebar/Tools/Preview regressions (GitHub Actions run 45123094654). Screenshot artifact attached.
+- [x] Previous browser smoke PASSED for Source+Pick combinations, claim/release, already-picked lock, row counts, desktop/mobile, and sidebar/Tools/Preview regressions (run 45123094654). New compact copy and button-size regression pending.
 - [ ] Manual Product Design visual QA in Cloudflare branch preview (including Dark Mode), separate from the passing browser smoke.
 - [ ] Product Design and Editorial approval on pick/timeout/transfer rules.
 - [ ] API integration and production rollout.
@@ -24,7 +24,7 @@
 - Manual articles: no new Pick requirement.
 - Pick is **manual** (not automatic on opening an article).
 - Only Draft external articles require a Pick; review/published/scheduled entries are unaffected.
-- The current demo actor is `Saya QA`, *not* a real authenticated user.
+- The current demo actor is `Raka Pratama`, *not* a real authenticated user.
 - Only the current picking Editor can release their own claim in this demo; no Redpel override, expiration or auto-release has been implemented.
 - Claims and source records are **browser-local only**. The prototype **cannot prevent competing edits in real multi-user sessions**.
 
