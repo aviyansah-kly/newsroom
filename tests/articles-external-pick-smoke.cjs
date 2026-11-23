@@ -9,7 +9,7 @@ const { mkdirSync } = require('node:fs');
   mkdirSync('artifacts',{recursive:true});
   try {
     await page.goto('http://127.0.0.1:8765/articles.html',{waitUntil:'domcontentloaded',timeout:45000});
-    await page.waitForSelector('.article-row[data-source="kira"] .nr-external-pick',{timeout:20000});
+    await page.waitForSelector('.article-row[data-source="kira"] .nr-assignment-state',{timeout:20000});
     const rows = page.locator('.article-row');
     if (await rows.count() !== 16) throw Error('Expected 10 original + 6 external demo articles');
     const allCount = await page.locator('.article-tab[data-status="all"] .article-tab-count').textContent();
