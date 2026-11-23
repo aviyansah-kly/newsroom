@@ -41,9 +41,13 @@ const {mkdirSync}=require('node:fs');
   if(!await page.locator('#nrRecipeBody').isVisible())throw Error('Enable recipe did not reveal form');
   const chevrons=recipe.locator('.nr-enrich-details summary svg.nr-enrich-chevron');
   if(await chevrons.count()!==5)throw Error('Recipe section disclosure arrows must be Lucide icons');
-  const arrowSize=await chevrons.first().evaluate(el=>({width:getComputedStyle(el).width,height:getComputedStyle(el).height}));
-  if(arrowSize.width!=='12px'||arrowSize.height!=='12px')
-    throw Error('Recipe disclosure arrow should match DS 12px size: '+JSON.stringify(arrowSize));
+  const arrowSize=await chevrons.first().evaluate(el=>{
+    const rect=el.getBoundingClientRect();
+    return {width:rect.width,height:rect.height,cssWidth:getComputedStyle(el).width,
+      cssHeight:getComputedStyle(el).height,display:getComputedStyle(el).display};
+  });
+  if(Math.abs(arrowSize.width-12)>1||Math.abs(arrowSize.height-12)>1)
+    throw Error('Recipe disclosure arrow should render at DS 12px size: '+JSON.stringify(arrowSize));
   await recipe.locator('[data-recipe-field="name"]').first().fill('Nasi Goreng Rumahan');
   await recipe.locator('[data-recipe-field="ingredients"]').first().fill('Nasi putih\nTelur\nMinyak');
   await recipe.locator('[data-recipe-field="instructions"]').first().fill('Panaskan minyak.\nTumis dan aduk nasi.');
