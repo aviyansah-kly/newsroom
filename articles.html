@@ -1557,6 +1557,15 @@ body.articles-page .article-title a:hover{
 
       <div class="article-filter-panel" id="filterPanel">
         <div class="article-filter-grid">
+          <div class="article-filter-field"><label for="sourceFilter">Sumber Artikel</label><select class="nr-select" id="sourceFilter">
+            <option value="">Semua Sumber</option><option value="manual">Manual</option><option value="external">Eksternal (Semua)</option>
+            <option value="kira">KIRA</option><option value="gempa">Gempa</option><option value="harga">Harga</option>
+            <option value="cnc">CNC</option><option value="kontributor">Kontributor</option><option value="ai">AI</option>
+          </select></div>
+          <div class="article-filter-field"><label for="pickFilter">Status Pick</label><select class="nr-select" id="pickFilter">
+            <option value="">Semua Status Pick</option><option value="available">Belum Dipick</option>
+            <option value="mine">Dipick Saya</option><option value="other">Dipick Editor Lain</option>
+          </select></div>
           <div class="article-filter-field"><label>Site</label><select class="nr-select" id="siteFilter"><option value="">All sites</option><option>Liputan6</option><option>Bola.com</option><option>Merdeka.com</option></select></div>
           <div class="article-filter-field"><label>Category</label><select class="nr-select" id="categoryFilter"><option value="">All categories</option><option>News</option><option>Sports</option><option>Health</option><option>Lifestyle</option><option>Regional</option></select></div>
           <div class="article-filter-field"><label>Ownership</label><select class="nr-select" id="ownerFilter"><option value="">All articles</option><option value="me">My articles</option><option value="team">Team articles</option></select></div>
@@ -1573,6 +1582,96 @@ body.articles-page .article-title a:hover{
       </div>
 
       <div class="article-list" id="articleList">
+        <article class="article-row nr-external-draft" data-status="draft" data-category="News" data-owner="team" data-site="Liputan6" data-source="kira" data-external-id="demo-kira-001" data-picked-by="Editor X" data-updated="2026-11-18T09:48:00" data-title="Draft KIRA: Ringkasan Topik Ekonomi untuk Verifikasi Redaksi">
+          <div class="article-main">
+            <div class="article-thumb nr-external-thumb"><i data-lucide="sparkles"></i></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>Draft Eksternal · KIRA</span><time>18 Nov 2026 · 09:48</time></div>
+              <h2 class="article-title"><a href="index.html">Draft KIRA: Ringkasan Topik Ekonomi untuk Verifikasi Redaksi</a></h2>
+              <p class="article-description">Draft otomatis dari KIRA. Editor perlu meninjau data, kutipan, dan konteks sebelum digunakan.</p>
+              <div class="article-meta"><span><i data-lucide="file-input"></i>Belum dipublikasikan</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
+          <div class="article-owner"><strong>Editor X</strong><span>Sudah Diambil</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
+        </article>
+
+        <article class="article-row nr-external-draft" data-status="draft" data-category="Regional" data-owner="team" data-site="Liputan6" data-source="gempa" data-external-id="demo-gempa-001" data-picked-by="Saya QA" data-updated="2026-11-18T09:36:00" data-title="Draft Gempa: Informasi Awal Aktivitas Seismik untuk Diperiksa">
+          <div class="article-main">
+            <div class="article-thumb nr-external-thumb"><i data-lucide="activity"></i></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>Draft Eksternal · GEMPA</span><time>18 Nov 2026 · 09:36</time></div>
+              <h2 class="article-title"><a href="index.html">Draft Gempa: Informasi Awal Aktivitas Seismik untuk Diperiksa</a></h2>
+              <p class="article-description">Draft sumber Gempa. Data lokasi, magnitudo, dan waktu kejadian belum diverifikasi redaksi.</p>
+              <div class="article-meta"><span><i data-lucide="file-input"></i>Belum dipublikasikan</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
+          <div class="article-owner"><strong>Saya QA</strong><span>Sudah Diambil</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
+        </article>
+
+        <article class="article-row nr-external-draft" data-status="draft" data-category="News" data-owner="team" data-site="Liputan6" data-source="harga" data-external-id="demo-harga-001" data-picked-by="" data-updated="2026-11-18T09:18:00" data-title="Draft Harga: Pembaruan Harga Komoditas untuk Kurasi Editor">
+          <div class="article-main">
+            <div class="article-thumb nr-external-thumb"><i data-lucide="trending-up"></i></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>Draft Eksternal · HARGA</span><time>18 Nov 2026 · 09:18</time></div>
+              <h2 class="article-title"><a href="index.html">Draft Harga: Pembaruan Harga Komoditas untuk Kurasi Editor</a></h2>
+              <p class="article-description">Draft dari sistem Harga. Angka dan perubahan harga perlu diverifikasi sebelum publikasi.</p>
+              <div class="article-meta"><span><i data-lucide="file-input"></i>Belum dipublikasikan</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
+          <div class="article-owner"><strong>Belum Dipick</strong><span>Belum Ditugaskan</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
+        </article>
+
+        <article class="article-row nr-external-draft" data-status="draft" data-category="News" data-owner="team" data-site="Liputan6" data-source="cnc" data-external-id="demo-cnc-001" data-picked-by="" data-updated="2026-11-18T09:02:00" data-title="Draft CNC: Materi Otomatis Menunggu Verifikasi Editor">
+          <div class="article-main">
+            <div class="article-thumb nr-external-thumb"><i data-lucide="file-input"></i></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>Draft Eksternal · CNC</span><time>18 Nov 2026 · 09:02</time></div>
+              <h2 class="article-title"><a href="index.html">Draft CNC: Materi Otomatis Menunggu Verifikasi Editor</a></h2>
+              <p class="article-description">Konten CNC masuk sebagai draft eksternal dan menunggu penanggung jawab editorial.</p>
+              <div class="article-meta"><span><i data-lucide="file-input"></i>Belum dipublikasikan</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
+          <div class="article-owner"><strong>Belum Dipick</strong><span>Belum Ditugaskan</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
+        </article>
+
+        <article class="article-row nr-external-draft" data-status="draft" data-category="Regional" data-owner="team" data-site="Liputan6" data-source="kontributor" data-external-id="demo-kontributor-001" data-picked-by="" data-updated="2026-11-18T08:45:00" data-title="Draft Kontributor: Laporan Lapangan Menunggu Pemeriksaan">
+          <div class="article-main">
+            <div class="article-thumb nr-external-thumb"><i data-lucide="users"></i></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>Draft Eksternal · KONTRIBUTOR</span><time>18 Nov 2026 · 08:45</time></div>
+              <h2 class="article-title"><a href="index.html">Draft Kontributor: Laporan Lapangan Menunggu Pemeriksaan</a></h2>
+              <p class="article-description">Materi kiriman kontributor. Identitas, sumber, dan fakta perlu diperiksa redaksi.</p>
+              <div class="article-meta"><span><i data-lucide="file-input"></i>Belum dipublikasikan</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
+          <div class="article-owner"><strong>Belum Dipick</strong><span>Belum Ditugaskan</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
+        </article>
+
+        <article class="article-row nr-external-draft" data-status="draft" data-category="News" data-owner="team" data-site="Liputan6" data-source="ai" data-external-id="demo-ai-001" data-picked-by="" data-updated="2026-11-18T08:27:00" data-title="Draft AI: Ringkasan Agenda untuk Penyuntingan Manusia">
+          <div class="article-main">
+            <div class="article-thumb nr-external-thumb"><i data-lucide="bot"></i></div>
+            <div class="article-copy">
+              <div class="article-kicker"><span>Draft Eksternal · AI</span><time>18 Nov 2026 · 08:27</time></div>
+              <h2 class="article-title"><a href="index.html">Draft AI: Ringkasan Agenda untuk Penyuntingan Manusia</a></h2>
+              <p class="article-description">Konten hasil AI yang wajib melalui pemeriksaan fakta, bahasa, dan kelayakan tayang.</p>
+              <div class="article-meta"><span><i data-lucide="file-input"></i>Belum dipublikasikan</span></div>
+            </div>
+          </div>
+          <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
+          <div class="article-owner"><strong>Belum Dipick</strong><span>Belum Ditugaskan</span></div>
+          <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
+        </article>
+
         <article class="article-row" data-status="published" data-category="News" data-owner="team" data-site="Liputan6" data-updated="2026-10-05T09:20:00" data-title="Reporter dan Kamerawan TV Meksiko Ditabrak Mobil saat Sedang Siaran Langsung">
           <div class="article-main">
             <div class="article-thumb"><img src="https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=320&q=70" alt=""></div>
@@ -2109,10 +2208,20 @@ body.articles-page .article-title a:hover{
     const site=document.getElementById('siteFilter').value;
     const category=document.getElementById('categoryFilter').value;
     const owner=document.getElementById('ownerFilter').value;
+    const source=document.getElementById('sourceFilter')?.value||'';
+    const pick=document.getElementById('pickFilter')?.value||'';
+    const isMine=value=>value==='Saya QA';
     let shown=0;
     rows.forEach(row=>{
       const hay=(row.dataset.title+' '+row.textContent).toLowerCase();
-      const ok=(!q||hay.includes(q))&&(activeStatus==='all'||row.dataset.status===activeStatus)&&(!site||row.dataset.site===site)&&(!category||row.dataset.category===category)&&(!owner||row.dataset.owner===owner);
+      const origin=row.dataset.source||'manual';
+      const picked=row.dataset.pickedBy||'';
+      const sourceMatch=!source||(source==='external'?origin!=='manual':origin===source);
+      const pickMatch=!pick||(origin!=='manual'&&row.dataset.status==='draft'&&
+        (pick==='available'?!picked:pick==='mine'?isMine(picked):!!picked&&!isMine(picked)));
+      const ok=(!q||hay.includes(q))&&(activeStatus==='all'||row.dataset.status===activeStatus)&&
+        (!site||row.dataset.site===site)&&(!category||row.dataset.category===category)&&
+        (!owner||row.dataset.owner===owner)&&sourceMatch&&pickMatch;
       row.hidden=!ok;if(ok)shown++;
     });
     empty.classList.toggle('show',shown===0);
@@ -2123,12 +2232,12 @@ body.articles-page .article-title a:hover{
     document.querySelectorAll('.article-tab').forEach(x=>x.classList.remove('active'));tab.classList.add('active');activeStatus=tab.dataset.status;apply();
   }));
   document.getElementById('applyFilters')?.addEventListener('click',()=>{
-    const ids=['siteFilter','categoryFilter','ownerFilter','dateFilter'];
+    const ids=['sourceFilter','pickFilter','siteFilter','categoryFilter','ownerFilter','dateFilter'];
     const count=ids.filter(id=>document.getElementById(id).value).length;
     filterCount.hidden=count===0;filterCount.textContent=count;apply();filterPanel.classList.remove('open');filterBtn.classList.toggle('active',count>0);filterBtn.setAttribute('aria-expanded','false');
   });
   document.getElementById('resetFilters')?.addEventListener('click',()=>{
-    ['siteFilter','categoryFilter','ownerFilter','dateFilter'].forEach(id=>document.getElementById(id).value='');
+    ['sourceFilter','pickFilter','siteFilter','categoryFilter','ownerFilter','dateFilter'].forEach(id=>document.getElementById(id).value='');
     filterCount.hidden=true;filterBtn.classList.remove('active');apply();
   });
 
@@ -2250,6 +2359,15 @@ body.articles-page .article-title a:hover{
     btn.classList.toggle('is-active');
   }));
 
+  // Keep status badges accurate when new external draft samples are present.
+  document.querySelectorAll('.article-tab[data-status]').forEach(tab=>{
+    const key=tab.dataset.status;
+    const value=key==='all'?rows.length:key==='mine'?
+      rows.filter(row=>row.dataset.owner==='me').length:
+      rows.filter(row=>row.dataset.status===key).length;
+    const count=tab.querySelector('.article-tab-count');
+    if(count)count.textContent=String(value);
+  });
   lucide.createIcons();apply();
 })();
 </script>
