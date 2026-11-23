@@ -76,7 +76,7 @@
     const state = document.createElement('span');
     state.className = 'nr-pick-status ' + (available ? 'is-available' : mine ? 'is-mine' : 'is-locked');
     state.textContent = available ? 'Tersedia' :
-      mine ? 'Ditangani Anda' : 'Ditangani ' + owner;
+      mine ? 'Anda menangani' : 'Ditangani ' + owner;
     panel.appendChild(state);
 
     if (available || mine) {
