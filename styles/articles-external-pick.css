@@ -98,6 +98,32 @@ body.articles-page .article-filter-grid {
     display:block!important;
   }
 }
+/* The base Article List hides Reporter/Editor on <=1180px. External
+   drafts still require a visible ownership action on tablet and phone.
+   Place it in an explicit second grid line rather than squeezing article copy. */
+@media(max-width:1180px) {
+  body.articles-page .article-row.nr-external-draft .article-owner,
+  body.articles-page .article-row.nr-external-draft .article-reporter-cell {
+    display:flex!important;flex-direction:row;align-items:center;flex-wrap:wrap;
+    grid-column:2/-1;grid-row:2;
+    min-width:0;gap:4px 10px;padding:2px 0 0!important;
+    width:auto;max-width:100%;background:transparent;
+  }
+  body.articles-page .article-row.nr-external-draft .article-owner strong,
+  body.articles-page .article-row.nr-external-draft .article-reporter-cell strong {
+    width:auto;max-width:100%;margin:0;font-size:12px;line-height:18px;
+  }
+  body.articles-page .article-row.nr-external-draft .nr-assignment-state {
+    display:inline-flex;align-items:center;margin:0;
+    font-size:12px;line-height:18px;
+  }
+  body.articles-page .article-row.nr-external-draft .nr-external-pick {
+    display:inline-flex;min-height:34px;margin:0;
+  }
+  body.articles-page .article-row.nr-external-draft .nr-external-pick[hidden] {
+    display:none!important;
+  }
+}
 html[data-theme="dark"] body.articles-page .nr-external-thumb {
   background:linear-gradient(140deg,#29354b,#252a34);border-color:#3b4d67;color:#a4c6ff;
 }
