@@ -255,6 +255,26 @@
     // Standard pages previously put a duplicate account chip in the header.
     // The shared sidebar account now owns that information.
     document.querySelectorAll('.nr-topbar > .nr-user').forEach(el=>el.remove());
+    // Optional editorial enrichment is loaded only on the Editor workspace.
+    // Keep the approved index.html baseline untouched and keep the feature
+    // isolated from Dashboard, Articles, Tags and other Newsroom pages.
+    if(document.body.classList.contains('alt-editor-layout') &&
+       document.querySelector('.workspace > section > .paper') &&
+       document.getElementById('title')){
+      if(!document.querySelector('link[data-nr-editor-enrichment]')){
+        const enrichmentStyle=document.createElement('link');
+        enrichmentStyle.rel='stylesheet';
+        enrichmentStyle.href='styles/newsroom-editor-enrichment.css';
+        enrichmentStyle.setAttribute('data-nr-editor-enrichment','1');
+        document.head.appendChild(enrichmentStyle);
+      }
+      if(!document.querySelector('script[data-nr-editor-enrichment]')){
+        const enrichmentScript=document.createElement('script');
+        enrichmentScript.src='scripts/newsroom-editor-enrichment.js';
+        enrichmentScript.setAttribute('data-nr-editor-enrichment','1');
+        document.body.appendChild(enrichmentScript);
+      }
+    }
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
   else init();
