@@ -41,18 +41,25 @@ const {mkdirSync}=require('node:fs');
   if(schema['@graph']?.length!==2||schema['@graph'][1].name!=='Sambal Tomat')throw Error('Listicle preview must contain two Recipe objects');
   await page.screenshot({path:'artifacts/editor-recipe-listicle-light.png',fullPage:true});
 
+  // Use a controlled article fixture rather than assuming the legacy editor
+  // still has its original demo content after boot/autosave.
+  await page.locator('#title').fill('Pemerintah Mengumumkan Kebijakan Harga Energi');
+  await page.locator('#dek').fill('Pemerintah menjelaskan kebijakan terbaru mengenai harga energi dan menegaskan bahwa redaksi perlu memverifikasi detail informasi sebelum tayang.');
   const before=await summary.locator('#nrSummary').inputValue();
   await summary.locator('[data-generate="summary"]').click();
   if(!await summary.locator('#nrSummarySuggestion').isVisible())throw Error('Summary Generate AI demo must show preview');
   if(await summary.locator('#nrSummary').inputValue()!==before)throw Error('AI demo must not overwrite editor text without approval');
+  const summaryDraft=await summary.locator('#nrSummaryDraft').textContent();
+  if(!summaryDraft.includes('Pemerintah'))throw Error('Summary suggestion should use current Short Desc text');
   await summary.locator('#nrSummaryApply').click();
-  if(!(await summary.locator('#nrSummary').inputValue()).includes('Pemerintah'))throw Error('Summary should derive from existing article short description');
+  if((await summary.locator('#nrSummary').inputValue())!==summaryDraft)throw Error('Summary Use Suggestion must apply exactly the reviewed draft');
   await faq.locator('[data-generate="faq"]').click();
   if(!await faq.locator('#nrFaqSuggestion').isVisible())throw Error('FAQ Generate AI demo must show preview');
   if(await faq.locator('[data-faq-item]').count())throw Error('FAQ should not be auto inserted until accepted');
+  const faqDraftAnswer=await faq.locator('#nrFaqDraft .nr-enrich-faq-preview p').first().textContent();
   await faq.locator('#nrFaqApply').click();
   if(await faq.locator('[data-faq-item]').count()!==1)throw Error('FAQ suggested question was not applied');
-  if(!(await faq.locator('[data-faq-field="answer"]').first().inputValue()).includes('Pemerintah'))throw Error('FAQ answer must derive from article');
+  if((await faq.locator('[data-faq-field="answer"]').first().inputValue())!==faqDraftAnswer)throw Error('FAQ approved answer must equal the reviewed suggestion');
   await faq.locator('#nrFaqAdd').click();
   if(await faq.locator('[data-faq-item]').count()!==2)throw Error('Add Question failed');
   await faq.locator('[data-faq-item]').nth(1).locator('[data-faq-field="question"]').fill('Apa sumber data utama?');
@@ -63,7 +70,7 @@ const {mkdirSync}=require('node:fs');
   await page.waitForSelector('#nrEditorialEnrichment');
   if(!await page.locator('#nrRecipeEnabled').isChecked())throw Error('Recipe enabled state not preserved in demo');
   if(await page.locator('[data-recipe-item]').count()!==2)throw Error('Listicle recipe fields not persisted');
-  if(!(await page.locator('#nrSummary').inputValue()).includes('Pemerintah'))throw Error('Summary not persisted');
+  if((await page.locator('#nrSummary').inputValue())!==summaryDraft)throw Error('Summary draft not persisted');
   if(await page.locator('[data-faq-item]').count()!==1)throw Error('FAQ draft not persisted');
   await page.evaluate(()=>{document.documentElement.dataset.theme='dark'});
   await page.waitForTimeout(160);
