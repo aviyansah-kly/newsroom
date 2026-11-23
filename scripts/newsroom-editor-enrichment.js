@@ -26,20 +26,20 @@
         '</div>'+
       '</section>'+
       '<section class="nr-enrich-card" id="nrSummaryCard">'+
-        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="file-text"></i></span><div><h2>Summary <span class="nr-enrich-optional">Optional</span></h2><p>Ringkasan tambahan untuk kebutuhan editorial.</p></div></div><button type="button" class="nr-btn nr-enrich-ai" data-generate="summary"><i data-lucide="sparkles"></i><span>Generate AI</span></button></div>'+
-        '<div class="nr-enrich-body"><label class="nr-enrich-field"><span>Summary</span><textarea id="nrSummary" rows="4" placeholder="Tulis summary artikel…"></textarea></label><div class="nr-enrich-suggestion" id="nrSummarySuggestion" hidden><div class="nr-enrich-suggest-head"><strong>AI Demo Suggestion</strong><button type="button" class="nr-btn" id="nrSummaryApply">Use Suggestion</button></div><p id="nrSummaryDraft"></p></div><p class="nr-enrich-assist">Generate AI menggunakan teks artikel sebagai simulasi. Editor tetap memeriksa hasilnya.</p><span class="nr-enrich-live" id="nrSummaryFeedback" role="status" aria-live="polite"></span></div>'+
+        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="file-text"></i></span><div><h2>Summary <span class="nr-enrich-optional">Optional</span></h2><p>Ringkasan artikel dalam poin-poin.</p></div></div><label class="nr-enrich-enable"><input type="checkbox" id="nrSummaryEnabled" aria-controls="nrSummaryBody"><span>Enable</span></label></div>'+
+        '<div class="nr-enrich-body" id="nrSummaryBody" hidden><div class="nr-enrich-toolbar"><span class="nr-enrich-type">Poin ringkasan artikel</span><button type="button" class="nr-btn nr-enrich-ai" data-generate="summary"><i data-lucide="sparkles"></i><span>Generate AI</span></button></div><div id="nrSummaryItems" class="nr-enrich-point-list"></div><button type="button" class="nr-btn nr-enrich-add" id="nrSummaryAdd"><i data-lucide="plus"></i><span>Add Point</span></button><div class="nr-enrich-suggestion" id="nrSummarySuggestion" hidden><div class="nr-enrich-suggest-head"><strong>AI Demo Suggestion</strong><button type="button" class="nr-btn" id="nrSummaryApply">Use Suggestions</button></div><div id="nrSummaryDraft" class="nr-enrich-point-preview"></div></div><p class="nr-enrich-assist">Demo AI mengambil poin dari artikel. Periksa saran sebelum digunakan.</p><span class="nr-enrich-live" id="nrSummaryFeedback" role="status" aria-live="polite"></span></div>'+
       '</section>'+
       '<section class="nr-enrich-card" id="nrFaqCard">'+
-        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="messages-square"></i></span><div><h2>FAQ <span class="nr-enrich-optional">Optional</span></h2><p>Pertanyaan dan jawaban untuk pembaca.</p></div></div><button type="button" class="nr-btn nr-enrich-ai" data-generate="faq"><i data-lucide="sparkles"></i><span>Generate AI</span></button></div>'+
-        '<div class="nr-enrich-body"><div id="nrFaqItems" class="nr-enrich-faq-list"></div><button type="button" id="nrFaqAdd" class="nr-btn nr-enrich-add"><i data-lucide="plus"></i><span>Add Question</span></button>'+
+        '<div class="nr-enrich-head"><div class="nr-enrich-heading"><span class="nr-enrich-heading-icon"><i data-lucide="messages-square"></i></span><div><h2>FAQ <span class="nr-enrich-optional">Optional</span></h2><p>Pertanyaan dan jawaban untuk pembaca.</p></div></div><label class="nr-enrich-enable"><input type="checkbox" id="nrFaqEnabled" aria-controls="nrFaqBody"><span>Enable</span></label></div>'+
+        '<div class="nr-enrich-body" id="nrFaqBody" hidden><div class="nr-enrich-toolbar"><span class="nr-enrich-type">Question &amp; Answer</span><button type="button" class="nr-btn nr-enrich-ai" data-generate="faq"><i data-lucide="sparkles"></i><span>Generate AI</span></button></div><div id="nrFaqItems" class="nr-enrich-faq-list"></div><button type="button" id="nrFaqAdd" class="nr-btn nr-enrich-add"><i data-lucide="plus"></i><span>Add Question</span></button>'+
           '<div class="nr-enrich-suggestion" id="nrFaqSuggestion" hidden><div class="nr-enrich-suggest-head"><strong>AI Demo Suggestion</strong><button type="button" class="nr-btn" id="nrFaqApply">Use Suggestions</button></div><div id="nrFaqDraft"></div></div>'+
           '<p class="nr-enrich-assist">FAQ bersifat opsional. Tinjau semua jawaban sebelum digunakan.</p><span class="nr-enrich-live" id="nrFaqFeedback" role="status" aria-live="polite"></span></div>'+
       '</section>';
     paper.appendChild(root);
     const q=sel=>root.querySelector(sel);
     const qa=sel=>[...root.querySelectorAll(sel)];
-    let recipeMode='single',recipeDraft=[],faqDraft=[],summarySuggestion='';
-    let recipeCount=0,faqCount=0;
+    let recipeMode='single',faqDraft=[],summarySuggestions=[];
+    let recipeCount=0,faqCount=0,summaryCount=0;
     const icons=node=>{if(window.lucide?.createIcons)window.lucide.createIcons({nodes:[node]});};
     const docTitle=()=>document.getElementById('title')?.value.trim()||'';
     const docDek=()=>document.getElementById('dek')?.value.trim()||'';
@@ -179,6 +179,31 @@
       q('#nrRecipeOutput').hidden=true;
       save();
     }
+    function newSummaryPoint(value=''){
+      const item=document.createElement('div');
+      item.className='nr-enrich-point-item';item.dataset.summaryItem=String(++summaryCount);
+      const head=document.createElement('div');head.className='nr-enrich-item-head';
+      const title=document.createElement('strong');title.className='nr-enrich-point-label';
+      const remove=document.createElement('button');remove.type='button';
+      remove.className='nr-btn nr-enrich-remove';
+      remove.dataset.removeSummary='';remove.textContent='Remove';
+      head.append(title,remove);
+      const fieldWrap=document.createElement('label');fieldWrap.className='nr-enrich-field';
+      const input=document.createElement('textarea');input.rows=2;
+      input.dataset.summaryPoint='';input.value=value;input.placeholder='Tulis poin ringkasan…';
+      fieldWrap.appendChild(input);
+      item.append(head,fieldWrap);q('#nrSummaryItems').appendChild(item);
+      updateSummaryLabels();return item;
+    }
+    function updateSummaryLabels(){
+      qa('[data-summary-item]').forEach((item,i)=>{
+        item.querySelector('.nr-enrich-point-label').textContent='Point '+(i+1);
+        item.querySelector('[data-summary-point]').setAttribute('aria-label','Summary Point '+(i+1));
+      });
+    }
+    function getSummaryPoints(){
+      return qa('[data-summary-point]').map(el=>el.value.trim());
+    }
     function newFaq(data){
       const card=document.createElement('div');card.className='nr-enrich-faq-item';card.dataset.faqItem=String(++faqCount);
       const head=document.createElement('div');head.className='nr-enrich-item-head';
@@ -202,23 +227,45 @@
       question:card.querySelector('[data-faq-field="question"]').value.trim(),
       answer:card.querySelector('[data-faq-field="answer"]').value.trim()
     }));}
-    function getData(){return {recipeEnabled:q('#nrRecipeEnabled').checked,recipeMode,recipes:getRecipes(),summary:q('#nrSummary').value,faqs:getFAQs()};}
+    function getData(){return {
+      recipeEnabled:q('#nrRecipeEnabled').checked,recipeMode,recipes:getRecipes(),
+      summaryEnabled:q('#nrSummaryEnabled').checked,summaryPoints:getSummaryPoints(),
+      summary:getSummaryPoints().filter(Boolean).join('\n'),
+      faqEnabled:q('#nrFaqEnabled').checked,faqs:getFAQs()
+    };}
     function save(){
       try{localStorage.setItem(KEY,JSON.stringify(getData()));}catch(err){}
     }
     let existing={};
     try{existing=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(err){}
     (Array.isArray(existing.recipes)&&existing.recipes.length?existing.recipes:[{}]).forEach(newRecipe);
-    q('#nrSummary').value=typeof existing.summary==='string'?existing.summary:'';
+    // Migrate the legacy free-form Summary draft without silently discarding editor input.
+    const storedPoints=Array.isArray(existing.summaryPoints)
+      ?existing.summaryPoints
+      :(typeof existing.summary==='string' && existing.summary.trim()
+        ?existing.summary.split('\n').map(s=>s.trim()).filter(Boolean):[]);
+    storedPoints.forEach(value=>newSummaryPoint(value));
     (Array.isArray(existing.faqs)?existing.faqs:[]).forEach(newFaq);
     q('#nrRecipeEnabled').checked=!!existing.recipeEnabled;
-    q('#nrRecipeBody').hidden=!q('#nrRecipeEnabled').checked;
+    q('#nrSummaryEnabled').checked=typeof existing.summaryEnabled==='boolean'?existing.summaryEnabled:storedPoints.length>0;
+    q('#nrFaqEnabled').checked=typeof existing.faqEnabled==='boolean'?existing.faqEnabled:!!existing.faqs?.length;
+    function syncEnabledPanels(){
+      for(const [checkbox,body] of [['#nrRecipeEnabled','#nrRecipeBody'],['#nrSummaryEnabled','#nrSummaryBody'],['#nrFaqEnabled','#nrFaqBody']]){
+        const enabled=q(checkbox).checked;
+        q(body).hidden=!enabled;
+        q(checkbox).setAttribute('aria-expanded',String(enabled));
+      }
+    }
+    syncEnabledPanels();
     setMode(existing.recipeMode);
     root.addEventListener('input',event=>{
       if(event.target.matches('input,textarea')){save();q('#nrRecipeOutput').hidden=true;}
     });
     root.addEventListener('change',event=>{
-      if(event.target.id==='nrRecipeEnabled')q('#nrRecipeBody').hidden=!event.target.checked;
+      if(['nrRecipeEnabled','nrSummaryEnabled','nrFaqEnabled'].includes(event.target.id)){
+        syncEnabledPanels();
+        if(event.target.id==='nrSummaryEnabled' && event.target.checked && !qa('[data-summary-item]').length)newSummaryPoint();
+      }
       if(event.target.matches('input,textarea'))save();
     });
     root.addEventListener('click',event=>{
@@ -238,6 +285,10 @@
         if(qa('[data-recipe-item]').length<=1)return;
         button.closest('[data-recipe-item]')?.remove();updateRecipeLabels();save();return;
       }
+      if(button.id==='nrSummaryAdd'){newSummaryPoint();save();return;}
+      if(button.hasAttribute('data-remove-summary')){
+        button.closest('[data-summary-item]')?.remove();updateSummaryLabels();save();return;
+      }
       if(button.id==='nrFaqAdd'){newFaq({});save();return;}
       if(button.hasAttribute('data-remove-faq')){
         button.closest('[data-faq-item]')?.remove();updateFaqLabels();save();return;
@@ -256,8 +307,10 @@
       if(button.dataset.generate==='summary'){suggestSummary();return;}
       if(button.dataset.generate==='faq'){suggestFAQ();return;}
       if(button.id==='nrSummaryApply'){
-        q('#nrSummary').value=summarySuggestion;q('#nrSummarySuggestion').hidden=true;
-        save();q('#nrSummaryFeedback').textContent='Summary suggestion applied. Review before use.';return;
+        if(!q('#nrSummaryEnabled').checked)return;
+        for(const value of summarySuggestions)newSummaryPoint(value);
+        q('#nrSummarySuggestion').hidden=true;
+        save();q('#nrSummaryFeedback').textContent='Summary points added. Review before use.';return;
       }
       if(button.id==='nrFaqApply'){
         faqDraft.forEach(item=>newFaq(item));q('#nrFaqSuggestion').hidden=true;
@@ -318,15 +371,23 @@
       feedback.textContent='JSON-LD preview generated. Belum dipublikasikan ke CMS.';
     }
     function suggestSummary(){
-      const context=docDek()||excerpt();
-      if(context.length<25){
+      if(!q('#nrSummaryEnabled').checked)return;
+      const source=(docDek()+' '+excerpt()).replace(/\s+/g,' ').trim();
+      if(source.length<25){
         q('#nrSummaryFeedback').textContent='Isi Short Desc atau konten artikel sebelum Generate AI.';
         q('#nrSummarySuggestion').hidden=true;return;
       }
-      summarySuggestion=context.slice(0,360).trim().replace(/\s+\S*$/,'').trim()||context;
-      q('#nrSummaryDraft').textContent=summarySuggestion;
+      // Extract available sentences verbatim; do not invent facts or overwrite existing points.
+      summarySuggestions=(source.match(/[^.!?]+[.!?]?/g)||[]).map(v=>v.trim())
+        .filter(v=>v.length>=20).slice(0,3);
+      if(!summarySuggestions.length)summarySuggestions=[source.slice(0,320)];
+      q('#nrSummaryDraft').replaceChildren();
+      summarySuggestions.forEach((value,i)=>{
+        const row=document.createElement('p');row.textContent='Point '+(i+1)+': '+value;
+        q('#nrSummaryDraft').appendChild(row);
+      });
       q('#nrSummarySuggestion').hidden=false;
-      q('#nrSummaryFeedback').textContent='Simulasi AI: teks bersumber dari artikel, bukan layanan AI live.';
+      q('#nrSummaryFeedback').textContent='AI Demo: saran diambil dari teks artikel. Klik Use Suggestions untuk menambah poin.';
     }
     function suggestFAQ(){
       const title=docTitle(),dek=docDek(),content=excerpt();
