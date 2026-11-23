@@ -9,6 +9,9 @@ on:
       - tests/articles-shared-shell-smoke.cjs
       - tests/articles-tools-refinement-smoke.cjs
       - tests/articles-preview-dummy-smoke.cjs
+      - tests/articles-external-pick-smoke.cjs
+      - scripts/articles-external-pick.js
+      - styles/articles-external-pick.css
       - scripts/articles-tools-refinement.js
       - scripts/articles-preview-dummy.js
       - styles/articles-tools-refinement.css
@@ -36,6 +39,7 @@ jobs:
           node tests/articles-shared-shell-smoke.cjs
           node tests/articles-tools-refinement-smoke.cjs
           node tests/articles-preview-dummy-smoke.cjs
+          node tests/articles-external-pick-smoke.cjs
       - name: Upload Editor and Article List comparison screenshots
         if: always()
         uses: actions/upload-artifact@v4
