@@ -1,5 +1,8 @@
 /* Source and Pick Article — Article List demo UI, scoped by source data.
    Reuse existing row/grid; do not add a new fixed table column. */
+/* Existing legacy Article List uses display:grid!important, so the hidden
+   attribute needs an equally strong rule for combined source/status filtering. */
+body.articles-page .article-row[hidden] {display:none!important}
 body.articles-page .nr-external-draft {
   --nr-pick-brand:var(--nr-blue,#2563eb);
 }
