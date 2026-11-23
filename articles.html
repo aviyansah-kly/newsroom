@@ -1583,7 +1583,7 @@ body.articles-page .article-title a:hover{
       </div>
 
       <div class="article-list" id="articleList">
-        <article class="article-row nr-external-draft" data-status="draft" data-category="News" data-owner="team" data-site="Liputan6" data-source="kira" data-external-id="demo-kira-001" data-picked-by="Editor X" data-updated="2026-11-18T09:48:00" data-title="Draft KIRA: Ringkasan Topik Ekonomi untuk Verifikasi Redaksi">
+        <article class="article-row nr-external-draft" data-status="draft" data-category="News" data-owner="team" data-site="Liputan6" data-source="kira" data-external-id="demo-kira-001" data-picked-by="Nadia Prameswari" data-updated="2026-11-18T09:48:00" data-title="Draft KIRA: Ringkasan Topik Ekonomi untuk Verifikasi Redaksi">
           <div class="article-main">
             <div class="article-thumb nr-external-thumb"><i data-lucide="sparkles"></i></div>
             <div class="article-copy">
@@ -1594,11 +1594,11 @@ body.articles-page .article-title a:hover{
             </div>
           </div>
           <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
-          <div class="article-owner"><strong>Editor X</strong><span>Sudah Diambil</span></div>
+          <div class="article-owner"><strong>Nadia Prameswari</strong><span>Sudah Diambil</span></div>
           <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
         </article>
 
-        <article class="article-row nr-external-draft" data-status="draft" data-category="Regional" data-owner="me" data-site="Liputan6" data-source="gempa" data-external-id="demo-gempa-001" data-picked-by="Saya QA" data-updated="2026-11-18T09:36:00" data-title="Draft Gempa: Informasi Awal Aktivitas Seismik untuk Diperiksa">
+        <article class="article-row nr-external-draft" data-status="draft" data-category="Regional" data-owner="me" data-site="Liputan6" data-source="gempa" data-external-id="demo-gempa-001" data-picked-by="Raka Pratama" data-updated="2026-11-18T09:36:00" data-title="Draft Gempa: Informasi Awal Aktivitas Seismik untuk Diperiksa">
           <div class="article-main">
             <div class="article-thumb nr-external-thumb"><i data-lucide="activity"></i></div>
             <div class="article-copy">
@@ -1609,7 +1609,7 @@ body.articles-page .article-title a:hover{
             </div>
           </div>
           <div class="article-status"><span class="article-status-pill draft">Draft</span></div>
-          <div class="article-owner"><strong>Saya QA</strong><span>Sudah Diambil</span></div>
+          <div class="article-owner"><strong>Raka Pratama</strong><span>Sudah Diambil</span></div>
           <div class="article-more"><button class="nr-btn article-more-btn" type="button" aria-label="Article actions"><i data-lucide="more-horizontal"></i></button><div class="article-row-menu"></div></div>
         </article>
 
@@ -2211,7 +2211,7 @@ body.articles-page .article-title a:hover{
     const owner=document.getElementById('ownerFilter').value;
     const source=document.getElementById('sourceFilter')?.value||'';
     const pick=document.getElementById('pickFilter')?.value||'';
-    const isMine=value=>value==='Saya QA';
+    const isMine=value=>value==='Raka Pratama';
     let shown=0;
     rows.forEach(row=>{
       const hay=(row.dataset.title+' '+row.textContent).toLowerCase();
