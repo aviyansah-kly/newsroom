@@ -3,10 +3,12 @@
  */
 (function () {
   'use strict';
-  const KEY='newsroom:editor-enrichment:v1';
   function init() {
     const paper=document.querySelector('body.alt-editor-layout .workspace > section > .paper');
     if (!paper || document.getElementById('nrEditorialEnrichment')) return;
+    // Keep local prototype enrichment distinct between article records.
+    const storyId=document.querySelector('.story-id')?.textContent?.trim()||location.pathname;
+    const KEY='newsroom:editor-enrichment:v1:'+storyId;
     const root=document.createElement('div');
     root.id='nrEditorialEnrichment';
     root.className='nr-editor-enrichment';
