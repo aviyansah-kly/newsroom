@@ -24,8 +24,8 @@ const { mkdirSync } = require('node:fs');
 
     if (!(await kira.locator('.nr-pick-status').textContent()).includes('Nadia Prameswari'))
       throw Error('KIRA draft should show fictional editor name Nadia Prameswari');
-    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Ditangani'))
-      throw Error('Assigned status should have editor-friendly wording');
+    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Assigned to Nadia Prameswari'))
+      throw Error('Assigned draft must clearly show the other Editor');
     if (await kira.locator('.nr-pick-locked-note').count())
       throw Error('Redundant extra locked-note should not occupy another row');
     if (await kira.locator('[data-pick-action="pick"]').count())
@@ -41,16 +41,24 @@ const { mkdirSync } = require('node:fs');
 
     const pick = harga.locator('[data-pick-action="pick"]');
     if (!await pick.isVisible()) throw Error('Unclaimed Harga draft must display Ambil');
-    if ((await pick.textContent()).trim() !== 'Ambil' ||
+    if ((await pick.textContent()).trim() !== 'Assign to Me' ||
         !await pick.evaluate(el => el.classList.contains('nr-btn')))
-      throw Error('Claim action must use compact Design System button and concise Ambil wording');
+      throw Error('Claim action must use Design System button and clear Assign to Me wording');
+    const claimInline = await harga.locator('.nr-external-pick').evaluate(el => ({
+      insideMetadata: el.parentElement?.classList.contains('article-meta'),
+      marginTop: parseFloat(getComputedStyle(el).marginTop),
+      metaBottom: el.parentElement?.getBoundingClientRect().bottom,
+      parentBottom: el.getBoundingClientRect().bottom
+    }));
+    if (!claimInline.insideMetadata || claimInline.marginTop > 1)
+      throw Error('Assignment must align with article metadata, not create extra row: '+JSON.stringify(claimInline));
     const geometry=await pick.evaluate(el => ({
       height:el.getBoundingClientRect().height,
       font:getComputedStyle(el).fontSize,
       width:el.getBoundingClientRect().width
     }));
-    if (geometry.height>28 || geometry.width>85 || geometry.font !== '12px')
-      throw Error('Claim button too large for Article List: '+JSON.stringify(geometry));
+    if (geometry.height < 33 || geometry.height > 35 || geometry.width < 95 || geometry.font !== '13px')
+      throw Error('Claim button must be medium 34px / 13px Design System size: '+JSON.stringify(geometry));
     await pick.click();
     if ((await harga.getAttribute('data-picked-by')) !== 'Raka Pratama' ||
         (await harga.getAttribute('data-owner')) !== 'me' ||
@@ -59,9 +67,13 @@ const { mkdirSync } = require('node:fs');
     if (await harga.locator('.article-more-btn').isDisabled())
       throw Error('Picked by You should allow Settings');
     const release=harga.locator('[data-pick-action="release"]');
-    if ((await release.textContent()).trim() !== 'Lepaskan')
-      throw Error('Release action should use concise Lepaskan wording');
+    if ((await release.textContent()).trim() !== 'Release')
+      throw Error('Release action should use concise Release wording');
+    if (!(await harga.locator('.nr-pick-status').textContent()).includes('Assigned to You'))
+      throw Error('After claiming, status must read Assigned to You');
     await release.click();
+    if (!(await harga.locator('.nr-pick-status').textContent()).includes('Available'))
+      throw Error('After releasing, status must read Available');
     if (await harga.getAttribute('data-picked-by') ||
         await harga.getAttribute('data-owner') !== 'team' ||
         !await harga.locator('[data-pick-action="pick"]').isVisible())
