@@ -5,7 +5,7 @@
  */
 (function () {
   'use strict';
-  const CURRENT_EDITOR = 'Saya QA'; // demo actor, not authenticated user identity
+  const CURRENT_EDITOR = 'Raka Pratama'; // fictional demo actor, not authenticated user identity
   const list = document.getElementById('articleList');
   if (!list) return;
 
@@ -24,8 +24,8 @@
     if (owner) {
       const name = owner.querySelector('strong');
       const label = owner.querySelector('span');
-      if (name) name.textContent = editor || 'Belum Dipick';
-      if (label) label.textContent = editor ? 'Picked Editor (Demo)' : 'Belum Ditugaskan';
+      if (name) name.textContent = editor || 'Belum Ada Editor';
+      if (label) label.textContent = editor ? 'Editor · Draft Eksternal' : 'Draft Eksternal';
     }
   }
 
@@ -75,23 +75,22 @@
 
     const state = document.createElement('span');
     state.className = 'nr-pick-status ' + (available ? 'is-available' : mine ? 'is-mine' : 'is-locked');
-    state.textContent = available ? 'Belum Dipick' :
-      mine ? 'Dipick oleh Anda' : 'Dipick oleh ' + owner;
+    state.textContent = available ? 'Tersedia' :
+      mine ? 'Ditangani Anda' : 'Ditangani ' + owner;
     panel.appendChild(state);
 
     if (available || mine) {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'nr-pick-button' + (mine ? ' is-release' : '');
+      // Reuse the existing Design System button; compact is only a scoped size variant.
+      button.className = 'nr-btn nr-pick-button ' + (mine ? 'is-release' : 'is-claim');
       button.dataset.pickAction = mine ? 'release' : 'pick';
-      button.textContent = mine ? 'Lepas Pick' : 'Pick Artikel';
-      button.setAttribute('aria-label',(mine?'Lepas Pick: ':'Pick Artikel: ')+(row.dataset.title || 'Draft'));
+      button.textContent = mine ? 'Lepaskan' : 'Ambil';
+      button.setAttribute('aria-label',(mine?'Lepaskan penanganan artikel: ':'Ambil artikel untuk ditangani: ')+(row.dataset.title || 'Draft'));
       panel.appendChild(button);
     } else {
-      const lock = document.createElement('span');
-      lock.className = 'nr-pick-locked-note';
-      lock.textContent = 'Sedang dikerjakan Editor lain';
-      panel.appendChild(lock);
+      // Owner is already visible in the status and Reporter/Editor column.
+      // Avoid a second repetitive warning line that makes the row too tall.
     }
 
     // Ownership filter and My Articles should reflect the current Pick (demo).
@@ -106,7 +105,7 @@
       menuTrigger.setAttribute('aria-label', mine ?
         'Settings Artikel (Demo)' : 'Settings terkunci — Pick Artikel terlebih dahulu');
       menuTrigger.title = mine ? 'Settings Artikel (Demo)' :
-        (available ? 'Pick Artikel sebelum mengedit' : 'Dipick oleh '+owner);
+        (available ? 'Ambil artikel sebelum mengedit' : 'Sedang ditangani '+owner);
       const wrapper = menuTrigger.closest('.article-more');
       if (wrapper && !mine) wrapper.classList.remove('open');
     }
@@ -132,18 +131,18 @@
     if (button.dataset.pickAction === 'pick') {
       if (pickedBy) {
         // Race-safe for local interactions only; server must enforce 409.
-        announce('Artikel ini sudah dipick oleh ' + pickedBy);
+        announce('Artikel sedang ditangani ' + pickedBy);
         return;
       }
       row.dataset.pickedBy = CURRENT_EDITOR;
-      announce('Draft berhasil dipick oleh Anda (Demo)');
+      announce('Artikel sekarang ditangani Anda (Demo)');
     } else if (button.dataset.pickAction === 'release') {
       if (pickedBy !== CURRENT_EDITOR) {
-        announce('Hanya Editor yang melakukan Pick dapat melepasnya');
+        announce('Hanya Editor yang menangani artikel dapat melepaskannya');
         return;
       }
       delete row.dataset.pickedBy;
-      announce('Pick telah dilepas (Demo)');
+      announce('Artikel kembali tersedia (Demo)');
     }
     render(row);
     refreshFilter();
