@@ -90,7 +90,13 @@
       function detailGroup(title,fields,openByDefault=false){
         const details=document.createElement('details');
         details.className='nr-enrich-details';
-        const heading=document.createElement('summary');heading.textContent=title;
+        const heading=document.createElement('summary');
+        const headingText=document.createElement('span');headingText.textContent=title;
+        const chevron=document.createElement('i');
+        chevron.dataset.lucide='chevron-down';
+        chevron.className='nr-enrich-chevron';
+        chevron.setAttribute('aria-hidden','true');
+        heading.append(headingText,chevron);
         details.appendChild(heading);
         const body=document.createElement('div');body.className='nr-enrich-details-body';
         const inner=document.createElement('div');inner.className='nr-enrich-field-grid';
