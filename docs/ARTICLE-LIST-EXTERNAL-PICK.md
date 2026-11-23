@@ -10,7 +10,7 @@
 - [x] Existing Search, Status, Site, Category and Ownership can be combined with Source/Pick filters. Reset clears them together; active filter counter includes them.
 - [x] Six labeled **dummy** external drafts added without replacing the original ten article samples. Each external row has a source tag and claim status.
 - [x] Demo examples: KIRA is handled by Nadia Prameswari, Gempa is handled by Raka Pratama (current fictional demo actor), four others begin Available.
-- [x] Available draft: compact `Tersedia` + `Ambil` action. Mine: `Ditangani Anda` + `Lepaskan` secondary action. Other Editor: `Ditangani Nadia Prameswari` with disabled Settings and no redundant warning text. Controls reuse shared `.nr-btn` Design System with scoped 26px size variant.
+- [x] Available draft: compact `Tersedia` + `Ambil` action. Mine: `Anda menangani` + `Lepaskan` secondary action. Other Editor: `Ditangani Nadia Prameswari` with disabled Settings and no redundant warning text. Controls reuse shared `.nr-btn` Design System with scoped 26px size variant.
 - [x] Settings disabled for Available/Other on **external drafts only**. Preview remains available; title click opens the correct read-only dummy Preview instead of a generic Editor route.
 - [x] Claim/release updates owner display and My Articles ownership dataset; filter state refreshes. Page-local state resets on reload.
 - [x] Light/Dark and mobile layout for source and claim chips. Compact 26px `.nr-btn` controls with 12px typography and DS tokens. User feedback and keyboard focus provided.
