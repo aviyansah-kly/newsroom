@@ -22,8 +22,12 @@ const { mkdirSync } = require('node:fs');
     const gempa = page.locator('.article-row[data-source="gempa"]');
     const harga = page.locator('.article-row[data-source="harga"]');
 
-    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Editor X'))
-      throw Error('KIRA draft should indicate already picked by Editor X');
+    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Nadia Prameswari'))
+      throw Error('KIRA draft should show fictional editor name Nadia Prameswari');
+    if (!(await kira.locator('.nr-pick-status').textContent()).includes('Ditangani'))
+      throw Error('Assigned status should have editor-friendly wording');
+    if (await kira.locator('.nr-pick-locked-note').count())
+      throw Error('Redundant extra locked-note should not occupy another row');
     if (await kira.locator('[data-pick-action="pick"]').count())
       throw Error('Cannot pick a draft claimed by another editor');
     if (await kira.locator('.article-more-btn').isEnabled())
@@ -36,15 +40,28 @@ const { mkdirSync } = require('node:fs');
       throw Error('Current Editor must be able to release own claim and open Settings');
 
     const pick = harga.locator('[data-pick-action="pick"]');
-    if (!await pick.isVisible()) throw Error('Unclaimed Harga draft must display Pick Artikel');
+    if (!await pick.isVisible()) throw Error('Unclaimed Harga draft must display Ambil');
+    if ((await pick.textContent()).trim() !== 'Ambil' ||
+        !await pick.evaluate(el => el.classList.contains('nr-btn')))
+      throw Error('Claim action must use compact Design System button and concise Ambil wording');
+    const geometry=await pick.evaluate(el => ({
+      height:el.getBoundingClientRect().height,
+      font:getComputedStyle(el).fontSize,
+      width:el.getBoundingClientRect().width
+    }));
+    if (geometry.height>28 || geometry.width>85 || geometry.font !== '12px')
+      throw Error('Claim button too large for Article List: '+JSON.stringify(geometry));
     await pick.click();
-    if ((await harga.getAttribute('data-picked-by')) !== 'Saya QA' ||
+    if ((await harga.getAttribute('data-picked-by')) !== 'Raka Pratama' ||
         (await harga.getAttribute('data-owner')) !== 'me' ||
         (await harga.locator('[data-pick-action="release"]').count()) !== 1)
       throw Error('Pick did not transfer dummy ownership to current editor');
     if (await harga.locator('.article-more-btn').isDisabled())
       throw Error('Picked by You should allow Settings');
-    await harga.locator('[data-pick-action="release"]').click();
+    const release=harga.locator('[data-pick-action="release"]');
+    if ((await release.textContent()).trim() !== 'Lepaskan')
+      throw Error('Release action should use concise Lepaskan wording');
+    await release.click();
     if (await harga.getAttribute('data-picked-by') ||
         await harga.getAttribute('data-owner') !== 'team' ||
         !await harga.locator('[data-pick-action="pick"]').isVisible())
